@@ -94,38 +94,38 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEAM-01 | - | Pending |
-| TEAM-02 | - | Pending |
-| TEAM-03 | - | Pending |
-| TEAM-04 | - | Pending |
-| RACE-01 | - | Pending |
-| RACE-02 | - | Pending |
-| RACE-03 | - | Pending |
-| RACE-04 | - | Pending |
-| RACE-05 | - | Pending |
-| RESL-01 | - | Pending |
-| RESL-02 | - | Pending |
-| RESL-03 | - | Pending |
-| RESL-04 | - | Pending |
-| STND-01 | - | Pending |
-| STND-02 | - | Pending |
-| STND-03 | - | Pending |
-| FINL-01 | - | Pending |
-| FINL-02 | - | Pending |
-| FINL-03 | - | Pending |
-| FINL-04 | - | Pending |
-| EXPR-01 | - | Pending |
-| EXPR-02 | - | Pending |
-| MOBL-01 | - | Pending |
-| MOBL-02 | - | Pending |
-| MOBL-03 | - | Pending |
-| MOBL-04 | - | Pending |
+| TEAM-01 | Phase 2 | Pending |
+| TEAM-02 | Phase 1 | Pending |
+| TEAM-03 | Phase 2 | Pending |
+| TEAM-04 | Phase 1 | Pending |
+| RACE-01 | Phase 1 | Pending |
+| RACE-02 | Phase 1 | Pending |
+| RACE-03 | Phase 2 | Pending |
+| RACE-04 | Phase 2 | Pending |
+| RACE-05 | Phase 2 | Pending |
+| RESL-01 | Phase 2 | Pending |
+| RESL-02 | Phase 2 | Pending |
+| RESL-03 | Phase 2 | Pending |
+| RESL-04 | Phase 2 | Pending |
+| STND-01 | Phase 2 | Pending |
+| STND-02 | Phase 2 | Pending |
+| STND-03 | Phase 2 | Pending |
+| FINL-01 | Phase 3 | Pending |
+| FINL-02 | Phase 3 | Pending |
+| FINL-03 | Phase 3 | Pending |
+| FINL-04 | Phase 3 | Pending |
+| EXPR-01 | Phase 3 | Pending |
+| EXPR-02 | Phase 3 | Pending |
+| MOBL-01 | Phase 2 | Pending |
+| MOBL-02 | Phase 1 | Pending |
+| MOBL-03 | Phase 4 | Pending |
+| MOBL-04 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 26 total
-- Mapped to phases: 0
-- Unmapped: 26
+- Mapped to phases: 26
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-28*
-*Last updated: 2026-03-28 after initial definition*
+*Last updated: 2026-03-28 after roadmap creation*
