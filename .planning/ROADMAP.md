@@ -28,11 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Scoring engine correctly calculates Win (3pts), Loss (1pt), DSQ (0pts) and ranks teams by total points within groups
   3. App state persists to localStorage and fully reconstructs on page reload, tab kill, or browser restart
   4. Each discipline supports its correct team count range (Mixed: 4-32, Board: 4-17, Ladies: 4-17)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md -- Scaffold Vite project and extract all 29 cheat sheets from xlsx
+- [ ] 01-02-PLAN.md -- Scoring engine, group calculations, validation, and cheat sheet integrity tests (TDD)
+- [ ] 01-03-PLAN.md -- Zustand store with persist middleware for localStorage persistence (TDD)
 
 ### Phase 2: Core Event Flow
 **Goal**: A race official can enter teams, view the race schedule, record results with gloved hands, and check live group standings -- the complete group stage workflow on a phone
@@ -86,7 +87,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Foundation and Storage | 0/0 | Not started | - |
+| 1. Data Foundation and Storage | 0/3 | Planning complete | - |
 | 2. Core Event Flow | 0/0 | Not started | - |
 | 3. Finals and Results | 0/0 | Not started | - |
 | 4. PWA and Offline | 0/0 | Not started | - |
