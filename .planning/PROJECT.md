@@ -12,7 +12,9 @@ A race official can run an entire event from their phone — entering teams, see
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Auto-generate race order using exact pre-computed cheat sheet sequences (4-32 teams) — Phase 1
+- ✓ Local/session data storage — no server required for v1 — Phase 1
+- ✓ Support all three disciplines running independently within one event — Phase 1 (domain logic)
 
 ### Active
 
@@ -83,4 +85,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after initialization*
+*Last updated: 2026-03-28 after Phase 1 completion*
