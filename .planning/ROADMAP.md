@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md -- Scaffold Vite project and extract all 29 cheat sheets from xlsx
-- [ ] 01-02-PLAN.md -- Scoring engine, group calculations, validation, and cheat sheet integrity tests (TDD)
+- [x] 01-02-PLAN.md -- Scoring engine, group calculations, validation, and cheat sheet integrity tests (TDD)
 - [ ] 01-03-PLAN.md -- Zustand store with persist middleware for localStorage persistence (TDD)
 
 ### Phase 2: Core Event Flow
