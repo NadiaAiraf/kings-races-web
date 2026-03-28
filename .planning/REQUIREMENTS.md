@@ -10,14 +10,14 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Team Management
 
 - [ ] **TEAM-01**: Official can enter team names for each discipline (Mixed, Board, Ladies) independently
-- [ ] **TEAM-02**: Each discipline supports a variable number of teams (Mixed: 4-32, Board: 4-17, Ladies: 4-17)
+- [x] **TEAM-02**: Each discipline supports a variable number of teams (Mixed: 4-32, Board: 4-17, Ladies: 4-17)
 - [ ] **TEAM-03**: Official can switch between disciplines via tabs or navigation
 - [ ] **TEAM-04**: Team data persists in localStorage so the app survives tab death or refresh
 
 ### Race Order
 
-- [ ] **RACE-01**: App auto-generates race order using exact pre-computed cheat sheet sequences based on number of teams entered
-- [ ] **RACE-02**: Cheat sheet matchup sequences for 4-32 teams are hard-coded and match the existing spreadsheet exactly
+- [x] **RACE-01**: App auto-generates race order using exact pre-computed cheat sheet sequences based on number of teams entered
+- [x] **RACE-02**: Cheat sheet matchup sequences for 4-32 teams are hard-coded and match the existing spreadsheet exactly
 - [ ] **RACE-03**: Race list displays all matchups in correct order showing "Team A V Team B" with team names resolved
 - [ ] **RACE-04**: Current race focus mode highlights the active matchup with large action buttons and auto-advances after recording
 - [ ] **RACE-05**: Progress indicator shows position in event (e.g., "Race 14 of 28")
@@ -95,11 +95,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | TEAM-01 | Phase 2 | Pending |
-| TEAM-02 | Phase 1 | Pending |
+| TEAM-02 | Phase 1 | Complete |
 | TEAM-03 | Phase 2 | Pending |
 | TEAM-04 | Phase 1 | Pending |
-| RACE-01 | Phase 1 | Pending |
-| RACE-02 | Phase 1 | Pending |
+| RACE-01 | Phase 1 | Complete |
+| RACE-02 | Phase 1 | Complete |
 | RACE-03 | Phase 2 | Pending |
 | RACE-04 | Phase 2 | Pending |
 | RACE-05 | Phase 2 | Pending |
