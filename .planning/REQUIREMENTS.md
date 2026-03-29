@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Team Management
 
-- [ ] **TEAM-01**: Official can enter team names for each discipline (Mixed, Board, Ladies) independently
+- [x] **TEAM-01**: Official can enter team names for each discipline (Mixed, Board, Ladies) independently
 - [x] **TEAM-02**: Each discipline supports a variable number of teams (Mixed: 4-32, Board: 4-17, Ladies: 4-17)
 - [x] **TEAM-03**: Official can switch between disciplines via tabs or navigation
 - [x] **TEAM-04**: Team data persists in localStorage so the app survives tab death or refresh
@@ -94,7 +94,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEAM-01 | Phase 2 | Pending |
+| TEAM-01 | Phase 2 | Complete |
 | TEAM-02 | Phase 1 | Complete |
 | TEAM-03 | Phase 2 | Complete |
 | TEAM-04 | Phase 1 | Complete |
