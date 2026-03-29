@@ -53,11 +53,11 @@ Exceptions:
 | Body | 16px | 400 (regular) | 1.5 | `text-base font-normal leading-normal` |
 | Label | 14px | 600 (semibold) | 1.4 | `text-sm font-semibold leading-snug` |
 | Heading | 20px | 600 (semibold) | 1.2 | `text-xl font-semibold leading-tight` |
-| Display | 28px | 700 (bold) | 1.15 | `text-[28px] font-bold leading-[1.15]` |
+| Display | 28px | 600 (semibold) | 1.15 | `text-[28px] font-semibold leading-[1.15]` |
 
 **Font stack:** `system-ui, 'Segoe UI', Roboto, sans-serif` -- fast loading, no external font requests (critical for slope-side offline use).
 
-**Weights used:** 400 (body text, race matchup names), 600 (labels, tab labels, table headers, button text), 700 (display only -- race number in focus mode).
+**Weights used:** 400 (body text, race matchup names), 600 (labels, tab labels, table headers, button text, display race number in focus mode).
 
 **Monospace:** `ui-monospace, Consolas, monospace` for the score grid cells (3/1/0 values) to maintain consistent column alignment.
 
@@ -146,7 +146,7 @@ This app is used outdoors in bright sunlight with gloves. High contrast is manda
 - Input: full-width minus button, 48px height, 16px font, 16px padding
 - "Add Team" button: blue accent, 48px height, 14px semibold white text
 - Team list below: numbered items (1. Team Name), each row 48px height
-- Each team row has a delete icon button (X) on the right, 44px tap target
+- Each team row has a delete icon button (X) on the right, 44px tap target. The delete button must carry `aria-label="Remove {team name}"` (see Accessibility section).
 - Team count badge below input: "8 teams entered" in slate-500 label text
 
 ### Race List View (D-08, RACE-03)
@@ -159,7 +159,7 @@ This app is used outdoors in bright sunlight with gloves. High contrast is manda
 
 ### Scoring Focus View (D-01, D-02, RACE-04, RESL-01, RESL-02)
 - Full-width card showing current race
-- Race number in display size (28px bold): "Race 14"
+- Race number in display size (28px semibold): "Race 14"
 - Team A name: heading size (20px semibold), left-aligned
 - Team B name: heading size (20px semibold), left-aligned
 - Three buttons per team in a row: [Win] [Loss] [DSQ]
@@ -278,6 +278,8 @@ Components the executor must build for this phase:
 | `Toast` | `message`, `onDismiss` | visible, dismissing |
 | `ConfirmButton` | `label`, `confirmLabel`, `onConfirm` | default, confirming, timeout-revert |
 
+**TeamRow accessibility note:** The delete icon button (X) in each `TeamRow` must include `aria-label="Remove {team name}"` to provide an accessible name for screen readers. The icon alone is not sufficient.
+
 ---
 
 ## Registry Safety
@@ -311,6 +313,7 @@ Components the executor must build for this phase:
 - Standings table uses semantic `<table>` with `<th scope="col">` headers
 - Color is never the sole indicator -- outcome buttons always include text labels ("Win", "Loss", "DSQ")
 - Progress bar uses `role="progressbar"` with `aria-valuenow` and `aria-valuemax`
+- Icon-only buttons must have explicit accessible names: the delete button (X) on each team row must carry `aria-label="Remove {team name}"` to ensure screen readers announce the action and target
 
 ---
 
