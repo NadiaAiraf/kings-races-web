@@ -8,10 +8,12 @@ import { TeamEntryView } from '../teams/TeamEntryView';
 import { RaceListView } from '../races/RaceListView';
 import { ScoringFocusView } from '../scoring/ScoringFocusView';
 import { StandingsView } from '../standings/StandingsView';
+import { FinalsView } from '../finals/FinalsView';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useR2State } from '../../hooks/useR2State';
 import { useStandings } from '../../hooks/useStandings';
+import { useFinalsState } from '../../hooks/useFinalsState';
 import { areAllR1RacesScored } from '../../domain/r2Seeding';
 import { hasTies } from '../../domain/scoring';
 
@@ -27,6 +29,7 @@ export function AppShell() {
     useCurrentRace(activeDiscipline);
   const r2State = useR2State(activeDiscipline);
   const standingsResult = useStandings(activeDiscipline);
+  const finalsState = useFinalsState(activeDiscipline);
 
   // Phase auto-transition: group-stage -> round-two
   useEffect(() => {
@@ -45,6 +48,13 @@ export function AppShell() {
       }
     }
   }, [phase, structure, scores, standingsResult, activeDiscipline, setDisciplinePhase]);
+
+  // Phase auto-transition: finals -> complete (when all finals scored)
+  useEffect(() => {
+    if (phase === 'finals' && finalsState && finalsState.finalsPhase === 'all-scored') {
+      setDisciplinePhase(activeDiscipline, 'complete');
+    }
+  }, [phase, finalsState, activeDiscipline, setDisciplinePhase]);
 
   // Combined progress for progress bar
   const totalScored = scoredR1 + scoredR2;
@@ -67,14 +77,7 @@ export function AppShell() {
             {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
             {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
             {activeSubTab === 'score' && <ScoringFocusView discipline={activeDiscipline} />}
-            {activeSubTab === 'finals' && (
-              <div className="flex flex-col items-center justify-center py-12">
-                <p className="text-lg font-semibold text-slate-900">Finals</p>
-                <p className="text-sm text-slate-500 mt-2">
-                  Coming soon -- finals bracket will appear here after group stages complete.
-                </p>
-              </div>
-            )}
+            {activeSubTab === 'finals' && <FinalsView discipline={activeDiscipline} />}
             {activeSubTab === 'standings' && (
               <StandingsView discipline={activeDiscipline} asTab={true} />
             )}
