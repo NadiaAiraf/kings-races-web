@@ -19,15 +19,15 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **RACE-01**: App auto-generates race order using exact pre-computed cheat sheet sequences based on number of teams entered
 - [x] **RACE-02**: Cheat sheet matchup sequences for 4-32 teams are hard-coded and match the existing spreadsheet exactly
 - [x] **RACE-03**: Race list displays all matchups in correct order showing "Team A V Team B" with team names resolved
-- [ ] **RACE-04**: Current race focus mode highlights the active matchup with large action buttons and auto-advances after recording
+- [x] **RACE-04**: Current race focus mode highlights the active matchup with large action buttons and auto-advances after recording
 - [x] **RACE-05**: Progress indicator shows position in event (e.g., "Race 14 of 28")
 
 ### Result Recording
 
-- [ ] **RESL-01**: Official can record a result for each matchup: Win (3pts) / Loss (1pt) / DSQ (0pts) for each team
-- [ ] **RESL-02**: Result entry requires maximum 2 taps per matchup with touch targets of at least 56px for gloved use
-- [ ] **RESL-03**: Official can undo or correct a previously recorded result
-- [ ] **RESL-04**: Correcting a result cascades recalculation to group standings and any dependent finals seeding
+- [x] **RESL-01**: Official can record a result for each matchup: Win (3pts) / Loss (1pt) / DSQ (0pts) for each team
+- [x] **RESL-02**: Result entry requires maximum 2 taps per matchup with touch targets of at least 56px for gloved use
+- [x] **RESL-03**: Official can undo or correct a previously recorded result
+- [x] **RESL-04**: Correcting a result cascades recalculation to group standings and any dependent finals seeding
 
 ### Group Standings
 
@@ -101,12 +101,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RACE-01 | Phase 1 | Complete |
 | RACE-02 | Phase 1 | Complete |
 | RACE-03 | Phase 2 | Complete |
-| RACE-04 | Phase 2 | Pending |
+| RACE-04 | Phase 2 | Complete |
 | RACE-05 | Phase 2 | Complete |
-| RESL-01 | Phase 2 | Pending |
-| RESL-02 | Phase 2 | Pending |
-| RESL-03 | Phase 2 | Pending |
-| RESL-04 | Phase 2 | Pending |
+| RESL-01 | Phase 2 | Complete |
+| RESL-02 | Phase 2 | Complete |
+| RESL-03 | Phase 2 | Complete |
+| RESL-04 | Phase 2 | Complete |
 | STND-01 | Phase 2 | Pending |
 | STND-02 | Phase 2 | Pending |
 | STND-03 | Phase 2 | Pending |

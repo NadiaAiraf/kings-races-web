@@ -52,7 +52,7 @@ Plans:
 - [x] 02-01-PLAN.md -- Tailwind CSS 4 setup, app shell with discipline tabs, sub-tabs, progress bar, hooks, and shared components
 - [x] 02-02-PLAN.md -- Team entry view with add/delete/reset and slot assignment
 - [x] 02-03-PLAN.md -- Race list view with matchup cards, round headers, and Round 2 placeholder
-- [ ] 02-04-PLAN.md -- Scoring focus view with auto-complement, auto-advance, undo, and DSQ constraint
+- [x] 02-04-PLAN.md -- Scoring focus view with auto-complement, auto-advance, undo, and DSQ constraint
 - [ ] 02-05-PLAN.md -- Standings view with per-group tables, race results grid, and tie indicators
 
 ### Phase 3: Finals and Results
