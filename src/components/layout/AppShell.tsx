@@ -6,6 +6,7 @@ import type { SubTabKey } from './SubTabs';
 import { ProgressBar } from '../shared/ProgressBar';
 import { TeamEntryView } from '../teams/TeamEntryView';
 import { RaceListView } from '../races/RaceListView';
+import { ScoringFocusView } from '../scoring/ScoringFocusView';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
 
 export function AppShell() {
@@ -29,7 +30,7 @@ export function AppShell() {
       <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
         {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
         {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
-        {activeSubTab === 'score' && <div className="text-slate-500">Score view placeholder</div>}
+        {activeSubTab === 'score' && <ScoringFocusView discipline={activeDiscipline} />}
       </main>
       <ProgressBar current={raceProgress} total={totalRaces} />
     </div>
