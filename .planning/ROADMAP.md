@@ -64,12 +64,14 @@ Plans:
   2. Official can record finals results using the same Win/Loss/DSQ interface as group stage
   3. Visual bracket display shows the finals structure graphically
   4. Final results view shows complete standings per discipline, and official can export results as CSV
-**Plans**: TBD
+**Plans**: 4 plans
 **UI hint**: yes
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md -- Domain logic TDD: finals seeding resolution, R2 seeding, CSV export (all 29 cheat sheet patterns)
+- [ ] 03-02-PLAN.md -- R2 scoring UI: SubTabs extension to 5 tabs, R2 race display/scoring, R2 standings, phase transitions
+- [ ] 03-03-PLAN.md -- Finals UI: FinalsView with banners, FinalsMatchupCard with scoring, auto-advance, completion detection
+- [ ] 03-04-PLAN.md -- Results and export: FinalResultsTable, ExportButton, CSV download, StandingsView integration
 
 ### Phase 4: PWA and Offline
 **Goal**: The app is installable on a phone home screen and works fully offline slope-side with no connectivity
@@ -92,5 +94,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Data Foundation and Storage | 0/3 | Planning complete | - |
 | 2. Core Event Flow | 0/5 | Planning complete | - |
-| 3. Finals and Results | 0/0 | Not started | - |
+| 3. Finals and Results | 0/4 | Planning complete | - |
 | 4. PWA and Offline | 0/0 | Not started | - |
