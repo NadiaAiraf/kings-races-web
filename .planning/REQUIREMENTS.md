@@ -31,9 +31,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Group Standings
 
-- [ ] **STND-01**: Group table updates live as results are recorded, showing each team's wins, losses, DSQs, and total points
-- [ ] **STND-02**: Official can view group standings at any time without losing their place in the scoring flow (quick-glance overlay)
-- [ ] **STND-03**: Teams are ranked by total points within each group
+- [x] **STND-01**: Group table updates live as results are recorded, showing each team's wins, losses, DSQs, and total points
+- [x] **STND-02**: Official can view group standings at any time without losing their place in the scoring flow (quick-glance overlay)
+- [x] **STND-03**: Teams are ranked by total points within each group
 
 ### Finals
 
@@ -107,9 +107,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RESL-02 | Phase 2 | Complete |
 | RESL-03 | Phase 2 | Complete |
 | RESL-04 | Phase 2 | Complete |
-| STND-01 | Phase 2 | Pending |
-| STND-02 | Phase 2 | Pending |
-| STND-03 | Phase 2 | Pending |
+| STND-01 | Phase 2 | Complete |
+| STND-02 | Phase 2 | Complete |
+| STND-03 | Phase 2 | Complete |
 | FINL-01 | Phase 3 | Pending |
 | FINL-02 | Phase 3 | Pending |
 | FINL-03 | Phase 3 | Pending |
