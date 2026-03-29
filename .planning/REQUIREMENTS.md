@@ -39,7 +39,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **FINL-01**: Finals bracket auto-generates from group stage results with correct placement match seeding
 - [x] **FINL-02**: Finals include placement matches (1st/2nd, 3rd/4th, 5th/6th, etc.) matching the existing spreadsheet structure
-- [ ] **FINL-03**: Official can record finals results using the same Win/Loss/DSQ interface
+- [x] **FINL-03**: Official can record finals results using the same Win/Loss/DSQ interface
 - [ ] **FINL-04**: Visual bracket display shows the finals structure graphically
 
 ### Results & Export
@@ -112,7 +112,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STND-03 | Phase 2 | Complete |
 | FINL-01 | Phase 3 | Complete |
 | FINL-02 | Phase 3 | Complete |
-| FINL-03 | Phase 3 | Pending |
+| FINL-03 | Phase 3 | Complete |
 | FINL-04 | Phase 3 | Pending |
 | EXPR-01 | Phase 3 | Pending |
 | EXPR-02 | Phase 3 | Complete |
