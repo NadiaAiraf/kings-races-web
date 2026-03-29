@@ -18,7 +18,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **RACE-01**: App auto-generates race order using exact pre-computed cheat sheet sequences based on number of teams entered
 - [x] **RACE-02**: Cheat sheet matchup sequences for 4-32 teams are hard-coded and match the existing spreadsheet exactly
-- [ ] **RACE-03**: Race list displays all matchups in correct order showing "Team A V Team B" with team names resolved
+- [x] **RACE-03**: Race list displays all matchups in correct order showing "Team A V Team B" with team names resolved
 - [ ] **RACE-04**: Current race focus mode highlights the active matchup with large action buttons and auto-advances after recording
 - [x] **RACE-05**: Progress indicator shows position in event (e.g., "Race 14 of 28")
 
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEAM-04 | Phase 1 | Complete |
 | RACE-01 | Phase 1 | Complete |
 | RACE-02 | Phase 1 | Complete |
-| RACE-03 | Phase 2 | Pending |
+| RACE-03 | Phase 2 | Complete |
 | RACE-04 | Phase 2 | Pending |
 | RACE-05 | Phase 2 | Complete |
 | RESL-01 | Phase 2 | Pending |
