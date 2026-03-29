@@ -1,12 +1,14 @@
 import { clsx } from 'clsx';
 
-export type SubTabKey = 'teams' | 'races' | 'score';
+export type SubTabKey = 'teams' | 'races' | 'score' | 'finals' | 'standings';
 
-const SUB_TABS = ['teams', 'races', 'score'] as const;
+const SUB_TABS = ['teams', 'races', 'score', 'finals', 'standings'] as const;
 const LABELS: Record<SubTabKey, string> = {
   teams: 'Teams',
   races: 'Races',
   score: 'Score',
+  finals: 'Finals',
+  standings: 'Stds',
 };
 
 interface SubTabsProps {
@@ -28,7 +30,7 @@ export function SubTabs({ active, onSelect }: SubTabsProps) {
           aria-selected={active === key}
           onClick={() => onSelect(key)}
           className={clsx(
-            'flex-1 text-sm font-semibold transition-colors',
+            'flex-1 min-w-[64px] whitespace-nowrap text-sm font-semibold transition-colors',
             active === key
               ? 'border-b-[3px] border-blue-600 text-blue-600'
               : 'text-slate-500'
