@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
+import { useR2State } from '../../hooks/useR2State';
 import { OutcomeButton } from './OutcomeButton';
-import type { DisciplineKey, RaceOutcome, RaceMatchup } from '../../domain/types';
+import type { DisciplineKey, RaceOutcome } from '../../domain/types';
 
 function getComplement(outcome: RaceOutcome): RaceOutcome | null {
   if (outcome === 'win') return 'loss';
@@ -29,8 +30,10 @@ interface ScoringFocusViewProps {
 }
 
 export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
-  const { teams, scores, structure } = useDisciplineState(discipline);
-  const { currentRace, currentIndex, totalRaces, allRaces } = useCurrentRace(discipline);
+  const { teams, scores, structure, phase } = useDisciplineState(discipline);
+  const { currentRace, currentIndex, totalRaces, allRaces, allR1Scored, scoredR1, scoredR2, r1Total } =
+    useCurrentRace(discipline);
+  const r2State = useR2State(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const clearResult = useEventStore((s) => s.clearResult);
 
@@ -52,47 +55,116 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
     );
   }
 
-  // Determine active race
-  let activeRace: RaceMatchup | null = null;
-  let activeIndex = currentIndex;
+  // Determine if we're scoring R2
+  const isR2Phase = phase === 'round-two';
+  const hasR2 = r2State !== null;
+
+  // Active race resolution depends on phase
+  let activeRaceId: string | null = null;
+  let activeHomeSlot: number | null = null;
+  let activeAwaySlot: number | null = null;
+  let activeRaceNum: number | null = null;
+  let activeDisplayIndex: number = -1;
+  let activeDisplayTotal: number = totalRaces;
+  let activeGroupLabel: string | null = null;
 
   if (editingRaceId) {
-    activeRace = allRaces.find((r) => `r1-${r.raceNum}` === editingRaceId) ?? null;
-    if (activeRace) {
-      activeIndex = allRaces.indexOf(activeRace);
+    // Editing an existing race
+    if (editingRaceId.startsWith('r2-')) {
+      // R2 race
+      const r2Race = r2State?.r2Races.find((r) => r.raceId === editingRaceId);
+      if (r2Race) {
+        activeRaceId = r2Race.raceId;
+        activeHomeSlot = r2Race.homeSlot;
+        activeAwaySlot = r2Race.awaySlot;
+        activeRaceNum = r2Race.raceNum;
+        activeDisplayIndex = r2State!.r2Races.indexOf(r2Race) + r1Total;
+        activeGroupLabel = `Group ${r2Race.groupNum}`;
+      }
+    } else {
+      // R1 race
+      const r1Race = allRaces.find((r) => `r1-${r.raceNum}` === editingRaceId);
+      if (r1Race) {
+        activeRaceId = `r1-${r1Race.raceNum}`;
+        activeHomeSlot = r1Race.homeSlot;
+        activeAwaySlot = r1Race.awaySlot;
+        activeRaceNum = r1Race.raceNum;
+        activeDisplayIndex = allRaces.indexOf(r1Race);
+      }
     }
-  } else {
-    activeRace = currentRace;
+  } else if (isR2Phase && hasR2 && r2State.currentR2Race) {
+    // Auto-advance in R2
+    const r2Race = r2State.currentR2Race;
+    activeRaceId = r2Race.raceId;
+    activeHomeSlot = r2Race.homeSlot;
+    activeAwaySlot = r2Race.awaySlot;
+    activeRaceNum = r2Race.raceNum;
+    activeDisplayIndex = r2State.currentR2Index + r1Total;
+    activeGroupLabel = `Group ${r2Race.groupNum}`;
+  } else if (!isR2Phase && currentRace) {
+    // Auto-advance in R1
+    activeRaceId = `r1-${currentRace.raceNum}`;
+    activeHomeSlot = currentRace.homeSlot;
+    activeAwaySlot = currentRace.awaySlot;
+    activeRaceNum = currentRace.raceNum;
+    activeDisplayIndex = currentIndex;
   }
 
-  // All scored, not editing
-  if (!activeRace) {
+  // All scored state
+  if (!activeRaceId || activeHomeSlot === null || activeAwaySlot === null) {
+    // Check what phase we're in for the right message
+    if (isR2Phase && hasR2 && r2State.allR2Scored) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12">
+          <p className="text-xl font-semibold text-slate-900">All Round 2 races scored!</p>
+          <p className="text-sm text-slate-500 mt-2">
+            All {r2State.totalR2Races} Round 2 races have been recorded.
+          </p>
+          {renderRecentResults(true)}
+        </div>
+      );
+    }
+    if (allR1Scored && hasR2 && !isR2Phase) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12">
+          <p className="text-xl font-semibold text-slate-900">All Round 1 races scored</p>
+          <p className="text-sm text-slate-500 mt-2">
+            Round 2 will begin when phase transitions.
+          </p>
+          {renderRecentResults(false)}
+        </div>
+      );
+    }
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <p className="text-xl font-semibold text-slate-900">All races scored!</p>
         <p className="text-sm text-slate-500 mt-2">
           All {totalRaces} races have been recorded.
         </p>
-        {/* Recent results for re-scoring */}
-        {renderRecentResults()}
+        {renderRecentResults(false)}
       </div>
     );
   }
 
-  const homeTeamName = teamMap.get(activeRace.homeSlot) ?? `Team ${activeRace.homeSlot}`;
-  const awayTeamName = teamMap.get(activeRace.awaySlot) ?? `Team ${activeRace.awaySlot}`;
+  const homeTeamName =
+    activeHomeSlot !== null
+      ? (teamMap.get(activeHomeSlot) ?? `Team ${activeHomeSlot}`)
+      : 'TBD';
+  const awayTeamName =
+    activeAwaySlot !== null
+      ? (teamMap.get(activeAwaySlot) ?? `Team ${activeAwaySlot}`)
+      : 'TBD';
 
   // Disabled outcomes based on D-01 constraints
   const homeDisabled = getDisabledOutcomes(awayOutcome);
   const awayDisabled = getDisabledOutcomes(homeOutcome);
 
   function commitScore(home: RaceOutcome, away: RaceOutcome) {
-    if (!activeRace) return;
-    const raceId = `r1-${activeRace.raceNum}`;
+    if (!activeRaceId || activeHomeSlot === null || activeAwaySlot === null) return;
     recordResult(discipline, {
-      raceId,
-      homeSlot: activeRace.homeSlot,
-      awaySlot: activeRace.awaySlot,
+      raceId: activeRaceId,
+      homeSlot: activeHomeSlot,
+      awaySlot: activeAwaySlot,
       homeOutcome: home,
       awayOutcome: away,
     });
@@ -107,14 +179,11 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
     const complement = getComplement(outcome);
 
     if (awayOutcome !== null) {
-      // Both outcomes now set -- commit
       commitScore(outcome, awayOutcome);
     } else if (complement !== null) {
-      // Auto-complement: set away and commit immediately
       setAwayOutcome(complement);
       commitScore(outcome, complement);
     }
-    // else: DSQ tapped, wait for away tap
   }
 
   function handleAwaySelect(outcome: RaceOutcome) {
@@ -122,14 +191,11 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
     const complement = getComplement(outcome);
 
     if (homeOutcome !== null) {
-      // Both outcomes now set -- commit
       commitScore(homeOutcome, outcome);
     } else if (complement !== null) {
-      // Auto-complement: set home and commit immediately
       setHomeOutcome(complement);
       commitScore(complement, outcome);
     }
-    // else: DSQ tapped, wait for home tap
   }
 
   function startEdit(raceId: string) {
@@ -145,33 +211,56 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
     setEditingRaceId(null);
   }
 
-  function renderRecentResults() {
+  function renderRecentResults(showR2: boolean) {
     // Show scored races in reverse order (most recent first)
-    const scoredRaces = allRaces
-      .filter((race) => scoreMap.has(`r1-${race.raceNum}`))
-      .map((race) => ({
-        race,
-        score: scoreMap.get(`r1-${race.raceNum}`)!,
-      }))
-      .reverse();
+    const recentEntries: Array<{
+      raceId: string;
+      raceNum: number;
+      homeName: string;
+      awayName: string;
+    }> = [];
 
-    if (scoredRaces.length === 0) return null;
+    if (showR2 && r2State) {
+      for (const race of [...r2State.r2Races].reverse()) {
+        if (r2State.r2ScoreMap.has(race.raceId)) {
+          recentEntries.push({
+            raceId: race.raceId,
+            raceNum: race.raceNum,
+            homeName: race.homeTeamName,
+            awayName: race.awayTeamName,
+          });
+        }
+      }
+    } else {
+      const scoredRaces = allRaces
+        .filter((race) => scoreMap.has(`r1-${race.raceNum}`))
+        .reverse();
+      for (const race of scoredRaces) {
+        recentEntries.push({
+          raceId: `r1-${race.raceNum}`,
+          raceNum: race.raceNum,
+          homeName: teamMap.get(race.homeSlot) ?? `Team ${race.homeSlot}`,
+          awayName: teamMap.get(race.awaySlot) ?? `Team ${race.awaySlot}`,
+        });
+      }
+    }
+
+    if (recentEntries.length === 0) return null;
 
     return (
       <div className="border-t border-slate-200 pt-4 mt-2 w-full">
         <p className="text-sm font-semibold text-slate-500 mb-2">Recent results</p>
-        {scoredRaces.map(({ race, score }) => (
+        {recentEntries.map((entry) => (
           <div
-            key={score.raceId}
+            key={entry.raceId}
             className="flex items-center justify-between py-2 border-b border-slate-100"
           >
             <span className="text-sm text-slate-700">
-              Race {race.raceNum}: {teamMap.get(race.homeSlot) ?? `Team ${race.homeSlot}`} vs{' '}
-              {teamMap.get(race.awaySlot) ?? `Team ${race.awaySlot}`}
+              Race {entry.raceNum}: {entry.homeName} vs {entry.awayName}
             </span>
             <button
               type="button"
-              onClick={() => startEdit(score.raceId)}
+              onClick={() => startEdit(entry.raceId)}
               className="text-sm text-slate-500 min-h-14 px-2"
             >
               Edit
@@ -186,9 +275,15 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
     <div className="flex flex-col gap-6">
       {/* Current race card */}
       <div className="text-center">
-        <p className="text-[28px] font-semibold leading-[1.15]">Race {activeRace.raceNum}</p>
+        <p className="text-[28px] font-semibold leading-[1.15]">
+          Race {activeRaceNum}
+          {activeGroupLabel && (
+            <span className="text-base font-medium text-slate-500 ml-2">{activeGroupLabel}</span>
+          )}
+        </p>
         <p className="text-sm text-slate-500">
-          Race {(activeIndex >= 0 ? activeIndex : totalRaces - 1) + 1} of {totalRaces}
+          Race {(activeDisplayIndex >= 0 ? activeDisplayIndex : totalRaces - 1) + 1} of{' '}
+          {activeDisplayTotal}
         </p>
       </div>
 
@@ -254,7 +349,7 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
       )}
 
       {/* Recent scored races for re-scoring */}
-      {renderRecentResults()}
+      {renderRecentResults(isR2Phase)}
     </div>
   );
 }

@@ -9,6 +9,7 @@ interface GroupStandingsTableProps {
   scores: Score[];
   groupRaces: RaceMatchup[];
   hasTies: boolean;
+  raceIdPrefix?: string;
 }
 
 export function GroupStandingsTable({
@@ -18,14 +19,18 @@ export function GroupStandingsTable({
   scores,
   groupRaces,
   hasTies,
+  raceIdPrefix,
 }: GroupStandingsTableProps) {
   const teamMap = new Map(teams.map((t) => [t.slot, t.name]));
 
   // Build score lookup: raceId -> Score
   const scoreMap = new Map(scores.map((s) => [s.raceId, s]));
 
+  // Determine raceId prefix: if explicit prefix provided, use it; otherwise detect from scores
+  const resolvedPrefix = raceIdPrefix ?? 'r1-';
+
   function getOutcome(race: RaceMatchup, slot: number): RaceOutcome | null {
-    const score = scoreMap.get('r1-' + race.raceNum);
+    const score = scoreMap.get(resolvedPrefix + race.raceNum);
     if (!score) return null;
     if (score.homeSlot === slot) return score.homeOutcome;
     if (score.awaySlot === slot) return score.awayOutcome;

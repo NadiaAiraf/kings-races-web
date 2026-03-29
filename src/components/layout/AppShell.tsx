@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
@@ -9,16 +9,48 @@ import { RaceListView } from '../races/RaceListView';
 import { ScoringFocusView } from '../scoring/ScoringFocusView';
 import { StandingsView } from '../standings/StandingsView';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
+import { useDisciplineState } from '../../hooks/useDisciplineState';
+import { useR2State } from '../../hooks/useR2State';
+import { useStandings } from '../../hooks/useStandings';
+import { areAllR1RacesScored } from '../../domain/r2Seeding';
+import { hasTies } from '../../domain/scoring';
 
 export function AppShell() {
   const activeDiscipline = useEventStore((s) => s.activeDiscipline);
   const setActiveDiscipline = useEventStore((s) => s.setActiveDiscipline);
+  const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
   const [activeSubTab, setActiveSubTab] = useState<SubTabKey>('teams');
   const [showStandings, setShowStandings] = useState(false);
-  const { currentIndex, totalRaces } = useCurrentRace(activeDiscipline);
 
-  // When all races scored, currentIndex is -1; show total instead of 0
-  const raceProgress = currentIndex >= 0 ? currentIndex + 1 : (totalRaces > 0 ? totalRaces : 0);
+  const { scores, structure, phase } = useDisciplineState(activeDiscipline);
+  const { currentIndex, totalRaces, allR1Scored, scoredR1, scoredR2 } =
+    useCurrentRace(activeDiscipline);
+  const r2State = useR2State(activeDiscipline);
+  const standingsResult = useStandings(activeDiscipline);
+
+  // Phase auto-transition: group-stage -> round-two
+  useEffect(() => {
+    if (
+      phase === 'group-stage' &&
+      structure &&
+      structure.roundTwoGroups &&
+      structure.roundTwoGroups.length > 0 &&
+      areAllR1RacesScored(scores, structure) &&
+      standingsResult
+    ) {
+      // Check no ties in any R1 group
+      const anyTies = Object.values(standingsResult.tiesByGroup).some((t) => t);
+      if (!anyTies) {
+        setDisciplinePhase(activeDiscipline, 'round-two');
+      }
+    }
+  }, [phase, structure, scores, standingsResult, activeDiscipline, setDisciplinePhase]);
+
+  // Combined progress for progress bar
+  const totalScored = scoredR1 + scoredR2;
+  // When all races scored, show total instead of 0
+  const raceProgress =
+    totalScored > 0 && totalScored >= totalRaces ? totalRaces : totalScored > 0 ? totalScored : currentIndex >= 0 ? currentIndex + 1 : totalRaces > 0 ? totalRaces : 0;
 
   return (
     <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto bg-white">
@@ -35,8 +67,19 @@ export function AppShell() {
             {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
             {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
             {activeSubTab === 'score' && <ScoringFocusView discipline={activeDiscipline} />}
+            {activeSubTab === 'finals' && (
+              <div className="flex flex-col items-center justify-center py-12">
+                <p className="text-lg font-semibold text-slate-900">Finals</p>
+                <p className="text-sm text-slate-500 mt-2">
+                  Coming soon -- finals bracket will appear here after group stages complete.
+                </p>
+              </div>
+            )}
+            {activeSubTab === 'standings' && (
+              <StandingsView discipline={activeDiscipline} asTab={true} />
+            )}
           </main>
-          {activeSubTab !== 'teams' && (
+          {activeSubTab !== 'teams' && activeSubTab !== 'standings' && (
             <button
               onClick={() => setShowStandings(true)}
               className="fixed bottom-16 right-4 max-w-[430px] bg-blue-600 text-white px-4 min-h-14 rounded-lg shadow-lg text-sm font-semibold z-20"

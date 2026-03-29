@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
+import { useR2State } from '../../hooks/useR2State';
 import { RaceCard } from './RaceCard';
 import { RoundHeader } from './RoundHeader';
 import type { DisciplineKey, Score } from '../../domain/types';
@@ -9,7 +10,8 @@ interface RaceListViewProps {
 }
 
 export function RaceListView({ discipline }: RaceListViewProps) {
-  const { teams, scores, structure } = useDisciplineState(discipline);
+  const { teams, scores, structure, phase } = useDisciplineState(discipline);
+  const r2State = useR2State(discipline);
 
   const teamMap = useMemo(
     () => new Map(teams.map((t) => [t.slot, t.name])),
@@ -34,7 +36,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
   return (
     <div>
-      <RoundHeader label="Round 1" isActive={true} isFirst={true} />
+      <RoundHeader label="Round 1" isActive={phase === 'group-stage' || phase === 'setup'} isFirst={true} />
       {structure.roundOneRaces.map((race) => (
         <RaceCard
           key={`r1-${race.raceNum}`}
@@ -47,16 +49,29 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
       {structure.roundTwoGroups && (
         <>
-          <RoundHeader label="Round 2" isActive={false} />
-          <p className="text-sm text-slate-400 opacity-40 px-4 py-2">
-            Round 2 &mdash; {structure.roundTwoRaceCount} races, seeded from Round 1 results
-          </p>
+          <RoundHeader label="Round 2" isActive={phase === 'round-two'} />
+          {(phase === 'round-two' || (r2State && r2State.scoredR2Races > 0)) && r2State ? (
+            r2State.r2Races.map((race) => (
+              <RaceCard
+                key={race.raceId}
+                raceNum={race.raceNum}
+                homeTeamName={race.homeTeamName}
+                awayTeamName={race.awayTeamName}
+                score={r2State.r2ScoreMap.get(race.raceId)}
+                groupLabel={`Group ${race.groupNum}`}
+              />
+            ))
+          ) : (
+            <p className="text-sm text-slate-400 opacity-40 px-4 py-2">
+              Round 2 &mdash; {structure.roundTwoRaceCount} races, seeded from Round 1 results
+            </p>
+          )}
         </>
       )}
 
       {structure.finals.length > 0 && (
         <>
-          <RoundHeader label="Finals" isActive={false} />
+          <RoundHeader label="Finals" isActive={phase === 'finals'} />
           <p className="text-sm text-slate-400 opacity-40 px-4 py-2">
             Finals seeded from group stage results
           </p>

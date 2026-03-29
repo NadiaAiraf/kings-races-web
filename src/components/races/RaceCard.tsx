@@ -7,6 +7,7 @@ interface RaceCardProps {
   awayTeamName: string;
   score: Score | undefined;
   disabled?: boolean;
+  groupLabel?: string;
 }
 
 const OUTCOME_BADGE: Record<string, { className: string; label: string }> = {
@@ -25,7 +26,7 @@ function OutcomeBadge({ outcome }: { outcome: string }) {
   );
 }
 
-export function RaceCard({ raceNum, homeTeamName, awayTeamName, score, disabled }: RaceCardProps) {
+export function RaceCard({ raceNum, homeTeamName, awayTeamName, score, disabled, groupLabel }: RaceCardProps) {
   return (
     <div
       className={clsx(
@@ -33,7 +34,14 @@ export function RaceCard({ raceNum, homeTeamName, awayTeamName, score, disabled 
         disabled && 'opacity-40 pointer-events-none'
       )}
     >
-      <div className="text-sm text-slate-500 mb-1">Race {raceNum}</div>
+      <div className="text-sm text-slate-500 mb-1 flex items-center gap-2">
+        <span>Race {raceNum}</span>
+        {groupLabel && (
+          <span className="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">
+            {groupLabel}
+          </span>
+        )}
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 text-base text-slate-900">
