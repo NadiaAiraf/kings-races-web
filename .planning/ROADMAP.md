@@ -45,12 +45,15 @@ Plans:
   3. Official can record a result (Win/Loss/DSQ) for any matchup in 2 taps or fewer, with touch targets of at least 56px
   4. Official can undo or correct a previously recorded result and see standings recalculate immediately
   5. Group standings table updates live as results are recorded, showing wins, losses, DSQs, points, and ranking -- accessible as a quick-glance overlay without losing scoring position
-**Plans**: TBD
+**Plans**: 5 plans
 **UI hint**: yes
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md -- Tailwind CSS 4 setup, app shell with discipline tabs, sub-tabs, progress bar, hooks, and shared components
+- [ ] 02-02-PLAN.md -- Team entry view with add/delete/reset and slot assignment
+- [ ] 02-03-PLAN.md -- Race list view with matchup cards, round headers, and Round 2 placeholder
+- [ ] 02-04-PLAN.md -- Scoring focus view with auto-complement, auto-advance, undo, and DSQ constraint
+- [ ] 02-05-PLAN.md -- Standings view with per-group tables, race results grid, and tie indicators
 
 ### Phase 3: Finals and Results
 **Goal**: After the group stage completes, the app generates a finals bracket, the official records placement matches, and complete results can be viewed and exported
@@ -88,6 +91,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Data Foundation and Storage | 0/3 | Planning complete | - |
-| 2. Core Event Flow | 0/0 | Not started | - |
+| 2. Core Event Flow | 0/5 | Planning complete | - |
 | 3. Finals and Results | 0/0 | Not started | - |
 | 4. PWA and Offline | 0/0 | Not started | - |
