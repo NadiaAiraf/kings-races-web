@@ -43,6 +43,23 @@ export const TEAMS_25: TournamentStructure = {
   ],
   roundTwoGroups: [
     {
+      groupNum: 'I',
+      seedingEntries: [
+        { positionCode: '', letter: 'A', label: 'Winner A' },
+        { positionCode: '', letter: 'B', label: 'Winner B' },
+        { positionCode: '', letter: 'C', label: 'Winner C' },
+        { positionCode: '', letter: 'D', label: 'Winner D' },
+      ],
+      races: [
+        { raceNum: 1, homeLetter: 'A', awayLetter: 'B' },
+        { raceNum: 2, homeLetter: 'C', awayLetter: 'D' },
+        { raceNum: 3, homeLetter: 'B', awayLetter: 'C' },
+        { raceNum: 4, homeLetter: 'D', awayLetter: 'A' },
+        { raceNum: 5, homeLetter: 'A', awayLetter: 'C' },
+        { raceNum: 6, homeLetter: 'B', awayLetter: 'D' },
+      ],
+    },
+    {
       groupNum: 'II',
       seedingEntries: [
         { positionCode: '', letter: 'E', label: 'Winner E' },
@@ -151,5 +168,5 @@ export const TEAMS_25: TournamentStructure = {
     { label: '1st/2nd', homeRef: 'Winner Group I', awayRef: 'Winner Group II' },
   ],
   roundOneRaceCount: 27,
-  roundTwoRaceCount: 40,
+  roundTwoRaceCount: 46,
 };
