@@ -11,7 +11,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **TEAM-01**: Official can enter team names for each discipline (Mixed, Board, Ladies) independently
 - [x] **TEAM-02**: Each discipline supports a variable number of teams (Mixed: 4-32, Board: 4-17, Ladies: 4-17)
-- [ ] **TEAM-03**: Official can switch between disciplines via tabs or navigation
+- [x] **TEAM-03**: Official can switch between disciplines via tabs or navigation
 - [x] **TEAM-04**: Team data persists in localStorage so the app survives tab death or refresh
 
 ### Race Order
@@ -20,7 +20,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **RACE-02**: Cheat sheet matchup sequences for 4-32 teams are hard-coded and match the existing spreadsheet exactly
 - [ ] **RACE-03**: Race list displays all matchups in correct order showing "Team A V Team B" with team names resolved
 - [ ] **RACE-04**: Current race focus mode highlights the active matchup with large action buttons and auto-advances after recording
-- [ ] **RACE-05**: Progress indicator shows position in event (e.g., "Race 14 of 28")
+- [x] **RACE-05**: Progress indicator shows position in event (e.g., "Race 14 of 28")
 
 ### Result Recording
 
@@ -49,7 +49,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Mobile & Reliability
 
-- [ ] **MOBL-01**: Mobile-first responsive design with large touch targets (56px+), high contrast, and outdoor readability
+- [x] **MOBL-01**: Mobile-first responsive design with large touch targets (56px+), high contrast, and outdoor readability
 - [x] **MOBL-02**: App persists all state to localStorage — survives tab death, browser restart, and phone lock
 - [ ] **MOBL-03**: PWA support: installable via Add to Home Screen, service worker caches assets for offline use
 - [x] **MOBL-04**: App reconstructs full state from localStorage on every load (normal path, not error recovery)
@@ -96,13 +96,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | TEAM-01 | Phase 2 | Pending |
 | TEAM-02 | Phase 1 | Complete |
-| TEAM-03 | Phase 2 | Pending |
+| TEAM-03 | Phase 2 | Complete |
 | TEAM-04 | Phase 1 | Complete |
 | RACE-01 | Phase 1 | Complete |
 | RACE-02 | Phase 1 | Complete |
 | RACE-03 | Phase 2 | Pending |
 | RACE-04 | Phase 2 | Pending |
-| RACE-05 | Phase 2 | Pending |
+| RACE-05 | Phase 2 | Complete |
 | RESL-01 | Phase 2 | Pending |
 | RESL-02 | Phase 2 | Pending |
 | RESL-03 | Phase 2 | Pending |
@@ -116,7 +116,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FINL-04 | Phase 3 | Pending |
 | EXPR-01 | Phase 3 | Pending |
 | EXPR-02 | Phase 3 | Pending |
-| MOBL-01 | Phase 2 | Pending |
+| MOBL-01 | Phase 2 | Complete |
 | MOBL-02 | Phase 1 | Complete |
 | MOBL-03 | Phase 4 | Pending |
 | MOBL-04 | Phase 1 | Complete |

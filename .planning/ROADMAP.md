@@ -49,7 +49,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 02-01-PLAN.md -- Tailwind CSS 4 setup, app shell with discipline tabs, sub-tabs, progress bar, hooks, and shared components
+- [x] 02-01-PLAN.md -- Tailwind CSS 4 setup, app shell with discipline tabs, sub-tabs, progress bar, hooks, and shared components
 - [ ] 02-02-PLAN.md -- Team entry view with add/delete/reset and slot assignment
 - [ ] 02-03-PLAN.md -- Race list view with matchup cards, round headers, and Round 2 placeholder
 - [ ] 02-04-PLAN.md -- Scoring focus view with auto-complement, auto-advance, undo, and DSQ constraint
