@@ -1,7 +1,9 @@
+import { useRef, useCallback, createRef } from 'react';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { useEventStore } from '../../store/eventStore';
 import { FinalsBlockedBanner } from './FinalsBlockedBanner';
 import { FinalsReadyBanner } from './FinalsReadyBanner';
+import { FinalsMatchupCard } from './FinalsMatchupCard';
 import type { DisciplineKey } from '../../domain/types';
 
 interface FinalsViewProps {
@@ -11,6 +13,28 @@ interface FinalsViewProps {
 export function FinalsView({ discipline }: FinalsViewProps) {
   const finalsState = useFinalsState(discipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+
+  // Create refs for each matchup card for scroll-to-next
+  const cardRefsRef = useRef<Map<number, React.RefObject<HTMLDivElement | null>>>(new Map());
+
+  const getCardRef = useCallback((index: number) => {
+    if (!cardRefsRef.current.has(index)) {
+      cardRefsRef.current.set(index, createRef<HTMLDivElement>());
+    }
+    return cardRefsRef.current.get(index)!;
+  }, []);
+
+  const scrollToNext = useCallback((currentIdx: number) => {
+    if (!finalsState) return;
+    // Find the next unscored matchup after the one just scored
+    const nextUnscored = finalsState.finalsWithNames.findIndex(
+      (m, i) => i > currentIdx && !m.score
+    );
+    if (nextUnscored >= 0) {
+      const ref = cardRefsRef.current.get(nextUnscored);
+      ref?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [finalsState]);
 
   if (!finalsState) {
     return (
@@ -23,7 +47,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
     );
   }
 
-  const { finalsPhase, finalsWithNames, totalFinals, scoredFinals } = finalsState;
+  const { finalsPhase, finalsWithNames, totalFinals, scoredFinals, currentFinalsIndex } = finalsState;
 
   // No finals defined in structure
   if (totalFinals === 0) {
@@ -57,19 +81,16 @@ export function FinalsView({ discipline }: FinalsViewProps) {
 
       {(finalsPhase === 'confirmed' || finalsPhase === 'all-scored') && (
         <div className="flex flex-col gap-4">
-          {finalsWithNames.map((matchup) => (
-            <div
+          {finalsWithNames.map((matchup, idx) => (
+            <FinalsMatchupCard
               key={matchup.raceId}
-              className="border border-slate-200 rounded-lg p-4 bg-white"
-            >
-              <p className="text-sm font-semibold text-slate-900">{matchup.label}</p>
-              <p className="text-sm text-slate-500 mt-1">
-                {matchup.homeRef} vs {matchup.awayRef}
-              </p>
-              <p className="text-xl font-semibold text-slate-900 mt-2">
-                {matchup.homeTeamName} vs {matchup.awayTeamName}
-              </p>
-            </div>
+              ref={getCardRef(idx)}
+              matchup={matchup}
+              discipline={discipline}
+              isActive={idx === currentFinalsIndex}
+              canScore={finalsPhase === 'confirmed' || finalsPhase === 'all-scored'}
+              onScored={() => scrollToNext(idx)}
+            />
           ))}
         </div>
       )}
