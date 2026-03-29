@@ -71,7 +71,7 @@ Plans:
 - [x] 03-01-PLAN.md -- Domain logic TDD: finals seeding resolution, R2 seeding, CSV export (all 29 cheat sheet patterns)
 - [x] 03-02-PLAN.md -- R2 scoring UI: SubTabs extension to 5 tabs, R2 race display/scoring, R2 standings, phase transitions
 - [x] 03-03-PLAN.md -- Finals UI: FinalsView with banners, FinalsMatchupCard with scoring, auto-advance, completion detection
-- [ ] 03-04-PLAN.md -- Results and export: FinalResultsTable, ExportButton, CSV download, StandingsView integration
+- [x] 03-04-PLAN.md -- Results and export: FinalResultsTable, ExportButton, CSV download, StandingsView integration
 
 ### Phase 4: PWA and Offline
 **Goal**: The app is installable on a phone home screen and works fully offline slope-side with no connectivity

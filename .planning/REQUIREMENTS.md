@@ -44,7 +44,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Results & Export
 
-- [ ] **EXPR-01**: Final results view shows complete standings per discipline after all races are completed
+- [x] **EXPR-01**: Final results view shows complete standings per discipline after all races are completed
 - [x] **EXPR-02**: Official can export results as a CSV file
 
 ### Mobile & Reliability
@@ -114,7 +114,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FINL-02 | Phase 3 | Complete |
 | FINL-03 | Phase 3 | Complete |
 | FINL-04 | Phase 3 | Complete |
-| EXPR-01 | Phase 3 | Pending |
+| EXPR-01 | Phase 3 | Complete |
 | EXPR-02 | Phase 3 | Complete |
 | MOBL-01 | Phase 2 | Complete |
 | MOBL-02 | Phase 1 | Complete |
