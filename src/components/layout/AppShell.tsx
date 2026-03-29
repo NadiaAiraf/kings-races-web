@@ -4,6 +4,7 @@ import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
 import type { SubTabKey } from './SubTabs';
 import { ProgressBar } from '../shared/ProgressBar';
+import { TeamEntryView } from '../teams/TeamEntryView';
 
 export function AppShell() {
   const activeDiscipline = useEventStore((s) => s.activeDiscipline);
@@ -20,7 +21,7 @@ export function AppShell() {
       <DisciplineTabs active={activeDiscipline} onSelect={setActiveDiscipline} />
       <SubTabs active={activeSubTab} onSelect={setActiveSubTab} />
       <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
-        {activeSubTab === 'teams' && <div className="text-slate-500">Teams view placeholder</div>}
+        {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
         {activeSubTab === 'races' && <div className="text-slate-500">Races view placeholder</div>}
         {activeSubTab === 'score' && <div className="text-slate-500">Score view placeholder</div>}
       </main>
