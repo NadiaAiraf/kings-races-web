@@ -15,20 +15,18 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ Auto-generate race order using exact pre-computed cheat sheet sequences (4-32 teams) — Phase 1
 - ✓ Local/session data storage — no server required for v1 — Phase 1
 - ✓ Support all three disciplines running independently within one event — Phase 1 (domain logic)
+- ✓ Enter teams by name for each discipline (Mixed, Board, Ladies) with varying team counts per discipline — Phase 2
+- ✓ Display race list showing each matchup (Team A V Team B) in correct order — Phase 2
+- ✓ Record race results: Win (3pts), Loss (1pt), DSQ (0pts) for each team in a matchup — Phase 2
+- ✓ Live-updating group tables ("boxes") showing each team's results and point totals during round-robin — Phase 2
+- ✓ Mobile-first responsive design — must work well on phone slope-side — Phase 2
 
 ### Active
 
-- [ ] Enter teams by name for each discipline (Mixed, Board, Ladies) with varying team counts per discipline
 - [ ] Auto-generate race order using exact pre-computed cheat sheet sequences (4-32 teams) based on number of teams entered
-- [ ] Display race list showing each matchup (Team A V Team B) in correct order
-- [ ] Record race results: Win (3pts), Loss (1pt), DSQ (0pts) for each team in a matchup
-- [ ] Live-updating group tables ("boxes") showing each team's results and point totals during round-robin
 - [ ] Finals bracket with placement matches (1st/2nd, 3rd/4th, etc.) after group stage
 - [ ] Final standings/results view per discipline
 - [ ] Export results as CSV
-- [ ] Mobile-first responsive design — must work well on phone slope-side
-- [ ] Local/session data storage — no server required for v1
-- [ ] Support all three disciplines running independently within one event
 
 ### Out of Scope
 
@@ -85,4 +83,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-28 after Phase 1 completion*
+*Last updated: 2026-03-29 after Phase 2 completion*
