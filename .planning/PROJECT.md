@@ -20,13 +20,13 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ Record race results: Win (3pts), Loss (1pt), DSQ (0pts) for each team in a matchup — Phase 2
 - ✓ Live-updating group tables ("boxes") showing each team's results and point totals during round-robin — Phase 2
 - ✓ Mobile-first responsive design — must work well on phone slope-side — Phase 2
+- ✓ Finals bracket with placement matches (1st/2nd, 3rd/4th, etc.) after group stage — Phase 3
+- ✓ Final standings/results view per discipline — Phase 3
+- ✓ Export results as CSV — Phase 3
 
 ### Active
 
-- [ ] Auto-generate race order using exact pre-computed cheat sheet sequences (4-32 teams) based on number of teams entered
-- [ ] Finals bracket with placement matches (1st/2nd, 3rd/4th, etc.) after group stage
-- [ ] Final standings/results view per discipline
-- [ ] Export results as CSV
+- [ ] PWA support: installable via Add to Home Screen, service worker caches assets for offline use
 
 ### Out of Scope
 
@@ -83,4 +83,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-29 after Phase 2 completion*
+*Last updated: 2026-03-29 after Phase 3 completion*
