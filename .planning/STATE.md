@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Cheat Sheet Accuracy
-status: planning
-stopped_at: Phase 8 planned (2 plans, verified)
-last_updated: "2026-03-30T14:54:59.079Z"
-last_activity: 2026-03-30 -- v1.2 roadmap created
+status: verifying
+stopped_at: Completed 08-01-PLAN.md
+last_updated: "2026-03-30T14:59:34.435Z"
+last_activity: 2026-03-30
 progress:
   total_phases: 9
   completed_phases: 7
   total_plans: 19
-  completed_plans: 17
+  completed_plans: 18
   percent: 0
 ---
 
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 
 Phase: 8 of 9 (Ground Truth & Validation)
 Plan: 0 of 0 in current phase (plans TBD)
-Status: Ready to plan
-Last activity: 2026-03-30 -- v1.2 roadmap created
+Status: Phase complete — ready for verification
+Last activity: 2026-03-30
 
 Progress: [░░░░░░░░░░░░░░░░░░░░] 0% (of v1.2)
 
@@ -52,6 +52,8 @@ Progress: [░░░░░░░░░░░░░░░░░░░░] 0% (of 
 - Last 3 plans: 06-01, 06-02, 07-01
 - Trend: Stable
 
+| Phase 08 P01 | 3min | 1 tasks | 2 files |
+
 ## Accumulated Context
 
 ### Decisions
@@ -63,6 +65,7 @@ Recent decisions affecting current work:
 - [v1.2]: seedMap as static data per cheat sheet file, no runtime algorithm
 - [v1.2]: Slot numbers preserved -- no localStorage migration needed
 - [v1.2]: Extract assignSlots from TeamEntryView.tsx to src/domain/assignSlots.ts
+- [Phase 08]: R1 races extracted from column Q for 4-6 teams, column J for 7-32 (xlsx layout varies)
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T14:54:59.075Z
-Stopped at: Phase 8 planned (2 plans, verified)
-Resume file: .planning/phases/08-ground-truth-validation/08-01-PLAN.md
+Last session: 2026-03-30T14:59:34.431Z
+Stopped at: Completed 08-01-PLAN.md
+Resume file: None

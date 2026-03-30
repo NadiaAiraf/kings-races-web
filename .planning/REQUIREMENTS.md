@@ -18,9 +18,9 @@ Cheat sheet accuracy -- fix group seeding and validate all race data against the
 
 ### Validation
 
-- [ ] **VALID-01**: All 29 cheat sheet seed mappings must be validated against the xlsx source of truth with automated tests
-- [ ] **VALID-02**: R1 race order for all 29 team counts must be validated against the xlsx source of truth
-- [ ] **VALID-03**: R2 race order for all 29 team counts must be validated against the xlsx source of truth
+- [x] **VALID-01**: All 29 cheat sheet seed mappings must be validated against the xlsx source of truth with automated tests
+- [x] **VALID-02**: R1 race order for all 29 team counts must be validated against the xlsx source of truth
+- [x] **VALID-03**: R2 race order for all 29 team counts must be validated against the xlsx source of truth
 
 ## Out of Scope
 
@@ -37,9 +37,9 @@ Cheat sheet accuracy -- fix group seeding and validate all race data against the
 | SEED-01 | Phase 9 | Pending |
 | SEED-02 | Phase 9 | Pending |
 | R2ORD-01 | Phase 9 | Pending |
-| VALID-01 | Phase 8 | Pending |
-| VALID-02 | Phase 8 | Pending |
-| VALID-03 | Phase 8 | Pending |
+| VALID-01 | Phase 8 | Complete |
+| VALID-02 | Phase 8 | Complete |
+| VALID-03 | Phase 8 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 6 total

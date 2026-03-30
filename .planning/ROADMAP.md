@@ -140,7 +140,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 08-01-PLAN.md -- Extract golden data from xlsx into JSON fixture for all 29 team counts
+- [x] 08-01-PLAN.md -- Extract golden data from xlsx into JSON fixture for all 29 team counts
 - [ ] 08-02-PLAN.md -- Write parametric Vitest validation tests for seed mappings, R1 races, and R2 races
 
 ### Phase 9: Seeding & R2 Order Fix
