@@ -152,7 +152,11 @@ Plans:
   2. Each TournamentStructure in the codebase includes a seedMap array that defines the exact seed-to-slot mapping from the xlsx
   3. R2 race order for all applicable team counts (8+) matches the xlsx cheat sheet exactly
   4. All existing tests continue to pass (no regressions in R1 race order, scoring, standings, or finals)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 09-01-PLAN.md -- Add seedMap to TournamentStructure type and update all 29 cheat sheet files with seedMap + R2 race fixes
+- [ ] 09-02-PLAN.md -- Extract assignSlots to domain module with serpentine seeding and wire into TeamEntryView
 
 ## Progress
 
@@ -168,4 +172,4 @@ Plans:
 | 6. Scoring UI & Interaction Fixes | v1.1 | 2/2 | Complete | 2026-03-30 |
 | 7. Standings & Finals Calculation Fixes | v1.1 | 1/1 | Complete | 2026-03-30 |
 | 8. Ground Truth & Validation | v1.2 | 0/2 | In progress | - |
-| 9. Seeding & R2 Order Fix | v1.2 | 0/0 | Not started | - |
+| 9. Seeding & R2 Order Fix | v1.2 | 0/2 | Not started | - |
