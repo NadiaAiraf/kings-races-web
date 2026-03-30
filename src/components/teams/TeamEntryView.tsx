@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import type { DisciplineKey, Team } from '../../domain/types';
+import type { DisciplineKey } from '../../domain/types';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useEventStore } from '../../store/eventStore';
-import { getCheatSheet } from '../../domain/cheatSheets';
+import { assignSlots } from '../../domain/assignSlots';
 import { getValidTeamCountRange } from '../../domain/validation';
 import { TeamInput } from './TeamInput';
 import { TeamList } from './TeamList';
@@ -11,15 +11,6 @@ import { ConfirmButton } from '../shared/ConfirmButton';
 
 interface TeamEntryViewProps {
   discipline: DisciplineKey;
-}
-
-function assignSlots(names: string[]): Team[] {
-  if (names.length >= 4) {
-    const structure = getCheatSheet(names.length);
-    const allSlots = structure.groups.flatMap((g) => g.teamSlots);
-    return names.map((n, i) => ({ slot: allSlots[i], name: n }));
-  }
-  return names.map((n, i) => ({ slot: i + 1, name: n }));
 }
 
 export function TeamEntryView({ discipline }: TeamEntryViewProps) {
