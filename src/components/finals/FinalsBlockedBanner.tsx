@@ -4,7 +4,7 @@ interface FinalsBlockedBannerProps {
 
 const MESSAGES: Record<FinalsBlockedBannerProps['reason'], string> = {
   incomplete: 'Complete all group stage races to unlock finals.',
-  ties: 'Resolve tied standings in groups before proceeding to finals.',
+  ties: 'Resolve tied standings below to proceed to finals.',
 };
 
 export function FinalsBlockedBanner({ reason }: FinalsBlockedBannerProps) {

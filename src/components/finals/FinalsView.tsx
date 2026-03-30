@@ -1,10 +1,26 @@
 import { useRef, useCallback, createRef } from 'react';
 import { useFinalsState } from '../../hooks/useFinalsState';
+import { useStandings } from '../../hooks/useStandings';
+import { useR2State } from '../../hooks/useR2State';
+import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useEventStore } from '../../store/eventStore';
 import { FinalsBlockedBanner } from './FinalsBlockedBanner';
 import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
-import type { DisciplineKey } from '../../domain/types';
+import { TiebreakResolver } from '../standings/TiebreakResolver';
+import type { DisciplineKey, TeamStanding } from '../../domain/types';
+
+function getTiedClusters(standings: TeamStanding[]): TeamStanding[][] {
+  const clusters: TeamStanding[][] = [];
+  let i = 0;
+  while (i < standings.length) {
+    let j = i + 1;
+    while (j < standings.length && standings[j].points === standings[i].points) j++;
+    if (j - i > 1) clusters.push(standings.slice(i, j));
+    i = j;
+  }
+  return clusters;
+}
 
 interface FinalsViewProps {
   discipline: DisciplineKey;
@@ -13,6 +29,9 @@ interface FinalsViewProps {
 export function FinalsView({ discipline }: FinalsViewProps) {
   const finalsState = useFinalsState(discipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+  const standingsResult = useStandings(discipline);
+  const r2State = useR2State(discipline);
+  const { teams } = useDisciplineState(discipline);
 
   // Create refs for each matchup card for scroll-to-next
   const cardRefsRef = useRef<Map<number, React.RefObject<HTMLDivElement | null>>>(new Map());
@@ -72,7 +91,39 @@ export function FinalsView({ discipline }: FinalsViewProps) {
       )}
 
       {finalsPhase === 'blocked-ties' && (
-        <FinalsBlockedBanner reason="ties" />
+        <>
+          <FinalsBlockedBanner reason="ties" />
+          {(() => {
+            const teamMap = new Map(teams.map((t) => [t.slot, t.name]));
+            const hasR2 = finalsState?.hasR2 ?? false;
+            const tiesByGroup = hasR2
+              ? (r2State?.r2TiesByGroup ?? {})
+              : (standingsResult?.tiesByGroup ?? {});
+            const standingsMap = hasR2
+              ? (r2State?.r2Standings ?? {})
+              : (standingsResult?.standings ?? {});
+
+            return Object.entries(tiesByGroup)
+              .filter(([, hasTie]) => hasTie)
+              .map(([groupKey]) => {
+                const groupStandings = standingsMap[groupKey] ?? [];
+                const clusters = getTiedClusters(groupStandings);
+                return clusters.map((cluster, ci) => (
+                  <TiebreakResolver
+                    key={`${groupKey}-${ci}`}
+                    discipline={discipline}
+                    groupKey={groupKey}
+                    tiedTeams={cluster.map((s) => ({
+                      slot: s.slot,
+                      name: teamMap.get(s.slot) ?? `Team ${s.slot}`,
+                      points: s.points,
+                    }))}
+                    onResolved={() => {}}
+                  />
+                ));
+              });
+          })()}
+        </>
       )}
 
       {finalsPhase === 'ready' && (
