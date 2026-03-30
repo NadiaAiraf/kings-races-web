@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Bug Fixes
 status: executing
-stopped_at: Phase 7 planned (1 plan, verified)
-last_updated: "2026-03-30T13:23:32.247Z"
+stopped_at: Completed 07-01-PLAN.md
+last_updated: "2026-03-30T13:26:58.810Z"
 last_activity: 2026-03-30
 progress:
   total_phases: 2
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 67
 ---
 
@@ -57,6 +57,7 @@ Progress: [██████████████░░░░░░] 67% (v1
 
 | Phase 06 P01 | 1 | 2 tasks | 3 files |
 | Phase 06 P02 | 1 | 2 tasks | 1 files |
+| Phase 07 P01 | 2 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,7 @@ Recent decisions affecting current work:
 - [Phase 05]: TiebreakResolver uses UP/DOWN buttons instead of drag-and-drop
 - [Phase 06]: ExpandableRaceCard is a new component (not refactor of RaceCard) -- preserves existing views until plan 02 integrates
 - [Phase 06]: Synchronous next-card computation in handleScore avoids useEffect timing pitfalls for auto-advance
+- [Phase 07]: Filter scores at call site (r1-* prefix) rather than modifying calculateAllGroupStandings
 
 ### Pending Todos
 
@@ -81,6 +83,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T13:23:32.244Z
-Stopped at: Phase 7 planned (1 plan, verified)
-Resume file: .planning/phases/07-standings-finals-calculation-fixes/07-01-PLAN.md
+Last session: 2026-03-30T13:26:58.806Z
+Stopped at: Completed 07-01-PLAN.md
+Resume file: None

@@ -18,14 +18,14 @@ Bug fixes and UX improvements to v1.0.
 
 ### Standings Calculation
 
-- [ ] **STAND-01**: Round 1 standings must only count Round 1 race results (not R2 or finals)
-- [ ] **STAND-02**: Round 2 standings must only count Round 2 race results (not R1 or finals)
-- [ ] **STAND-03**: R1 and R2 are distinct rounds used for seeding — not cumulative point totals
+- [x] **STAND-01**: Round 1 standings must only count Round 1 race results (not R2 or finals)
+- [x] **STAND-02**: Round 2 standings must only count Round 2 race results (not R1 or finals)
+- [x] **STAND-03**: R1 and R2 are distinct rounds used for seeding — not cumulative point totals
 
 ### Finals Placement
 
-- [ ] **FINAL-01**: Final event positions (1st, 2nd, 3rd, etc.) are determined solely by finals matchup results
-- [ ] **FINAL-02**: Group stage results (R1 + R2) determine only who races who in the finals — they do not determine final placement
+- [x] **FINAL-01**: Final event positions (1st, 2nd, 3rd, etc.) are determined solely by finals matchup results
+- [x] **FINAL-02**: Group stage results (R1 + R2) determine only who races who in the finals — they do not determine final placement
 
 ## Out of Scope
 
@@ -41,11 +41,11 @@ Bug fixes and UX improvements to v1.0.
 | NAV-01 | Phase 6 | Complete |
 | SCORE-01 | Phase 6 | Complete |
 | SCORE-02 | Phase 6 | Complete |
-| STAND-01 | Phase 7 | Pending |
-| STAND-02 | Phase 7 | Pending |
-| STAND-03 | Phase 7 | Pending |
-| FINAL-01 | Phase 7 | Pending |
-| FINAL-02 | Phase 7 | Pending |
+| STAND-01 | Phase 7 | Complete |
+| STAND-02 | Phase 7 | Complete |
+| STAND-03 | Phase 7 | Complete |
+| FINAL-01 | Phase 7 | Complete |
+| FINAL-02 | Phase 7 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 8 total

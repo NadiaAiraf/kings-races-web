@@ -23,7 +23,7 @@
 **Milestone Goal:** Fix scoring interaction bugs, correct standings/finals calculation scoping, and streamline race-day navigation.
 
 - [ ] **Phase 6: Scoring UI & Interaction Fixes** - Merge race/score tabs and fix DSQ-then-Win bugs
-- [ ] **Phase 7: Standings & Finals Calculation Fixes** - Scope round standings correctly and fix finals placement logic
+- [x] **Phase 7: Standings & Finals Calculation Fixes** - Scope round standings correctly and fix finals placement logic (completed 2026-03-30)
 
 ## Phase Details
 
@@ -56,7 +56,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 07-01-PLAN.md -- Fix R1 standings scoping in useStandings and CSV export, add finals placement verification tests
+- [x] 07-01-PLAN.md -- Fix R1 standings scoping in useStandings and CSV export, add finals placement verification tests
 
 ## Progress
 
@@ -70,4 +70,4 @@ Plans:
 | 4. PWA & Polish | v1.0 | 1/1 | Complete | 2026-03-30 |
 | 5. Gap Closure | v1.0 | 1/1 | Complete | 2026-03-30 |
 | 6. Scoring UI & Interaction Fixes | v1.1 | 2/2 | Complete | 2026-03-30 |
-| 7. Standings & Finals Calculation Fixes | v1.1 | 0/1 | Planning | - |
+| 7. Standings & Finals Calculation Fixes | v1.1 | 1/1 | Complete   | 2026-03-30 |
