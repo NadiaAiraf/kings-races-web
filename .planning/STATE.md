@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Bug Fixes
 status: executing
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-03-30T13:01:16.338Z"
-last_activity: 2026-03-30 -- Phase 06 execution started Stashed changes
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-03-30T13:05:09.000Z"
+last_activity: 2026-03-30
 progress:
   total_phases: 2
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
   percent: 67
 ---
 
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 ## Current Position
 
 Phase: 06 (scoring-ui-interaction-fixes) — EXECUTING
-Plan: 1 of 2
-Status: Executing Phase 06
-Last activity: 2026-03-30 -- Phase 06 execution started
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-03-30
 
 Progress: [██████████████░░░░░░] 67% (v1.0 complete, v1.1 starting)
 
@@ -56,6 +56,7 @@ Progress: [██████████████░░░░░░] 67% (v1
 - Trend: Variable (Phase 04 was large, Phase 05 was tight)
 
 | Phase 06 P01 | 1 | 2 tasks | 3 files |
+| Phase 06 P02 | 1 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,7 @@ Recent decisions affecting current work:
 - [Phase 03]: GroupStandingsTable uses configurable raceIdPrefix prop for R1/R2 score lookup
 - [Phase 05]: TiebreakResolver uses UP/DOWN buttons instead of drag-and-drop
 - [Phase 06]: ExpandableRaceCard is a new component (not refactor of RaceCard) -- preserves existing views until plan 02 integrates
+- [Phase 06]: Synchronous next-card computation in handleScore avoids useEffect timing pitfalls for auto-advance
 
 ### Pending Todos
 
@@ -79,6 +81,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T13:01:16.336Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-03-30T13:05:08.998Z
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
