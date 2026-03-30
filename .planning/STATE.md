@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Bug Fixes
 status: planning
-stopped_at: Phase 6 context gathered
-last_updated: "2026-03-30T12:36:48.088Z"
+stopped_at: Phase 6 UI-SPEC approved
+last_updated: "2026-03-30T12:43:51.566Z"
 last_activity: 2026-03-30 -- v1.1 roadmap created
 progress:
   total_phases: 2
@@ -76,6 +76,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T12:36:48.084Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-scoring-ui-interaction-fixes/06-CONTEXT.md
+Last session: 2026-03-30T12:43:51.563Z
+Stopped at: Phase 6 UI-SPEC approved
+Resume file: .planning/phases/06-scoring-ui-interaction-fixes/06-UI-SPEC.md
