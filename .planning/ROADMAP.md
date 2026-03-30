@@ -137,7 +137,11 @@ Plans:
   2. Automated tests validate every cheat sheet's seed-to-slot mapping against the golden data, and any mismatch causes a test failure
   3. Automated tests validate R1 race order (matchup pairs per group) for all 29 team counts against the golden data
   4. Automated tests validate R2 race order for all applicable team counts (8+) against the golden data
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md -- Extract golden data from xlsx into JSON fixture for all 29 team counts
+- [ ] 08-02-PLAN.md -- Write parametric Vitest validation tests for seed mappings, R1 races, and R2 races
 
 ### Phase 9: Seeding & R2 Order Fix
 **Goal**: Teams are assigned to groups using the xlsx serpentine draft pattern for all 29 team counts, and R2 race order exactly matches the xlsx
@@ -163,5 +167,5 @@ Plans:
 | 5. Gap Closure | v1.0 | 1/1 | Complete | 2026-03-30 |
 | 6. Scoring UI & Interaction Fixes | v1.1 | 2/2 | Complete | 2026-03-30 |
 | 7. Standings & Finals Calculation Fixes | v1.1 | 1/1 | Complete | 2026-03-30 |
-| 8. Ground Truth & Validation | v1.2 | 0/0 | Not started | - |
+| 8. Ground Truth & Validation | v1.2 | 0/2 | In progress | - |
 | 9. Seeding & R2 Order Fix | v1.2 | 0/0 | Not started | - |
