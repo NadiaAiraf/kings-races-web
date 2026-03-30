@@ -38,12 +38,13 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02) — v1.1 Phase 6
 - ✓ Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03) — v1.1 Phase 7
 - ✓ Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02) — v1.1 Phase 7
+- ✓ Group seeding matches xlsx serpentine draft for all 29 team counts (SEED-01, SEED-02) — v1.2 Phase 9
+- ✓ R2 race order matches xlsx for all team counts (R2ORD-01) — v1.2 Phase 9
+- ✓ All cheat sheet data validated against xlsx source of truth (VALID-01, VALID-02, VALID-03) — v1.2 Phase 8
 
 ### Active
 
-- [ ] Group seeding must match xlsx serpentine draft pattern for all 29 team counts (SEED-01)
-- [ ] R2 race order must match xlsx for all applicable team counts (R2ORD-01)
-- [ ] All cheat sheet data validated against xlsx source of truth (VALID-01)
+None — v1.2 milestone complete
 
 ### Out of Scope
 
@@ -100,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after v1.2 milestone start*
+*Last updated: 2026-03-30 after v1.2 milestone completion*
