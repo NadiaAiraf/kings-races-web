@@ -83,7 +83,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 04-01-PLAN.md -- Install vite-plugin-pwa, generate icons, configure manifest and service worker, update index.html
+- [x] 04-01-PLAN.md -- Install vite-plugin-pwa, generate icons, configure manifest and service worker, update index.html
 
 ## Progress
 

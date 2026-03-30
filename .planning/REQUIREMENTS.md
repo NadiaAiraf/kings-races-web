@@ -51,7 +51,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **MOBL-01**: Mobile-first responsive design with large touch targets (56px+), high contrast, and outdoor readability
 - [x] **MOBL-02**: App persists all state to localStorage — survives tab death, browser restart, and phone lock
-- [ ] **MOBL-03**: PWA support: installable via Add to Home Screen, service worker caches assets for offline use
+- [x] **MOBL-03**: PWA support: installable via Add to Home Screen, service worker caches assets for offline use
 - [x] **MOBL-04**: App reconstructs full state from localStorage on every load (normal path, not error recovery)
 
 ## v2 Requirements
@@ -118,7 +118,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXPR-02 | Phase 3 | Complete |
 | MOBL-01 | Phase 2 | Complete |
 | MOBL-02 | Phase 1 | Complete |
-| MOBL-03 | Phase 4 | Pending |
+| MOBL-03 | Phase 4 | Complete |
 | MOBL-04 | Phase 1 | Complete |
 
 **Coverage:**
