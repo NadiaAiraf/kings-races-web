@@ -41,7 +41,9 @@ A race official can run an entire event from their phone — entering teams, see
 
 ### Active
 
-None — v1.1 milestone complete
+- [ ] Group seeding must match xlsx serpentine draft pattern for all 29 team counts (SEED-01)
+- [ ] R2 race order must match xlsx for all applicable team counts (R2ORD-01)
+- [ ] All cheat sheet data validated against xlsx source of truth (VALID-01)
 
 ### Out of Scope
 
@@ -98,4 +100,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after v1.1 milestone completion*
+*Last updated: 2026-03-30 after v1.2 milestone start*

@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Bug Fixes
-status: executing
-stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-03-30T13:29:46.853Z"
+milestone: v1.2
+milestone_name: Cheat Sheet Accuracy
+status: ready-to-plan
+stopped_at: Milestone v1.2 started
+last_updated: "2026-03-30"
 last_activity: 2026-03-30
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
-  percent: 67
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-30)
 
 **Core value:** A race official can run an entire event from their phone -- entering teams, seeing the race order, recording results live, and viewing group standings at any time.
-**Current focus:** Phase 06 — scoring-ui-interaction-fixes
+**Current focus:** v1.2 Cheat Sheet Accuracy — defining requirements
 
 ## Current Position
 
-Phase: 07
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-03-30
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-30 — Milestone v1.2 started
 
-Progress: [██████████████░░░░░░] 67% (v1.0 complete, v1.1 starting)
+Progress: [░░░░░░░░░░░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
