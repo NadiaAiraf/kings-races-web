@@ -33,7 +33,7 @@ export function AppShell() {
   // Phase auto-transition: group-stage -> round-two
   useEffect(() => {
     if (
-      phase === 'group-stage' &&
+      (phase === 'group-stage' || phase === 'setup') &&
       structure &&
       structure.roundTwoGroups &&
       structure.roundTwoGroups.length > 0 &&
