@@ -1,0 +1,7557 @@
+{
+  "4": {
+    "teamCount": 4,
+    "seedMap": [
+      1,
+      4,
+      3,
+      2
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 2,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 4,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 3,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 1,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 4,
+        "awaySlot": 2
+      }
+    ],
+    "r2Races": []
+  },
+  "5": {
+    "teamCount": 5,
+    "seedMap": [
+      1,
+      5,
+      4,
+      2,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 4,
+        "awaySlot": 5
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 5,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 4,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 5,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 1,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 5
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 3,
+        "awaySlot": 1
+      }
+    ],
+    "r2Races": []
+  },
+  "6": {
+    "teamCount": 6,
+    "seedMap": [
+      1,
+      6,
+      3,
+      2,
+      4,
+      5
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 5,
+        "awaySlot": 6
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 4,
+        "awaySlot": 5
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 6,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 4,
+        "awaySlot": 6
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 5,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 1,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 2,
+        "awaySlot": 6
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 3,
+        "awaySlot": 5
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 5,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 4,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 6,
+        "awaySlot": 3
+      }
+    ],
+    "r2Races": []
+  },
+  "7": {
+    "teamCount": 7,
+    "seedMap": [
+      1,
+      11,
+      13,
+      4,
+      2,
+      12,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 13,
+        "awaySlot": 11
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "G",
+        "awayLetter": "E"
+      }
+    ]
+  },
+  "8": {
+    "teamCount": 8,
+    "seedMap": [
+      1,
+      11,
+      14,
+      4,
+      2,
+      12,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 12,
+        "awaySlot": 14
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      }
+    ]
+  },
+  "9": {
+    "teamCount": 9,
+    "seedMap": [
+      1,
+      11,
+      21,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 23,
+        "awaySlot": 21
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      }
+    ]
+  },
+  "10": {
+    "teamCount": 10,
+    "seedMap": [
+      1,
+      11,
+      21,
+      23,
+      13,
+      4,
+      2,
+      12,
+      22,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 23,
+        "awaySlot": 21
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "J",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "G",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "H",
+        "awayLetter": "J"
+      }
+    ]
+  },
+  "11": {
+    "teamCount": 11,
+    "seedMap": [
+      1,
+      21,
+      31,
+      33,
+      24,
+      4,
+      2,
+      22,
+      32,
+      23,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 33,
+        "awaySlot": 31
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "K",
+        "awayLetter": "I"
+      }
+    ]
+  },
+  "12": {
+    "teamCount": 12,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 33,
+        "awaySlot": 31
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      }
+    ]
+  },
+  "13": {
+    "teamCount": 13,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      33,
+      23,
+      13,
+      4,
+      2,
+      12,
+      22,
+      32,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 33,
+        "awaySlot": 31
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "M",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "K",
+        "awayLetter": "M"
+      }
+    ]
+  },
+  "14": {
+    "teamCount": 14,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      33,
+      23,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 33,
+        "awaySlot": 31
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "K",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "N",
+        "awayLetter": "L"
+      }
+    ]
+  },
+  "15": {
+    "teamCount": 15,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      33,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 33,
+        "awaySlot": 31
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "O",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "K",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      }
+    ]
+  },
+  "16": {
+    "teamCount": 16,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      33,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 32,
+        "awaySlot": 34
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      }
+    ]
+  },
+  "17": {
+    "teamCount": 17,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      52,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 52,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 51,
+        "awaySlot": 52
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "Q",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "O",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      }
+    ]
+  },
+  "18": {
+    "teamCount": 18,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 53,
+        "awaySlot": 51
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "O",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "R",
+        "awayLetter": "P"
+      }
+    ]
+  },
+  "19": {
+    "teamCount": 19,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      53,
+      43,
+      33,
+      23,
+      13,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 53,
+        "awaySlot": 51
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "S",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "L",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "O",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "P",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      }
+    ]
+  },
+  "20": {
+    "teamCount": 20,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      53,
+      43,
+      33,
+      23,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 53,
+        "awaySlot": 51
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      }
+    ]
+  },
+  "21": {
+    "teamCount": 21,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 63,
+        "awaySlot": 61
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "L",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "R",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "T",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "G",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "H",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "N",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "O",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "P",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "U",
+        "awayLetter": "S"
+      }
+    ]
+  },
+  "22": {
+    "teamCount": 22,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      64,
+      63,
+      62,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 63,
+        "awaySlot": 64
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 64,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 61,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 62,
+        "awaySlot": 64
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "T",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "S",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "v",
+        "awayLetter": "T"
+      }
+    ]
+  },
+  "23": {
+    "teamCount": 23,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      72,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 72,
+        "awaySlot": 71
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 71,
+        "awaySlot": 72
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "W",
+        "awayLetter": "U"
+      }
+    ]
+  },
+  "24": {
+    "teamCount": 24,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 3,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      }
+    ]
+  },
+  "25": {
+    "teamCount": 25,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 13,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "Y",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "W",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "Y",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "U",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "X",
+        "awayLetter": "Y"
+      }
+    ]
+  },
+  "26": {
+    "teamCount": 26,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      43,
+      33,
+      23,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 23,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "Z",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      }
+    ]
+  },
+  "27": {
+    "teamCount": 27,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      43,
+      33,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 33,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "AA",
+        "awayLetter": "Y"
+      }
+    ]
+  },
+  "28": {
+    "teamCount": 28,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      43,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      33,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 32,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 43,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 34,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 35,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 36,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "Y",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 42,
+        "homeLetter": "Z",
+        "awayLetter": "BB"
+      }
+    ]
+  },
+  "29": {
+    "teamCount": 29,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      53,
+      44,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      43,
+      33,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 43,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 44,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 34,
+        "homeSlot": 32,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 35,
+        "homeSlot": 41,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 36,
+        "homeSlot": 42,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 37,
+        "homeSlot": 53,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 38,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 39,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "BB",
+        "awayLetter": "CC"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "CC",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "AA",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 42,
+        "homeLetter": "BB",
+        "awayLetter": "CC"
+      }
+    ]
+  },
+  "30": {
+    "teamCount": 30,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      63,
+      54,
+      44,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 43,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 53,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 44,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 54,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 34,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 35,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 36,
+        "homeSlot": 32,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 37,
+        "homeSlot": 41,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 38,
+        "homeSlot": 42,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 39,
+        "homeSlot": 51,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 40,
+        "homeSlot": 52,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 41,
+        "homeSlot": 63,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 42,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "BB",
+        "awayLetter": "CC"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "AA",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 42,
+        "homeLetter": "DD",
+        "awayLetter": "BB"
+      }
+    ]
+  },
+  "31": {
+    "teamCount": 31,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      73,
+      64,
+      54,
+      44,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 43,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 53,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 63,
+        "awaySlot": 64
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 44,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 54,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 64,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 34,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 35,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 36,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 37,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 38,
+        "homeSlot": 32,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 39,
+        "homeSlot": 41,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 40,
+        "homeSlot": 42,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 41,
+        "homeSlot": 51,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 42,
+        "homeSlot": 52,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 43,
+        "homeSlot": 61,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 44,
+        "homeSlot": 62,
+        "awaySlot": 64
+      },
+      {
+        "raceNum": 45,
+        "homeSlot": 73,
+        "awaySlot": 71
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "v"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "v",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "DD",
+        "awayLetter": "EE"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 42,
+        "homeLetter": "v",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 43,
+        "homeLetter": "Y",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 44,
+        "homeLetter": "Z",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 45,
+        "homeLetter": "EE",
+        "awayLetter": "CC"
+      }
+    ]
+  },
+  "32": {
+    "teamCount": 32,
+    "seedMap": [
+      1,
+      11,
+      21,
+      31,
+      41,
+      51,
+      61,
+      71,
+      74,
+      64,
+      54,
+      44,
+      34,
+      24,
+      14,
+      4,
+      2,
+      12,
+      22,
+      32,
+      42,
+      52,
+      62,
+      72,
+      63,
+      53,
+      43,
+      33,
+      23,
+      13,
+      3,
+      73
+    ],
+    "r1Races": [
+      {
+        "raceNum": 1,
+        "homeSlot": 1,
+        "awaySlot": 2
+      },
+      {
+        "raceNum": 2,
+        "homeSlot": 3,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 3,
+        "homeSlot": 11,
+        "awaySlot": 12
+      },
+      {
+        "raceNum": 4,
+        "homeSlot": 13,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 5,
+        "homeSlot": 21,
+        "awaySlot": 22
+      },
+      {
+        "raceNum": 6,
+        "homeSlot": 23,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 7,
+        "homeSlot": 31,
+        "awaySlot": 32
+      },
+      {
+        "raceNum": 8,
+        "homeSlot": 33,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 9,
+        "homeSlot": 41,
+        "awaySlot": 42
+      },
+      {
+        "raceNum": 10,
+        "homeSlot": 43,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 11,
+        "homeSlot": 51,
+        "awaySlot": 52
+      },
+      {
+        "raceNum": 12,
+        "homeSlot": 53,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 13,
+        "homeSlot": 61,
+        "awaySlot": 62
+      },
+      {
+        "raceNum": 14,
+        "homeSlot": 63,
+        "awaySlot": 64
+      },
+      {
+        "raceNum": 15,
+        "homeSlot": 71,
+        "awaySlot": 72
+      },
+      {
+        "raceNum": 16,
+        "homeSlot": 73,
+        "awaySlot": 74
+      },
+      {
+        "raceNum": 17,
+        "homeSlot": 2,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 18,
+        "homeSlot": 4,
+        "awaySlot": 1
+      },
+      {
+        "raceNum": 19,
+        "homeSlot": 12,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 20,
+        "homeSlot": 14,
+        "awaySlot": 11
+      },
+      {
+        "raceNum": 21,
+        "homeSlot": 22,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 22,
+        "homeSlot": 24,
+        "awaySlot": 21
+      },
+      {
+        "raceNum": 23,
+        "homeSlot": 32,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 24,
+        "homeSlot": 34,
+        "awaySlot": 31
+      },
+      {
+        "raceNum": 25,
+        "homeSlot": 42,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 26,
+        "homeSlot": 44,
+        "awaySlot": 41
+      },
+      {
+        "raceNum": 27,
+        "homeSlot": 52,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 28,
+        "homeSlot": 54,
+        "awaySlot": 51
+      },
+      {
+        "raceNum": 29,
+        "homeSlot": 62,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 30,
+        "homeSlot": 64,
+        "awaySlot": 61
+      },
+      {
+        "raceNum": 31,
+        "homeSlot": 72,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 32,
+        "homeSlot": 74,
+        "awaySlot": 71
+      },
+      {
+        "raceNum": 33,
+        "homeSlot": 1,
+        "awaySlot": 3
+      },
+      {
+        "raceNum": 34,
+        "homeSlot": 2,
+        "awaySlot": 4
+      },
+      {
+        "raceNum": 35,
+        "homeSlot": 11,
+        "awaySlot": 13
+      },
+      {
+        "raceNum": 36,
+        "homeSlot": 12,
+        "awaySlot": 14
+      },
+      {
+        "raceNum": 37,
+        "homeSlot": 21,
+        "awaySlot": 23
+      },
+      {
+        "raceNum": 38,
+        "homeSlot": 22,
+        "awaySlot": 24
+      },
+      {
+        "raceNum": 39,
+        "homeSlot": 31,
+        "awaySlot": 33
+      },
+      {
+        "raceNum": 40,
+        "homeSlot": 32,
+        "awaySlot": 34
+      },
+      {
+        "raceNum": 41,
+        "homeSlot": 41,
+        "awaySlot": 43
+      },
+      {
+        "raceNum": 42,
+        "homeSlot": 42,
+        "awaySlot": 44
+      },
+      {
+        "raceNum": 43,
+        "homeSlot": 51,
+        "awaySlot": 53
+      },
+      {
+        "raceNum": 44,
+        "homeSlot": 52,
+        "awaySlot": 54
+      },
+      {
+        "raceNum": 45,
+        "homeSlot": 61,
+        "awaySlot": 63
+      },
+      {
+        "raceNum": 46,
+        "homeSlot": 62,
+        "awaySlot": 64
+      },
+      {
+        "raceNum": 47,
+        "homeSlot": 71,
+        "awaySlot": 73
+      },
+      {
+        "raceNum": 48,
+        "homeSlot": 72,
+        "awaySlot": 74
+      }
+    ],
+    "r2Races": [
+      {
+        "raceNum": 1,
+        "homeLetter": "A",
+        "awayLetter": "B"
+      },
+      {
+        "raceNum": 2,
+        "homeLetter": "C",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 3,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "EE",
+        "awayLetter": "FF"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "B",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "D",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 23,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 24,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 30,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "DD",
+        "awayLetter": "EE"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "FF",
+        "awayLetter": "CC"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "M",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "N",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "Q",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 42,
+        "homeLetter": "R",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 43,
+        "homeLetter": "U",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 44,
+        "homeLetter": "V",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 45,
+        "homeLetter": "Y",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 46,
+        "homeLetter": "Z",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 47,
+        "homeLetter": "CC",
+        "awayLetter": "EE"
+      },
+      {
+        "raceNum": 48,
+        "homeLetter": "DD",
+        "awayLetter": "FF"
+      }
+    ]
+  }
+}
