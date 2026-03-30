@@ -1,13 +1,11 @@
 import { clsx } from 'clsx';
 
-export type SubTabKey = 'teams' | 'races' | 'score' | 'finals' | 'standings';
+export type SubTabKey = 'teams' | 'races' | 'standings';
 
-const SUB_TABS = ['teams', 'races', 'score', 'finals', 'standings'] as const;
+const SUB_TABS = ['teams', 'races', 'standings'] as const;
 const LABELS: Record<SubTabKey, string> = {
   teams: 'Teams',
   races: 'Races',
-  score: 'Score',
-  finals: 'Finals',
   standings: 'Stds',
 };
 
