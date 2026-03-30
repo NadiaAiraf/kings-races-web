@@ -1,176 +1,157 @@
 # Project Research Summary
 
-**Project:** Kings Races Web
-**Domain:** Mobile-first, client-side race management web application (university ski club parallel slalom)
-**Researched:** 2026-03-28
+**Project:** Kings Races Web v1.2
+**Domain:** Cheat sheet seeding accuracy — serpentine draft seed-to-slot mapping
+**Researched:** 2026-03-30
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Kings Races Web is a purpose-built tournament management tool for running parallel slalom ski racing events slope-side on a phone. The product replaces a spreadsheet that already handles team entry, cheat-sheet-driven race order generation, round-robin group scoring, and finals bracket seeding for three independent disciplines (Mixed, Board, Ladies). Because the official runs the event in cold conditions, likely wearing gloves, with unreliable connectivity, the architecture must be client-side only, offline-first, and optimised for touch usability with large targets and high contrast. The recommended stack is React 19 + TypeScript 6 + Vite 7.3 + Tailwind v4 + Zustand, with vite-plugin-pwa for offline caching and localStorage (via Zustand persist) as the primary persistence layer.
+Kings Races Web v1.2 is a targeted accuracy fix to a single function — `assignSlots` in `TeamEntryView.tsx` — that incorrectly distributes seeded teams into tournament groups using a sequential fill instead of the xlsx master spreadsheet's serpentine (snake) draft. The fix requires adding a `seedMap: number[]` field to `TournamentStructure`, populating all 29 cheat sheet files with correct mappings extracted directly from `reference/cheat-sheets-v1.4.xlsx`, and replacing the three-line flatMap implementation with a single index lookup. Everything downstream (R1 race orders, R2 seeding codes, finals bracket) is already correct and must remain untouched.
 
-The highest-risk element of the entire project is the cheat sheet data: 29 pre-computed race order sequences (4-32 teams) that must match the existing spreadsheet exactly. Any divergence — even a single swapped matchup — destroys official trust and causes the app to be abandoned mid-event. These sequences must be hard-coded as static lookup tables and verified against the original spreadsheet with automated tests before any UI work begins. All other complexity (group standings, finals seeding, tiebreaker logic) flows downstream from this data being correct.
+The recommended approach is entirely data-driven: no new dependencies, no algorithmic computation at runtime, no Zustand store shape changes. The xlsx is the immutable source of truth for all 29 team counts. Static `seedMap` arrays are hard-coded per cheat sheet file, TypeScript compilation enforces completeness across all 29 files simultaneously, and parametric Vitest tests validate every mapping against xlsx-extracted golden data before any code ships. The existing openpyxl extraction infrastructure (617 lines, already proven) needs only a file path fix and targeted seed-ordering verification — not a rewrite.
 
-The single biggest operational risk is data loss. Safari on iOS evicts localStorage aggressively, mobile OS memory management kills background tabs, and a phone can die in cold weather. The storage-first architecture pattern — where localStorage is the source of truth and the app fully reconstructs from storage on every load — must be established in Phase 1 and never compromised. Every feature built afterward inherits this guarantee. A JSON export/backup mechanism should ship in the same phase as data entry, before the first live event.
+The primary risks are data correctness risks, not engineering risks: extracting wrong values from the xlsx due to stale formula cache, shipping partial updates that leave some team counts unfixed, and inadvertently changing existing slot numbers in `teamSlots` arrays which would silently corrupt localStorage for any in-progress events. All three risks are mitigated by establishing xlsx golden data before writing any code, treating all 29 team counts as a single atomic change, and preserving existing slot numbers so no storage migration is required.
 
 ## Key Findings
 
 ### Recommended Stack
 
-The stack is deliberately minimal: no server, no backend, no authentication. Vite 7.3 (pinned, not 8, for vite-plugin-pwa peer dependency compatibility) builds the SPA; React 19.1 with TypeScript 6.0 handles the UI; Zustand 5 manages global state with its built-in `persist` middleware writing to localStorage. Tailwind v4 (utility-first, no config file) handles mobile-first styling. The PWA layer (vite-plugin-pwa + Workbox) precaches the app shell for offline use. Supporting libraries are minimal: `clsx` for conditional classes, `papaparse` for CSV export. No HTTP client is needed — this app makes no network requests in v1.
+No new dependencies are needed for v1.2. The existing build-time Python script (`scripts/extractCheatSheets.py`) using openpyxl 3.1.5 handles all xlsx reading correctly — the only required fix is the file path hardcoded to a developer machine path (change to `reference/cheat-sheets-v1.4.xlsx`). SheetJS is not a viable alternative: the npm registry version is 4 years stale, the current version requires a CDN tarball, and all xlsx libraries read the same cached formula values regardless of language. The existing runtime stack (React 19.1, Vite, Zustand, Tailwind CSS 4, vite-plugin-pwa, Vitest 4.1) is fully intact and unchanged.
 
-**Core technologies:**
-- React 19.1.x: UI framework — industry standard, excellent mobile web support, stable ecosystem
-- TypeScript 6.0: Type safety — critical for complex race logic (scoring, bracket generation, cheat sheet lookup)
-- Vite 7.3.x: Build tool — pinned to v7 for guaranteed vite-plugin-pwa compatibility; speed gains of v8 are negligible for a small app
-- Tailwind CSS 4.2.x: Styling — mobile-first utility classes, zero runtime overhead, 5x faster builds than v3
-- Zustand 5.0.x: State management — 1KB, centralized store with built-in localStorage persistence, no boilerplate
-- React Router 7.13.x: Client-side routing — navigation between disciplines, phases, and results views
-- vite-plugin-pwa 1.2.x: PWA / offline — Workbox-based service worker, precaches app shell for slope-side reliability
-- papaparse 5.x: CSV export — handles edge cases (commas in team names, unicode)
-- Vitest 4.1.x: Testing — native Vite integration, fast, essential for scoring engine and cheat sheet verification
+**Build-time tools (no changes):**
+- openpyxl 3.1.5 (Python): xlsx data extraction — already installed, proven across 15+ spreadsheet quirks
+- Vitest 4.1.x: golden data validation tests — already in project, native Vite integration
+- TypeScript 6.0: compiler-enforced completeness — `seedMap: number[]` as a required field forces all 29 files to be updated before the project compiles
 
 ### Expected Features
 
-**Must have (table stakes):**
-- Team entry per discipline — enables everything downstream; supports 4-32 teams per discipline
-- Race order from cheat sheets — replicates exact pre-computed sequences for all 29 team counts; non-negotiable for official trust
-- Race list display — large text, high contrast, outdoor-readable matchup view
-- Result recording (Win/Loss/DSQ) — primary interaction loop; must be 2 taps max, designed for gloves
-- Live group standings — real-time recalculation as results are entered; officials check this constantly
-- Finals bracket generation — auto-seeded from group standings; handles odd team counts and placement logic
-- Final results view — clear ranking display with team names and positions
-- Three independent disciplines — Mixed, Board, Ladies run separately; tab/navigation between them
-- Undo / correct a result — mistakes happen; must cascade to standings recalculation
-- Offline tolerance — client-side storage; no server dependency; data must survive tab kill and phone restart
+Research identified a single root-cause bug and clearly bounded what needs fixing versus what must not change.
 
-**Should have (differentiators):**
-- "Current race" focus mode — shows only the current matchup with big action buttons, auto-advances; the UX feature that replaces the spreadsheet
-- Progress indicator — "Race 14 of 28" reduces cognitive load
-- CSV export of results — continuity with existing spreadsheet-based processes
-- PWA / Add to Home Screen — no browser chrome, offline-first asset caching
-- Quick-glance standings overlay — fast access when officials are asked "who's winning?"
+**Must fix (SEED-01 root cause):**
+- `assignSlots` function — replace sequential flatMap with `seedMap[i]` index lookup
+- `TournamentStructure` type — add required `seedMap: number[]` field
+- All 29 `teams{N}.ts` cheat sheet files — add xlsx-extracted `seedMap` arrays
 
-**Defer to v2+:**
-- Event history (local) — useful but not critical for v1
-- Visual bracket display — graphical bracket is a polish item
-- Season/league standings — fundamentally different data model; separate milestone
-- Multi-device collaboration — solves a problem that does not yet exist
-- Individual racer tracking — different product scope
+**Verified correct — do not touch:**
+- R1 race orders (slot matchups per group) — verified correct for all tested team counts
+- R2 within-group race sequences — verified correct for 8, 12, 16, 24, 32 teams
+- R2 seeding codes (positionCodes A1, B2, etc.) — verified correct for 8 representative counts
+- Finals bracket structure — verified correct from v1.0/v1.1 validation
+
+**Defer to later milestone:**
+- `positionCode` field cleanup — vestigial dead field with no runtime usage; safe to ignore now
+- Multi-event storage history, runtime stack upgrades, any new UI features
 
 ### Architecture Approach
 
-The architecture is a four-layer client-side SPA: UI features (React components organised by feature), state layer (Zustand store with persist middleware, single centralized event store partitioned by discipline), domain logic layer (pure functions for race order lookup, scoring engine, group table calculation, and finals seeding), and a persistence layer (localStorage via Zustand persist + CSV export). Each discipline (Mixed, Board, Ladies) is a partition within a single event state tree — not a separate state instance — allowing atomic persistence and cross-discipline operations. Derived data (group standings, bracket seedings) is always computed from raw scores via `useMemo` selectors, never stored, eliminating sync bugs when results are corrected. A phase-based flow (setup -> group-stage -> finals -> complete) per discipline prevents invalid state transitions.
+The fix is entirely confined to the domain layer: one type change, 29 data files, one extracted function, and new tests. No Zustand store shape changes are needed because seeding is static cheat sheet data, not runtime state. Once `assignSlots` maps teams to slots using `seedMap[i]`, all downstream logic (race matchups, scoring, standings, R2 seeding, finals) operates on slot numbers which are unchanged and already correct. Extracting `assignSlots` from the UI component to `src/domain/assignSlots.ts` is a structural improvement that makes the fix independently testable without mounting React.
 
-**Major components:**
-1. Domain layer (types, cheat sheets, scoring engine, group calculator, finals logic) — pure functions, zero React dependency, fully testable before any UI exists
-2. State layer (Zustand event store, persist middleware, selectors) — single source of truth; localStorage is always in sync
-3. Feature UI (Team Entry, Race Schedule, Scoring Console, Group Table, Finals Bracket, Results/Export) — feature-based folder structure, each feature maps to a visible section of the app
-4. PWA layer (vite-plugin-pwa, Workbox service worker) — precaches app shell; offline is a first-class requirement
+**Components and changes:**
+
+1. `src/domain/types.ts` — add `seedMap: number[]` to `TournamentStructure`; TypeScript immediately flags all 29 cheat sheet files as incomplete (compiler-driven completeness)
+2. `src/domain/cheatSheets/teams{4-32}.ts` (29 files) — add `seedMap` array extracted from xlsx; purely additive data field, no structural changes
+3. `src/domain/assignSlots.ts` (new) — extracted domain function; `names[i]` maps to `structure.seedMap[i]`
+4. `src/domain/__tests__/assignSlots.test.ts` (new) — parametric tests using xlsx golden data
+5. `src/components/teams/TeamEntryView.tsx` — remove local `assignSlots`, import from domain layer
 
 ### Critical Pitfalls
 
-1. **Safari/iOS localStorage eviction destroys event data mid-competition** — call `navigator.storage.persist()` on first load; save after every single action; ship a one-tap JSON export/backup before the first live event; display a "data loaded from storage" indicator on startup
-2. **Cheat sheet race order mismatch** — hard-code every sequence as a static lookup table copied exactly from the spreadsheet; write automated tests comparing all 29 team counts against the original; never generate schedules algorithmically
-3. **Accidental result entry with gloves** — minimum 56-64px touch targets; full-row visual feedback on result entry; undo via single tap (not confirmation dialog); disable browser swipe-back gestures with `overscroll-behavior: none`
-4. **Browser tab killed by OS memory management** — treat localStorage as source of truth, not React state; hydrate from storage on every page load; save synchronously on every state change; test by force-killing the tab after every major interaction
-5. **Tiebreaker logic undefined or inconsistent with existing rules** — document the exact tiebreaker hierarchy from the race official before writing any standings logic; implement as composable comparator chain; include manual override escape hatch; test all tie scenarios (2-way, 3-way circular)
-6. **Sunlight readability failures** — WCAG AAA contrast (7:1 minimum); shape + color + text for all status indicators; minimum 20px for team names and scores; test outdoors on a bright day
+1. **Changing `teamSlots` slot numbers breaks localStorage** — stored `Score.homeSlot`/`awaySlot` values become orphaned if slot numbers change; the Zustand `migrate` function is currently a no-op. Mitigation: the seeding fix only changes which seed index maps to which existing slot; the slot number scheme (1-4 for Group A; 11-14 for Group B; etc.) is preserved in full.
+
+2. **Stale xlsx formula cache produces wrong extracted values** — openpyxl `data_only=True` returns `None` for formula cells when Excel did not cache results on last save. Mitigation: open xlsx in Excel, force recalculate (Ctrl+Shift+F9), save, then run extraction. Validate extracted values against manual inspection for at least 5 representative counts before writing any TypeScript.
+
+3. **R1 groups and R2 seeding must be updated atomically** — R2 `seedingEntries` labels reference R1 group letters; if R1 changes without R2 updates, R2 resolves teams from wrong groups. Mitigation: for any team count touched, verify R2 seeding entries still reference valid R1 group letters; add a structural cross-reference test to `cheatSheets.test.ts`.
+
+4. **Co-updating tests and data creates false confidence** — if cheat sheet data and test expected values change in the same commit without xlsx golden data as an external ground truth, tests prove internal consistency, not correctness. Mitigation: extract xlsx golden data BEFORE modifying any code; write verification tests asserting code matches golden data, not the other way around.
+
+5. **Partial update across 29 team counts ships inconsistent state** — fixing team counts 8-16 but not 17-32 leaves large events broken. Mitigation: treat all 29 as a single atomic change; the existing parameterized test loop in `cheatSheets.test.ts` must enforce seeding correctness for all 29 counts, not just structural integrity.
 
 ## Implications for Roadmap
 
-Based on research, the architecture's build order dependency chain and the pitfall-to-phase mapping both point to the same natural phase structure:
+The v1.2 work decomposes into three phases with clear dependency order. The phasing is driven by the data-first risk mitigation strategy: wrong values cause wrong downstream behavior regardless of how correct the code structure is.
 
-### Phase 1: Data Foundation and Storage
+### Phase 1: Establish Ground Truth
 
-**Rationale:** Everything else depends on correct cheat sheet data and a storage-first architecture. The domain logic must be built and verified before any UI exists. The storage pattern must be established before any feature is added. This is also where the highest-risk pitfalls live.
-**Delivers:** Project scaffold, TypeScript types, all 29 cheat sheets as static data with automated tests, scoring engine (Win=3/Loss=1/DSQ=0) with tiebreaker logic, group calculation functions, Zustand store with localStorage persistence, `navigator.storage.persist()` call, JSON export/import backup mechanism
-**Addresses features:** Team entry (data model), race order generation (cheat sheet lookup), result recording (scoring engine), offline tolerance (storage-first architecture)
-**Avoids pitfalls:** Cheat sheet mismatch (static lookup + automated tests), Safari storage eviction (storage.persist + export), tab killed (storage-first pattern from day one), tiebreaker errors (logic defined before standings UI)
+**Rationale:** All subsequent work depends on having verified xlsx seed-to-slot mappings. Without this, code changes could encode the same wrong values and tests would provide false confidence. This phase is pure data extraction and verification — no code risk, but the highest value-add work in the milestone.
+**Delivers:** Validated `seedMap` arrays for all 29 team counts stored as xlsx golden data fixture; fixed extraction script file path; confirmed R1/R2/finals structures are correct for all 29 team counts as a baseline.
+**Addresses:** VALID-01 (cheat sheet validation), SEED-01 (data side)
+**Avoids:** Pitfall 2 (formula caching), Pitfall 5 (false test confidence), Pitfall 6 (partial team count updates)
 
-### Phase 2: Core Event Flow UI
+### Phase 2: Type + Data Changes
 
-**Rationale:** With the domain logic and state layer proven, build the primary interaction surfaces that officials use during an event. This is the critical path from team entry through scoring and live standings. The glove-usability and sunlight readability constraints must be designed in from the start of this phase, not retrofitted.
-**Delivers:** Team entry UI per discipline, discipline tabs/navigation, race schedule display, scoring console (glove-optimised, 56px+ touch targets, full-row visual feedback, undo), live group standings with tiebreaker display, progress indicator ("Race N of M"), "current race" focus mode
-**Addresses features:** All table-stakes features and the "current race" focus mode differentiator
-**Avoids pitfalls:** Accidental tap/glove usability (touch target sizing and undo), sunlight readability (design system with AAA contrast from day one)
+**Rationale:** TypeScript-driven: adding `seedMap: number[]` to `TournamentStructure` immediately makes all 29 cheat sheet files fail compilation, creating a compiler-enforced checklist. The data additions are mechanical and low-risk once Phase 1 golden data exists. Parametric validation tests provide correctness guarantees before any UI change.
+**Delivers:** Passing TypeScript compilation with all 29 `seedMap` arrays from Phase 1 golden data; parametric tests validating every mapping against golden data; seedMap integrity validator ensuring no slot appears in two groups.
+**Uses:** TypeScript 6.0 required-field enforcement; Vitest parametric tests (already in project)
+**Implements:** `TournamentStructure` type extension + all 29 `teams{N}.ts` data files
+**Avoids:** Pitfall 4 (off-by-one via explicit lookup vs algorithm), Pitfall 6 (all 29 counts updated atomically)
 
-### Phase 3: Finals and Complete Event Flow
+### Phase 3: Function Fix + Integration
 
-**Rationale:** Finals logic is distinct from group stage logic and has its own complexity, bracket structure, and testing requirements. It must be its own phase rather than bundled with group stage to ensure adequate testing of the group-to-finals transition.
-**Delivers:** Finals bracket generation and display, placement match scoring, final results view, CSV export, end-to-end event completion flow
-**Addresses features:** Finals bracket generation, final results view, CSV export, undo/correct with cascade
-**Avoids pitfalls:** Group-to-finals transition errors (dedicated phase with end-to-end tests)
-
-### Phase 4: PWA, Polish, and Reliability
-
-**Rationale:** The app must work correctly before adding installability and polish. PWA setup (service worker, offline caching) is easier to configure correctly once the feature set is stable.
-**Delivers:** vite-plugin-pwa integration, Workbox service worker with app shell precaching, Add to Home Screen manifest, visual bracket display, discipline summary dashboard, event history (local), outdoor readability audit and refinements
-**Addresses features:** PWA/Add to Home Screen, visual bracket display, discipline dashboard, event history
+**Rationale:** With verified data in place, the `assignSlots` fix is trivial (three-line change). Extracting it to the domain layer enables isolated unit testing. The integration is the final step, touching only `TeamEntryView.tsx` as a one-line import swap.
+**Delivers:** Correct serpentine seeding across all 29 team counts; `assignSlots` extracted to `src/domain/assignSlots.ts`; full test suite passing.
+**Implements:** `src/domain/assignSlots.ts` (new), `src/domain/__tests__/assignSlots.test.ts` (new), `TeamEntryView.tsx` (import swap)
+**Avoids:** Pitfall 1 (localStorage breakage — slot numbers unchanged), Pitfall 3 (R1/R2 coupling — verified in Phase 1)
 
 ### Phase Ordering Rationale
 
-- Domain logic before UI: the domain layer (cheat sheets, scoring, group calc, finals logic) can be fully tested as pure functions before any React component is written; this is the architecture's explicit build order dependency chain
-- Storage-first before features: the localStorage persistence pattern must be established in Phase 1 because every subsequent feature inherits it; retrofitting persistence is painful and risky
-- Group stage before finals: the group-to-finals transition depends on correct group standing calculation; finals cannot be built or tested in isolation
-- PWA last: service worker configuration is simplest when the feature set and URL structure are stable; adding it earlier creates churn in the Workbox precache manifest
+- Phase 1 before Phase 2 because incorrect golden data produces incorrect code. The extraction and verification step is the most important and most irreversible part of this milestone — it cannot be shortcut or parallelized with code changes.
+- Phase 2 before Phase 3 because TypeScript compilation gates Phase 3. The compiler enforces that all 29 files are populated before `assignSlots` can even be compiled and tested.
+- Phase 3 is intentionally small. By the time it executes, all data is verified and tested. The logic change is three lines and the extraction to domain layer is a standard pattern.
+- Slot numbers are preserved throughout, eliminating any need for a storage migration or version bump.
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
-- **Phase 1 (cheat sheets):** Requires manual extraction and verification of all 29 race order sequences from the existing spreadsheet — this is not a development task but a data gathering task that needs the race official's involvement
-- **Phase 1 (tiebreaker rules):** The exact tiebreaker hierarchy must be elicited from the race official before coding; the spreadsheet may have implicit rules embedded in formula logic that are not obvious
+Phases needing careful verification gates during execution (internal, not external research):
 
-Phases with standard patterns (skip research):
-- **Phase 2 (React UI):** Feature-based component structure is well-documented; Zustand + React integration is straightforward
-- **Phase 3 (CSV export):** papaparse is well-documented; standard pattern
-- **Phase 4 (PWA):** vite-plugin-pwa with generateSW strategy is well-documented for this stack
+- **Phase 1:** Extract all 29 `seedMap` arrays and cross-check at least 5 representative counts (4, 8, 12, 18, 32) by manual xlsx inspection before writing any TypeScript. The 32-team sheet has no formula references in xlsx — its mapping must be derived from the serpentine pattern and validated manually. The 11-team case has anomalous slot ranges (20s and 30s for 3 groups) that require explicit verification against `teams11.ts`.
+
+Phases with standard patterns (mechanical execution once Phase 1 is complete):
+
+- **Phase 2:** Additive data changes to 29 files are mechanical. TypeScript enforces completeness. No architectural decisions needed.
+- **Phase 3:** The function change itself is three lines. Domain extraction is a standard pattern already established in the codebase.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | All version recommendations sourced from official release pages and changelogs as of March 2026; the one medium-confidence item (vite-plugin-pwa + Vite 8 peer dependency) is resolved by pinning to Vite 7.3 |
-| Features | HIGH | Feature set is directly derived from an existing spreadsheet workflow — there is minimal ambiguity about what officials need; comparables (Challonge, round-robin apps) corroborate the feature set |
-| Architecture | HIGH | Pattern recommendations (single reducer with discipline partitioning, derived state via selectors, storage-first persistence) are supported by multiple open-source tournament app references and standard offline-first patterns |
-| Pitfalls | HIGH | Safari storage eviction and iOS PWA limitations are documented by Apple and extensively reported; touch target guidance is from WCAG and Baymard research; all critical pitfalls are well-sourced |
+| Stack | HIGH | No new dependencies. All tools already in project. openpyxl decision is definitively correct — SheetJS npm is 4 years stale with CDN-only current version. |
+| Features | HIGH | Root cause isolated to single function and single data gap. All 29 seed-to-slot mappings extracted directly from xlsx formulas (4-31 teams). Correct/incorrect boundary clearly established with representative team count verification. |
+| Architecture | HIGH | Based entirely on direct codebase code reading. `seedMap` approach is definitively superior to all alternatives — TypeScript enforces completeness, no runtime risk, no store changes, no downstream impacts. |
+| Pitfalls | HIGH | Based on direct codebase analysis of store, scoring, seeding, and test files. localStorage slot-number risk is fully understood and mitigated by design (slot numbers unchanged). Formula-caching risk is well-documented. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Exact cheat sheet data:** The 29 race order sequences must be extracted from the existing spreadsheet before Phase 1 domain work can be completed. This requires access to the spreadsheet and verification with the race official. Block: cannot write or test `cheatSheets.ts` without this data.
-- **Tiebreaker rules:** The exact tiebreaker hierarchy (head-to-head? points differential? coin flip? race-off?) is not documented in research and must be elicited from the race official before the scoring engine is finalised. Default assumption: points only with manual override.
-- **Finals bracket structure per team count:** The finals bracket format may vary by team count (e.g., top 4 qualify for some counts, top 6 for others). The exact structure for each supported team count needs to be documented from the spreadsheet.
-- **vite-plugin-pwa + Vite 8:** If vite-plugin-pwa officially declares Vite 8 peer dependency support by the time Phase 4 begins, upgrade Vite to 8.0.x for Rolldown build performance. Not a blocker for v1.
+- **32-team `seedMap`:** The xlsx has no team name formula references for the 32-team sheet, so the mapping was derived from the consistent serpentine pattern rather than direct xlsx extraction. Treat as MEDIUM confidence; verify manually against the xlsx during Phase 1 before encoding in TypeScript.
+- **11-team slot offsets:** The 11-team case uses slot ranges in the 20s and 30s, which is anomalous for 3 groups. Verify `teams11.ts` group definitions match extracted slot numbers before finalizing Phase 2 data.
+- **xlsx formula cache freshness:** Research notes cached values may be absent if the xlsx was last saved by a non-Excel tool (Google Sheets, LibreOffice). Phase 1 execution must confirm `data_only=True` returns actual numeric values (not `None`) before trusting the extraction output.
 
 ## Sources
 
 ### Primary (HIGH confidence)
 
-- [React versions](https://react.dev/versions) — React 19.1 stability rationale
-- [Vite releases](https://vite.dev/releases) — Vite 7.3 vs 8.0 decision
-- [Tailwind CSS v4.0 announcement](https://tailwindcss.com/blog/tailwindcss-v4) — v4 architecture changes
-- [TypeScript 6.0 announcement](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/) — TS 6.0 stable March 2026
-- [Updates to Storage Policy - WebKit](https://webkit.org/blog/14403/updates-to-storage-policy/) — Safari localStorage eviction policy
-- [Storage quotas and eviction criteria - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria) — browser storage quota documentation
-- [WCAG 2.5.8 Target Size Minimum](https://www.allaccessible.org/blog/wcag-258-target-size-minimum-implementation-guide) — touch target size requirements
+- `reference/cheat-sheets-v1.4.xlsx` — all 29 seed-to-slot mappings extracted via openpyxl formula parsing (HIGH for 4-31 teams; MEDIUM for 32 teams)
+- `src/components/teams/TeamEntryView.tsx` lines 16-23 — current `assignSlots` implementation (direct code read)
+- `src/domain/types.ts` lines 44-52 — `TournamentStructure` interface (direct code read)
+- `src/domain/cheatSheets/teams{4,5,8,12,18,32}.ts` — representative cheat sheet structures (direct code read)
+- `scripts/extractCheatSheets.py` — 617-line extraction script with openpyxl (direct code read)
+- [SheetJS npm registry](https://www.npmjs.com/package/xlsx) — v0.18.5 latest on npm, 4 years stale
+- [SheetJS CDN distribution](https://cdn.sheetjs.com/xlsx/) — v0.20.3 via tarball only, non-standard dependency model
+- [openpyxl data_only documentation](https://openpyxl.readthedocs.io/en/3.1/api/openpyxl.reader.excel.html) — reads cached formula results when `data_only=True`
+- [Vitest 4.0 announcement](https://vitest.dev/blog/vitest-4) — browser mode stable, native Vite integration
 
 ### Secondary (MEDIUM confidence)
 
-- [vite-plugin-pwa GitHub #918](https://github.com/vite-pwa/vite-plugin-pwa/issues/918) — Vite 8 functional compatibility (works but not officially declared)
-- [Coronate chess tournament manager](https://dev.to/johnridesabike/building-coronate-an-open-source-chess-tournament-manager-46i8) — client-side-only tournament app architecture reference
-- [brackets-manager.js](https://github.com/Drarig29/brackets-manager.js/) — domain logic / persistence separation pattern
-- [PWA iOS Limitations and Safari Support 2026](https://www.magicbell.com/blog/pwa-ios-limitations-safari-support-complete-guide) — iOS PWA limitations survey
-- [Smashing Magazine - Accessible Target Sizes](https://www.smashingmagazine.com/2023/04/accessible-tap-target-sizes-rage-taps-clicks/) — gloved touch target guidance
-- [Baymard - Handling Accidental Taps](https://baymard.com/blog/handling-accidental-taps-on-touch-devices) — accidental tap prevention strategies
-- [Zustand vs Jotai comparison](https://dev.to/hijazi313/state-management-in-2025-when-to-use-context-redux-zustand-or-jotai-2d2k) — state management library selection
+- [SheetJS vs ExcelJS vs node-xlsx (2026)](https://www.pkgpulse.com/blog/sheetjs-vs-exceljs-vs-node-xlsx-excel-files-node-2026) — ecosystem comparison confirming parity on cached value reading
+- [Zustand persist middleware docs](https://docs.pmnd.rs/zustand/integrations/persisting-store-data#version) — version bump and migration pattern
+- [openpyxl formula value guide](https://copyprogramming.com/howto/python-read-value-formula-from-xlsx) — cached values require file saved by Excel
 
-### Tertiary (LOW confidence)
+### Tertiary (LOW confidence / derived)
 
-- [Challonge](https://challonge.com/) — feature set benchmarking; generalised tournament app, not parallel slalom specific
-- [All-Play-All](https://www.allplayall.app/features) — round-robin feature comparables; different sports domain
+- 32-team `seedMap` — derived from consistent serpentine pattern, no xlsx formula validation available; needs manual verification during Phase 1 execution
 
 ---
-*Research completed: 2026-03-28*
+*Research completed: 2026-03-30*
 *Ready for roadmap: yes*
