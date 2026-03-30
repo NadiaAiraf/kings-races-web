@@ -2,87 +2,96 @@
 
 ## What This Is
 
-A mobile-first web application for Kings Ski Club race officials to run university dry slope parallel slalom championship events. Replaces an existing Google Spreadsheet that manages team entry, race order generation, live result recording, group standings, and finals — making it usable slope-side on a phone.
+A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet — handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 → R2 → Finals), final results, and CSV export. Works offline slope-side.
 
 ## Core Value
 
 A race official can run an entire event from their phone — entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
+## Current State
+
+**v1.0 MVP shipped** (2026-03-30)
+
+- 7,868 lines of TypeScript/TSX, 372 tests, 85 commits
+- React 19 + Vite 8 + Zustand + Tailwind CSS 4 + vite-plugin-pwa
+- Full event lifecycle: team entry → R1 scoring → R2 scoring → finals → results + CSV
+- PWA installable with offline service worker
+- Deployed: Not yet — ready for Netlify/Vercel
+
 ## Requirements
 
 ### Validated
 
-- ✓ Auto-generate race order using exact pre-computed cheat sheet sequences (4-32 teams) — Phase 1
-- ✓ Local/session data storage — no server required for v1 — Phase 1
-- ✓ Support all three disciplines running independently within one event — Phase 1 (domain logic)
-- ✓ Enter teams by name for each discipline (Mixed, Board, Ladies) with varying team counts per discipline — Phase 2
-- ✓ Display race list showing each matchup (Team A V Team B) in correct order — Phase 2
-- ✓ Record race results: Win (3pts), Loss (1pt), DSQ (0pts) for each team in a matchup — Phase 2
-- ✓ Live-updating group tables ("boxes") showing each team's results and point totals during round-robin — Phase 2
-- ✓ Mobile-first responsive design — must work well on phone slope-side — Phase 2
-- ✓ Finals bracket with placement matches (1st/2nd, 3rd/4th, etc.) after group stage — Phase 3
-- ✓ Final standings/results view per discipline — Phase 3
-- ✓ Export results as CSV — Phase 3
-
-- ✓ PWA support: installable via Add to Home Screen, service worker caches assets for offline use — Phase 4
+- ✓ Enter teams by name per discipline (Mixed, Board, Ladies) — v1.0
+- ✓ Auto-generate race order from exact cheat sheet sequences (4-32 teams) — v1.0
+- ✓ Display race list with team names resolved — v1.0
+- ✓ Record results: Win (3pts) / Loss (1pt) / DSQ (0pts) — v1.0
+- ✓ Live-updating group tables with race-by-race grid — v1.0
+- ✓ Finals bracket with placement matches — v1.0
+- ✓ Final standings per discipline — v1.0
+- ✓ CSV export — v1.0
+- ✓ Mobile-first with 56px+ touch targets — v1.0
+- ✓ localStorage persistence (survives tab death) — v1.0
+- ✓ PWA installable with offline support — v1.0
+- ✓ Tiebreak resolution UI for manual ordering — v1.0
 
 ### Active
 
-(All v1 requirements validated)
+(Next milestone — see `/gsd:new-milestone`)
 
 ### Out of Scope
 
-- User authentication / login — not needed for v1, can come later
-- Server-side database / persistence — local storage only for now
-- Season standings across multiple events (R1-R4) — future feature
-- Individual racer tracking — future feature
-- League points lookup / season points — future feature (depends on season standings)
-- Real-time multi-user collaboration — single official runs the event
+- User authentication / login — single official per event, add if multi-user needed
+- Server-side database — client-side sufficient for single-event use
+- Season standings across events (R1-R4) — different data model, v2 candidate
+- Individual racer tracking — teams are the unit
+- League points lookup — depends on season standings
+- Real-time multi-user collaboration — no concurrent access needed
 
 ## Context
 
-- **Existing system:** Google Spreadsheet (v1.4) with 70+ tabs including hidden "cheat sheets" for race orders (4-32 teams), auto-populating formulas, and league points lookup tables
-- **Race format:** Parallel slalom, team relay (5 racers per mixed team). Teams race head-to-head in round-robin within groups, then top teams go to placement finals
-- **Scoring:** Win = 3pts, Loss = 1pt, DSQ = 0pts. Points accumulated across group matches determine standings
-- **Three disciplines per event:** Mixed (up to 32 teams), Board/snowboard (up to 17 teams), Ladies (up to 17 teams) — each runs separately with same format
-- **Race order cheat sheets:** Pre-computed matchup sequences exist for every team count (4-32). These must be replicated exactly — they define which team numbers face each other and in what order
-- **Group stage + Finals:** Round-robin group stage determines seeding, then placement matches (1st/2nd, 3rd/4th, 5th/6th, etc.) determine final positions
-- **League points:** Different point scales per discipline (Mixed: 30/28/26..., Ladies: 15/13/11..., Board: 10/8/6...) — relevant for future season standings feature
-- **Users:** Race officials (organisers) from Kings Ski Club, using phones slope-side in potentially cold/gloved conditions
-- **University league:** Teams represent universities
+- **Tech stack:** React 19.1, Vite 8, TypeScript, Zustand 5 (persist), Tailwind CSS 4, vite-plugin-pwa, papaparse, Vitest
+- **Race format:** Parallel slalom, team relay. Head-to-head round-robin in groups, cross-group R2 for 8+ teams, then placement finals
+- **Three disciplines:** Mixed (4-32 teams), Board (4-17), Ladies (4-17)
+- **Users:** Kings Ski Club officials, phones slope-side, possibly gloved
+- **Data model:** Single Zustand store with per-discipline state, localStorage persist
+- **Known tech debt:** `resetEvent` store action has no UI caller, `isValidTeamCount` export orphaned, no component tests (domain fully tested)
 
 ## Constraints
 
-- **Platform**: Web app, mobile-first — must work in mobile browsers (no native app)
-- **Data**: Client-side storage only for v1 (localStorage or similar)
-- **Race orders**: Must replicate exact pre-computed cheat sheet matchup sequences from existing spreadsheet
-- **Offline tolerance**: Should handle spotty connectivity gracefully since it's used slope-side
+- **Platform**: Web app, mobile-first (no native app)
+- **Data**: Client-side localStorage only
+- **Race orders**: Exact cheat sheet replication (29 sequences)
+- **Offline**: PWA service worker for slope-side reliability
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| No auth for v1 | Simplicity — single official per event, can add later | — Pending |
-| Client-side only | No server infrastructure needed, fast to ship | — Pending |
-| Exact cheat sheet replication | Officials are familiar with existing race orders, consistency matters | — Pending |
-| Mobile-first design | Primary use case is slope-side on a phone | — Pending |
+| No auth for v1 | Single official per event | ✓ Good — simplicity enabled fast ship |
+| Client-side only | No server needed | ✓ Good — works offline, zero hosting cost |
+| Exact cheat sheet replication | Officials know existing race orders | ✓ Good — 29 sequences extracted from xlsx |
+| Mobile-first design | Slope-side phone use | ✓ Good — 56px+ touch targets, high contrast |
+| Zustand single store with persist | Atomic state, auto-save | ✓ Good — survives tab death reliably |
+| No component tests | Domain logic fully tested (372 tests) | ⚠️ Revisit — add if UI bugs emerge |
+| TiebreakResolver with UP/DOWN buttons | Simpler than drag-and-drop for gloved use | ✓ Good |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `/gsd:transition`):
-1. Requirements invalidated? -> Move to Out of Scope with reason
-2. Requirements validated? -> Move to Validated with phase reference
-3. New requirements emerged? -> Add to Active
-4. Decisions to log? -> Add to Key Decisions
-5. "What This Is" still accurate? -> Update if drifted
+**After each phase transition:**
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
 
-**After each milestone** (via `/gsd:complete-milestone`):
+**After each milestone:**
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after Phase 4 completion — all v1 phases complete*
+*Last updated: 2026-03-30 after v1.0 milestone*
