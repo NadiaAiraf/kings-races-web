@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Bug Fixes
-status: planning
+status: executing
 stopped_at: Completed 06-01-PLAN.md
 last_updated: "2026-03-30T13:01:16.338Z"
-last_activity: 2026-03-30 -- v1.1 roadmap created
+last_activity: 2026-03-30 -- Phase 06 execution started Stashed changes
 progress:
   total_phases: 2
   completed_phases: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-30)
 
 **Core value:** A race official can run an entire event from their phone -- entering teams, seeing the race order, recording results live, and viewing group standings at any time.
-**Current focus:** Phase 06 -- Scoring UI & Interaction Fixes
+**Current focus:** Phase 06 — scoring-ui-interaction-fixes
 
 ## Current Position
 
-Phase: 06 of 07
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-03-30 -- v1.1 roadmap created
+Phase: 06 (scoring-ui-interaction-fixes) — EXECUTING
+Plan: 1 of 2
+Status: Executing Phase 06
+Last activity: 2026-03-30 -- Phase 06 execution started
 
 Progress: [██████████████░░░░░░] 67% (v1.0 complete, v1.1 starting)
 
