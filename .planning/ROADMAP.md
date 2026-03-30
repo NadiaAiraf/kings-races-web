@@ -95,20 +95,20 @@ Plans:
   1. An 8+ team event automatically transitions from R1 to R2 when all R1 races are scored (no manual localStorage manipulation needed)
   2. When teams are tied on points, the app presents a UI for the official to set the final ordering
   3. After tiebreak resolution, finals bracket generates correctly with resolved seedings
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md -- Fix R2 phase transition guard and add tiebreak resolution UI
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Data Foundation and Storage | 0/3 | Planning complete | - |
-| 2. Core Event Flow | 0/5 | Planning complete | - |
-| 3. Finals and Results | 0/4 | Planning complete | - |
-| 4. PWA and Offline | 0/1 | Planning complete | - |
-| 5. Gap Closure — R2 & Tiebreak | 0/0 | Not started | - |
+| 1. Data Foundation and Storage | 3/3 | Complete | - |
+| 2. Core Event Flow | 5/5 | Complete | - |
+| 3. Finals and Results | 4/4 | Complete | - |
+| 4. PWA and Offline | 1/1 | Complete | - |
+| 5. Gap Closure — R2 & Tiebreak | 0/1 | Planning complete | - |
