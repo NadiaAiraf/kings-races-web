@@ -24,9 +24,11 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ Final standings/results view per discipline — Phase 3
 - ✓ Export results as CSV — Phase 3
 
+- ✓ PWA support: installable via Add to Home Screen, service worker caches assets for offline use — Phase 4
+
 ### Active
 
-- [ ] PWA support: installable via Add to Home Screen, service worker caches assets for offline use
+(All v1 requirements validated)
 
 ### Out of Scope
 
@@ -83,4 +85,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-29 after Phase 3 completion*
+*Last updated: 2026-03-30 after Phase 4 completion — all v1 phases complete*
