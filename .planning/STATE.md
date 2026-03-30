@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: Cheat Sheet Accuracy
 status: ready-to-plan
-stopped_at: Milestone v1.2 started
+stopped_at: v1.2 roadmap created, ready to plan Phase 8
 last_updated: "2026-03-30"
 last_activity: 2026-03-30
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,43 +21,36 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-30)
 
 **Core value:** A race official can run an entire event from their phone -- entering teams, seeing the race order, recording results live, and viewing group standings at any time.
-**Current focus:** v1.2 Cheat Sheet Accuracy — defining requirements
+**Current focus:** Phase 8 - Ground Truth & Validation
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-03-30 — Milestone v1.2 started
+Phase: 8 of 9 (Ground Truth & Validation)
+Plan: 0 of 0 in current phase (plans TBD)
+Status: Ready to plan
+Last activity: 2026-03-30 -- v1.2 roadmap created
 
-Progress: [░░░░░░░░░░░░░░░░░░░░] 0%
+Progress: [░░░░░░░░░░░░░░░░░░░░] 0% (of v1.2)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 14
+- Total plans completed: 17
 - Average duration: ~110 min
-- Total execution time: ~25 hours
+- Total execution time: ~26 hours
 
-**By Phase (v1.0):**
+**By Phase (recent):**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 3 | ~108 min | ~36 min |
-| 02 | 5 | ~583 min | ~117 min |
-| 03 | 4 | ~472 min | ~118 min |
-| 04 | 1 | 323 min | 323 min |
-| 05 | 1 | 112 min | 112 min |
+| 06 | 2 | ~30 min | ~15 min |
+| 07 | 1 | ~20 min | ~20 min |
 
 **Recent Trend:**
 
-- Last 5 plans: 250, 211, 4, 323, 112 min
-- Trend: Variable (Phase 04 was large, Phase 05 was tight)
-
-| Phase 06 P01 | 1 | 2 tasks | 3 files |
-| Phase 06 P02 | 1 | 2 tasks | 1 files |
-| Phase 07 P01 | 2 | 2 tasks | 4 files |
+- Last 3 plans: 06-01, 06-02, 07-01
+- Trend: Stable
 
 ## Accumulated Context
 
@@ -66,12 +59,10 @@ Progress: [░░░░░░░░░░░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Phase 03]: Extracted getComplement/getDisabledOutcomes to shared scoringHelpers.ts
-- [Phase 03]: GroupStandingsTable uses configurable raceIdPrefix prop for R1/R2 score lookup
-- [Phase 05]: TiebreakResolver uses UP/DOWN buttons instead of drag-and-drop
-- [Phase 06]: ExpandableRaceCard is a new component (not refactor of RaceCard) -- preserves existing views until plan 02 integrates
-- [Phase 06]: Synchronous next-card computation in handleScore avoids useEffect timing pitfalls for auto-advance
-- [Phase 07]: Filter scores at call site (r1-* prefix) rather than modifying calculateAllGroupStandings
+- [v1.2]: Data-first approach -- extract golden data from xlsx BEFORE modifying any code
+- [v1.2]: seedMap as static data per cheat sheet file, no runtime algorithm
+- [v1.2]: Slot numbers preserved -- no localStorage migration needed
+- [v1.2]: Extract assignSlots from TeamEntryView.tsx to src/domain/assignSlots.ts
 
 ### Pending Todos
 
@@ -79,10 +70,12 @@ None yet.
 
 ### Blockers/Concerns
 
-None.
+- xlsx formula cache: must confirm openpyxl data_only=True returns values (not None)
+- 32-team seedMap derived from pattern, not xlsx formulas -- needs manual verification
+- 11-team case has anomalous slot ranges (20s/30s) -- verify against teams11.ts
 
 ## Session Continuity
 
-Last session: 2026-03-30T13:26:58.806Z
-Stopped at: Completed 07-01-PLAN.md
+Last session: 2026-03-30
+Stopped at: v1.2 roadmap created, ready to plan Phase 8
 Resume file: None

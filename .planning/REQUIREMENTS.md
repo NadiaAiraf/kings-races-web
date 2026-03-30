@@ -1,11 +1,11 @@
 # Requirements: Kings Races Web v1.2
 
 **Defined:** 2026-03-30
-**Core Value:** A race official can run an entire event from their phone — entering teams, seeing the race order, recording results live, and viewing group standings at any time.
+**Core Value:** A race official can run an entire event from their phone -- entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
 ## v1.2 Requirements
 
-Cheat sheet accuracy — fix group seeding and validate all race data against the master xlsx source of truth.
+Cheat sheet accuracy -- fix group seeding and validate all race data against the master xlsx source of truth.
 
 ### Seeding
 
@@ -34,17 +34,17 @@ Cheat sheet accuracy — fix group seeding and validate all race data against th
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SEED-01 | TBD | Pending |
-| SEED-02 | TBD | Pending |
-| R2ORD-01 | TBD | Pending |
-| VALID-01 | TBD | Pending |
-| VALID-02 | TBD | Pending |
-| VALID-03 | TBD | Pending |
+| SEED-01 | Phase 9 | Pending |
+| SEED-02 | Phase 9 | Pending |
+| R2ORD-01 | Phase 9 | Pending |
+| VALID-01 | Phase 8 | Pending |
+| VALID-02 | Phase 8 | Pending |
+| VALID-03 | Phase 8 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 6 total
-- Mapped to phases: 0
-- Unmapped: 6
+- Mapped to phases: 6
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-30*
