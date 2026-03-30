@@ -156,7 +156,7 @@ Plans:
 
 Plans:
 - [x] 09-01-PLAN.md -- Add seedMap to TournamentStructure type and update all 29 cheat sheet files with seedMap + R2 race fixes
-- [ ] 09-02-PLAN.md -- Extract assignSlots to domain module with serpentine seeding and wire into TeamEntryView
+- [x] 09-02-PLAN.md -- Extract assignSlots to domain module with serpentine seeding and wire into TeamEntryView
 
 ## Progress
 
