@@ -16,6 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 2: Core Event Flow** - Team entry, race display, result recording, and live group standings UI
 - [ ] **Phase 3: Finals and Results** - Finals bracket generation, placement matches, final standings, and CSV export
 - [ ] **Phase 4: PWA and Offline** - Service worker, offline caching, and Add to Home Screen installability
+- [ ] **Phase 5: Gap Closure — R2 Transition & Tiebreak UI** - Fix R2 phase transition bug and add tiebreak resolution UI
 
 ## Phase Details
 
@@ -85,6 +86,20 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md -- Install vite-plugin-pwa, generate icons, configure manifest and service worker, update index.html
 
+### Phase 5: Gap Closure — R2 Transition & Tiebreak UI
+**Goal**: Fix the R2 phase transition bug that blocks 8+ team events, and add a tiebreak resolution UI so officials can manually order tied teams before finals seeding
+**Depends on**: Phase 4
+**Requirements**: RACE-01, RACE-04, STND-03
+**Gap Closure**: Closes gaps from v1.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. An 8+ team event automatically transitions from R1 to R2 when all R1 races are scored (no manual localStorage manipulation needed)
+  2. When teams are tied on points, the app presents a UI for the official to set the final ordering
+  3. After tiebreak resolution, finals bracket generates correctly with resolved seedings
+**Plans**: TBD
+
+Plans:
+- [ ] 05-01: TBD
+
 ## Progress
 
 **Execution Order:**
@@ -96,3 +111,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Core Event Flow | 0/5 | Planning complete | - |
 | 3. Finals and Results | 0/4 | Planning complete | - |
 | 4. PWA and Offline | 0/1 | Planning complete | - |
+| 5. Gap Closure — R2 & Tiebreak | 0/0 | Not started | - |

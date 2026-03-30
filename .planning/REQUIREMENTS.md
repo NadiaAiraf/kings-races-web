@@ -98,10 +98,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEAM-02 | Phase 1 | Complete |
 | TEAM-03 | Phase 2 | Complete |
 | TEAM-04 | Phase 1 | Complete |
-| RACE-01 | Phase 1 | Complete |
+| RACE-01 | Phase 5 | Pending |
 | RACE-02 | Phase 1 | Complete |
 | RACE-03 | Phase 2 | Complete |
-| RACE-04 | Phase 2 | Complete |
+| RACE-04 | Phase 5 | Pending |
 | RACE-05 | Phase 2 | Complete |
 | RESL-01 | Phase 2 | Complete |
 | RESL-02 | Phase 2 | Complete |
@@ -109,7 +109,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RESL-04 | Phase 2 | Complete |
 | STND-01 | Phase 2 | Complete |
 | STND-02 | Phase 2 | Complete |
-| STND-03 | Phase 2 | Complete |
+| STND-03 | Phase 5 | Pending |
 | FINL-01 | Phase 3 | Complete |
 | FINL-02 | Phase 3 | Complete |
 | FINL-03 | Phase 3 | Complete |
