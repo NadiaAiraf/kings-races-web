@@ -1,57 +1,51 @@
-# Requirements: Kings Races Web v1.1
+# Requirements: Kings Races Web v1.2
 
 **Defined:** 2026-03-30
 **Core Value:** A race official can run an entire event from their phone — entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
-## v1.1 Requirements
+## v1.2 Requirements
 
-Bug fixes and UX improvements to v1.0.
+Cheat sheet accuracy — fix group seeding and validate all race data against the master xlsx source of truth.
 
-### Navigation
+### Seeding
 
-- [x] **NAV-01**: Merge Races and Score tabs into a single "Races" tab that shows the race list with inline scoring capability
+- [ ] **SEED-01**: Team-to-group assignment must follow the xlsx serpentine draft pattern for all 29 team counts (4-32), where top seeds are spread across groups rather than filling sequentially
+- [ ] **SEED-02**: A `seedMap` array must be added to each cheat sheet's `TournamentStructure` defining the exact seed-to-slot mapping from the xlsx
 
-### Scoring Bugs
+### Race Order
 
-- [x] **SCORE-01**: After selecting DSQ for a team in a matchup, that team's Win button must be disabled — cannot select DSQ then Win for the same team
-- [x] **SCORE-02**: Outcome selection must be mutually exclusive per team — selecting a new outcome clears the previous one
+- [ ] **R2ORD-01**: Round 2 race order must exactly match the xlsx cheat sheet for all applicable team counts (8+)
 
-### Standings Calculation
+### Validation
 
-- [x] **STAND-01**: Round 1 standings must only count Round 1 race results (not R2 or finals)
-- [x] **STAND-02**: Round 2 standings must only count Round 2 race results (not R1 or finals)
-- [x] **STAND-03**: R1 and R2 are distinct rounds used for seeding — not cumulative point totals
-
-### Finals Placement
-
-- [x] **FINAL-01**: Final event positions (1st, 2nd, 3rd, etc.) are determined solely by finals matchup results
-- [x] **FINAL-02**: Group stage results (R1 + R2) determine only who races who in the finals — they do not determine final placement
+- [ ] **VALID-01**: All 29 cheat sheet seed mappings must be validated against the xlsx source of truth with automated tests
+- [ ] **VALID-02**: R1 race order for all 29 team counts must be validated against the xlsx source of truth
+- [ ] **VALID-03**: R2 race order for all 29 team counts must be validated against the xlsx source of truth
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Season standings | v2 feature — different data model |
-| New features | This is a bug fix milestone only |
+| New features | This is a data accuracy milestone only |
+| Finals structure changes | Finals matchup structures verified correct by research |
+| UI changes | Seeding fix is domain/data layer only |
 
 ## Traceability
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NAV-01 | Phase 6 | Complete |
-| SCORE-01 | Phase 6 | Complete |
-| SCORE-02 | Phase 6 | Complete |
-| STAND-01 | Phase 7 | Complete |
-| STAND-02 | Phase 7 | Complete |
-| STAND-03 | Phase 7 | Complete |
-| FINAL-01 | Phase 7 | Complete |
-| FINAL-02 | Phase 7 | Complete |
+| SEED-01 | TBD | Pending |
+| SEED-02 | TBD | Pending |
+| R2ORD-01 | TBD | Pending |
+| VALID-01 | TBD | Pending |
+| VALID-02 | TBD | Pending |
+| VALID-03 | TBD | Pending |
 
 **Coverage:**
-- v1.1 requirements: 8 total
-- Mapped to phases: 8
-- Unmapped: 0
+- v1.2 requirements: 6 total
+- Mapped to phases: 0
+- Unmapped: 6
 
 ---
 *Requirements defined: 2026-03-30*
-*Last updated: 2026-03-30 after roadmap creation*
+*Last updated: 2026-03-30*
