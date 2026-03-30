@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Bug Fixes
 status: planning
-stopped_at: Phase 6 planned (2 plans, verified)
-last_updated: "2026-03-30T12:57:31.696Z"
+stopped_at: Completed 06-01-PLAN.md
+last_updated: "2026-03-30T13:01:16.338Z"
 last_activity: 2026-03-30 -- v1.1 roadmap created
 progress:
   total_phases: 2
   completed_phases: 0
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 1
   percent: 67
 ---
 
@@ -55,6 +55,8 @@ Progress: [██████████████░░░░░░] 67% (v1
 - Last 5 plans: 250, 211, 4, 323, 112 min
 - Trend: Variable (Phase 04 was large, Phase 05 was tight)
 
+| Phase 06 P01 | 1 | 2 tasks | 3 files |
+
 ## Accumulated Context
 
 ### Decisions
@@ -65,6 +67,7 @@ Recent decisions affecting current work:
 - [Phase 03]: Extracted getComplement/getDisabledOutcomes to shared scoringHelpers.ts
 - [Phase 03]: GroupStandingsTable uses configurable raceIdPrefix prop for R1/R2 score lookup
 - [Phase 05]: TiebreakResolver uses UP/DOWN buttons instead of drag-and-drop
+- [Phase 06]: ExpandableRaceCard is a new component (not refactor of RaceCard) -- preserves existing views until plan 02 integrates
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T12:57:31.691Z
-Stopped at: Phase 6 planned (2 plans, verified)
-Resume file: .planning/phases/06-scoring-ui-interaction-fixes/06-01-PLAN.md
+Last session: 2026-03-30T13:01:16.336Z
+Stopped at: Completed 06-01-PLAN.md
+Resume file: None

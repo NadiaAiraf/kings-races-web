@@ -9,12 +9,12 @@ Bug fixes and UX improvements to v1.0.
 
 ### Navigation
 
-- [ ] **NAV-01**: Merge Races and Score tabs into a single "Races" tab that shows the race list with inline scoring capability
+- [x] **NAV-01**: Merge Races and Score tabs into a single "Races" tab that shows the race list with inline scoring capability
 
 ### Scoring Bugs
 
-- [ ] **SCORE-01**: After selecting DSQ for a team in a matchup, that team's Win button must be disabled — cannot select DSQ then Win for the same team
-- [ ] **SCORE-02**: Outcome selection must be mutually exclusive per team — selecting a new outcome clears the previous one
+- [x] **SCORE-01**: After selecting DSQ for a team in a matchup, that team's Win button must be disabled — cannot select DSQ then Win for the same team
+- [x] **SCORE-02**: Outcome selection must be mutually exclusive per team — selecting a new outcome clears the previous one
 
 ### Standings Calculation
 
@@ -38,9 +38,9 @@ Bug fixes and UX improvements to v1.0.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NAV-01 | Phase 6 | Pending |
-| SCORE-01 | Phase 6 | Pending |
-| SCORE-02 | Phase 6 | Pending |
+| NAV-01 | Phase 6 | Complete |
+| SCORE-01 | Phase 6 | Complete |
+| SCORE-02 | Phase 6 | Complete |
 | STAND-01 | Phase 7 | Pending |
 | STAND-02 | Phase 7 | Pending |
 | STAND-03 | Phase 7 | Pending |

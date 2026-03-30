@@ -39,7 +39,7 @@
 **Plans**: 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md -- Create ExpandableRaceCard, update SubTabs and AppShell (remove Score/Finals tabs)
+- [x] 06-01-PLAN.md -- Create ExpandableRaceCard, update SubTabs and AppShell (remove Score/Finals tabs)
 - [ ] 06-02-PLAN.md -- Refactor RaceListView into unified scoring surface with inline scoring and finals integration
 
 **UI hint**: yes
