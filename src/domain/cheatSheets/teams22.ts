@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_22: TournamentStructure = {
   teamCount: 22,
+  seedMap: [1, 11, 21, 31, 41, 51, 61, 64, 63, 62, 53, 43, 33, 23, 13, 3, 2, 12, 22, 32, 42, 52],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3] },
     { letter: 'B', teamSlots: [21, 22, 23] },
@@ -53,6 +54,7 @@ export const TEAMS_22: TournamentStructure = {
         { raceNum: 4, homeLetter: 'D', awayLetter: 'A' },
         { raceNum: 5, homeLetter: 'A', awayLetter: 'C' },
         { raceNum: 6, homeLetter: 'B', awayLetter: 'D' },
+
       ],
     },
     {
@@ -70,6 +72,7 @@ export const TEAMS_22: TournamentStructure = {
         { raceNum: 4, homeLetter: 'H', awayLetter: 'E' },
         { raceNum: 5, homeLetter: 'E', awayLetter: 'G' },
         { raceNum: 6, homeLetter: 'F', awayLetter: 'H' },
+
       ],
     },
     {
@@ -87,6 +90,7 @@ export const TEAMS_22: TournamentStructure = {
         { raceNum: 4, homeLetter: 'L', awayLetter: 'I' },
         { raceNum: 5, homeLetter: 'I', awayLetter: 'K' },
         { raceNum: 6, homeLetter: 'J', awayLetter: 'L' },
+
       ],
     },
     {
@@ -104,6 +108,7 @@ export const TEAMS_22: TournamentStructure = {
         { raceNum: 4, homeLetter: 'P', awayLetter: 'M' },
         { raceNum: 5, homeLetter: 'M', awayLetter: 'O' },
         { raceNum: 6, homeLetter: 'N', awayLetter: 'P' },
+
       ],
     },
     {
@@ -117,6 +122,7 @@ export const TEAMS_22: TournamentStructure = {
         { raceNum: 1, homeLetter: 'Q', awayLetter: 'R' },
         { raceNum: 2, homeLetter: 'R', awayLetter: 'S' },
         { raceNum: 3, homeLetter: 'S', awayLetter: 'Q' },
+
       ],
     },
     {
@@ -124,12 +130,13 @@ export const TEAMS_22: TournamentStructure = {
       seedingEntries: [
         { positionCode: 'E3', letter: 'T', label: 'Loser E' },
         { positionCode: 'F3', letter: 'U', label: 'Loser F' },
-        { positionCode: 'G3', letter: 'v', label: 'Loser G' },
+        { positionCode: 'G3', letter: 'V', label: 'Loser G' },
       ],
       races: [
         { raceNum: 1, homeLetter: 'T', awayLetter: 'U' },
-        { raceNum: 2, homeLetter: 'U', awayLetter: 'v' },
-        { raceNum: 3, homeLetter: 'v', awayLetter: 'T' },
+        { raceNum: 2, homeLetter: 'U', awayLetter: 'V' },
+        { raceNum: 3, homeLetter: 'V', awayLetter: 'T' },
+
       ],
     },
   ],

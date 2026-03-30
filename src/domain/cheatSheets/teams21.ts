@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_21: TournamentStructure = {
   teamCount: 21,
+  seedMap: [1, 11, 21, 31, 41, 51, 61, 63, 53, 43, 33, 23, 13, 3, 2, 12, 22, 32, 42, 52, 62],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3] },
     { letter: 'B', teamSlots: [21, 22, 23] },
@@ -50,6 +51,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 4, homeLetter: 'D', awayLetter: 'A' },
         { raceNum: 5, homeLetter: 'A', awayLetter: 'C' },
         { raceNum: 6, homeLetter: 'B', awayLetter: 'D' },
+
       ],
     },
     {
@@ -63,6 +65,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 1, homeLetter: 'E', awayLetter: 'F' },
         { raceNum: 2, homeLetter: 'F', awayLetter: 'G' },
         { raceNum: 3, homeLetter: 'G', awayLetter: 'E' },
+
       ],
     },
     {
@@ -79,6 +82,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 3, homeLetter: 'I', awayLetter: 'J' },
         { raceNum: 4, homeLetter: 'H', awayLetter: 'J' },
         { raceNum: 5, homeLetter: 'I', awayLetter: 'K' },
+
       ],
     },
     {
@@ -90,8 +94,10 @@ export const TEAMS_21: TournamentStructure = {
       ],
       races: [
         { raceNum: 1, homeLetter: 'L', awayLetter: 'M' },
-        { raceNum: 2, homeLetter: 'M', awayLetter: 'N' },
-        { raceNum: 3, homeLetter: 'N', awayLetter: 'L' },
+        { raceNum: 2, homeLetter: 'L', awayLetter: 'H' },
+        { raceNum: 3, homeLetter: 'M', awayLetter: 'N' },
+        { raceNum: 4, homeLetter: 'N', awayLetter: 'L' },
+
       ],
     },
     {
@@ -109,6 +115,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 4, homeLetter: 'R', awayLetter: 'O' },
         { raceNum: 5, homeLetter: 'O', awayLetter: 'Q' },
         { raceNum: 6, homeLetter: 'P', awayLetter: 'R' },
+
       ],
     },
     {
@@ -122,6 +129,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 1, homeLetter: 'S', awayLetter: 'T' },
         { raceNum: 2, homeLetter: 'T', awayLetter: 'U' },
         { raceNum: 3, homeLetter: 'U', awayLetter: 'S' },
+
       ],
     },
   ],

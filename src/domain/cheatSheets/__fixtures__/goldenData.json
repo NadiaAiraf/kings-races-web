@@ -294,33 +294,33 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 5,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 6,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 7,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 8,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "F",
+        "awayLetter": "G"
       },
       {
         "raceNum": 9,
@@ -416,43 +416,43 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 6,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 7,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 9,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 10,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
       },
       {
         "raceNum": 11,
@@ -534,18 +534,18 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
+        "homeLetter": "B",
+        "awayLetter": "C"
       },
       {
         "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
+        "homeLetter": "C",
+        "awayLetter": "A"
       },
       {
         "raceNum": 4,
-        "homeLetter": "B",
-        "awayLetter": "C"
+        "homeLetter": "D",
+        "awayLetter": "E"
       },
       {
         "raceNum": 5,
@@ -554,18 +554,18 @@
       },
       {
         "raceNum": 6,
-        "homeLetter": "H",
-        "awayLetter": "I"
+        "homeLetter": "F",
+        "awayLetter": "D"
       },
       {
         "raceNum": 7,
-        "homeLetter": "C",
-        "awayLetter": "A"
+        "homeLetter": "G",
+        "awayLetter": "H"
       },
       {
         "raceNum": 8,
-        "homeLetter": "F",
-        "awayLetter": "D"
+        "homeLetter": "H",
+        "awayLetter": "I"
       },
       {
         "raceNum": 9,
@@ -658,48 +658,48 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 5,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 6,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "H",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "J",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 9,
+        "raceNum": 3,
         "homeLetter": "C",
         "awayLetter": "A"
       },
       {
-        "raceNum": 10,
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
         "homeLetter": "F",
         "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "G"
       },
       {
         "raceNum": 11,
@@ -818,63 +818,63 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 7,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 8,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 11,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 12,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 13,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 14,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "J",
+        "awayLetter": "K"
       },
       {
         "raceNum": 15,
@@ -974,33 +974,33 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 8,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
       },
       {
         "raceNum": 9,
@@ -1014,33 +1014,33 @@
       },
       {
         "raceNum": 11,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 15,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 16,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
       },
       {
         "raceNum": 17,
@@ -1156,33 +1156,33 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "L",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 7,
+        "raceNum": 3,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
         "homeLetter": "E",
         "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
       },
       {
         "raceNum": 8,
@@ -1191,28 +1191,28 @@
       },
       {
         "raceNum": 9,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 12,
         "homeLetter": "K",
         "awayLetter": "L"
       },
       {
-        "raceNum": 10,
+        "raceNum": 13,
         "homeLetter": "M",
         "awayLetter": "J"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "C",
-        "awayLetter": "A"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "F",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "I",
-        "awayLetter": "G"
       },
       {
         "raceNum": 14,
@@ -1349,33 +1349,33 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "L",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 7,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 8,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
       },
       {
         "raceNum": 9,
@@ -1389,38 +1389,38 @@
       },
       {
         "raceNum": 11,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 15,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 16,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 17,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "K",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "M",
+        "awayLetter": "N"
       },
       {
         "raceNum": 18,
@@ -1568,88 +1568,88 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "L",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 8,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 9,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 10,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "O",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 15,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 16,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 17,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 18,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 19,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "K",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "O",
+        "awayLetter": "L"
       },
       {
         "raceNum": 20,
@@ -1818,103 +1818,103 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 10,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 11,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 17,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 18,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 19,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 20,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 21,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 22,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
       },
       {
         "raceNum": 23,
@@ -2049,83 +2049,83 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "P",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 7,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 8,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "H",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "Q",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 13,
+        "raceNum": 3,
         "homeLetter": "C",
         "awayLetter": "A"
       },
       {
-        "raceNum": 14,
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
         "homeLetter": "F",
         "awayLetter": "D"
       },
       {
-        "raceNum": 15,
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "I",
         "awayLetter": "G"
       },
       {
-        "raceNum": 16,
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 12,
         "homeLetter": "L",
         "awayLetter": "J"
       },
       {
-        "raceNum": 17,
+        "raceNum": 13,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "O",
         "awayLetter": "M"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "Q",
+        "awayLetter": "P"
       },
       {
         "raceNum": 18,
@@ -2256,83 +2256,83 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "P",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 7,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 8,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "H",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 13,
+        "raceNum": 3,
         "homeLetter": "C",
         "awayLetter": "A"
       },
       {
-        "raceNum": 14,
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
         "homeLetter": "F",
         "awayLetter": "D"
       },
       {
-        "raceNum": 15,
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "I",
         "awayLetter": "G"
       },
       {
-        "raceNum": 16,
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 12,
         "homeLetter": "L",
         "awayLetter": "J"
       },
       {
-        "raceNum": 17,
+        "raceNum": 13,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "O",
         "awayLetter": "M"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "Q",
+        "awayLetter": "R"
       },
       {
         "raceNum": 18,
@@ -2479,48 +2479,48 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "P",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 8,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 9,
+        "raceNum": 3,
+        "homeLetter": "C",
+        "awayLetter": "A"
+      },
+      {
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
         "homeLetter": "E",
         "awayLetter": "F"
       },
       {
-        "raceNum": 10,
+        "raceNum": 6,
+        "homeLetter": "F",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 8,
         "homeLetter": "H",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "I",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
       },
       {
         "raceNum": 11,
@@ -2529,43 +2529,43 @@
       },
       {
         "raceNum": 12,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "S",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "C",
-        "awayLetter": "A"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "F",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "I",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 18,
         "homeLetter": "L",
         "awayLetter": "J"
       },
       {
-        "raceNum": 19,
+        "raceNum": 13,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "O",
         "awayLetter": "M"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "S",
+        "awayLetter": "P"
       },
       {
         "raceNum": 20,
@@ -2733,108 +2733,108 @@
       },
       {
         "raceNum": 2,
-        "homeLetter": "D",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 3,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 9,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 10,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "H",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 17,
+        "raceNum": 3,
         "homeLetter": "C",
         "awayLetter": "A"
       },
       {
-        "raceNum": 18,
+        "raceNum": 4,
+        "homeLetter": "D",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 5,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 6,
         "homeLetter": "F",
         "awayLetter": "D"
       },
       {
-        "raceNum": 19,
+        "raceNum": 7,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "I",
         "awayLetter": "G"
       },
       {
-        "raceNum": 20,
+        "raceNum": 10,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 12,
         "homeLetter": "L",
         "awayLetter": "J"
       },
       {
-        "raceNum": 21,
+        "raceNum": 13,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 22,
+        "raceNum": 18,
         "homeLetter": "N",
         "awayLetter": "P"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "T",
+        "awayLetter": "Q"
       },
       {
         "raceNum": 23,
@@ -2993,123 +2993,123 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "H",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "L",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 10,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 11,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 12,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "L",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "P",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "R",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "T",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 19,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 20,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 21,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "G",
         "awayLetter": "E"
       },
       {
-        "raceNum": 22,
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 13,
         "homeLetter": "H",
         "awayLetter": "J"
       },
       {
-        "raceNum": 23,
+        "raceNum": 14,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 24,
+        "raceNum": 15,
+        "homeLetter": "L",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 18,
         "homeLetter": "N",
         "awayLetter": "L"
       },
       {
-        "raceNum": 25,
+        "raceNum": 19,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "P",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "R",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "O",
         "awayLetter": "Q"
       },
       {
-        "raceNum": 26,
+        "raceNum": 24,
         "homeLetter": "P",
         "awayLetter": "R"
+      },
+      {
+        "raceNum": 25,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "T",
+        "awayLetter": "U"
       },
       {
         "raceNum": 27,
@@ -3279,63 +3279,63 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "T",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 11,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 12,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 13,
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "F",
         "awayLetter": "G"
       },
       {
-        "raceNum": 14,
+        "raceNum": 10,
         "homeLetter": "H",
         "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
       },
       {
         "raceNum": 15,
@@ -3349,72 +3349,72 @@
       },
       {
         "raceNum": 17,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "E",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "F",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 25,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 26,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 27,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 28,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 29,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 27,
         "homeLetter": "S",
         "awayLetter": "Q"
       },
       {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 29,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
         "raceNum": 30,
-        "homeLetter": "v",
+        "homeLetter": "V",
         "awayLetter": "T"
       }
     ]
@@ -3581,153 +3581,153 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 13,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 14,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 23,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 24,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 25,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 26,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 27,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 28,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 29,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 30,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 31,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 32,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "V",
+        "awayLetter": "W"
       },
       {
         "raceNum": 33,
@@ -3899,163 +3899,163 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 14,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 15,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 25,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 26,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 27,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 28,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 29,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 30,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 31,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 32,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 33,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 34,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
       },
       {
         "raceNum": 35,
@@ -4064,7 +4064,7 @@
       },
       {
         "raceNum": 36,
-        "homeLetter": "v",
+        "homeLetter": "V",
         "awayLetter": "X"
       }
     ]
@@ -4238,103 +4238,103 @@
     "r2Races": [
       {
         "raceNum": 1,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 2,
-        "homeLetter": "Y",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 3,
         "homeLetter": "A",
         "awayLetter": "B"
       },
       {
-        "raceNum": 4,
+        "raceNum": 2,
         "homeLetter": "C",
         "awayLetter": "D"
       },
       {
-        "raceNum": 5,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 15,
+        "raceNum": 3,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 16,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 17,
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "F",
         "awayLetter": "G"
       },
       {
-        "raceNum": 18,
+        "raceNum": 10,
         "homeLetter": "H",
         "awayLetter": "E"
       },
       {
-        "raceNum": 19,
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "J",
         "awayLetter": "K"
       },
       {
-        "raceNum": 20,
+        "raceNum": 16,
         "homeLetter": "L",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
       },
       {
         "raceNum": 21,
@@ -4348,73 +4348,73 @@
       },
       {
         "raceNum": 23,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "W",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "Y",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "E",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "F",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 31,
-        "homeLetter": "I",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 32,
-        "homeLetter": "J",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 33,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 34,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 35,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 36,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
+      },
+      {
+        "raceNum": 31,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "Y",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 35,
+        "homeLetter": "W",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 36,
+        "homeLetter": "Y",
+        "awayLetter": "V"
       },
       {
         "raceNum": 37,
@@ -4423,12 +4423,12 @@
       },
       {
         "raceNum": 38,
-        "homeLetter": "v",
+        "homeLetter": "V",
         "awayLetter": "X"
       },
       {
         "raceNum": 39,
-        "homeLetter": "v",
+        "homeLetter": "V",
         "awayLetter": "W"
       },
       {
@@ -4633,183 +4633,183 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 15,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 16,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "Z",
-        "awayLetter": "Y"
-      },
-      {
-        "raceNum": 27,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 28,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 29,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 30,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 31,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 32,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 33,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 34,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 35,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 36,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 37,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 38,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "Z",
+        "awayLetter": "Y"
       },
       {
         "raceNum": 39,
@@ -5029,183 +5029,183 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 15,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 16,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 17,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 18,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 27,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 28,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 29,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 30,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 31,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 32,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 33,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 34,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 35,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 36,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 37,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 38,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
       },
       {
         "raceNum": 39,
@@ -5441,93 +5441,93 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "AA",
-        "awayLetter": "BB"
-      },
-      {
-        "raceNum": 15,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 16,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 17,
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "F",
         "awayLetter": "G"
       },
       {
-        "raceNum": 18,
+        "raceNum": 10,
         "homeLetter": "H",
         "awayLetter": "E"
       },
       {
-        "raceNum": 19,
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "J",
         "awayLetter": "K"
       },
       {
-        "raceNum": 20,
+        "raceNum": 16,
         "homeLetter": "L",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
       },
       {
         "raceNum": 21,
@@ -5541,93 +5541,93 @@
       },
       {
         "raceNum": 23,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "BB",
-        "awayLetter": "Y"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 31,
-        "homeLetter": "E",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 32,
-        "homeLetter": "F",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 33,
-        "homeLetter": "I",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 34,
-        "homeLetter": "J",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 35,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 36,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 37,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 38,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 39,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 40,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
+      },
+      {
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
       },
       {
         "raceNum": 41,
@@ -5884,93 +5884,93 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "BB",
-        "awayLetter": "CC"
-      },
-      {
-        "raceNum": 15,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 16,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 17,
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "F",
         "awayLetter": "G"
       },
       {
-        "raceNum": 18,
+        "raceNum": 10,
         "homeLetter": "H",
         "awayLetter": "E"
       },
       {
-        "raceNum": 19,
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "J",
         "awayLetter": "K"
       },
       {
-        "raceNum": 20,
+        "raceNum": 16,
         "homeLetter": "L",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
       },
       {
         "raceNum": 21,
@@ -5984,98 +5984,98 @@
       },
       {
         "raceNum": 23,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "CC",
-        "awayLetter": "BB"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 31,
-        "homeLetter": "E",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 32,
-        "homeLetter": "F",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 33,
-        "homeLetter": "I",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 34,
-        "homeLetter": "J",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 35,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 36,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 37,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 38,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 39,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 40,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
       },
       {
-        "raceNum": 41,
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 39,
         "homeLetter": "AA",
         "awayLetter": "Y"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "BB",
+        "awayLetter": "CC"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "CC",
+        "awayLetter": "BB"
       },
       {
         "raceNum": 42,
@@ -6343,93 +6343,93 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "BB",
-        "awayLetter": "CC"
-      },
-      {
-        "raceNum": 15,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 16,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 17,
+        "raceNum": 5,
+        "homeLetter": "A",
+        "awayLetter": "C"
+      },
+      {
+        "raceNum": 6,
+        "homeLetter": "B",
+        "awayLetter": "D"
+      },
+      {
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
         "homeLetter": "F",
         "awayLetter": "G"
       },
       {
-        "raceNum": 18,
+        "raceNum": 10,
         "homeLetter": "H",
         "awayLetter": "E"
       },
       {
-        "raceNum": 19,
+        "raceNum": 11,
+        "homeLetter": "E",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 12,
+        "homeLetter": "F",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
         "homeLetter": "J",
         "awayLetter": "K"
       },
       {
-        "raceNum": 20,
+        "raceNum": 16,
         "homeLetter": "L",
         "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
+        "homeLetter": "I",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 18,
+        "homeLetter": "J",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
       },
       {
         "raceNum": 21,
@@ -6443,98 +6443,98 @@
       },
       {
         "raceNum": 23,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "CC",
-        "awayLetter": "DD"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "A",
-        "awayLetter": "C"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "B",
-        "awayLetter": "D"
-      },
-      {
-        "raceNum": 31,
-        "homeLetter": "E",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 32,
-        "homeLetter": "F",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 33,
-        "homeLetter": "I",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 34,
-        "homeLetter": "J",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 35,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 36,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 37,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 38,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 39,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 40,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
       },
       {
-        "raceNum": 41,
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 39,
         "homeLetter": "AA",
         "awayLetter": "Y"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "BB",
+        "awayLetter": "CC"
+      },
+      {
+        "raceNum": 41,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
       },
       {
         "raceNum": 42,
@@ -6818,213 +6818,213 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "v"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "AA",
-        "awayLetter": "BB"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "CC",
-        "awayLetter": "DD"
-      },
-      {
-        "raceNum": 16,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 17,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 18,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 19,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "v",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "BB",
-        "awayLetter": "Y"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "DD",
-        "awayLetter": "EE"
-      },
-      {
-        "raceNum": 31,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 32,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 33,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 34,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 35,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 36,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 37,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 38,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 39,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 40,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 41,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 42,
-        "homeLetter": "v",
+        "raceNum": 36,
+        "homeLetter": "V",
         "awayLetter": "X"
       },
       {
-        "raceNum": 43,
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 41,
         "homeLetter": "Y",
         "awayLetter": "AA"
       },
       {
-        "raceNum": 44,
+        "raceNum": 42,
         "homeLetter": "Z",
         "awayLetter": "BB"
+      },
+      {
+        "raceNum": 43,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
+      },
+      {
+        "raceNum": 44,
+        "homeLetter": "DD",
+        "awayLetter": "EE"
       },
       {
         "raceNum": 45,
@@ -7324,223 +7324,223 @@
       },
       {
         "raceNum": 3,
-        "homeLetter": "E",
-        "awayLetter": "F"
-      },
-      {
-        "raceNum": 4,
-        "homeLetter": "G",
-        "awayLetter": "H"
-      },
-      {
-        "raceNum": 5,
-        "homeLetter": "I",
-        "awayLetter": "J"
-      },
-      {
-        "raceNum": 6,
-        "homeLetter": "K",
-        "awayLetter": "L"
-      },
-      {
-        "raceNum": 7,
-        "homeLetter": "M",
-        "awayLetter": "N"
-      },
-      {
-        "raceNum": 8,
-        "homeLetter": "O",
-        "awayLetter": "P"
-      },
-      {
-        "raceNum": 9,
-        "homeLetter": "Q",
-        "awayLetter": "R"
-      },
-      {
-        "raceNum": 10,
-        "homeLetter": "S",
-        "awayLetter": "T"
-      },
-      {
-        "raceNum": 11,
-        "homeLetter": "U",
-        "awayLetter": "V"
-      },
-      {
-        "raceNum": 12,
-        "homeLetter": "W",
-        "awayLetter": "X"
-      },
-      {
-        "raceNum": 13,
-        "homeLetter": "Y",
-        "awayLetter": "Z"
-      },
-      {
-        "raceNum": 14,
-        "homeLetter": "AA",
-        "awayLetter": "BB"
-      },
-      {
-        "raceNum": 15,
-        "homeLetter": "CC",
-        "awayLetter": "DD"
-      },
-      {
-        "raceNum": 16,
-        "homeLetter": "EE",
-        "awayLetter": "FF"
-      },
-      {
-        "raceNum": 17,
         "homeLetter": "B",
         "awayLetter": "C"
       },
       {
-        "raceNum": 18,
+        "raceNum": 4,
         "homeLetter": "D",
         "awayLetter": "A"
       },
       {
-        "raceNum": 19,
-        "homeLetter": "F",
-        "awayLetter": "G"
-      },
-      {
-        "raceNum": 20,
-        "homeLetter": "H",
-        "awayLetter": "E"
-      },
-      {
-        "raceNum": 21,
-        "homeLetter": "J",
-        "awayLetter": "K"
-      },
-      {
-        "raceNum": 22,
-        "homeLetter": "L",
-        "awayLetter": "I"
-      },
-      {
-        "raceNum": 23,
-        "homeLetter": "N",
-        "awayLetter": "O"
-      },
-      {
-        "raceNum": 24,
-        "homeLetter": "P",
-        "awayLetter": "M"
-      },
-      {
-        "raceNum": 25,
-        "homeLetter": "R",
-        "awayLetter": "S"
-      },
-      {
-        "raceNum": 26,
-        "homeLetter": "T",
-        "awayLetter": "Q"
-      },
-      {
-        "raceNum": 27,
-        "homeLetter": "V",
-        "awayLetter": "W"
-      },
-      {
-        "raceNum": 28,
-        "homeLetter": "X",
-        "awayLetter": "U"
-      },
-      {
-        "raceNum": 29,
-        "homeLetter": "Z",
-        "awayLetter": "AA"
-      },
-      {
-        "raceNum": 30,
-        "homeLetter": "BB",
-        "awayLetter": "Y"
-      },
-      {
-        "raceNum": 31,
-        "homeLetter": "DD",
-        "awayLetter": "EE"
-      },
-      {
-        "raceNum": 32,
-        "homeLetter": "FF",
-        "awayLetter": "CC"
-      },
-      {
-        "raceNum": 33,
+        "raceNum": 5,
         "homeLetter": "A",
         "awayLetter": "C"
       },
       {
-        "raceNum": 34,
+        "raceNum": 6,
         "homeLetter": "B",
         "awayLetter": "D"
       },
       {
-        "raceNum": 35,
+        "raceNum": 7,
+        "homeLetter": "E",
+        "awayLetter": "F"
+      },
+      {
+        "raceNum": 8,
+        "homeLetter": "G",
+        "awayLetter": "H"
+      },
+      {
+        "raceNum": 9,
+        "homeLetter": "F",
+        "awayLetter": "G"
+      },
+      {
+        "raceNum": 10,
+        "homeLetter": "H",
+        "awayLetter": "E"
+      },
+      {
+        "raceNum": 11,
         "homeLetter": "E",
         "awayLetter": "G"
       },
       {
-        "raceNum": 36,
+        "raceNum": 12,
         "homeLetter": "F",
         "awayLetter": "H"
       },
       {
-        "raceNum": 37,
+        "raceNum": 13,
+        "homeLetter": "I",
+        "awayLetter": "J"
+      },
+      {
+        "raceNum": 14,
+        "homeLetter": "K",
+        "awayLetter": "L"
+      },
+      {
+        "raceNum": 15,
+        "homeLetter": "J",
+        "awayLetter": "K"
+      },
+      {
+        "raceNum": 16,
+        "homeLetter": "L",
+        "awayLetter": "I"
+      },
+      {
+        "raceNum": 17,
         "homeLetter": "I",
         "awayLetter": "K"
       },
       {
-        "raceNum": 38,
+        "raceNum": 18,
         "homeLetter": "J",
         "awayLetter": "L"
       },
       {
-        "raceNum": 39,
+        "raceNum": 19,
+        "homeLetter": "M",
+        "awayLetter": "N"
+      },
+      {
+        "raceNum": 20,
+        "homeLetter": "O",
+        "awayLetter": "P"
+      },
+      {
+        "raceNum": 21,
+        "homeLetter": "N",
+        "awayLetter": "O"
+      },
+      {
+        "raceNum": 22,
+        "homeLetter": "P",
+        "awayLetter": "M"
+      },
+      {
+        "raceNum": 23,
         "homeLetter": "M",
         "awayLetter": "O"
       },
       {
-        "raceNum": 40,
+        "raceNum": 24,
         "homeLetter": "N",
         "awayLetter": "P"
       },
       {
-        "raceNum": 41,
+        "raceNum": 25,
+        "homeLetter": "Q",
+        "awayLetter": "R"
+      },
+      {
+        "raceNum": 26,
+        "homeLetter": "S",
+        "awayLetter": "T"
+      },
+      {
+        "raceNum": 27,
+        "homeLetter": "R",
+        "awayLetter": "S"
+      },
+      {
+        "raceNum": 28,
+        "homeLetter": "T",
+        "awayLetter": "Q"
+      },
+      {
+        "raceNum": 29,
         "homeLetter": "Q",
         "awayLetter": "S"
       },
       {
-        "raceNum": 42,
+        "raceNum": 30,
         "homeLetter": "R",
         "awayLetter": "T"
       },
       {
-        "raceNum": 43,
+        "raceNum": 31,
+        "homeLetter": "U",
+        "awayLetter": "V"
+      },
+      {
+        "raceNum": 32,
+        "homeLetter": "W",
+        "awayLetter": "X"
+      },
+      {
+        "raceNum": 33,
+        "homeLetter": "V",
+        "awayLetter": "W"
+      },
+      {
+        "raceNum": 34,
+        "homeLetter": "X",
+        "awayLetter": "U"
+      },
+      {
+        "raceNum": 35,
         "homeLetter": "U",
         "awayLetter": "W"
       },
       {
-        "raceNum": 44,
+        "raceNum": 36,
         "homeLetter": "V",
         "awayLetter": "X"
       },
       {
-        "raceNum": 45,
+        "raceNum": 37,
+        "homeLetter": "Y",
+        "awayLetter": "Z"
+      },
+      {
+        "raceNum": 38,
+        "homeLetter": "AA",
+        "awayLetter": "BB"
+      },
+      {
+        "raceNum": 39,
+        "homeLetter": "Z",
+        "awayLetter": "AA"
+      },
+      {
+        "raceNum": 40,
+        "homeLetter": "BB",
+        "awayLetter": "Y"
+      },
+      {
+        "raceNum": 41,
         "homeLetter": "Y",
         "awayLetter": "AA"
       },
       {
-        "raceNum": 46,
+        "raceNum": 42,
         "homeLetter": "Z",
         "awayLetter": "BB"
+      },
+      {
+        "raceNum": 43,
+        "homeLetter": "CC",
+        "awayLetter": "DD"
+      },
+      {
+        "raceNum": 44,
+        "homeLetter": "EE",
+        "awayLetter": "FF"
+      },
+      {
+        "raceNum": 45,
+        "homeLetter": "DD",
+        "awayLetter": "EE"
+      },
+      {
+        "raceNum": 46,
+        "homeLetter": "FF",
+        "awayLetter": "CC"
       },
       {
         "raceNum": 47,

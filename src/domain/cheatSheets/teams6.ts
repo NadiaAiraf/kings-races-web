@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_6: TournamentStructure = {
   teamCount: 6,
+  seedMap: [1, 6, 3, 2, 4, 5],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4, 5, 6] },
   ],

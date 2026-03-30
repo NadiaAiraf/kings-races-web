@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_20: TournamentStructure = {
   teamCount: 20,
+  seedMap: [1, 11, 21, 31, 41, 51, 53, 43, 33, 23, 14, 4, 2, 12, 22, 32, 42, 52, 13, 3],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4] },
     { letter: 'B', teamSlots: [21, 22, 23] },
@@ -48,6 +49,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 1, homeLetter: 'A', awayLetter: 'B' },
         { raceNum: 2, homeLetter: 'B', awayLetter: 'C' },
         { raceNum: 3, homeLetter: 'C', awayLetter: 'A' },
+
       ],
     },
     {
@@ -61,6 +63,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 1, homeLetter: 'D', awayLetter: 'E' },
         { raceNum: 2, homeLetter: 'E', awayLetter: 'F' },
         { raceNum: 3, homeLetter: 'F', awayLetter: 'D' },
+
       ],
     },
     {
@@ -74,6 +77,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 1, homeLetter: 'G', awayLetter: 'H' },
         { raceNum: 2, homeLetter: 'H', awayLetter: 'I' },
         { raceNum: 3, homeLetter: 'I', awayLetter: 'G' },
+
       ],
     },
     {
@@ -87,6 +91,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 1, homeLetter: 'J', awayLetter: 'K' },
         { raceNum: 2, homeLetter: 'K', awayLetter: 'L' },
         { raceNum: 3, homeLetter: 'L', awayLetter: 'J' },
+
       ],
     },
     {
@@ -104,6 +109,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 4, homeLetter: 'P', awayLetter: 'M' },
         { raceNum: 5, homeLetter: 'M', awayLetter: 'O' },
         { raceNum: 6, homeLetter: 'N', awayLetter: 'P' },
+
       ],
     },
     {
@@ -121,6 +127,7 @@ export const TEAMS_20: TournamentStructure = {
         { raceNum: 4, homeLetter: 'T', awayLetter: 'Q' },
         { raceNum: 5, homeLetter: 'Q', awayLetter: 'S' },
         { raceNum: 6, homeLetter: 'R', awayLetter: 'T' },
+
       ],
     },
   ],

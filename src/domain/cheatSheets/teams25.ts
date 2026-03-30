@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_25: TournamentStructure = {
   teamCount: 25,
+  seedMap: [1, 11, 21, 31, 41, 51, 61, 71, 73, 63, 53, 43, 33, 23, 13, 4, 2, 12, 22, 32, 42, 52, 62, 72, 3],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4] },
     { letter: 'B', teamSlots: [21, 22, 23] },
@@ -57,6 +58,7 @@ export const TEAMS_25: TournamentStructure = {
         { raceNum: 4, homeLetter: 'D', awayLetter: 'A' },
         { raceNum: 5, homeLetter: 'A', awayLetter: 'C' },
         { raceNum: 6, homeLetter: 'B', awayLetter: 'D' },
+
       ],
     },
     {
@@ -74,6 +76,7 @@ export const TEAMS_25: TournamentStructure = {
         { raceNum: 4, homeLetter: 'H', awayLetter: 'E' },
         { raceNum: 5, homeLetter: 'E', awayLetter: 'G' },
         { raceNum: 6, homeLetter: 'F', awayLetter: 'H' },
+
       ],
     },
     {
@@ -91,6 +94,7 @@ export const TEAMS_25: TournamentStructure = {
         { raceNum: 4, homeLetter: 'L', awayLetter: 'I' },
         { raceNum: 5, homeLetter: 'I', awayLetter: 'K' },
         { raceNum: 6, homeLetter: 'J', awayLetter: 'L' },
+
       ],
     },
     {
@@ -108,6 +112,7 @@ export const TEAMS_25: TournamentStructure = {
         { raceNum: 4, homeLetter: 'P', awayLetter: 'M' },
         { raceNum: 5, homeLetter: 'M', awayLetter: 'O' },
         { raceNum: 6, homeLetter: 'N', awayLetter: 'P' },
+
       ],
     },
     {
@@ -125,13 +130,14 @@ export const TEAMS_25: TournamentStructure = {
         { raceNum: 4, homeLetter: 'T', awayLetter: 'Q' },
         { raceNum: 5, homeLetter: 'Q', awayLetter: 'S' },
         { raceNum: 6, homeLetter: 'R', awayLetter: 'T' },
+
       ],
     },
     {
       groupNum: 'VI',
       seedingEntries: [
         { positionCode: '', letter: 'U', label: '3rd E' },
-        { positionCode: '', letter: 'v', label: '3rd F' },
+        { positionCode: '', letter: 'V', label: '3rd F' },
         { positionCode: '', letter: 'W', label: '3rd G' },
         { positionCode: '', letter: 'X', label: '3rd H' },
         { positionCode: '', letter: 'Y', label: '4th A' },
@@ -139,14 +145,15 @@ export const TEAMS_25: TournamentStructure = {
       races: [
         { raceNum: 1, homeLetter: 'X', awayLetter: 'U' },
         { raceNum: 2, homeLetter: 'Y', awayLetter: 'W' },
-        { raceNum: 3, homeLetter: 'U', awayLetter: 'v' },
+        { raceNum: 3, homeLetter: 'U', awayLetter: 'V' },
         { raceNum: 4, homeLetter: 'W', awayLetter: 'X' },
         { raceNum: 5, homeLetter: 'W', awayLetter: 'U' },
-        { raceNum: 6, homeLetter: 'Y', awayLetter: 'v' },
+        { raceNum: 6, homeLetter: 'Y', awayLetter: 'V' },
         { raceNum: 7, homeLetter: 'U', awayLetter: 'Y' },
-        { raceNum: 8, homeLetter: 'v', awayLetter: 'X' },
-        { raceNum: 9, homeLetter: 'v', awayLetter: 'W' },
+        { raceNum: 8, homeLetter: 'V', awayLetter: 'X' },
+        { raceNum: 9, homeLetter: 'V', awayLetter: 'W' },
         { raceNum: 10, homeLetter: 'X', awayLetter: 'Y' },
+
       ],
     },
   ],

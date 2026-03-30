@@ -43,6 +43,7 @@ export interface FinalsMatchup {
 
 export interface TournamentStructure {
   teamCount: number;
+  seedMap: number[];
   groups: GroupDefinition[];
   roundOneRaces: RaceMatchup[];
   roundTwoGroups?: RoundTwoGroupDefinition[];

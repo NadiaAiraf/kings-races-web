@@ -2,6 +2,7 @@ import type { TournamentStructure } from '../types';
 
 export const TEAMS_11: TournamentStructure = {
   teamCount: 11,
+  seedMap: [1, 21, 31, 33, 24, 4, 2, 22, 32, 23, 3],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4] },
     { letter: 'B', teamSlots: [21, 22, 23, 24] },
@@ -40,6 +41,7 @@ export const TEAMS_11: TournamentStructure = {
         { raceNum: 4, homeLetter: 'D', awayLetter: 'A' },
         { raceNum: 5, homeLetter: 'A', awayLetter: 'C' },
         { raceNum: 6, homeLetter: 'B', awayLetter: 'D' },
+
       ],
     },
     {
@@ -57,6 +59,7 @@ export const TEAMS_11: TournamentStructure = {
         { raceNum: 4, homeLetter: 'H', awayLetter: 'E' },
         { raceNum: 5, homeLetter: 'E', awayLetter: 'G' },
         { raceNum: 6, homeLetter: 'F', awayLetter: 'H' },
+
       ],
     },
     {
@@ -70,6 +73,7 @@ export const TEAMS_11: TournamentStructure = {
         { raceNum: 1, homeLetter: 'I', awayLetter: 'J' },
         { raceNum: 2, homeLetter: 'J', awayLetter: 'K' },
         { raceNum: 3, homeLetter: 'K', awayLetter: 'I' },
+
       ],
     },
   ],
