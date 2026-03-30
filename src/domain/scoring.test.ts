@@ -83,6 +83,48 @@ describe('calculateGroupStandings', () => {
   });
 });
 
+describe('round-scoped standings', () => {
+  const groupSlots = [1, 2, 3, 4];
+
+  it('R1 standings exclude R2 and finals scores when pre-filtered', () => {
+    const allScores: Score[] = [
+      { raceId: 'r1-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'r2-I-1', homeSlot: 1, awaySlot: 3, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'fin-0', homeSlot: 1, awaySlot: 4, homeOutcome: 'win', awayOutcome: 'loss' },
+    ];
+    const r1Scores = allScores.filter((s) => s.raceId.startsWith('r1-'));
+    const standings = calculateGroupStandings(r1Scores, groupSlots);
+    const team1 = standings.find((s) => s.slot === 1)!;
+    expect(team1.wins).toBe(1);
+    expect(team1.played).toBe(1);
+    expect(team1.points).toBe(3);
+  });
+
+  it('R1 standings count only R1 results across multiple R1 races', () => {
+    const allScores: Score[] = [
+      { raceId: 'r1-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'r1-2', homeSlot: 1, awaySlot: 3, homeOutcome: 'loss', awayOutcome: 'win' },
+      { raceId: 'r1-3', homeSlot: 1, awaySlot: 4, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'r2-I-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'r2-I-2', homeSlot: 1, awaySlot: 3, homeOutcome: 'win', awayOutcome: 'loss' },
+    ];
+    const r1Scores = allScores.filter((s) => s.raceId.startsWith('r1-'));
+    const standings = calculateGroupStandings(r1Scores, groupSlots);
+    const team1 = standings.find((s) => s.slot === 1)!;
+    expect(team1.played).toBe(3);
+  });
+
+  it('empty R1 scores yield zero standings', () => {
+    const allScores: Score[] = [
+      { raceId: 'r2-I-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' },
+      { raceId: 'fin-0', homeSlot: 3, awaySlot: 4, homeOutcome: 'win', awayOutcome: 'loss' },
+    ];
+    const r1Scores = allScores.filter((s) => s.raceId.startsWith('r1-'));
+    const standings = calculateGroupStandings(r1Scores, groupSlots);
+    standings.forEach((s) => expect(s.played).toBe(0));
+  });
+});
+
 describe('hasTies', () => {
   it('returns true when two teams have equal points', () => {
     expect(hasTies([

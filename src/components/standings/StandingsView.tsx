@@ -37,9 +37,10 @@ function buildResultsForDiscipline(
   const structure = getCheatSheet(disciplineState.teamCount);
   if (!structure) return null;
 
-  // Build R1 standings
+  // Build R1 standings (filter to r1-* scores only)
+  const r1Scores = disciplineState.scores.filter((s) => s.raceId.startsWith('r1-'));
   const r1Standings = calculateAllGroupStandings(
-    disciplineState.scores as any,
+    r1Scores as any,
     structure.groups
   );
 

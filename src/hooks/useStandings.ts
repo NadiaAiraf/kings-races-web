@@ -10,7 +10,8 @@ export function useStandings(discipline: DisciplineKey) {
   return useMemo(() => {
     if (!structure) return null;
 
-    const standings = calculateAllGroupStandings(scores, structure.groups);
+    const r1Scores = scores.filter((s) => s.raceId.startsWith('r1-'));
+    const standings = calculateAllGroupStandings(r1Scores, structure.groups);
     const tiesByGroup: Record<string, boolean> = {};
 
     for (const [letter, groupStandings] of Object.entries(standings)) {
