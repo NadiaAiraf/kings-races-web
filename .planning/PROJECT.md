@@ -37,7 +37,10 @@ A race official can run an entire event from their phone — entering teams, see
 
 ### Active
 
-(Next milestone — see `/gsd:new-milestone`)
+- [ ] Merge Races + Score into single tab (NAV-01)
+- [ ] Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02)
+- [ ] Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03)
+- [ ] Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02)
 
 ### Out of Scope
 
@@ -94,4 +97,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after v1.0 milestone*
+*Last updated: 2026-03-30 after v1.1 milestone start*
