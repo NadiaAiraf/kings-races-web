@@ -141,7 +141,7 @@ Plans:
 
 Plans:
 - [x] 08-01-PLAN.md -- Extract golden data from xlsx into JSON fixture for all 29 team counts
-- [ ] 08-02-PLAN.md -- Write parametric Vitest validation tests for seed mappings, R1 races, and R2 races
+- [x] 08-02-PLAN.md -- Write parametric Vitest validation tests for seed mappings, R1 races, and R2 races
 
 ### Phase 9: Seeding & R2 Order Fix
 **Goal**: Teams are assigned to groups using the xlsx serpentine draft pattern for all 29 team counts, and R2 race order exactly matches the xlsx
