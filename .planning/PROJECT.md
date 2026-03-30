@@ -36,11 +36,12 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ Tiebreak resolution UI for manual ordering — v1.0
 - ✓ Merge Races + Score into single tab (NAV-01) — v1.1 Phase 6
 - ✓ Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02) — v1.1 Phase 6
+- ✓ Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03) — v1.1 Phase 7
+- ✓ Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02) — v1.1 Phase 7
 
 ### Active
 
-- [ ] Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03)
-- [ ] Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02)
+None — v1.1 milestone complete
 
 ### Out of Scope
 
@@ -97,4 +98,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after Phase 6 completion*
+*Last updated: 2026-03-30 after v1.1 milestone completion*
