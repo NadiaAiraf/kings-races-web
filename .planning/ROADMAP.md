@@ -36,7 +36,12 @@
   2. After selecting DSQ for a team, that team's Win button is visually disabled and non-interactive
   3. Selecting a new outcome for a team automatically clears any previously selected outcome for that same team
   4. Scoring a matchup from the merged Races tab updates standings identically to the old Score tab
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md -- Create ExpandableRaceCard, update SubTabs and AppShell (remove Score/Finals tabs)
+- [ ] 06-02-PLAN.md -- Refactor RaceListView into unified scoring surface with inline scoring and finals integration
+
 **UI hint**: yes
 
 ### Phase 7: Standings & Finals Calculation Fixes
@@ -61,5 +66,5 @@
 | 3. Multi-Round Flow | v1.0 | 4/4 | Complete | 2026-03-30 |
 | 4. PWA & Polish | v1.0 | 1/1 | Complete | 2026-03-30 |
 | 5. Gap Closure | v1.0 | 1/1 | Complete | 2026-03-30 |
-| 6. Scoring UI & Interaction Fixes | v1.1 | 0/? | Not started | - |
+| 6. Scoring UI & Interaction Fixes | v1.1 | 0/2 | Planning | - |
 | 7. Standings & Finals Calculation Fixes | v1.1 | 0/? | Not started | - |
