@@ -98,7 +98,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 05-01-PLAN.md -- Fix R2 phase transition guard and add tiebreak resolution UI
+- [x] 05-01-PLAN.md -- Fix R2 phase transition guard and add tiebreak resolution UI
 
 ## Progress
 

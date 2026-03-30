@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: verifying
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-30T11:08:15.328Z"
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-30T11:54:45.108Z"
 last_activity: 2026-03-30
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 13
-  completed_plans: 13
+  total_phases: 5
+  completed_phases: 5
+  total_plans: 14
+  completed_plans: 14
   percent: 0
 ---
 
@@ -21,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-28)
 
 **Core value:** A race official can run an entire event from their phone -- entering teams, seeing the race order, recording results live, and viewing group standings at any time.
-**Current focus:** Phase 04 — pwa-and-offline
+**Current focus:** Phase 05 — gap-closure-r2-tiebreak
 
 ## Current Position
 
-Phase: 04
-Plan: Not started
+Phase: 05 (gap-closure-r2-tiebreak) — EXECUTING
+Plan: 1 of 1
 Status: Phase complete — ready for verification
 Last activity: 2026-03-30
 
@@ -65,6 +65,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03 P03 | 211 | 2 tasks | 8 files |
 | Phase 03 P04 | 4 | 3 tasks | 4 files |
 | Phase 04 P01 | 323 | 2 tasks | 15 files |
+| Phase 05 P01 | 112 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,8 @@ Recent decisions affecting current work:
 - [Phase 03]: Extracted computeFinalResults as pure function alongside useFinalResults hook for reuse in CSV export handler
 - [Phase 04]: autoUpdate registerType for silent SW updates without prompt UI
 - [Phase 04]: generateSW strategy for simple precaching of all static assets
+- [Phase 05]: Phase guard accepts both setup and group-stage to fix R2 transition for 8+ team events
+- [Phase 05]: TiebreakResolver uses UP/DOWN buttons instead of drag-and-drop for gloved outdoor use
 
 ### Pending Todos
 
@@ -107,6 +110,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T11:04:00.824Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-30T11:54:45.105Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
