@@ -10,11 +10,11 @@ Cheat sheet accuracy -- fix group seeding and validate all race data against the
 ### Seeding
 
 - [ ] **SEED-01**: Team-to-group assignment must follow the xlsx serpentine draft pattern for all 29 team counts (4-32), where top seeds are spread across groups rather than filling sequentially
-- [ ] **SEED-02**: A `seedMap` array must be added to each cheat sheet's `TournamentStructure` defining the exact seed-to-slot mapping from the xlsx
+- [x] **SEED-02**: A `seedMap` array must be added to each cheat sheet's `TournamentStructure` defining the exact seed-to-slot mapping from the xlsx
 
 ### Race Order
 
-- [ ] **R2ORD-01**: Round 2 race order must exactly match the xlsx cheat sheet for all applicable team counts (8+)
+- [x] **R2ORD-01**: Round 2 race order must exactly match the xlsx cheat sheet for all applicable team counts (8+)
 
 ### Validation
 
@@ -35,8 +35,8 @@ Cheat sheet accuracy -- fix group seeding and validate all race data against the
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | SEED-01 | Phase 9 | Pending |
-| SEED-02 | Phase 9 | Pending |
-| R2ORD-01 | Phase 9 | Pending |
+| SEED-02 | Phase 9 | Complete |
+| R2ORD-01 | Phase 9 | Complete |
 | VALID-01 | Phase 8 | Complete |
 | VALID-02 | Phase 8 | Complete |
 | VALID-03 | Phase 8 | Complete |
