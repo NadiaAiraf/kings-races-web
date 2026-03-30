@@ -80,10 +80,10 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. App can be installed via Add to Home Screen on iOS and Android and launches without browser chrome
   2. Service worker precaches all app assets so the app loads and functions with zero network connectivity
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md -- Install vite-plugin-pwa, generate icons, configure manifest and service worker, update index.html
 
 ## Progress
 
@@ -95,4 +95,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Data Foundation and Storage | 0/3 | Planning complete | - |
 | 2. Core Event Flow | 0/5 | Planning complete | - |
 | 3. Finals and Results | 0/4 | Planning complete | - |
-| 4. PWA and Offline | 0/0 | Not started | - |
+| 4. PWA and Offline | 0/1 | Planning complete | - |
