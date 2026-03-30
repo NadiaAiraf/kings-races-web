@@ -38,20 +38,20 @@ Bug fixes and UX improvements to v1.0.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NAV-01 | - | Pending |
-| SCORE-01 | - | Pending |
-| SCORE-02 | - | Pending |
-| STAND-01 | - | Pending |
-| STAND-02 | - | Pending |
-| STAND-03 | - | Pending |
-| FINAL-01 | - | Pending |
-| FINAL-02 | - | Pending |
+| NAV-01 | Phase 6 | Pending |
+| SCORE-01 | Phase 6 | Pending |
+| SCORE-02 | Phase 6 | Pending |
+| STAND-01 | Phase 7 | Pending |
+| STAND-02 | Phase 7 | Pending |
+| STAND-03 | Phase 7 | Pending |
+| FINAL-01 | Phase 7 | Pending |
+| FINAL-02 | Phase 7 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 8 total
-- Mapped to phases: 0
-- Unmapped: 8
+- Mapped to phases: 8
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-30*
-*Last updated: 2026-03-30 after initial definition*
+*Last updated: 2026-03-30 after roadmap creation*

@@ -3,16 +3,16 @@
 
 **Kings Races Web**
 
-A mobile-first web application for Kings Ski Club race officials to run university dry slope parallel slalom championship events. Replaces an existing Google Spreadsheet that manages team entry, race order generation, live result recording, group standings, and finals — making it usable slope-side on a phone.
+A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet — handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 → R2 → Finals), final results, and CSV export. Works offline slope-side.
 
 **Core Value:** A race official can run an entire event from their phone — entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
 ### Constraints
 
-- **Platform**: Web app, mobile-first — must work in mobile browsers (no native app)
-- **Data**: Client-side storage only for v1 (localStorage or similar)
-- **Race orders**: Must replicate exact pre-computed cheat sheet matchup sequences from existing spreadsheet
-- **Offline tolerance**: Should handle spotty connectivity gracefully since it's used slope-side
+- **Platform**: Web app, mobile-first (no native app)
+- **Data**: Client-side localStorage only
+- **Race orders**: Exact cheat sheet replication (29 sequences)
+- **Offline**: PWA service worker for slope-side reliability
 <!-- GSD:project-end -->
 
 <!-- GSD:stack-start source:research/STACK.md -->
