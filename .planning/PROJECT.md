@@ -34,11 +34,11 @@ A race official can run an entire event from their phone — entering teams, see
 - ✓ localStorage persistence (survives tab death) — v1.0
 - ✓ PWA installable with offline support — v1.0
 - ✓ Tiebreak resolution UI for manual ordering — v1.0
+- ✓ Merge Races + Score into single tab (NAV-01) — v1.1 Phase 6
+- ✓ Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02) — v1.1 Phase 6
 
 ### Active
 
-- [ ] Merge Races + Score into single tab (NAV-01)
-- [ ] Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02)
 - [ ] Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03)
 - [ ] Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02)
 
@@ -97,4 +97,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after v1.1 milestone start*
+*Last updated: 2026-03-30 after Phase 6 completion*
