@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useDisciplineState } from './useDisciplineState';
 import { useFinalsState } from './useFinalsState';
-import type { ResolvedFinalsMatchupWithNames } from './useFinalsState';
 import type { DisciplineKey, Team, Score } from '../domain/types';
 import type { FinalResult } from '../domain/csvExport';
 

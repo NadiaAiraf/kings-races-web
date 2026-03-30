@@ -159,7 +159,7 @@ describe('Exhaustive cheat sheet test', () => {
         r2Standings = {};
         for (const r2Group of structure.roundTwoGroups) {
           // Use sequential slot numbers for mock R2 standings
-          r2Standings[r2Group.groupNum] = r2Group.seedingEntries.map((entry, i) =>
+          r2Standings[r2Group.groupNum] = r2Group.seedingEntries.map((_entry, i) =>
             standing(100 + i, (r2Group.seedingEntries.length - i) * 3)
           );
         }

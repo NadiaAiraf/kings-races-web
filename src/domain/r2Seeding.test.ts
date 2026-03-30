@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Score, TeamStanding, TournamentStructure, RoundTwoSeeding } from './types';
+import type { Score, TeamStanding, RoundTwoSeeding } from './types';
 import {
   resolveR2TeamSlot,
   resolveR2GroupTeams,

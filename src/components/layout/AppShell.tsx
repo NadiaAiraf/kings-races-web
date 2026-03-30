@@ -15,7 +15,6 @@ import { useR2State } from '../../hooks/useR2State';
 import { useStandings } from '../../hooks/useStandings';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { areAllR1RacesScored } from '../../domain/r2Seeding';
-import { hasTies } from '../../domain/scoring';
 
 export function AppShell() {
   const activeDiscipline = useEventStore((s) => s.activeDiscipline);
@@ -25,9 +24,9 @@ export function AppShell() {
   const [showStandings, setShowStandings] = useState(false);
 
   const { scores, structure, phase } = useDisciplineState(activeDiscipline);
-  const { currentIndex, totalRaces, allR1Scored, scoredR1, scoredR2 } =
+  const { currentIndex, totalRaces, scoredR1, scoredR2 } =
     useCurrentRace(activeDiscipline);
-  const r2State = useR2State(activeDiscipline);
+  useR2State(activeDiscipline);
   const standingsResult = useStandings(activeDiscipline);
   const finalsState = useFinalsState(activeDiscipline);
 

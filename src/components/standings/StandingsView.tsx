@@ -6,7 +6,7 @@ import { useR2State } from '../../hooks/useR2State';
 import { useFinalResults, computeFinalResults } from '../../hooks/useFinalResults';
 import { getGroupRaces } from '../../domain/groupCalculations';
 import { calculateAllGroupStandings } from '../../domain/groupCalculations';
-import { calculateGroupStandings, hasTies } from '../../domain/scoring';
+import { calculateGroupStandings } from '../../domain/scoring';
 import { getCheatSheet } from '../../domain/cheatSheets';
 import { resolveAllFinalsMatchups, areAllFinalsScored } from '../../domain/finalsSeeding';
 import { generateEventCSV, triggerCSVDownload } from '../../domain/csvExport';
@@ -55,11 +55,7 @@ function buildResultsForDiscipline(
       // Get team slots for this R2 group from seeding entries
       const teamSlots: number[] = [];
       for (const entry of r2Group.seedingEntries) {
-        // Each seeding entry resolves to a team slot from R1 standings
-        const groupLetter = entry.positionCode.slice(1); // e.g., "A" from "A1"
-        const posIndex = parseInt(entry.positionCode.slice(0, 1), 10) - 1;
-        // Actually positionCode is like "A1" meaning group A, position 1
-        // But we need to parse it properly
+        // positionCode is like "A1" meaning group A, position 1
         const letterMatch = entry.positionCode.match(/^([A-Z])(\d+)$/);
         if (letterMatch) {
           const groupKey = letterMatch[1];
@@ -86,7 +82,6 @@ function buildResultsForDiscipline(
   );
 
   // Build finalsWithNames equivalent
-  const teamMap = new Map(disciplineState.teams.map((t) => [t.slot, t.name]));
   const finalsWithNames = resolvedMatchups.map((m, index) => ({
     ...m,
     score: disciplineState.scores.find((s) => s.raceId === `fin-${index}`) ?? null,

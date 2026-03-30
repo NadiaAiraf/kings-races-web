@@ -15,7 +15,7 @@ interface FinalsMatchupCardProps {
 }
 
 export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardProps>(
-  function FinalsMatchupCard({ matchup, discipline, isActive, canScore, onScored }, ref) {
+  function FinalsMatchupCard({ matchup, discipline, canScore, onScored }, ref) {
     const recordResult = useEventStore((s) => s.recordResult);
     const clearResult = useEventStore((s) => s.clearResult);
 
