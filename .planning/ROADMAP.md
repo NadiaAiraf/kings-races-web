@@ -53,7 +53,10 @@ Plans:
   2. Round 2 standings table shows points and results only from Round 2 races -- no R1 or finals data appears
   3. Final event positions (1st, 2nd, 3rd, etc.) are determined entirely by finals matchup results, not group stage totals
   4. Group stage results (R1 + R2) affect only seeding into finals brackets, not final placement
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 07-01-PLAN.md -- Fix R1 standings scoping in useStandings and CSV export, add finals placement verification tests
 
 ## Progress
 
@@ -66,5 +69,5 @@ Plans:
 | 3. Multi-Round Flow | v1.0 | 4/4 | Complete | 2026-03-30 |
 | 4. PWA & Polish | v1.0 | 1/1 | Complete | 2026-03-30 |
 | 5. Gap Closure | v1.0 | 1/1 | Complete | 2026-03-30 |
-| 6. Scoring UI & Interaction Fixes | v1.1 | 0/2 | Planning | - |
-| 7. Standings & Finals Calculation Fixes | v1.1 | 0/? | Not started | - |
+| 6. Scoring UI & Interaction Fixes | v1.1 | 2/2 | Complete | 2026-03-30 |
+| 7. Standings & Finals Calculation Fixes | v1.1 | 0/1 | Planning | - |
