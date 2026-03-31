@@ -10,5 +10,6 @@ export interface EventStoreActions {
   setActiveDiscipline: (discipline: DisciplineKey) => void;
   setDisciplinePhase: (discipline: DisciplineKey, phase: DisciplineState['phase']) => void;
   setManualTiebreak: (discipline: DisciplineKey, groupKey: string, orderedSlots: number[]) => void;
+  resetDiscipline: (discipline: DisciplineKey) => void;
   resetEvent: () => void;
 }

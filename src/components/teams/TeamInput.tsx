@@ -5,13 +5,17 @@ interface TeamInputProps {
   onAdd: (name: string) => void;
   disabled?: boolean;
   error?: string;
+  existingNames?: string[];
 }
 
-export function TeamInput({ onAdd, disabled, error }: TeamInputProps) {
+export function TeamInput({ onAdd, disabled, error, existingNames = [] }: TeamInputProps) {
   const [value, setValue] = useState('');
 
   const trimmed = value.trim();
-  const canAdd = trimmed.length > 0 && !disabled;
+  const isDuplicate = trimmed.length > 0 && existingNames.some(
+    (n) => n.toLowerCase() === trimmed.toLowerCase()
+  );
+  const canAdd = trimmed.length > 0 && !disabled && !isDuplicate;
 
   const handleSubmit = () => {
     if (!canAdd) return;
@@ -49,6 +53,7 @@ export function TeamInput({ onAdd, disabled, error }: TeamInputProps) {
           Add Team
         </button>
       </div>
+      {isDuplicate && <p className="text-sm text-amber-600">Team already added</p>}
       {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   );

@@ -104,6 +104,14 @@ export const useEventStore = create<EventStoreState & EventStoreActions>()(
           },
         })),
 
+      resetDiscipline: (discipline: DisciplineKey) =>
+        set((state) => ({
+          disciplines: {
+            ...state.disciplines,
+            [discipline]: createInitialDisciplineState(),
+          },
+        })),
+
       resetEvent: () => set(createInitialState()),
     }),
     {

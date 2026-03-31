@@ -54,9 +54,11 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
     [teams, hasScores, discipline, setTeams]
   );
 
+  const resetDiscipline = useEventStore((s) => s.resetDiscipline);
+
   const handleReset = useCallback(() => {
-    setTeams(discipline, []);
-  }, [discipline, setTeams]);
+    resetDiscipline(discipline);
+  }, [discipline, resetDiscipline]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -64,6 +66,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
         onAdd={handleAdd}
         disabled={atLimit || hasScores}
         error={validationError}
+        existingNames={teams.map((t) => t.name)}
       />
       <p className="text-sm text-slate-500">{teamCount} teams entered</p>
       {teamCount < 4 && teamCount > 0 && (
