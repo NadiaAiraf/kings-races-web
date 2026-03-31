@@ -3,6 +3,7 @@ import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
 import type { SubTabKey } from './SubTabs';
+import type { DisciplineKey } from '../../domain/types';
 import { ProgressBar } from '../shared/ProgressBar';
 import { TeamEntryView } from '../teams/TeamEntryView';
 import { RaceListView } from '../races/RaceListView';
@@ -59,8 +60,14 @@ export function AppShell() {
   const raceProgress =
     totalScored > 0 && totalScored >= totalRaces ? totalRaces : totalScored > 0 ? totalScored : currentIndex >= 0 ? currentIndex + 1 : totalRaces > 0 ? totalRaces : 0;
 
+  const disciplineBg: Record<DisciplineKey, string> = {
+    mixed: 'bg-blue-50',
+    board: 'bg-green-50',
+    ladies: 'bg-red-50',
+  };
+
   return (
-    <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto bg-white">
+    <div className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto ${disciplineBg[activeDiscipline]}`}>
       <DisciplineTabs active={activeDiscipline} onSelect={setActiveDiscipline} />
       {showStandings ? (
         <StandingsView
