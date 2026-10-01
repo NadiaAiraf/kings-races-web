@@ -1,5 +1,7 @@
 export type DisciplineKey = 'mixed' | 'board' | 'ladies';
-export type RaceOutcome = 'win' | 'loss' | 'dsq';
+// 'not-run' is only offered for finals: both teams get it and share the
+// higher placing.
+export type RaceOutcome = 'win' | 'loss' | 'dsq' | 'not-run';
 
 export interface Team {
   slot: number;      // Positional slot from cheat sheet (1, 2, 11, 12, etc.)

@@ -9,7 +9,11 @@ export const firebaseAuthDeps: AuthDeps = {
       onUser(user ? { uid: user.uid, email: user.email } : null)
     ),
   watchApproval: (uid, onApproved, onError) =>
-    onSnapshot(doc(db, 'approvedUsers', uid), (snap) => onApproved(snap.exists()), onError),
+    onSnapshot(
+      doc(db, 'approvedUsers', uid),
+      (snap) => onApproved(snap.exists(), snap.metadata.fromCache),
+      onError
+    ),
 };
 
 export async function signInWithEmail(email: string, password: string): Promise<void> {

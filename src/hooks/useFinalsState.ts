@@ -4,6 +4,7 @@ import { useStandings } from './useStandings';
 import { useR2State } from './useR2State';
 import { areAllR1RacesScored } from '../domain/r2Seeding';
 import { resolveAllFinalsMatchups, areAllFinalsScored } from '../domain/finalsSeeding';
+import { NO_TIEBREAKS } from './groupOrder';
 import type { DisciplineKey, Score } from '../domain/types';
 import type { ResolvedFinalsMatchup } from '../domain/finalsSeeding';
 
@@ -18,7 +19,7 @@ export interface ResolvedFinalsMatchupWithNames extends ResolvedFinalsMatchup {
 }
 
 export function useFinalsState(discipline: DisciplineKey) {
-  const { scores, teams, structure, phase, manualTiebreaks } = useDisciplineState(discipline);
+  const { scores, teams, structure, phase } = useDisciplineState(discipline);
   const r1StandingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
 
@@ -61,7 +62,8 @@ export function useFinalsState(discipline: DisciplineKey) {
       structure,
       standingsForResolution,
       r1Standings,
-      manualTiebreaks
+      // Both standings maps already reflect any valid manual order.
+      NO_TIEBREAKS
     );
 
     // Team name lookup
@@ -89,5 +91,5 @@ export function useFinalsState(discipline: DisciplineKey) {
       scoredFinals,
       hasR2,
     };
-  }, [scores, teams, structure, phase, manualTiebreaks, r1StandingsResult, r2State]);
+  }, [scores, teams, structure, phase, r1StandingsResult, r2State]);
 }

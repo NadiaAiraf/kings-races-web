@@ -1,7 +1,20 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router';
 import { useAuth } from '../auth/authContext';
 import { signOutUser } from '../auth/firebaseAuth';
+import { hasUnsyncedWrites } from '../events/eventsRepo';
+
+const UNSYNCED_SIGN_OUT_WARNING =
+  'Some results on this phone have not synced yet. If you sign out, they stay queued here and are only sent when you sign back in on this phone. Sign out anyway?';
+
+async function signOutSafely() {
+  if ((await hasUnsyncedWrites()) && !window.confirm(UNSYNCED_SIGN_OUT_WARNING)) return;
+  try {
+    await signOutUser();
+  } catch (err) {
+    console.error('Sign out failed', err);
+  }
+}
 
 interface PageHeaderProps {
   title: string;
@@ -11,13 +24,23 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, subtitle, backTo }: PageHeaderProps) {
   const { user } = useAuth();
+  const [signingOut, setSigningOut] = useState(false);
+
+  async function handleSignOut() {
+    setSigningOut(true);
+    try {
+      await signOutSafely();
+    } finally {
+      setSigningOut(false);
+    }
+  }
 
   return (
     <header className="flex items-center gap-2 bg-white border-b border-slate-200 px-4 min-h-14">
       {backTo && (
         <Link
           to={backTo}
-          aria-label="Back to events"
+          aria-label="Back to rounds"
           className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-blue-600"
         >
           {'‹'}
@@ -30,7 +53,8 @@ export function PageHeader({ title, subtitle, backTo }: PageHeaderProps) {
       {user ? (
         <button
           type="button"
-          onClick={() => void signOutUser()}
+          onClick={() => void handleSignOut()}
+          disabled={signingOut}
           className="min-h-11 px-2 text-sm text-slate-500"
         >
           Sign out

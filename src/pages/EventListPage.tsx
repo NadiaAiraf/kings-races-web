@@ -4,23 +4,31 @@ import { useAuth } from '../auth/authContext';
 import { subscribeEvents } from '../events/eventsRepo';
 import type { EventSummary } from '../events/eventDoc';
 import { PageHeader, PageLayout } from './PageLayout';
-import { formatEventDate } from './formatEventDate';
+import { formatEventDate } from '../lib/dates';
+import { withErrorCode } from '../lib/firebaseErrors';
 
 export function EventListPage() {
-  const { user, isApproved } = useAuth();
+  const { user, isApproved, loading, approvalCheckFailed } = useAuth();
   const [events, setEvents] = useState<EventSummary[] | null>(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<unknown>(null);
+  const [fromCache, setFromCache] = useState(false);
+  // Bumped by Retry: Firestore stops a listener after an error.
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(
     () =>
       subscribeEvents(
-        (list) => {
+        (list, meta) => {
           setEvents(list);
-          setError(false);
+          setFromCache(meta.fromCache);
+          setError(null);
         },
-        () => setError(true)
+        (err) => {
+          console.error('Event list subscription failed', err);
+          setError(err);
+        }
       ),
-    []
+    [attempt]
   );
 
   return (
@@ -35,16 +43,33 @@ export function EventListPage() {
             New round
           </Link>
         )}
-        {user && !isApproved && (
+        {user && !loading && !isApproved && (
           <p className="text-sm text-slate-500">
-            You are signed in as {user.email}, but this account is not approved to score yet.
+            {approvalCheckFailed
+              ? 'Could not check whether this account can score. Reload the page when you are back online.'
+              : `You are signed in as ${user.email}, but this account is not approved to score yet.`}
           </p>
         )}
 
-        {error && <p className="text-sm text-red-600">Could not load rounds. Check your connection.</p>}
-        {!error && events === null && <p className="text-sm text-slate-500">Loading rounds...</p>}
+        {error !== null && (
+          <div className="flex items-center gap-2">
+            <p className="flex-1 text-sm text-red-600">
+              {withErrorCode('Could not load rounds. Check your connection.', error)}
+            </p>
+            <button
+              type="button"
+              onClick={() => setAttempt((n) => n + 1)}
+              className="min-h-11 px-3 text-sm font-semibold text-blue-600"
+            >
+              Retry
+            </button>
+          </div>
+        )}
+        {error === null && events === null && <p className="text-sm text-slate-500">Loading rounds...</p>}
         {events?.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-8">No rounds yet.</p>
+          <p className="text-sm text-slate-500 text-center py-8">
+            {fromCache ? 'You are offline. Rounds appear here once you reconnect.' : 'No rounds yet.'}
+          </p>
         )}
 
         <ul className="flex flex-col gap-2">

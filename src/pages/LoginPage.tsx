@@ -36,6 +36,7 @@ export function LoginPage() {
       await signInWithEmail(email.trim(), password);
       navigate('/', { replace: true });
     } catch (err) {
+      console.error('Sign in failed', err instanceof FirebaseError ? err.code : err);
       setError(signInErrorMessage(err));
     } finally {
       setSubmitting(false);

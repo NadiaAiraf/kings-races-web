@@ -5,6 +5,7 @@ const OUTCOME_STYLES: Record<RaceOutcome, string> = {
   win: 'bg-green-100 text-green-800',
   loss: 'bg-amber-100 text-amber-800',
   dsq: 'bg-red-100 text-red-800',
+  'not-run': 'bg-slate-100 text-slate-500',
 };
 
 interface ResultCellProps {

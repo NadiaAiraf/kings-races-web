@@ -33,6 +33,8 @@ interface ExpandableRaceCardProps {
   matchupLabel?: string;
   seedingContext?: string;
   isFinalMatch?: boolean;
+  /** Finals only: offer "Race not run", which ties both teams on the higher placing. */
+  allowNotRun?: boolean;
   onExpand: (raceId: string) => void;
   onScore: (result: {
     raceId: string;
@@ -57,6 +59,7 @@ export function ExpandableRaceCard({
   matchupLabel,
   seedingContext,
   isFinalMatch,
+  allowNotRun,
   onExpand,
   onScore,
 }: ExpandableRaceCardProps) {
@@ -85,6 +88,12 @@ export function ExpandableRaceCard({
 
     onScore({ raceId, homeSlot, awaySlot, homeOutcome, awayOutcome });
   }
+
+  function handleNotRun() {
+    onScore({ raceId, homeSlot, awaySlot, homeOutcome: 'not-run', awayOutcome: 'not-run' });
+  }
+
+  const wasNotRun = score?.homeOutcome === 'not-run';
 
   return (
     <div
@@ -126,11 +135,17 @@ export function ExpandableRaceCard({
         <div className="flex items-center gap-2">
           <div className="flex-1 text-base font-semibold text-slate-900 flex items-center gap-2">
             <span>{homeTeamName}</span>
-            {score && <OutcomeBadge outcome={score.homeOutcome} />}
+            {score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
           </div>
-          <span className="text-slate-500">vs</span>
+          {wasNotRun ? (
+            <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700">
+              Not run
+            </span>
+          ) : (
+            <span className="text-slate-500">vs</span>
+          )}
           <div className="flex-1 text-base font-semibold text-slate-900 text-right flex items-center justify-end gap-2">
-            {score && <OutcomeBadge outcome={score.awayOutcome} />}
+            {score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
             <span>{awayTeamName}</span>
           </div>
         </div>
@@ -179,6 +194,11 @@ export function ExpandableRaceCard({
               />
             </div>
           </div>
+        </div>
+      )}
+      {isExpanded && allowNotRun && (
+        <div className="flex mt-3" onClick={(e) => e.stopPropagation()}>
+          <OutcomeButton outcome="not-run" selected={wasNotRun} onSelect={handleNotRun} />
         </div>
       )}
     </div>

@@ -1,12 +1,13 @@
 import { useId } from 'react';
+import { useCanEdit } from '../../auth/editAccess';
 
 interface FinalsReadyBannerProps {
-  /** Omit for read-only viewers. */
-  onConfirm?: () => void;
+  onConfirm: () => void;
 }
 
 export function FinalsReadyBanner({ onConfirm }: FinalsReadyBannerProps) {
   const descriptionId = useId();
+  const canEdit = useCanEdit();
 
   return (
     <div
@@ -18,10 +19,7 @@ export function FinalsReadyBanner({ onConfirm }: FinalsReadyBannerProps) {
       <p id={descriptionId} className="text-sm text-green-700 mt-1">
         All races scored with no ties. Ready to begin finals.
       </p>
-      {!onConfirm && (
-        <p className="text-sm text-green-700 mt-2">Waiting for an official to confirm finals.</p>
-      )}
-      {onConfirm && (
+      {canEdit ? (
         <button
           type="button"
           aria-describedby={descriptionId}
@@ -30,6 +28,8 @@ export function FinalsReadyBanner({ onConfirm }: FinalsReadyBannerProps) {
         >
           Confirm Finals
         </button>
+      ) : (
+        <p className="text-sm text-green-700 mt-2">Waiting for an official to confirm finals.</p>
       )}
     </div>
   );

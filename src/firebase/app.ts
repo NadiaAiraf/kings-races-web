@@ -8,6 +8,8 @@ import {
 } from 'firebase/firestore';
 import { readFirebaseConfig } from './config';
 
+// Firebase initialises when this module is first imported (via eventsRepo or
+// firebaseAuth). Tests mock those modules so they never load this one.
 const config = readFirebaseConfig(import.meta.env);
 
 export const app = initializeApp(config.options);

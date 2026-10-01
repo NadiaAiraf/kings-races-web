@@ -1,12 +1,35 @@
 rules_version = '2';
 
+// These rules are the real access control; the app only hides controls.
+// They are not deployed by CI. After changing them, deploy by hand:
+//   npx firebase deploy --only firestore:rules --project <projectId>
+//
+// Event shape must match buildNewEventDoc and FirestoreDiscipline in
+// src/events/eventDoc.ts (scores and tiebreaks are maps keyed by race id /
+// group so concurrent scorers write separate fields).
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Approval is an allowlist managed by hand in the Firebase console.
+    // Approval is an allowlist managed by hand in the Firebase console:
+    // approvedUsers/{uid} exists => that user may create and score events.
     function isApproved() {
       return request.auth != null
         && exists(/databases/$(database)/documents/approvedUsers/$(request.auth.uid));
+    }
+
+    function eventKeys() {
+      return ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'];
+    }
+
+    function isValidDiscipline(d) {
+      return d is map
+        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks'])
+        && d.teams is list
+        && d.teams.size() <= 32
+        && d.phase in ['setup', 'group-stage', 'round-two', 'finals', 'complete']
+        && d.scores is map
+        && d.manualTiebreaks is map;
     }
 
     function hasValidFields(data) {
@@ -14,30 +37,47 @@ service cloud.firestore {
         && data.name.size() > 0
         && data.name.size() <= 100
         && data.date is string
-        && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.date.matches('^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$')
         && data.disciplines is map
-        && data.disciplines.keys().hasOnly(['mixed', 'board', 'ladies']);
+        && data.disciplines.keys().hasOnly(['mixed', 'board', 'ladies'])
+        && data.disciplines.keys().hasAll(['mixed', 'board', 'ladies'])
+        && isValidDiscipline(data.disciplines.mixed)
+        && isValidDiscipline(data.disciplines.board)
+        && isValidDiscipline(data.disciplines.ladies);
+    }
+
+    // Teams decide which slot each result belongs to, so they may only change
+    // in a discipline with no results (e.g. a stale offline team edit must not
+    // re-slot teams under another device's scores). A reset clears both.
+    function teamsChangeAllowed(key) {
+      return request.resource.data.disciplines[key].teams == resource.data.disciplines[key].teams
+        || request.resource.data.disciplines[key].scores.size() == 0;
     }
 
     match /events/{eventId} {
-      // Anyone, signed in or not, can watch any event.
-      allow read: if true;
+      // Anyone, signed in or not, can watch any event. List queries must be
+      // bounded (EVENT_LIST_LIMIT in eventsRepo.ts) to protect the read quota.
+      allow get: if true;
+      allow list: if request.query.limit <= 40;
 
       allow create: if isApproved()
-        && request.resource.data.keys().hasOnly(
-             ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'])
-        && request.resource.data.keys().hasAll(
-             ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'])
+        && request.resource.data.keys().hasOnly(eventKeys())
+        && request.resource.data.keys().hasAll(eventKeys())
         && request.resource.data.createdBy == request.auth.uid
         && request.resource.data.createdAt == request.time
         && request.resource.data.updatedAt == request.time
         && hasValidFields(request.resource.data);
 
+      // name and date stay editable for a future rename UI (console edits
+      // bypass these rules anyway); createdBy/createdAt never change.
       allow update: if isApproved()
         && request.resource.data.diff(resource.data).affectedKeys()
              .hasOnly(['name', 'date', 'updatedAt', 'disciplines'])
         && request.resource.data.updatedAt == request.time
-        && hasValidFields(request.resource.data);
+        && hasValidFields(request.resource.data)
+        && teamsChangeAllowed('mixed')
+        && teamsChangeAllowed('board')
+        && teamsChangeAllowed('ladies');
 
       allow delete: if false;
     }

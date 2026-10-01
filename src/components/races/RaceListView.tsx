@@ -9,21 +9,9 @@ import { ExpandableRaceCard } from './ExpandableRaceCard';
 import { RoundHeader } from './RoundHeader';
 import { FinalsBlockedBanner } from '../finals/FinalsBlockedBanner';
 import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
-import { TiebreakResolver } from '../standings/TiebreakResolver';
-import type { DisciplineKey, Score, RaceOutcome, TeamStanding } from '../../domain/types';
-import { useCanEdit } from '../../auth/editAccess';
-
-function getTiedClusters(standings: TeamStanding[]): TeamStanding[][] {
-  const clusters: TeamStanding[][] = [];
-  let i = 0;
-  while (i < standings.length) {
-    let j = i + 1;
-    while (j < standings.length && standings[j].points === standings[i].points) j++;
-    if (j - i > 1) clusters.push(standings.slice(i, j));
-    i = j;
-  }
-  return clusters;
-}
+import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
+import { r2TiebreakKey } from '../../hooks/groupOrder';
+import type { DisciplineKey, Score, RaceOutcome } from '../../domain/types';
 
 function findNextUnscoredId(
   allRaceIds: string[],
@@ -42,14 +30,13 @@ interface RaceListViewProps {
 }
 
 export function RaceListView({ discipline }: RaceListViewProps) {
-  const { teams, scores, structure, phase } = useDisciplineState(discipline);
+  const { teams, scores, structure, phase, manualTiebreaks } = useDisciplineState(discipline);
   const { allR1Scored } = useCurrentRace(discipline);
   const r2State = useR2State(discipline);
   const finalsState = useFinalsState(discipline);
   const standingsResult = useStandings(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
-  const canEdit = useCanEdit();
 
   const [expandedRaceId, setExpandedRaceId] = useState<string | null>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -97,7 +84,6 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       homeOutcome: RaceOutcome;
       awayOutcome: RaceOutcome;
     }) => {
-      if (!canEdit) return;
       recordResult(discipline, result);
       // Compute next unscored synchronously before React re-renders
       const updatedScoreMap = new Map(scoreMap);
@@ -112,7 +98,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         });
       }
     },
-    [canEdit, discipline, recordResult, scoreMap, allRaceIds],
+    [discipline, recordResult, scoreMap, allRaceIds],
   );
 
   if (!structure) {
@@ -126,14 +112,22 @@ export function RaceListView({ discipline }: RaceListViewProps) {
     );
   }
 
-  // Finals gate rendering helpers
+  // Groups an official may need to complete by hand when teams tie.
   const hasR2 = finalsState?.hasR2 ?? false;
-  const tiesByGroup = hasR2
-    ? (r2State?.r2TiesByGroup ?? {})
-    : (standingsResult?.tiesByGroup ?? {});
-  const standingsMap = hasR2
-    ? (r2State?.r2Standings ?? {})
-    : (standingsResult?.standings ?? {});
+  const r1TiebreakGroups: TiebreakGroup[] = structure.groups.map((g) => ({
+    key: g.letter,
+    label: `Group ${g.letter}`,
+    standings: standingsResult?.rawStandings[g.letter] ?? [],
+  }));
+  const r2TiebreakGroups: TiebreakGroup[] = (r2State?.r2Groups ?? []).map((g) => ({
+    key: r2TiebreakKey(g.groupNum),
+    label: `Round 2 Group ${g.groupNum}`,
+    standings: r2State?.r2RawStandings[g.groupNum] ?? [],
+  }));
+  // Groups whose order feeds the finals: Round 2 if the format has it.
+  const finalsTiebreakGroups = hasR2 ? r2TiebreakGroups : r1TiebreakGroups;
+  const anyR2Scored = scores.some((s) => s.raceId.startsWith('r2-'));
+  const finalsStarted = phase === 'finals' || phase === 'complete';
 
   return (
     <div>
@@ -171,6 +165,15 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         <p className="text-sm text-slate-500 text-center py-2">
           All Round 1 races scored
         </p>
+      )}
+      {allR1Scored && hasR2 && (
+        <GroupTiebreaks
+          discipline={discipline}
+          groups={r1TiebreakGroups}
+          manualTiebreaks={manualTiebreaks}
+          teamNames={teamMap}
+          canChange={!anyR2Scored}
+        />
       )}
 
       {/* Round 2 */}
@@ -222,36 +225,23 @@ export function RaceListView({ discipline }: RaceListViewProps) {
               )}
 
               {finalsState.finalsPhase === 'blocked-ties' && (
-                <>
-                  <FinalsBlockedBanner reason="ties" />
-                  {Object.entries(tiesByGroup)
-                    .filter(([, hasTie]) => hasTie)
-                    .map(([groupKey]) => {
-                      const groupStandings = standingsMap[groupKey] ?? [];
-                      const clusters = getTiedClusters(groupStandings);
-                      return clusters.map((cluster, ci) => (
-                        <TiebreakResolver
-                          key={`${groupKey}-${ci}`}
-                          discipline={discipline}
-                          groupKey={groupKey}
-                          tiedTeams={cluster.map((s) => ({
-                            slot: s.slot,
-                            name:
-                              teamMap.get(s.slot) ?? `Team ${s.slot}`,
-                            points: s.points,
-                          }))}
-                          onResolved={() => {}}
-                        />
-                      ));
-                    })}
-                </>
+                <FinalsBlockedBanner reason="ties" />
+              )}
+
+              {(finalsState.finalsPhase === 'blocked-ties' ||
+                finalsState.finalsPhase === 'ready') && (
+                <GroupTiebreaks
+                  discipline={discipline}
+                  groups={finalsTiebreakGroups}
+                  manualTiebreaks={manualTiebreaks}
+                  teamNames={teamMap}
+                  canChange={!finalsStarted}
+                />
               )}
 
               {finalsState.finalsPhase === 'ready' && (
                 <FinalsReadyBanner
-                  onConfirm={
-                    canEdit ? () => setDisciplinePhase(discipline, 'finals') : undefined
-                  }
+                  onConfirm={() => setDisciplinePhase(discipline, 'finals')}
                 />
               )}
 
@@ -280,12 +270,13 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                           matchupLabel={matchup.label}
                           seedingContext={`${matchup.homeRef} vs ${matchup.awayRef}`}
                           isFinalMatch={matchup.label.includes('1st')}
+                          allowNotRun
                           onExpand={handleExpand}
                           onScore={handleScore}
                         />
                       ) : (
                         <p className="text-sm text-slate-400 py-2">
-                          {matchup.label} — Teams not yet resolved
+                          {matchup.label} - Teams not yet resolved
                         </p>
                       )}
                     </div>

@@ -2,21 +2,15 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../auth/authContext';
 import { createEvent } from '../events/eventsRepo';
-import { validateNewEvent } from '../events/eventDoc';
+import { MAX_EVENT_NAME_LENGTH, validateNewEvent } from '../events/eventDoc';
+import { toLocalIsoDate } from '../lib/dates';
 import { PageHeader, PageLayout } from './PageLayout';
-
-const todayIso = () => {
-  const now = new Date();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-  return `${now.getFullYear()}-${mm}-${dd}`;
-};
 
 export function NewEventPage() {
   const { user, isApproved, loading } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [date, setDate] = useState(todayIso);
+  const [date, setDate] = useState(() => toLocalIsoDate(new Date()));
   const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(e: FormEvent) {
@@ -29,9 +23,9 @@ export function NewEventPage() {
       return;
     }
     // Navigate straight away: the write is queued locally and syncs when
-    // online. If the server rejects it, the event page shows it as missing.
+    // online. If the server rejects it, the event page shows it as lost.
     const { id, committed } = createEvent(input, user.uid);
-    committed.catch((err) => console.error('Failed to create event', err));
+    committed.catch((err) => console.error('Failed to create event', { eventId: id }, err));
     navigate(`/events/${id}`, { replace: true });
   }
 
@@ -59,7 +53,7 @@ export function NewEventPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Round 1 - Hemel"
-            maxLength={100}
+            maxLength={MAX_EVENT_NAME_LENGTH}
             className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg"
           />
         </label>

@@ -8,6 +8,7 @@ import { ExpandableRaceCard } from './races/ExpandableRaceCard';
 import { FinalsReadyBanner } from './finals/FinalsReadyBanner';
 import { TiebreakResolver } from './standings/TiebreakResolver';
 import { FinalsMatchupCard } from './finals/FinalsMatchupCard';
+import { OutcomeButton } from './scoring/OutcomeButton';
 import type { ResolvedFinalsMatchupWithNames } from '../hooks/useFinalsState';
 
 const renderWithAccess = (ui: ReactNode, canEdit: boolean) =>
@@ -26,9 +27,9 @@ const raceCardProps = {
   onScore: () => {},
 };
 
-const tiedTeams = [
-  { slot: 1, name: 'Kings', points: 3 },
-  { slot: 2, name: 'Imperial', points: 3 },
+const tiedStandings = [
+  { slot: 1, points: 3, wins: 1, losses: 0, dsqs: 0, played: 1 },
+  { slot: 2, points: 3, wins: 1, losses: 0, dsqs: 0, played: 1 },
 ];
 
 const finalsMatchup: ResolvedFinalsMatchupWithNames = {
@@ -85,10 +86,18 @@ describe('read-only mode', () => {
       expect(screen.queryByText('Reset Mixed')).toBeNull();
     });
 
-    it('shows input, remove and reset to editors', () => {
+    it('shows the team input to editors', () => {
       renderWithAccess(<TeamEntryView discipline="mixed" />, true);
       expect(screen.getByPlaceholderText('Team name')).toBeTruthy();
+    });
+
+    it('shows remove buttons to editors', () => {
+      renderWithAccess(<TeamEntryView discipline="mixed" />, true);
       expect(screen.getByLabelText('Remove Kings')).toBeTruthy();
+    });
+
+    it('shows the reset button to editors', () => {
+      renderWithAccess(<TeamEntryView discipline="mixed" />, true);
       expect(screen.getByText('Reset Mixed')).toBeTruthy();
     });
   });
@@ -122,31 +131,78 @@ describe('read-only mode', () => {
   });
 
   describe('FinalsReadyBanner', () => {
-    it('shows a waiting message instead of the confirm button without onConfirm', () => {
-      renderWithAccess(<FinalsReadyBanner />, false);
+    it('shows viewers a waiting message instead of the confirm button', () => {
+      renderWithAccess(<FinalsReadyBanner onConfirm={() => {}} />, false);
       expect(screen.queryByText('Confirm Finals')).toBeNull();
       expect(screen.getByText('Waiting for an official to confirm finals.')).toBeTruthy();
+    });
+
+    it('lets editors confirm finals', () => {
+      let confirmed = false;
+      renderWithAccess(
+        <FinalsReadyBanner
+          onConfirm={() => {
+            confirmed = true;
+          }}
+        />,
+        true
+      );
+      fireEvent.click(screen.getByText('Confirm Finals'));
+      expect(confirmed).toBe(true);
     });
   });
 
   describe('TiebreakResolver', () => {
-    it('shows the tie without reorder or confirm controls to viewers', () => {
-      renderWithAccess(
-        <TiebreakResolver discipline="mixed" groupKey="A" tiedTeams={tiedTeams} onResolved={() => {}} />,
-        false
-      );
-      expect(screen.queryByText('Confirm Order')).toBeNull();
-      expect(screen.queryByLabelText('Move Kings up')).toBeNull();
-      expect(screen.getByText(/Waiting for an official to resolve the tie/)).toBeTruthy();
+    const resolverProps = {
+      discipline: 'mixed' as const,
+      groupKey: 'A',
+      label: 'Group A',
+      standings: tiedStandings,
+      savedOrder: undefined,
+      teamNames: new Map([
+        [1, 'Kings'],
+        [2, 'Imperial'],
+      ]),
+      canChange: true,
+    };
+
+    it('shows viewers the tie without reorder or confirm controls', () => {
+      renderWithAccess(<TiebreakResolver {...resolverProps} />, false);
+      expect(screen.queryByText('Confirm order')).toBeNull();
+      expect(screen.queryByLabelText('Move Kings down')).toBeNull();
+      expect(screen.getByText(/Waiting for an official to set the finishing order/)).toBeTruthy();
     });
 
     it('lets editors confirm the order', () => {
+      renderWithAccess(<TiebreakResolver {...resolverProps} />, true);
+      fireEvent.click(screen.getByText('Confirm order'));
+      expect(useEventStore.getState().disciplines.mixed.manualTiebreaks.A).toEqual([1, 2]);
+    });
+
+    it('shows editors the saved order with a Change button once resolved', () => {
+      renderWithAccess(<TiebreakResolver {...resolverProps} savedOrder={[2, 1]} />, true);
+      expect(screen.getByText('Group A: order set manually')).toBeTruthy();
+      expect(screen.getByText('Change')).toBeTruthy();
+    });
+
+    it('hides Change once the next stage has started', () => {
       renderWithAccess(
-        <TiebreakResolver discipline="mixed" groupKey="A" tiedTeams={tiedTeams} onResolved={() => {}} />,
+        <TiebreakResolver {...resolverProps} savedOrder={[2, 1]} canChange={false} />,
         true
       );
-      fireEvent.click(screen.getByText('Confirm Order'));
-      expect(useEventStore.getState().disciplines.mixed.manualTiebreaks.A).toEqual([1, 2]);
+      expect(screen.queryByText('Change')).toBeNull();
+    });
+
+    it('shows viewers nothing once the tie is resolved', () => {
+      renderWithAccess(<TiebreakResolver {...resolverProps} savedOrder={[2, 1]} />, false);
+      expect(screen.queryByText(/Group A/)).toBeNull();
+    });
+  });
+
+  describe('OutcomeButton', () => {
+    it('is disabled for viewers even if a caller renders it', () => {
+      renderWithAccess(<OutcomeButton outcome="win" selected={false} onSelect={() => {}} />, false);
+      expect((screen.getByRole('button', { name: 'Win' }) as HTMLButtonElement).disabled).toBe(true);
     });
   });
 

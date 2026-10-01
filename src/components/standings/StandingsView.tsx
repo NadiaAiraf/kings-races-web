@@ -12,6 +12,10 @@ import { resolveAllFinalsMatchups, areAllFinalsScored } from '../../domain/final
 import { generateEventCSV, triggerCSVDownload } from '../../domain/csvExport';
 import type { FinalResult } from '../../domain/csvExport';
 import { useEventStore } from '../../store/eventStore';
+import { useEventInfo } from '../../events/eventInfo';
+import { DISCIPLINE_KEYS } from '../../events/eventDoc';
+import { exportFilename } from '../../lib/dates';
+import { NO_TIEBREAKS, orderStandings, r2TiebreakKey } from '../../hooks/groupOrder';
 import { GroupStandingsTable } from './GroupStandingsTable';
 import { FinalResultsTable } from '../results/FinalResultsTable';
 import { ExportButton } from '../results/ExportButton';
@@ -22,7 +26,6 @@ interface StandingsViewProps {
   asTab?: boolean;
 }
 
-const ALL_DISCIPLINES: DisciplineKey[] = ['mixed', 'board', 'ladies'];
 
 /**
  * Build final results for a single discipline from raw store data (no hooks).
@@ -39,9 +42,12 @@ function buildResultsForDiscipline(
 
   // Build R1 standings (filter to r1-* scores only)
   const r1Scores = disciplineState.scores.filter((s) => s.raceId.startsWith('r1-'));
-  const r1Standings = calculateAllGroupStandings(
-    r1Scores,
-    structure.groups
+  // Apply any valid manual order so resolved ties feed R2 and finals.
+  const tiebreaks = disciplineState.manualTiebreaks;
+  const r1Standings = Object.fromEntries(
+    Object.entries(calculateAllGroupStandings(r1Scores, structure.groups)).map(
+      ([letter, standings]) => [letter, orderStandings(standings, tiebreaks[letter])]
+    )
   );
 
   // Build R2 standings if applicable
@@ -67,9 +73,9 @@ function buildResultsForDiscipline(
           }
         }
       }
-      r2Standings[r2Group.groupNum] = calculateGroupStandings(
-        r2Scores,
-        teamSlots
+      r2Standings[r2Group.groupNum] = orderStandings(
+        calculateGroupStandings(r2Scores, teamSlots),
+        tiebreaks[r2TiebreakKey(r2Group.groupNum)]
       );
     }
   }
@@ -79,7 +85,7 @@ function buildResultsForDiscipline(
     structure,
     r2Standings,
     r1Standings,
-    disciplineState.manualTiebreaks
+    NO_TIEBREAKS
   );
 
   // Build finalsWithNames equivalent
@@ -109,6 +115,8 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
     r2State !== null &&
     (phase === 'round-two' || phase === 'finals' || phase === 'complete');
 
+  const eventInfo = useEventInfo();
+
   const handleExport = useCallback(() => {
     const state = useEventStore.getState();
     const disciplines: Record<DisciplineKey, FinalResult[]> = {
@@ -117,7 +125,7 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
       ladies: [],
     };
 
-    for (const key of ALL_DISCIPLINES) {
+    for (const key of DISCIPLINE_KEYS) {
       const discState = state.disciplines[key];
       const results = buildResultsForDiscipline(discState);
       if (results) {
@@ -126,17 +134,12 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
     }
 
     const csv = generateEventCSV(disciplines);
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    const filename = `kings-races-${yyyy}-${mm}-${dd}.csv`;
-    triggerCSVDownload(csv, filename);
-  }, []);
+    triggerCSVDownload(csv, exportFilename(eventInfo, new Date()));
+  }, [eventInfo]);
 
   // Determine if export should be enabled (any discipline complete)
   const allDisciplineStates = useEventStore((s) => s.disciplines);
-  const anyComplete = ALL_DISCIPLINES.some(
+  const anyComplete = DISCIPLINE_KEYS.some(
     (key) => allDisciplineStates[key].phase === 'complete'
   );
 

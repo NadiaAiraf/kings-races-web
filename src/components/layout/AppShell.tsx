@@ -34,6 +34,11 @@ export function AppShell({ header }: AppShellProps) {
   const standingsResult = useStandings(activeDiscipline);
   const finalsState = useFinalsState(activeDiscipline);
 
+  // These transitions run on every client, viewers included, because the
+  // phase is derived from scores. Only approved clients persist them (via
+  // startEventSync), and only the phase field is written, so several
+  // approved devices making the same transition cannot overwrite scores.
+
   // Phase auto-transition: group-stage -> round-two
   useEffect(() => {
     if (

@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { watchAuthStatus, type AuthDeps, type AuthStatus, type AuthUser } from './authStatus';
 
 function createFakeAuth() {
   let setUser: (user: AuthUser | null) => void = () => {};
   const approvalWatchers = new Map<
     string,
-    { onApproved: (a: boolean) => void; onError: (e: Error) => void; stopped: boolean }
+    { onApproved: (approved: boolean, fromCache: boolean) => void; onError: (e: Error) => void; stopped: boolean }
   >();
 
   const deps: AuthDeps = {
@@ -43,7 +43,12 @@ describe('watchAuthStatus', () => {
 
     fake.signOut();
 
-    expect(latest()).toEqual({ loading: false, user: null, isApproved: false });
+    expect(latest()).toEqual({
+      loading: false,
+      user: null,
+      isApproved: false,
+      approvalCheckFailed: false,
+    });
   });
 
   it('is loading and not approved while the approval check is pending', () => {
@@ -61,7 +66,7 @@ describe('watchAuthStatus', () => {
     const { latest } = track(fake);
 
     fake.signIn('official');
-    fake.approval('official').onApproved(true);
+    fake.approval('official').onApproved(true, false);
 
     expect(latest()).toMatchObject({ loading: false, isApproved: true, user: { uid: 'official' } });
   });
@@ -71,28 +76,65 @@ describe('watchAuthStatus', () => {
     const { latest } = track(fake);
 
     fake.signIn('stranger');
-    fake.approval('stranger').onApproved(false);
+    fake.approval('stranger').onApproved(false, false);
 
     expect(latest()).toMatchObject({ loading: false, isApproved: false });
   });
 
+  it('reports a cache-only "not approved" as a failed check, still read-only', () => {
+    const fake = createFakeAuth();
+    const { latest } = track(fake);
+
+    fake.signIn('official');
+    fake.approval('official').onApproved(false, true);
+
+    expect(latest()).toMatchObject({ isApproved: false, approvalCheckFailed: true });
+  });
+
+  it('switches cleanly from one user to another', () => {
+    const fake = createFakeAuth();
+    const { latest } = track(fake);
+    fake.signIn('official');
+    fake.approval('official').onApproved(true, false);
+
+    fake.signIn('stranger');
+
+    expect(fake.approval('official').stopped).toBe(true);
+    expect(latest()).toMatchObject({ loading: true, isApproved: false, user: { uid: 'stranger' } });
+  });
+
+  it('revokes approval when the check errors after approval', () => {
+    const errorLog = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const fake = createFakeAuth();
+    const { latest } = track(fake);
+    fake.signIn('official');
+    fake.approval('official').onApproved(true, false);
+
+    fake.approval('official').onError(new Error('unavailable'));
+
+    expect(latest()).toMatchObject({ isApproved: false, approvalCheckFailed: true });
+    errorLog.mockRestore();
+  });
+
   it('fails closed when the approval check errors', () => {
+    const errorLog = vi.spyOn(console, 'error').mockImplementation(() => {});
     const fake = createFakeAuth();
     const { latest } = track(fake);
 
     fake.signIn('official');
     fake.approval('official').onError(new Error('unavailable'));
 
-    expect(latest()).toMatchObject({ loading: false, isApproved: false });
+    expect(latest()).toMatchObject({ loading: false, isApproved: false, approvalCheckFailed: true });
+    errorLog.mockRestore();
   });
 
   it('revokes approval live when the approvedUsers doc is removed', () => {
     const fake = createFakeAuth();
     const { latest } = track(fake);
     fake.signIn('official');
-    fake.approval('official').onApproved(true);
+    fake.approval('official').onApproved(true, false);
 
-    fake.approval('official').onApproved(false);
+    fake.approval('official').onApproved(false, false);
 
     expect(latest().isApproved).toBe(false);
   });

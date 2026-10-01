@@ -7,21 +7,9 @@ import { useEventStore } from '../../store/eventStore';
 import { FinalsBlockedBanner } from './FinalsBlockedBanner';
 import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
-import { TiebreakResolver } from '../standings/TiebreakResolver';
-import type { DisciplineKey, TeamStanding } from '../../domain/types';
-import { useCanEdit } from '../../auth/editAccess';
-
-function getTiedClusters(standings: TeamStanding[]): TeamStanding[][] {
-  const clusters: TeamStanding[][] = [];
-  let i = 0;
-  while (i < standings.length) {
-    let j = i + 1;
-    while (j < standings.length && standings[j].points === standings[i].points) j++;
-    if (j - i > 1) clusters.push(standings.slice(i, j));
-    i = j;
-  }
-  return clusters;
-}
+import { GroupTiebreaks } from '../standings/GroupTiebreaks';
+import { r2TiebreakKey } from '../../hooks/groupOrder';
+import type { DisciplineKey } from '../../domain/types';
 
 interface FinalsViewProps {
   discipline: DisciplineKey;
@@ -30,10 +18,9 @@ interface FinalsViewProps {
 export function FinalsView({ discipline }: FinalsViewProps) {
   const finalsState = useFinalsState(discipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
-  const canEdit = useCanEdit();
   const standingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
-  const { teams } = useDisciplineState(discipline);
+  const { teams, manualTiebreaks } = useDisciplineState(discipline);
 
   // Create refs for each matchup card for scroll-to-next
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -85,44 +72,32 @@ export function FinalsView({ discipline }: FinalsViewProps) {
         <FinalsBlockedBanner reason="incomplete" />
       )}
 
-      {finalsPhase === 'blocked-ties' && (
-        <>
-          <FinalsBlockedBanner reason="ties" />
-          {(() => {
-            const teamMap = new Map(teams.map((t) => [t.slot, t.name]));
-            const hasR2 = finalsState?.hasR2 ?? false;
-            const tiesByGroup = hasR2
-              ? (r2State?.r2TiesByGroup ?? {})
-              : (standingsResult?.tiesByGroup ?? {});
-            const standingsMap = hasR2
-              ? (r2State?.r2Standings ?? {})
-              : (standingsResult?.standings ?? {});
+      {finalsPhase === 'blocked-ties' && <FinalsBlockedBanner reason="ties" />}
 
-            return Object.entries(tiesByGroup)
-              .filter(([, hasTie]) => hasTie)
-              .map(([groupKey]) => {
-                const groupStandings = standingsMap[groupKey] ?? [];
-                const clusters = getTiedClusters(groupStandings);
-                return clusters.map((cluster, ci) => (
-                  <TiebreakResolver
-                    key={`${groupKey}-${ci}`}
-                    discipline={discipline}
-                    groupKey={groupKey}
-                    tiedTeams={cluster.map((s) => ({
-                      slot: s.slot,
-                      name: teamMap.get(s.slot) ?? `Team ${s.slot}`,
-                      points: s.points,
-                    }))}
-                    onResolved={() => {}}
-                  />
-                ));
-              });
-          })()}
-        </>
+      {(finalsPhase === 'blocked-ties' || finalsPhase === 'ready') && (
+        <GroupTiebreaks
+          discipline={discipline}
+          groups={
+            finalsState.hasR2
+              ? (r2State?.r2Groups ?? []).map((g) => ({
+                  key: r2TiebreakKey(g.groupNum),
+                  label: `Round 2 Group ${g.groupNum}`,
+                  standings: r2State?.r2RawStandings[g.groupNum] ?? [],
+                }))
+              : Object.entries(standingsResult?.rawStandings ?? {}).map(([letter, standings]) => ({
+                  key: letter,
+                  label: `Group ${letter}`,
+                  standings,
+                }))
+          }
+          manualTiebreaks={manualTiebreaks}
+          teamNames={new Map(teams.map((t) => [t.slot, t.name]))}
+          canChange
+        />
       )}
 
       {finalsPhase === 'ready' && (
-        <FinalsReadyBanner onConfirm={canEdit ? handleConfirm : undefined} />
+        <FinalsReadyBanner onConfirm={handleConfirm} />
       )}
 
       {(finalsPhase === 'confirmed' || finalsPhase === 'all-scored') && (

@@ -52,6 +52,18 @@ export function computeFinalResults(
 
     const [winnerPos, loserPos] = parsePlacementLabel(matchup.label);
 
+    // A final that was not run ties both teams on the higher placing.
+    if (matchup.score.homeOutcome === 'not-run') {
+      for (const slot of [matchup.homeSlot, matchup.awaySlot]) {
+        results.push({
+          position: winnerPos,
+          teamName: teamMap.get(slot) ?? `Team ${slot}`,
+          placementLabel: `Joint ${formatOrdinal(winnerPos)}`,
+        });
+      }
+      continue;
+    }
+
     const winnerSlot =
       matchup.score.homeOutcome === 'win' ? matchup.homeSlot : matchup.awaySlot;
     const loserSlot =

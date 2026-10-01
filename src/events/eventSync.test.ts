@@ -1,21 +1,24 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { useEventStore } from '../store/eventStore';
-import type { DisciplineKey, DisciplineState } from '../domain/types';
-import { createInitialDisciplines, type EventDisciplines } from './eventDoc';
-import { startEventSync, type EventSyncDeps } from './eventSync';
+import type { DisciplineKey, Score } from '../domain/types';
+import { createInitialDisciplines, type DisciplineChange, type EventDisciplines } from './eventDoc';
+import { startEventSync } from './eventSync';
 
 const store = () => useEventStore.getState();
 
+const stops: (() => void)[] = [];
+
 /** In-memory stand-in for the Firestore event document. */
-function createFakeRemote({ canWrite = true, failWrites = false } = {}) {
-  let push: ((d: EventDisciplines | null) => void) | null = null;
+function startWithFakeRemote({ canWrite = true, failWrites = false } = {}) {
+  let push: ((d: EventDisciplines) => void) | null = null;
   let pushError: ((e: Error) => void) | null = null;
-  const writes: { key: DisciplineKey; state: DisciplineState }[] = [];
-  const errors: unknown[] = [];
+  const writes: { key: DisciplineKey; changes: DisciplineChange[] }[] = [];
+  const writeErrors: unknown[] = [];
+  const subscribeErrors: Error[] = [];
   let unsubscribed = false;
   let allowWrites = canWrite;
 
-  const deps: EventSyncDeps = {
+  const stop = startEventSync(useEventStore, {
     subscribe: (onDisciplines, onError) => {
       push = onDisciplines;
       pushError = onError;
@@ -23,19 +26,22 @@ function createFakeRemote({ canWrite = true, failWrites = false } = {}) {
         unsubscribed = true;
       };
     },
-    writeDiscipline: async (key, state) => {
-      writes.push({ key, state });
-      if (failWrites) throw new Error('offline and out of quota');
+    writeChanges: async (key, changes) => {
+      writes.push({ key, changes });
+      if (failWrites) throw new Error('permission-denied');
     },
     canWrite: () => allowWrites,
-    onError: (e) => errors.push(e),
-  };
+    onWriteError: (e) => writeErrors.push(e),
+    onSubscribeError: (e) => subscribeErrors.push(e),
+  });
+  stops.push(stop);
 
   return {
-    deps,
+    stop,
     writes,
-    errors,
-    snapshot: (d: EventDisciplines | null) => push!(d),
+    writeErrors,
+    subscribeErrors,
+    snapshot: (d: EventDisciplines) => push!(d),
     fail: (e: Error) => pushError!(e),
     revokeWrite: () => {
       allowWrites = false;
@@ -54,6 +60,14 @@ const remoteWithTeams = (names: string[]): EventDisciplines => {
   return d;
 };
 
+const kingsBeatImperial: Score = {
+  raceId: 'r1-1',
+  homeSlot: 1,
+  awaySlot: 2,
+  homeOutcome: 'win',
+  awayOutcome: 'loss',
+};
+
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe('startEventSync', () => {
@@ -61,18 +75,20 @@ describe('startEventSync', () => {
     store().resetEvent();
   });
 
+  afterEach(() => {
+    while (stops.length) stops.pop()!();
+  });
+
   it('clears data left over from a previously open event', () => {
     store().setTeams('mixed', [{ slot: 1, name: 'Old Event Team' }]);
-    const remote = createFakeRemote();
 
-    startEventSync(useEventStore, remote.deps);
+    startWithFakeRemote();
 
     expect(store().disciplines.mixed.teams).toEqual([]);
   });
 
   it('hydrates the store from a snapshot', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote();
 
     remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
 
@@ -80,8 +96,7 @@ describe('startEventSync', () => {
   });
 
   it('never writes a snapshot back to Firestore', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote();
 
     remote.snapshot(remoteWithTeams(['Kings']));
     remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
@@ -89,37 +104,105 @@ describe('startEventSync', () => {
     expect(remote.writes).toEqual([]);
   });
 
-  it('writes a local change for a user who can write', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+  it('writes only the recorded score, not the whole discipline', () => {
+    const remote = startWithFakeRemote();
+    remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
+
+    store().recordResult('mixed', kingsBeatImperial);
+
+    expect(remote.writes).toEqual([
+      { key: 'mixed', changes: [{ path: ['scores', 'r1-1'], value: kingsBeatImperial }] },
+    ]);
+  });
+
+  it('writes only the phase for a phase transition', () => {
+    const remote = startWithFakeRemote();
+    remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
+
+    store().setDisciplinePhase('mixed', 'round-two');
+
+    expect(remote.writes).toEqual([
+      { key: 'mixed', changes: [{ path: ['phase'], value: 'round-two' }] },
+    ]);
+  });
+
+  it('deletes the score field when a result is cleared', () => {
+    const remote = startWithFakeRemote();
+    const withScore = remoteWithTeams(['Kings', 'Imperial']);
+    withScore.mixed = { ...withScore.mixed, scores: [kingsBeatImperial] };
+    remote.snapshot(withScore);
+
+    store().clearResult('mixed', 'r1-1');
+
+    expect(remote.writes).toEqual([
+      { key: 'mixed', changes: [{ path: ['scores', 'r1-1'], value: undefined }] },
+    ]);
+  });
+
+  it('writes teams for a team change in another discipline', () => {
+    const remote = startWithFakeRemote();
     remote.snapshot(createInitialDisciplines());
 
     store().setTeams('board', [{ slot: 1, name: 'UCL' }]);
 
-    expect(remote.writes).toHaveLength(1);
-    expect(remote.writes[0].key).toBe('board');
-    expect(remote.writes[0].state.teams).toEqual([{ slot: 1, name: 'UCL' }]);
+    expect(remote.writes).toEqual([
+      { key: 'board', changes: [{ path: ['teams'], value: [{ slot: 1, name: 'UCL' }] }] },
+    ]);
   });
 
-  it('writes only the discipline that changed', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
-    remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
+  it("after another device's score arrives, a local score writes only itself", () => {
+    const remote = startWithFakeRemote();
+    remote.snapshot(remoteWithTeams(['Kings', 'Imperial', 'UCL', 'LSE']));
+    const otherDevice = remoteWithTeams(['Kings', 'Imperial', 'UCL', 'LSE']);
+    otherDevice.mixed = { ...otherDevice.mixed, scores: [kingsBeatImperial] };
+    remote.snapshot(otherDevice);
+    const local: Score = { raceId: 'r1-2', homeSlot: 3, awaySlot: 4, homeOutcome: 'win', awayOutcome: 'loss' };
 
-    store().recordResult('mixed', {
-      raceId: 'r1-1',
-      homeSlot: 1,
-      awaySlot: 2,
-      homeOutcome: 'win',
-      awayOutcome: 'loss',
-    });
+    store().recordResult('mixed', local);
 
-    expect(remote.writes.map((w) => w.key)).toEqual(['mixed']);
+    expect(remote.writes).toEqual([
+      { key: 'mixed', changes: [{ path: ['scores', 'r1-2'], value: local }] },
+    ]);
+  });
+
+  it('writes nothing for a change that leaves the disciplines alone', () => {
+    const remote = startWithFakeRemote();
+    remote.snapshot(remoteWithTeams(['Kings']));
+
+    store().setActiveDiscipline('board');
+
+    expect(remote.writes).toEqual([]);
+  });
+
+  it("replaces the whole discipline on reset, clearing results this device hasn't seen", () => {
+    const remote = startWithFakeRemote();
+    const scored = remoteWithTeams(['Kings', 'Imperial']);
+    scored.mixed = { ...scored.mixed, scores: [kingsBeatImperial] };
+    remote.snapshot(scored);
+
+    store().resetDiscipline('mixed');
+
+    expect(remote.writes).toEqual([
+      {
+        key: 'mixed',
+        changes: [{ path: [], value: { teams: [], phase: 'setup', scores: {}, manualTiebreaks: {} } }],
+      },
+    ]);
+  });
+
+  it('keeps untouched disciplines identical to the snapshot objects', () => {
+    const remote = startWithFakeRemote();
+    const snapshot = remoteWithTeams(['Kings', 'Imperial']);
+    remote.snapshot(snapshot);
+
+    store().recordResult('mixed', kingsBeatImperial);
+
+    expect(store().disciplines.board).toBe(snapshot.board);
+    expect(store().disciplines.ladies).toBe(snapshot.ladies);
   });
 
   it('does not write local changes for a read-only viewer', () => {
-    const remote = createFakeRemote({ canWrite: false });
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote({ canWrite: false });
     remote.snapshot(createInitialDisciplines());
 
     // e.g. AppShell's phase auto-transition running locally for a viewer
@@ -130,8 +213,7 @@ describe('startEventSync', () => {
   });
 
   it('stops writing as soon as edit rights are revoked', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote();
     remote.snapshot(createInitialDisciplines());
 
     remote.revokeWrite();
@@ -141,8 +223,7 @@ describe('startEventSync', () => {
   });
 
   it('does not write before the first snapshot arrives', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote();
 
     store().setTeams('mixed', [{ slot: 1, name: 'Too early' }]);
 
@@ -150,8 +231,7 @@ describe('startEventSync', () => {
   });
 
   it('lets a snapshot replace local state after a local write', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote();
     remote.snapshot(createInitialDisciplines());
     store().setTeams('mixed', [{ slot: 1, name: 'Kings' }]);
 
@@ -161,54 +241,60 @@ describe('startEventSync', () => {
     expect(remote.writes).toHaveLength(1);
   });
 
-  it('ignores a not-found snapshot', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
-
-    remote.snapshot(null);
-    store().setTeams('mixed', [{ slot: 1, name: 'Kings' }]);
-
-    expect(remote.writes).toEqual([]);
-  });
-
   it('reports failed writes', async () => {
-    const remote = createFakeRemote({ failWrites: true });
-    startEventSync(useEventStore, remote.deps);
+    const remote = startWithFakeRemote({ failWrites: true });
     remote.snapshot(createInitialDisciplines());
 
     store().setTeams('mixed', [{ slot: 1, name: 'Kings' }]);
     await flush();
 
-    expect(remote.errors).toHaveLength(1);
+    expect(remote.writeErrors).toHaveLength(1);
   });
 
-  it('reports subscription errors', () => {
-    const remote = createFakeRemote();
-    startEventSync(useEventStore, remote.deps);
+  it('restores the last snapshot on screen when a write fails', async () => {
+    const remote = startWithFakeRemote({ failWrites: true });
+    remote.snapshot(remoteWithTeams(['Kings', 'Imperial']));
 
-    remote.fail(new Error('permission-denied'));
+    store().recordResult('mixed', kingsBeatImperial);
+    await flush();
 
-    expect(remote.errors).toHaveLength(1);
+    expect(store().disciplines.mixed.scores).toEqual([]);
   });
 
-  it('stops syncing and clears the store when stopped', () => {
-    const remote = createFakeRemote();
-    const stop = startEventSync(useEventStore, remote.deps);
+  it('reports subscription errors separately from write errors', () => {
+    const remote = startWithFakeRemote();
+
+    remote.fail(new Error('unavailable'));
+
+    expect(remote.subscribeErrors).toHaveLength(1);
+    expect(remote.writeErrors).toEqual([]);
+  });
+
+  it('unsubscribes and stops writing when stopped', () => {
+    const remote = startWithFakeRemote();
     remote.snapshot(remoteWithTeams(['Kings']));
 
-    stop();
+    remote.stop();
     store().setTeams('mixed', [{ slot: 1, name: 'After stop' }]);
 
     expect(remote.isUnsubscribed()).toBe(true);
     expect(remote.writes).toEqual([]);
   });
 
-  it('resets the store contents when stopped', () => {
-    const remote = createFakeRemote();
-    const stop = startEventSync(useEventStore, remote.deps);
+  it('does not write the reset to Firestore when stopped', () => {
+    const remote = startWithFakeRemote();
     remote.snapshot(remoteWithTeams(['Kings']));
 
-    stop();
+    remote.stop();
+
+    expect(remote.writes).toEqual([]);
+  });
+
+  it('resets the store contents when stopped', () => {
+    const remote = startWithFakeRemote();
+    remote.snapshot(remoteWithTeams(['Kings']));
+
+    remote.stop();
 
     expect(store().disciplines.mixed.teams).toEqual([]);
   });

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { useEventStore } from './eventStore';
 import type { Score } from '../domain/types';
 
@@ -7,13 +7,7 @@ const store = () => useEventStore.getState();
 
 describe('eventStore', () => {
   beforeEach(() => {
-    // Clear localStorage and reset store before each test
-    localStorage.clear();
     store().resetEvent();
-  });
-
-  afterEach(() => {
-    localStorage.clear();
   });
 
   describe('initial state', () => {
@@ -146,9 +140,14 @@ describe('eventStore', () => {
 
   describe('persistence', () => {
     it('does not write to localStorage, leaving any pre-Firebase event intact', () => {
+      localStorage.clear();
       localStorage.setItem('kings-races-event', '{"legacy":true}');
+
       store().setTeams('mixed', [{ slot: 1, name: 'Alpha' }]);
+
       expect(localStorage.getItem('kings-races-event')).toBe('{"legacy":true}');
+      expect(localStorage.length).toBe(1);
+      localStorage.clear();
     });
   });
 });

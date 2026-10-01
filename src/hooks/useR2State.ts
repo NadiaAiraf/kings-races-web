@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { useDisciplineState } from './useDisciplineState';
 import { useStandings } from './useStandings';
 import { resolveR2GroupTeams } from '../domain/r2Seeding';
-import { calculateGroupStandings, hasTies } from '../domain/scoring';
+import { calculateGroupStandings } from '../domain/scoring';
+import { NO_TIEBREAKS, hasUnresolvedTie, orderStandings, r2TiebreakKey } from './groupOrder';
 import type { DisciplineKey, TeamStanding, RoundTwoGroupDefinition } from '../domain/types';
 
 export interface R2ResolvedGroup extends RoundTwoGroupDefinition {
@@ -26,7 +27,10 @@ export interface R2State {
   r2Races: R2Race[];
   r2ScoreMap: Map<string, import('../domain/types').Score>;
   r2Standings: Record<string, TeamStanding[]>;
+  /** Unresolved ties only: a group with a valid saved order is not tied. */
   r2TiesByGroup: Record<string, boolean>;
+  /** R2 standings by points alone, before any manual order is applied. */
+  r2RawStandings: Record<string, TeamStanding[]>;
   totalR2Races: number;
   scoredR2Races: number;
   allR2Scored: boolean;
@@ -47,7 +51,8 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
 
     // Resolve R2 teams from R1 standings
     const r2Groups: R2ResolvedGroup[] = structure.roundTwoGroups.map((group) => {
-      const letterToSlot = resolveR2GroupTeams(group, r1Standings, manualTiebreaks);
+      // r1Standings already reflect any valid manual order.
+      const letterToSlot = resolveR2GroupTeams(group, r1Standings, NO_TIEBREAKS);
       return { ...group, resolvedTeams: letterToSlot };
     });
 
@@ -82,6 +87,7 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
 
     // R2 standings per group
     const r2Standings: Record<string, TeamStanding[]> = {};
+    const r2RawStandings: Record<string, TeamStanding[]> = {};
     for (const group of r2Groups) {
       const resolvedSlots = Object.values(group.resolvedTeams).filter(
         (s): s is number => s !== null
@@ -89,7 +95,11 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
       const r2Scores = scores.filter((s) =>
         s.raceId.startsWith(`r2-${group.groupNum}-`)
       );
-      r2Standings[group.groupNum] = calculateGroupStandings(r2Scores, resolvedSlots);
+      r2RawStandings[group.groupNum] = calculateGroupStandings(r2Scores, resolvedSlots);
+      r2Standings[group.groupNum] = orderStandings(
+        r2RawStandings[group.groupNum],
+        manualTiebreaks[r2TiebreakKey(group.groupNum)]
+      );
     }
 
     // R2 completion
@@ -103,8 +113,8 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
 
     // R2 ties
     const r2TiesByGroup: Record<string, boolean> = {};
-    for (const [groupNum, standings] of Object.entries(r2Standings)) {
-      r2TiesByGroup[groupNum] = hasTies(standings);
+    for (const [groupNum, standings] of Object.entries(r2RawStandings)) {
+      r2TiesByGroup[groupNum] = hasUnresolvedTie(standings, manualTiebreaks[r2TiebreakKey(groupNum)]);
     }
 
     return {
@@ -113,6 +123,7 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
       r2ScoreMap,
       r2Standings,
       r2TiesByGroup,
+      r2RawStandings,
       totalR2Races,
       scoredR2Races,
       allR2Scored,
