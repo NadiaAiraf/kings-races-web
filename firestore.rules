@@ -1,0 +1,50 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Approval is an allowlist managed by hand in the Firebase console.
+    function isApproved() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/approvedUsers/$(request.auth.uid));
+    }
+
+    function hasValidFields(data) {
+      return data.name is string
+        && data.name.size() > 0
+        && data.name.size() <= 100
+        && data.date is string
+        && data.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.disciplines is map
+        && data.disciplines.keys().hasOnly(['mixed', 'board', 'ladies']);
+    }
+
+    match /events/{eventId} {
+      // Anyone, signed in or not, can watch any event.
+      allow read: if true;
+
+      allow create: if isApproved()
+        && request.resource.data.keys().hasOnly(
+             ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'])
+        && request.resource.data.keys().hasAll(
+             ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'])
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time
+        && hasValidFields(request.resource.data);
+
+      allow update: if isApproved()
+        && request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['name', 'date', 'updatedAt', 'disciplines'])
+        && request.resource.data.updatedAt == request.time
+        && hasValidFields(request.resource.data);
+
+      allow delete: if false;
+    }
+
+    match /approvedUsers/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}

@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-kings-races \"vitest run --config vitest.rules.config.ts\"",
+    "emulators": "firebase emulators:start --only firestore,auth --project demo-kings-races"
   },
   "dependencies": {
     "firebase": "^12.19.0",
