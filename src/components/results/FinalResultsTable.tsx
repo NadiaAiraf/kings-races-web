@@ -42,9 +42,10 @@ export function FinalResultsTable({ discipline, results }: FinalResultsTableProp
           </tr>
         </thead>
         <tbody>
-          {results.map((result) => (
+          {results.map((result, index) => (
             <tr
-              key={result.position}
+              // Joint placings share a position, so it is not a unique key.
+              key={`${result.position}-${result.teamName}-${index}`}
               className={`min-h-12 ${result.position % 2 === 1 ? 'bg-white' : 'bg-slate-50'}`}
             >
               <td className="px-2 py-3 font-mono text-sm text-slate-700 w-8">

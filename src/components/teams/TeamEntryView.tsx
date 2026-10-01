@@ -8,6 +8,7 @@ import { TeamInput } from './TeamInput';
 import { TeamList } from './TeamList';
 import { Toast } from '../shared/Toast';
 import { ConfirmButton } from '../shared/ConfirmButton';
+import { useCanEdit } from '../../auth/editAccess';
 
 interface TeamEntryViewProps {
   discipline: DisciplineKey;
@@ -16,6 +17,7 @@ interface TeamEntryViewProps {
 export function TeamEntryView({ discipline }: TeamEntryViewProps) {
   const { teams, teamCount, scores } = useDisciplineState(discipline);
   const setTeams = useEventStore((s) => s.setTeams);
+  const canEdit = useCanEdit();
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const { max } = getValidTeamCountRange(discipline);
@@ -62,21 +64,23 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <TeamInput
-        onAdd={handleAdd}
-        disabled={atLimit || hasScores}
-        error={validationError}
-        existingNames={teams.map((t) => t.name)}
-      />
+      {canEdit && (
+        <TeamInput
+          onAdd={handleAdd}
+          disabled={atLimit || hasScores}
+          error={validationError}
+          existingNames={teams.map((t) => t.name)}
+        />
+      )}
       <p className="text-sm text-slate-500">{teamCount} teams entered</p>
       {teamCount < 4 && teamCount > 0 && (
         <p className="text-sm text-amber-600">Minimum 4 teams required</p>
       )}
       <TeamList
         teams={teams}
-        onDelete={hasScores ? () => {} : handleDelete}
+        onDelete={canEdit && !hasScores ? handleDelete : undefined}
       />
-      {teamCount > 0 && (
+      {canEdit && teamCount > 0 && (
         <ConfirmButton
           label={`Reset ${label}`}
           confirmLabel="Confirm Reset?"

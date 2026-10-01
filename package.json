@@ -9,17 +9,21 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:rules": "firebase emulators:exec --only firestore --project demo-kings-races \"vitest run --config vitest.rules.config.ts\"",
+    "emulators": "firebase emulators:start --only firestore,auth --project demo-kings-races"
   },
   "dependencies": {
+    "firebase": "^12.19.0",
     "papaparse": "^5.5.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router": "^7.13.2",
+    "react-router": "^7.18.4",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@tailwindcss/vite": "^4.2.2",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -33,6 +37,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
+    "firebase-tools": "^15.32.1",
     "globals": "^17.4.0",
     "jsdom": "^27.0.1",
     "tailwindcss": "^4.2.2",
@@ -45,6 +50,7 @@
   "overrides": {
     "vite-plugin-pwa": {
       "vite": "$vite"
-    }
+    },
+    "@grpc/grpc-js": "^1.14.5"
   }
 }

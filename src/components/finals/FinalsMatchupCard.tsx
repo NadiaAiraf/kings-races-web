@@ -5,6 +5,7 @@ import { OutcomeButton } from '../scoring/OutcomeButton';
 import { getComplement, getDisabledOutcomes } from '../../domain/scoringHelpers';
 import type { DisciplineKey, RaceOutcome } from '../../domain/types';
 import type { ResolvedFinalsMatchupWithNames } from '../../hooks/useFinalsState';
+import { useCanEdit } from '../../auth/editAccess';
 
 interface FinalsMatchupCardProps {
   matchup: ResolvedFinalsMatchupWithNames;
@@ -15,7 +16,8 @@ interface FinalsMatchupCardProps {
 }
 
 export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardProps>(
-  function FinalsMatchupCard({ matchup, discipline, canScore, onScored }, ref) {
+  function FinalsMatchupCard({ matchup, discipline, canScore: canScoreProp, onScored }, ref) {
+    const canScore = useCanEdit() && canScoreProp;
     const recordResult = useEventStore((s) => s.recordResult);
     const clearResult = useEventStore((s) => s.clearResult);
 

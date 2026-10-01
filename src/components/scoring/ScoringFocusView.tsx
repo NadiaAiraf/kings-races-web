@@ -4,6 +4,7 @@ import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
 import { useR2State } from '../../hooks/useR2State';
 import { OutcomeButton } from './OutcomeButton';
+import { useCanEdit } from '../../auth/editAccess';
 import { getComplement, getDisabledOutcomes } from '../../domain/scoringHelpers';
 import type { DisciplineKey, RaceOutcome } from '../../domain/types';
 
@@ -13,11 +14,12 @@ interface ScoringFocusViewProps {
 
 export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   const { teams, scores, structure, phase } = useDisciplineState(discipline);
-  const { currentRace, currentIndex, totalRaces, allRaces, allR1Scored, scoredR1: _scoredR1, scoredR2: _scoredR2, r1Total } =
+  const { currentRace, currentIndex, totalRaces, allRaces, allR1Scored, r1Total } =
     useCurrentRace(discipline);
   const r2State = useR2State(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const clearResult = useEventStore((s) => s.clearResult);
+  const canEdit = useCanEdit();
 
   const [editingRaceId, setEditingRaceId] = useState<string | null>(null);
   const [homeOutcome, setHomeOutcome] = useState<RaceOutcome | null>(null);
@@ -47,7 +49,7 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   let activeAwaySlot: number | null = null;
   let activeRaceNum: number | null = null;
   let activeDisplayIndex: number = -1;
-  let activeDisplayTotal: number = totalRaces;
+  const activeDisplayTotal: number = totalRaces;
   let activeGroupLabel: string | null = null;
 
   if (editingRaceId) {
@@ -142,6 +144,7 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   const awayDisabled = getDisabledOutcomes(homeOutcome);
 
   function commitScore(home: RaceOutcome, away: RaceOutcome) {
+    if (!canEdit) return;
     if (!activeRaceId || activeHomeSlot === null || activeAwaySlot === null) return;
     recordResult(discipline, {
       raceId: activeRaceId,
@@ -181,6 +184,7 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   }
 
   function startEdit(raceId: string) {
+    if (!canEdit) return;
     clearResult(discipline, raceId);
     setHomeOutcome(null);
     setAwayOutcome(null);
@@ -240,13 +244,15 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
             <span className="text-sm text-slate-700">
               Race {entry.raceNum}: {entry.homeName} vs {entry.awayName}
             </span>
-            <button
-              type="button"
-              onClick={() => startEdit(entry.raceId)}
-              className="text-sm text-slate-500 min-h-14 px-2"
-            >
-              Edit
-            </button>
+            {canEdit && (
+              <button
+                type="button"
+                onClick={() => startEdit(entry.raceId)}
+                className="text-sm text-slate-500 min-h-14 px-2"
+              >
+                Edit
+              </button>
+            )}
           </div>
         ))}
       </div>

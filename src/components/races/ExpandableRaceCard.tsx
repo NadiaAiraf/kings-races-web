@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type { RaceOutcome, Score } from '../../domain/types';
 import { OutcomeButton } from '../scoring/OutcomeButton';
+import { useCanEdit } from '../../auth/editAccess';
 
 const OUTCOME_BADGE: Record<string, { className: string; label: string }> = {
   win: { className: 'bg-green-100 text-green-800', label: 'W' },
@@ -32,6 +33,8 @@ interface ExpandableRaceCardProps {
   matchupLabel?: string;
   seedingContext?: string;
   isFinalMatch?: boolean;
+  /** Finals only: offer "Race not run", which ties both teams on the higher placing. */
+  allowNotRun?: boolean;
   onExpand: (raceId: string) => void;
   onScore: (result: {
     raceId: string;
@@ -50,15 +53,20 @@ export function ExpandableRaceCard({
   homeSlot,
   awaySlot,
   score,
-  isExpanded,
+  isExpanded: isExpandedProp,
   disabled,
   groupLabel,
   matchupLabel,
   seedingContext,
   isFinalMatch,
+  allowNotRun,
   onExpand,
   onScore,
 }: ExpandableRaceCardProps) {
+  const canEdit = useCanEdit();
+  const isExpanded = canEdit && isExpandedProp;
+  const interactive = canEdit && !disabled;
+
   function handleScore(team: 'home' | 'away', outcome: 'win' | 'dsq') {
     let homeOutcome: RaceOutcome;
     let awayOutcome: RaceOutcome;
@@ -81,6 +89,12 @@ export function ExpandableRaceCard({
     onScore({ raceId, homeSlot, awaySlot, homeOutcome, awayOutcome });
   }
 
+  function handleNotRun() {
+    onScore({ raceId, homeSlot, awaySlot, homeOutcome: 'not-run', awayOutcome: 'not-run' });
+  }
+
+  const wasNotRun = score?.homeOutcome === 'not-run';
+
   return (
     <div
       className={clsx(
@@ -89,11 +103,11 @@ export function ExpandableRaceCard({
         disabled && 'opacity-40 pointer-events-none',
       )}
       style={{ scrollMarginTop: '92px' }}
-      aria-expanded={isExpanded}
+      aria-expanded={canEdit ? isExpanded : undefined}
       aria-label={`Race ${raceNum}: ${homeTeamName} versus ${awayTeamName}`}
-      onClick={() => !disabled && onExpand(raceId)}
-      role="button"
-      tabIndex={disabled ? -1 : 0}
+      onClick={() => interactive && onExpand(raceId)}
+      role={canEdit ? 'button' : undefined}
+      tabIndex={interactive ? 0 : -1}
     >
       {/* Header row */}
       <div className="text-sm text-slate-500 mb-1 flex items-center gap-2">
@@ -121,11 +135,17 @@ export function ExpandableRaceCard({
         <div className="flex items-center gap-2">
           <div className="flex-1 text-base font-semibold text-slate-900 flex items-center gap-2">
             <span>{homeTeamName}</span>
-            {score && <OutcomeBadge outcome={score.homeOutcome} />}
+            {score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
           </div>
-          <span className="text-slate-500">vs</span>
+          {wasNotRun ? (
+            <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700">
+              Not run
+            </span>
+          ) : (
+            <span className="text-slate-500">vs</span>
+          )}
           <div className="flex-1 text-base font-semibold text-slate-900 text-right flex items-center justify-end gap-2">
-            {score && <OutcomeBadge outcome={score.awayOutcome} />}
+            {score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
             <span>{awayTeamName}</span>
           </div>
         </div>
@@ -174,6 +194,11 @@ export function ExpandableRaceCard({
               />
             </div>
           </div>
+        </div>
+      )}
+      {isExpanded && allowNotRun && (
+        <div className="flex mt-3" onClick={(e) => e.stopPropagation()}>
+          <OutcomeButton outcome="not-run" selected={wasNotRun} onSelect={handleNotRun} />
         </div>
       )}
     </div>

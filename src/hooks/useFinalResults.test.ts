@@ -90,4 +90,43 @@ describe('computeFinalResults', () => {
     expect(results![2].position).toBe(3);
     expect(results![3].position).toBe(4);
   });
+
+  describe('race not run', () => {
+    const notRunThirdFourth: Score = {
+      raceId: 'fin-0',
+      homeSlot: 7,
+      awaySlot: 9,
+      homeOutcome: 'not-run',
+      awayOutcome: 'not-run',
+    };
+    const finalsWithNames = [
+      { label: '3rd/4th', homeSlot: 7, awaySlot: 9, score: notRunThirdFourth },
+      { label: '1st/2nd', homeSlot: 5, awaySlot: 3, score: awayWinScore },
+    ];
+
+    it('places both teams on the higher position', () => {
+      const results = computeFinalResults(finalsWithNames, teams, 'all-scored')!;
+      const third = results.filter((r) => r.position === 3).map((r) => r.teamName);
+      expect(third.sort()).toEqual(['Fourth', 'Third']);
+    });
+
+    it('labels both teams as joint', () => {
+      const results = computeFinalResults(finalsWithNames, teams, 'all-scored')!;
+      const labels = results.filter((r) => r.position === 3).map((r) => r.placementLabel);
+      expect(labels).toEqual(['Joint 3rd', 'Joint 3rd']);
+    });
+
+    it('leaves no one in the lower position', () => {
+      const results = computeFinalResults(finalsWithNames, teams, 'all-scored')!;
+      expect(results.some((r) => r.position === 4)).toBe(false);
+    });
+
+    it('keeps other finals unaffected', () => {
+      const results = computeFinalResults(finalsWithNames, teams, 'all-scored')!;
+      expect(results.slice(0, 2).map((r) => [r.position, r.teamName])).toEqual([
+        [1, 'Underdog'],
+        [2, 'Favorite'],
+      ]);
+    });
+  });
 });

@@ -4,6 +4,7 @@ export const POINTS: Record<RaceOutcome, number> = {
   win: 3,
   loss: 1,
   dsq: 0,
+  'not-run': 0,
 };
 
 export function calculateGroupStandings(

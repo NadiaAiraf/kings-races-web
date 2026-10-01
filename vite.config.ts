@@ -12,6 +12,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // The bundle (about 1 MB with Firebase) must stay precached for
+        // offline use; Workbox silently skips files over this limit.
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       },
       manifest: {
         name: 'Kings Races',

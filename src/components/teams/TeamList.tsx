@@ -3,7 +3,7 @@ import { TeamRow } from './TeamRow';
 
 interface TeamListProps {
   teams: Team[];
-  onDelete: (slot: number) => void;
+  onDelete?: (slot: number) => void;
 }
 
 export function TeamList({ teams, onDelete }: TeamListProps) {
