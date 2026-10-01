@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { cleanup, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { EditAccessContext } from '../auth/editAccess';
 import { useEventStore } from '../store/eventStore';
@@ -31,6 +31,9 @@ const slotName = (slot: number) =>
 
 describe('finals: race not run', () => {
   beforeEach(() => {
+    // jsdom has no scrollIntoView; RaceListView scrolls to the next card
+    // on the next animation frame after a result is recorded.
+    Element.prototype.scrollIntoView = vi.fn();
     store().resetEvent();
     playGroupStage();
   });
@@ -46,7 +49,7 @@ describe('finals: race not run', () => {
     expect(screen.getByRole('button', { name: 'Race not run' })).toBeTruthy();
   });
 
-  it('counts a not-run final as done so finals can complete', () => {
+  it('counts a not-run final as done so finals can complete', async () => {
     render(
       <EditAccessContext.Provider value={true}>
         <RaceListView discipline="mixed" />
@@ -55,6 +58,8 @@ describe('finals: race not run', () => {
     // First finals card (3rd/4th) is open: mark it not run, then win the final.
     fireEvent.click(screen.getByRole('button', { name: 'Race not run' }));
     fireEvent.click(screen.getAllByRole('button', { name: 'Win' })[0]);
+    // Let the scroll-to-next-card animation frame run inside the test.
+    await new Promise((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
 
     const { result } = renderHook(() => useFinalsState('mixed'));
     expect(result.current?.finalsPhase).toBe('all-scored');
