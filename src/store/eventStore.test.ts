@@ -144,49 +144,11 @@ describe('eventStore', () => {
     });
   });
 
-  describe('persistence (MOBL-02, MOBL-04)', () => {
-    it('persists state to localStorage on mutation', () => {
-      store().setTeams('mixed', [{ slot: 1, name: 'Persisted' }]);
-      const stored = localStorage.getItem('kings-races-event');
-      expect(stored).not.toBeNull();
-      const parsed = JSON.parse(stored!);
-      expect(parsed.state.disciplines.mixed.teams[0].name).toBe('Persisted');
-    });
-
-    it('includes version stamp in persisted data', () => {
-      store().setTeams('mixed', [{ slot: 1, name: 'Test' }]);
-      const stored = localStorage.getItem('kings-races-event');
-      const parsed = JSON.parse(stored!);
-      expect(parsed.version).toBe(1);
-    });
-
-    it('reconstructs state from localStorage after store reset (simulated tab death)', () => {
-      // 1. Set some state
-      store().setTeams('mixed', [
-        { slot: 1, name: 'Survivor' },
-        { slot: 2, name: 'Also Survived' },
-      ]);
-      store().recordResult('mixed', {
-        raceId: 'r1-1', homeSlot: 1, awaySlot: 2,
-        homeOutcome: 'win', awayOutcome: 'loss',
-      });
-      store().setActiveDiscipline('board');
-
-      // 2. Verify localStorage has the data
-      const stored = localStorage.getItem('kings-races-event');
-      expect(stored).not.toBeNull();
-
-      // 3. Destroy the in-memory store and rehydrate
-      useEventStore.persist.clearStorage();
-      // Re-set from localStorage manually to simulate app reload
-      const parsed = JSON.parse(stored!);
-      useEventStore.setState(parsed.state);
-
-      // 4. Verify state is fully reconstructed
-      expect(store().disciplines.mixed.teams).toHaveLength(2);
-      expect(store().disciplines.mixed.teams[0].name).toBe('Survivor');
-      expect(store().disciplines.mixed.scores).toHaveLength(1);
-      expect(store().activeDiscipline).toBe('board');
+  describe('persistence', () => {
+    it('does not write to localStorage, leaving any pre-Firebase event intact', () => {
+      localStorage.setItem('kings-races-event', '{"legacy":true}');
+      store().setTeams('mixed', [{ slot: 1, name: 'Alpha' }]);
+      expect(localStorage.getItem('kings-races-event')).toBe('{"legacy":true}');
     });
   });
 });
