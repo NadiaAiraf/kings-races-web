@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
@@ -15,7 +15,12 @@ import { useStandings } from '../../hooks/useStandings';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { areAllR1RacesScored } from '../../domain/r2Seeding';
 
-export function AppShell() {
+interface AppShellProps {
+  /** Rendered above the discipline tabs, e.g. the open event's name. */
+  header?: ReactNode;
+}
+
+export function AppShell({ header }: AppShellProps) {
   const activeDiscipline = useEventStore((s) => s.activeDiscipline);
   const setActiveDiscipline = useEventStore((s) => s.setActiveDiscipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
@@ -68,6 +73,7 @@ export function AppShell() {
 
   return (
     <div className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto ${disciplineBg[activeDiscipline]}`}>
+      {header}
       <DisciplineTabs active={activeDiscipline} onSelect={setActiveDiscipline} />
       {showStandings ? (
         <StandingsView
