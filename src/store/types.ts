@@ -1,7 +1,7 @@
 import type { DisciplineKey, DisciplineState, Team, Score } from '../domain/types';
 import type { EventState } from '../domain/types';
 
-export interface EventStoreState extends EventState {}
+export type EventStoreState = EventState;
 
 export interface EventStoreActions {
   setTeams: (discipline: DisciplineKey, teams: Team[]) => void;

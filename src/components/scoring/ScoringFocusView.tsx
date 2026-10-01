@@ -13,7 +13,7 @@ interface ScoringFocusViewProps {
 
 export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   const { teams, scores, structure, phase } = useDisciplineState(discipline);
-  const { currentRace, currentIndex, totalRaces, allRaces, allR1Scored, scoredR1: _scoredR1, scoredR2: _scoredR2, r1Total } =
+  const { currentRace, currentIndex, totalRaces, allRaces, allR1Scored, r1Total } =
     useCurrentRace(discipline);
   const r2State = useR2State(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
@@ -47,7 +47,7 @@ export function ScoringFocusView({ discipline }: ScoringFocusViewProps) {
   let activeAwaySlot: number | null = null;
   let activeRaceNum: number | null = null;
   let activeDisplayIndex: number = -1;
-  let activeDisplayTotal: number = totalRaces;
+  const activeDisplayTotal: number = totalRaces;
   let activeGroupLabel: string | null = null;
 
   if (editingRaceId) {

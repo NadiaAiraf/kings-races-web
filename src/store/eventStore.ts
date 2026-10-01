@@ -121,7 +121,7 @@ export const useEventStore = create<EventStoreState & EventStoreActions>()(
         disciplines: state.disciplines,
         activeDiscipline: state.activeDiscipline,
       }),
-      migrate: (persistedState, _version) => {
+      migrate: (persistedState) => {
         // v1: no migrations needed. Future schema changes add cases here.
         return persistedState as EventStoreState;
       },

@@ -1,4 +1,4 @@
-import { useRef, useCallback, createRef } from 'react';
+import { useRef, useCallback } from 'react';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { useStandings } from '../../hooks/useStandings';
 import { useR2State } from '../../hooks/useR2State';
@@ -34,14 +34,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
   const { teams } = useDisciplineState(discipline);
 
   // Create refs for each matchup card for scroll-to-next
-  const cardRefsRef = useRef<Map<number, React.RefObject<HTMLDivElement | null>>>(new Map());
-
-  const getCardRef = useCallback((index: number) => {
-    if (!cardRefsRef.current.has(index)) {
-      cardRefsRef.current.set(index, createRef<HTMLDivElement>());
-    }
-    return cardRefsRef.current.get(index)!;
-  }, []);
+  const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   const scrollToNext = useCallback((currentIdx: number) => {
     if (!finalsState) return;
@@ -50,8 +43,8 @@ export function FinalsView({ discipline }: FinalsViewProps) {
       (m, i) => i > currentIdx && !m.score
     );
     if (nextUnscored >= 0) {
-      const ref = cardRefsRef.current.get(nextUnscored);
-      ref?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const el = cardRefs.current.get(nextUnscored);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [finalsState]);
 
@@ -135,7 +128,9 @@ export function FinalsView({ discipline }: FinalsViewProps) {
           {finalsWithNames.map((matchup, idx) => (
             <FinalsMatchupCard
               key={matchup.raceId}
-              ref={getCardRef(idx)}
+              ref={(el) => {
+                if (el) cardRefs.current.set(idx, el);
+              }}
               matchup={matchup}
               discipline={discipline}
               isActive={idx === currentFinalsIndex}

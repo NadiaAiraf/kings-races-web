@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import type { DisciplineKey, RaceMatchup } from '../../domain/types';
+import type { DisciplineKey, DisciplineState, RaceMatchup, TeamStanding } from '../../domain/types';
 import { useStandings } from '../../hooks/useStandings';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useR2State } from '../../hooks/useR2State';
@@ -29,7 +29,7 @@ const ALL_DISCIPLINES: DisciplineKey[] = ['mixed', 'board', 'ladies'];
  * Replicates the logic from useFinalsState + computeFinalResults.
  */
 function buildResultsForDiscipline(
-  disciplineState: { teams: { slot: number; name: string }[]; teamCount: number; scores: { raceId: string; homeSlot: number; awaySlot: number; homeOutcome: string; awayOutcome: string }[]; phase: string; manualTiebreaks: Record<string, number[]> }
+  disciplineState: DisciplineState
 ): FinalResult[] | null {
   if (disciplineState.phase !== 'complete') return null;
   if (disciplineState.teamCount < 4) return null;
@@ -40,12 +40,12 @@ function buildResultsForDiscipline(
   // Build R1 standings (filter to r1-* scores only)
   const r1Scores = disciplineState.scores.filter((s) => s.raceId.startsWith('r1-'));
   const r1Standings = calculateAllGroupStandings(
-    r1Scores as any,
+    r1Scores,
     structure.groups
   );
 
   // Build R2 standings if applicable
-  let r2Standings: Record<string, any[]> | null = null;
+  let r2Standings: Record<string, TeamStanding[]> | null = null;
   if (structure.roundTwoGroups && structure.roundTwoGroups.length > 0) {
     r2Standings = {};
     for (const r2Group of structure.roundTwoGroups) {
@@ -68,7 +68,7 @@ function buildResultsForDiscipline(
         }
       }
       r2Standings[r2Group.groupNum] = calculateGroupStandings(
-        r2Scores as any,
+        r2Scores,
         teamSlots
       );
     }
@@ -89,11 +89,11 @@ function buildResultsForDiscipline(
   }));
 
   // Check if all finals are scored
-  const allScored = areAllFinalsScored(structure.finals, disciplineState.scores as any);
+  const allScored = areAllFinalsScored(structure.finals, disciplineState.scores);
   if (!allScored) return null;
 
   return computeFinalResults(
-    finalsWithNames as any,
+    finalsWithNames,
     disciplineState.teams,
     'all-scored'
   );
