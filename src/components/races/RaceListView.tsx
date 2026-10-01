@@ -11,6 +11,7 @@ import { FinalsBlockedBanner } from '../finals/FinalsBlockedBanner';
 import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { TiebreakResolver } from '../standings/TiebreakResolver';
 import type { DisciplineKey, Score, RaceOutcome, TeamStanding } from '../../domain/types';
+import { useCanEdit } from '../../auth/editAccess';
 
 function getTiedClusters(standings: TeamStanding[]): TeamStanding[][] {
   const clusters: TeamStanding[][] = [];
@@ -48,6 +49,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
   const standingsResult = useStandings(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+  const canEdit = useCanEdit();
 
   const [expandedRaceId, setExpandedRaceId] = useState<string | null>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -95,6 +97,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       homeOutcome: RaceOutcome;
       awayOutcome: RaceOutcome;
     }) => {
+      if (!canEdit) return;
       recordResult(discipline, result);
       // Compute next unscored synchronously before React re-renders
       const updatedScoreMap = new Map(scoreMap);
@@ -109,7 +112,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         });
       }
     },
-    [discipline, recordResult, scoreMap, allRaceIds],
+    [canEdit, discipline, recordResult, scoreMap, allRaceIds],
   );
 
   if (!structure) {
@@ -246,7 +249,9 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
               {finalsState.finalsPhase === 'ready' && (
                 <FinalsReadyBanner
-                  onConfirm={() => setDisciplinePhase(discipline, 'finals')}
+                  onConfirm={
+                    canEdit ? () => setDisciplinePhase(discipline, 'finals') : undefined
+                  }
                 />
               )}
 

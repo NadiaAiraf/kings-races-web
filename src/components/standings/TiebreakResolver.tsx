@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import type { DisciplineKey } from '../../domain/types';
+import { useCanEdit } from '../../auth/editAccess';
 
 interface TiedTeam {
   slot: number;
@@ -21,7 +22,20 @@ export function TiebreakResolver({
   tiedTeams,
   onResolved,
 }: TiebreakResolverProps) {
+  const canEdit = useCanEdit();
   const [orderedTeams, setOrderedTeams] = useState<TiedTeam[]>(tiedTeams);
+
+  if (!canEdit) {
+    return (
+      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <h3 className="text-base font-semibold text-amber-900 mb-1">Tie: Group {groupKey}</h3>
+        <p className="text-sm text-amber-700">
+          {tiedTeams.map((t) => t.name).join(', ')} are tied on {tiedTeams[0]?.points ?? 0} pts.
+          Waiting for an official to resolve the tie.
+        </p>
+      </div>
+    );
+  }
 
   function moveUp(index: number) {
     if (index <= 0) return;

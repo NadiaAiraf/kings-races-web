@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import type { RaceOutcome } from '../../domain/types';
+import { useCanEdit } from '../../auth/editAccess';
 
 const OUTCOME_STYLES: Record<RaceOutcome, { active: string; inactive: string }> = {
   win:  { active: 'bg-green-600 text-white ring-2 ring-green-300', inactive: 'bg-slate-100 text-slate-600' },
@@ -17,12 +18,13 @@ interface OutcomeButtonProps {
 }
 
 export function OutcomeButton({ outcome, selected, disabled, onSelect }: OutcomeButtonProps) {
+  const canEdit = useCanEdit();
   const styles = OUTCOME_STYLES[outcome];
   return (
     <button
       type="button"
       aria-pressed={selected}
-      disabled={disabled}
+      disabled={disabled || !canEdit}
       onClick={() => onSelect(outcome)}
       className={clsx(
         'h-16 flex-1 font-semibold text-base rounded-lg',

@@ -9,6 +9,7 @@ import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
 import { TiebreakResolver } from '../standings/TiebreakResolver';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
+import { useCanEdit } from '../../auth/editAccess';
 
 function getTiedClusters(standings: TeamStanding[]): TeamStanding[][] {
   const clusters: TeamStanding[][] = [];
@@ -29,6 +30,7 @@ interface FinalsViewProps {
 export function FinalsView({ discipline }: FinalsViewProps) {
   const finalsState = useFinalsState(discipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+  const canEdit = useCanEdit();
   const standingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
   const { teams } = useDisciplineState(discipline);
@@ -120,7 +122,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
       )}
 
       {finalsPhase === 'ready' && (
-        <FinalsReadyBanner onConfirm={handleConfirm} />
+        <FinalsReadyBanner onConfirm={canEdit ? handleConfirm : undefined} />
       )}
 
       {(finalsPhase === 'confirmed' || finalsPhase === 'all-scored') && (

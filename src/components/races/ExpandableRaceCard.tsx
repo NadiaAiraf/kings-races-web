@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import type { RaceOutcome, Score } from '../../domain/types';
 import { OutcomeButton } from '../scoring/OutcomeButton';
+import { useCanEdit } from '../../auth/editAccess';
 
 const OUTCOME_BADGE: Record<string, { className: string; label: string }> = {
   win: { className: 'bg-green-100 text-green-800', label: 'W' },
@@ -50,7 +51,7 @@ export function ExpandableRaceCard({
   homeSlot,
   awaySlot,
   score,
-  isExpanded,
+  isExpanded: isExpandedProp,
   disabled,
   groupLabel,
   matchupLabel,
@@ -59,6 +60,10 @@ export function ExpandableRaceCard({
   onExpand,
   onScore,
 }: ExpandableRaceCardProps) {
+  const canEdit = useCanEdit();
+  const isExpanded = canEdit && isExpandedProp;
+  const interactive = canEdit && !disabled;
+
   function handleScore(team: 'home' | 'away', outcome: 'win' | 'dsq') {
     let homeOutcome: RaceOutcome;
     let awayOutcome: RaceOutcome;
@@ -89,11 +94,11 @@ export function ExpandableRaceCard({
         disabled && 'opacity-40 pointer-events-none',
       )}
       style={{ scrollMarginTop: '92px' }}
-      aria-expanded={isExpanded}
+      aria-expanded={canEdit ? isExpanded : undefined}
       aria-label={`Race ${raceNum}: ${homeTeamName} versus ${awayTeamName}`}
-      onClick={() => !disabled && onExpand(raceId)}
-      role="button"
-      tabIndex={disabled ? -1 : 0}
+      onClick={() => interactive && onExpand(raceId)}
+      role={canEdit ? 'button' : undefined}
+      tabIndex={interactive ? 0 : -1}
     >
       {/* Header row */}
       <div className="text-sm text-slate-500 mb-1 flex items-center gap-2">
