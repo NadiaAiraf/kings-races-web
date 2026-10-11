@@ -17,7 +17,7 @@ interface TeamEntryViewProps {
 }
 
 export function TeamEntryView({ discipline }: TeamEntryViewProps) {
-  const { teams, teamCount, scores } = useDisciplineState(discipline);
+  const { teams, teamCount, scores, phase } = useDisciplineState(discipline);
   const setTeams = useEventStore((s) => s.setTeams);
   const canEdit = useCanEdit();
   const seedingOrder = useSeedingOrder(discipline);
@@ -25,7 +25,8 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
 
   const { max } = getValidTeamCountRange(discipline);
   const atLimit = teamCount >= max;
-  const hasScores = scores.length > 0;
+  // A finished discipline (including one entered without races) is locked too.
+  const hasScores = scores.length > 0 || phase === 'complete';
 
   const validationError = atLimit
     ? `Maximum ${max} teams for ${discipline}`

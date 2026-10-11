@@ -12,6 +12,7 @@ import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
 import type { DisciplineKey, Score, RaceOutcome } from '../../domain/types';
+import { isResultsOnly } from '../../domain/roundPlacings';
 
 function findNextUnscoredId(
   allRaceIds: string[],
@@ -31,6 +32,7 @@ interface RaceListViewProps {
 
 export function RaceListView({ discipline }: RaceListViewProps) {
   const { teams, scores, structure, phase, manualTiebreaks } = useDisciplineState(discipline);
+  const resultsOnly = useEventStore((s) => isResultsOnly(s.disciplines[discipline]));
   const { allR1Scored } = useCurrentRace(discipline);
   const r2State = useR2State(discipline);
   const finalsState = useFinalsState(discipline);
@@ -100,6 +102,17 @@ export function RaceListView({ discipline }: RaceListViewProps) {
     },
     [discipline, recordResult, scoreMap, allRaceIds],
   );
+
+  if (resultsOnly) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <h3 className="text-lg font-semibold text-slate-900">No races recorded</h3>
+        <p className="text-sm text-slate-500 mt-1">
+          This round's results were entered after the event. See Standings for the final places.
+        </p>
+      </div>
+    );
+  }
 
   if (!structure) {
     return (
