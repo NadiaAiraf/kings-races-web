@@ -2,11 +2,13 @@ import { createContext, useContext, useMemo } from 'react';
 import type { DisciplineKey } from '../domain/types';
 import { useEventInfo } from '../events/eventInfo';
 import { seedingOrder, type StandingsRound } from './seasonStandings';
+import type { LeagueTeams } from './leagueTeams';
 
-/** The open round's league rounds, this season and last. */
+/** The open round's league rounds, this season and last, and its team list. */
 export interface LeagueRounds {
   season: StandingsRound[];
   lastSeason: StandingsRound[];
+  teams: LeagueTeams;
 }
 
 /**
@@ -24,6 +26,12 @@ export function useSeedingOrder(discipline: DisciplineKey): string[] | null {
   const rounds = useContext(LeagueRoundsContext);
   return useMemo(() => {
     if (roundNumber === null || !rounds) return null;
-    return seedingOrder(roundNumber, rounds.season, rounds.lastSeason, discipline);
+    return seedingOrder(
+      roundNumber,
+      rounds.season,
+      rounds.lastSeason,
+      discipline,
+      rounds.teams[discipline]
+    );
   }, [roundNumber, rounds, discipline]);
 }

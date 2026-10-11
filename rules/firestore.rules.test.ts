@@ -548,3 +548,51 @@ describe('events: season rounds', () => {
     );
   });
 });
+
+describe('league teams', () => {
+  const teamsDoc = (db: ReturnType<typeof approvedDb>, league = 'southern', season = SEASON_ID) =>
+    db.doc(`seasons/${season}/leagues/${league}`);
+  const names = (n: number) => Array.from({ length: n }, (_, i) => `Team ${i + 1}`);
+
+  beforeEach(seedSeason);
+
+  it('lets anyone read a league team list', async () => {
+    await assertSucceeds(teamsDoc(anonDb()).get());
+  });
+
+  it('lets an approved user list more than 32 teams', async () => {
+    await assertSucceeds(
+      teamsDoc(approvedDb()).set({ mixed: names(34), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('rejects more than 100 teams in a discipline', async () => {
+    await assertFails(
+      teamsDoc(approvedDb()).set({ mixed: names(101), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('does not let an unapproved user change the list', async () => {
+    await assertFails(
+      teamsDoc(unapprovedDb()).set({ mixed: names(4), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('rejects an unknown league', async () => {
+    await assertFails(
+      teamsDoc(approvedDb(), 'eastern').set({ mixed: names(4), updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('rejects a list for a season that does not exist', async () => {
+    await assertFails(
+      teamsDoc(approvedDb(), 'southern', '2030-31').set({ mixed: names(4), updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('rejects unknown fields', async () => {
+    await assertFails(
+      teamsDoc(approvedDb()).set({ freestyle: names(4), updatedAt: serverTimestamp() })
+    );
+  });
+});

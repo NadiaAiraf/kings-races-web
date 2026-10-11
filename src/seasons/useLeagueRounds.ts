@@ -3,9 +3,12 @@ import type { EventDetail } from '../events/eventDoc';
 import { subscribeLeagueRounds } from '../events/eventsRepo';
 import { seasonIdFor, seasonStartYear, type SeasonRound } from './seasons';
 import type { LeagueRounds } from './leagueRounds';
+import { subscribeLeagueTeams } from './seasonsRepo';
+import { emptyLeagueTeams, type LeagueTeams } from './leagueTeams';
 
 /**
- * Live rounds of a season round's league, this season and last. Null
+ * Live rounds of a season round's league, this season and last, and the
+ * league's team list. Null
  * outside a season or until this season's rounds have loaded. Last season
  * only feeds tiebreaks and R1 seeding, so its errors are only logged.
  */
@@ -17,6 +20,14 @@ export function useLeagueRounds(round: SeasonRound | null): LeagueRounds | null 
 
   const [season, setSeason] = useState<EventDetail[] | null>(null);
   const [lastSeason, setLastSeason] = useState<EventDetail[]>([]);
+  const [teams, setTeams] = useState<LeagueTeams>(emptyLeagueTeams);
+
+  useEffect(() => {
+    if (!seasonId || !league) return;
+    return subscribeLeagueTeams(seasonId, league, setTeams, (err) =>
+      console.error('League teams subscription failed', { seasonId, league }, err)
+    );
+  }, [seasonId, league]);
 
   useEffect(() => {
     if (!seasonId || !league) return;
@@ -32,5 +43,8 @@ export function useLeagueRounds(round: SeasonRound | null): LeagueRounds | null 
     );
   }, [lastSeasonId, league]);
 
-  return useMemo(() => (season ? { season, lastSeason } : null), [season, lastSeason]);
+  return useMemo(
+    () => (season ? { season, lastSeason, teams } : null),
+    [season, lastSeason, teams]
+  );
 }

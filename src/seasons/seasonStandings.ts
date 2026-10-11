@@ -108,13 +108,15 @@ export function standingsPositions(rows: SeasonStandingRow[]): Map<string, numbe
  * Team names in seeding order for a new round: this season's standings from
  * the earlier rounds, with last season's teams that have not raced yet
  * ranked in by the same rules (0 points, then last season's position). For
- * R1 that is simply last season's final table.
+ * R1 that is simply last season's final table. Teams on the league's list
+ * that appear in neither (new teams) follow in list order.
  */
 export function seedingOrder(
   roundNumber: number,
   seasonRounds: StandingsRound[],
   lastSeasonRounds: StandingsRound[],
-  discipline: DisciplineKey
+  discipline: DisciplineKey,
+  leagueTeams: string[] = []
 ): string[] {
   const lastSeason = computeSeasonStandings(lastSeasonRounds, discipline);
   const lastPositions = standingsPositions(lastSeason);
@@ -124,6 +126,7 @@ export function seedingOrder(
   const seen = new Set(rows.map((r) => r.key));
   for (const row of lastSeason) {
     if (seen.has(row.key)) continue;
+    seen.add(row.key);
     rows.push({
       key: row.key,
       name: row.name,
@@ -132,5 +135,11 @@ export function seedingOrder(
       lastSeasonPosition: lastPositions.get(row.key)!,
     });
   }
-  return rows.sort(compareRows).map((r) => r.name);
+  const ordered = rows.sort(compareRows).map((r) => r.name);
+  for (const name of leagueTeams) {
+    if (seen.has(teamKey(name))) continue;
+    seen.add(teamKey(name));
+    ordered.push(name);
+  }
+  return ordered;
 }

@@ -5,6 +5,7 @@ import { EventInfoContext } from '../../events/eventInfo';
 import type { EventSummary } from '../../events/eventDoc';
 import { LeagueRoundsContext, type LeagueRounds } from '../../seasons/leagueRounds';
 import type { StandingsRound } from '../../seasons/seasonStandings';
+import { emptyLeagueTeams } from '../../seasons/leagueTeams';
 import { useEventStore } from '../../store/eventStore';
 import { createInitialDisciplines } from '../../store/initialState';
 import { playedDiscipline } from '../../domain/__fixtures__/playedDiscipline';
@@ -43,7 +44,7 @@ function renderEntry(canEdit: boolean, rounds: LeagueRounds | null, event: Event
   );
 }
 
-const SEASON: LeagueRounds = { season: [finishedR1()], lastSeason: [] };
+const SEASON: LeagueRounds = { season: [finishedR1()], lastSeason: [], teams: emptyLeagueTeams() };
 
 describe('carrying teams over from the league standings', () => {
   beforeEach(() => store().resetEvent());
@@ -80,6 +81,26 @@ describe('carrying teams over from the league standings', () => {
     expect(screen.queryByRole('region', { name: 'League teams' })).toBeNull();
   });
 
+  it("lists teams from the league's team list after the standings", () => {
+    const teams = { ...emptyLeagueTeams(), mixed: ['Exeter', 'UCL'] };
+    renderEntry(true, { ...SEASON, teams });
+    const labels = screen.getAllByRole('checkbox').map((c) => c.closest('label')!.textContent);
+    expect(labels).toEqual(['1. Kings', '2. UCL', '3. LSE', '4. Bath', '5. Exeter']);
+  });
+
+  it('allows a list longer than 32 and applies the limit to who is ticked', () => {
+    const names = Array.from({ length: 34 }, (_, i) => `Team ${i + 1}`);
+    const r1: EventSummary = { ...r2, round: { ...r2.round!, roundNumber: 1 } };
+    renderEntry(true, { season: [], lastSeason: [], teams: { ...emptyLeagueTeams(), mixed: names } }, r1);
+    expect(screen.getByText('Maximum 32 teams. Untick some teams.')).toBeTruthy();
+
+    fireEvent.click(screen.getByLabelText('33. Team 33'));
+    fireEvent.click(screen.getByLabelText('34. Team 34'));
+    fireEvent.click(screen.getByText('Enter 32 teams'));
+
+    expect(store().disciplines.mixed.teams).toHaveLength(32);
+  });
+
   it('does not offer league teams to viewers', () => {
     renderEntry(false, SEASON);
     expect(screen.queryByRole('region', { name: 'League teams' })).toBeNull();
@@ -98,6 +119,7 @@ describe('carrying teams over from the league standings', () => {
     const rounds: LeagueRounds = {
       season: [{ round: SEASON.season[0].round, disciplines: { ...createInitialDisciplines(), board } }],
       lastSeason: [],
+      teams: emptyLeagueTeams(),
     };
     render(
       <EventInfoContext.Provider value={r2}>

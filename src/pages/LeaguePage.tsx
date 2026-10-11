@@ -16,6 +16,9 @@ import { computeSeasonStandings, standingsPositions } from '../seasons/seasonSta
 import type { DisciplineKey } from '../domain/types';
 import { DisciplineTabs } from '../components/layout/DisciplineTabs';
 import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
+import { LeagueTeamsEditor } from '../components/season/LeagueTeamsEditor';
+import { addLeagueTeams, removeLeagueTeam, subscribeLeagueTeams } from '../seasons/seasonsRepo';
+import { emptyLeagueTeams, type LeagueTeams } from '../seasons/leagueTeams';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
 import { withErrorCode } from '../lib/firebaseErrors';
@@ -41,6 +44,8 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
   const [error, setError] = useState<unknown>(null);
   const [lastSeasonRounds, setLastSeasonRounds] = useState<EventDetail[]>([]);
   const [discipline, setDiscipline] = useState<DisciplineKey>('mixed');
+  const [leagueTeams, setLeagueTeams] = useState<LeagueTeams>(emptyLeagueTeams);
+  const [teamsError, setTeamsError] = useState<string | null>(null);
   // Bumped by Retry: Firestore stops a listener after an error.
   const [attempt, setAttempt] = useState(0);
 
@@ -57,6 +62,22 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
       (err) => console.error('Last season rounds subscription failed', { lastSeasonId, league }, err)
     );
   }, [lastSeasonId, league, attempt]);
+
+  useEffect(
+    () =>
+      subscribeLeagueTeams(seasonId, league, setLeagueTeams, (err) => {
+        console.error('League teams subscription failed', { seasonId, league }, err);
+        setTeamsError(withErrorCode('Could not load the league teams.', err));
+      }),
+    [seasonId, league, attempt]
+  );
+
+  // Writes are queued offline and the list updates at once from the local
+  // cache, so they are not awaited; a rejection is rolled back and shown.
+  function reportTeamsWriteError(err: unknown) {
+    console.error('League teams change failed', { seasonId, league }, err);
+    setTeamsError(withErrorCode('A change to the league teams could not be saved.', err));
+  }
 
   const standings = useMemo(() => {
     if (!rounds) return null;
@@ -151,6 +172,21 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
             <h2 className="text-lg font-semibold text-slate-900">Season standings</h2>
             <DisciplineTabs active={discipline} onSelect={setDiscipline} />
             <SeasonStandingsTable rows={standings} />
+            {teamsError && (
+              <p role="alert" className="text-sm text-red-600">
+                {teamsError}
+              </p>
+            )}
+            <LeagueTeamsEditor
+              names={leagueTeams[discipline]}
+              canEdit={isApproved}
+              onAdd={(names) =>
+                addLeagueTeams(seasonId, league, discipline, names).catch(reportTeamsWriteError)
+              }
+              onRemove={(name) =>
+                removeLeagueTeam(seasonId, league, discipline, name).catch(reportTeamsWriteError)
+              }
+            />
           </section>
         )}
       </main>

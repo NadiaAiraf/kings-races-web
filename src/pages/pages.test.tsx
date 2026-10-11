@@ -21,6 +21,7 @@ import { HomePage } from './HomePage';
 import { LeaguePage } from './LeaguePage';
 import { NewSeasonPage } from './NewSeasonPage';
 import type { Season } from '../seasons/seasons';
+import { emptyLeagueTeams, type LeagueTeams } from '../seasons/leagueTeams';
 import { playedDiscipline } from '../domain/__fixtures__/playedDiscipline';
 
 // Firebase boundary: replace the modules that talk to Firestore and Auth.
@@ -42,6 +43,8 @@ const repo = vi.hoisted(() => ({
   onSeasons: null as ((seasons: Season[], meta: EventSnapshotMeta) => void) | null,
   onSeasonsError: null as ((e: Error) => void) | null,
   createdSeasons: [] as { startYear: number; uid: string }[],
+  onLeagueTeams: null as ((teams: LeagueTeams) => void) | null,
+  leagueTeamWrites: [] as { op: 'add' | 'remove'; discipline: string; names: string[] }[],
 }));
 
 vi.mock('../events/eventsRepo', () => ({
@@ -96,6 +99,16 @@ vi.mock('../seasons/seasonsRepo', () => ({
   createSeason: (startYear: number, uid: string) => {
     repo.createdSeasons.push({ startYear, uid });
     return { id: `${startYear}`, committed: Promise.resolve() };
+  },
+  subscribeLeagueTeams: (_s: string, _l: string, onTeams: (teams: LeagueTeams) => void) => {
+    repo.onLeagueTeams = onTeams;
+    return () => {};
+  },
+  addLeagueTeams: async (_s: string, _l: string, discipline: string, names: string[]) => {
+    repo.leagueTeamWrites.push({ op: 'add', discipline, names });
+  },
+  removeLeagueTeam: async (_s: string, _l: string, discipline: string, name: string) => {
+    repo.leagueTeamWrites.push({ op: 'remove', discipline, names: [name] });
   },
 }));
 
@@ -221,6 +234,8 @@ beforeEach(() => {
   repo.onSeasons = null;
   repo.onSeasonsError = null;
   repo.createdSeasons = [];
+  repo.onLeagueTeams = null;
+  repo.leagueTeamWrites = [];
   auth.signInError = null;
   auth.signIns = [];
   auth.signOuts = 0;
@@ -396,6 +411,41 @@ describe('LeaguePage', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Board' }));
 
     expect(screen.getByRole('tab', { name: 'Board' }).getAttribute('aria-selected')).toBe('true');
+  });
+
+  it("lists the league's teams for the chosen discipline", () => {
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([], ONLINE));
+    act(() => repo.onLeagueTeams!({ ...emptyLeagueTeams(), mixed: ['Kings 1', 'UCL 1'] }));
+
+    expect(screen.getByText('League teams (2)')).toBeTruthy();
+    expect(screen.queryByLabelText('Add teams, one per line')).toBeNull();
+  });
+
+  it('adds pasted teams to the league list, one per line', () => {
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([], ONLINE));
+    act(() => repo.onLeagueTeams!({ ...emptyLeagueTeams(), mixed: ['Kings 1'] }));
+
+    fireEvent.change(screen.getByLabelText('Add teams, one per line'), {
+      target: { value: 'kings 1\nUCL 1\nLSE 1' },
+    });
+    fireEvent.click(screen.getByText('Add teams'));
+
+    expect(repo.leagueTeamWrites).toEqual([
+      { op: 'add', discipline: 'mixed', names: ['UCL 1', 'LSE 1'] },
+    ]);
+  });
+
+  it('removes a team from the list of the chosen discipline', () => {
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([], ONLINE));
+    act(() => repo.onLeagueTeams!({ ...emptyLeagueTeams(), board: ['Kings 1'] }));
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Board' }));
+    fireEvent.click(screen.getByLabelText('Remove Kings 1'));
+
+    expect(repo.leagueTeamWrites).toEqual([{ op: 'remove', discipline: 'board', names: ['Kings 1'] }]);
   });
 
   it('rejects an unknown league', () => {

@@ -162,6 +162,18 @@ describe('seedingOrder', () => {
     expect(seedingOrder(2, [r1], lastSeason, 'mixed').at(-1)).toBe('Bath');
   });
 
+  it("adds teams from the league's team list that have no standing, in list order", () => {
+    const r1 = round(1, { Kings: 1, UCL: 2, LSE: 3, Bath: 4 });
+    expect(seedingOrder(2, [r1], [], 'mixed', ['Exeter', 'ucl', 'Brighton'])).toEqual([
+      'Kings',
+      'UCL',
+      'LSE',
+      'Bath',
+      'Exeter',
+      'Brighton',
+    ]);
+  });
+
   it('is empty for a new league with no history', () => {
     expect(seedingOrder(1, [], [], 'mixed')).toEqual([]);
   });
