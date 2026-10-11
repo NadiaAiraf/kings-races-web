@@ -3,6 +3,7 @@ import { useDisciplineState } from './useDisciplineState';
 import { useStandings } from './useStandings';
 import { resolveR2GroupTeams } from '../domain/r2Seeding';
 import { calculateGroupStandings } from '../domain/scoring';
+import { r2RunningOrder } from '../domain/r2RaceOrder';
 import { NO_TIEBREAKS, hasUnresolvedTie, orderStandings, r2TiebreakKey } from './groupOrder';
 import type { DisciplineKey, TeamStanding, RoundTwoGroupDefinition } from '../domain/types';
 
@@ -59,25 +60,29 @@ export function useR2State(discipline: DisciplineKey): R2State | null {
     // Build team name lookup
     const teamMap = new Map(teams.map((t) => [t.slot, t.name]));
 
-    // Build R2 races with resolved slot numbers
+    // Build R2 races with resolved slot numbers, in the order they are run:
+    // the spreadsheet interleaves the groups. raceNum is the running number;
+    // raceId keeps the race's number within its group, as stored results do.
     const r2Races: R2Race[] = [];
+    const groupsByNum = new Map(r2Groups.map((g) => [g.groupNum, g]));
 
-    for (const group of r2Groups) {
-      for (const race of group.races) {
-        const homeSlot = group.resolvedTeams[race.homeLetter] ?? null;
-        const awaySlot = group.resolvedTeams[race.awayLetter] ?? null;
-        r2Races.push({
-          groupNum: group.groupNum,
-          raceNum: race.raceNum,
-          raceId: `r2-${group.groupNum}-${race.raceNum}`,
-          homeSlot,
-          awaySlot,
-          homeTeamName: homeSlot ? (teamMap.get(homeSlot) ?? `Team ${homeSlot}`) : 'TBD',
-          awayTeamName: awaySlot ? (teamMap.get(awaySlot) ?? `Team ${awaySlot}`) : 'TBD',
-          homeLetter: race.homeLetter,
-          awayLetter: race.awayLetter,
-        });
-      }
+    for (const ref of r2RunningOrder(structure)) {
+      const group = groupsByNum.get(ref.groupNum);
+      const race = group?.races.find((r) => r.raceNum === ref.raceNum);
+      if (!group || !race) continue;
+      const homeSlot = group.resolvedTeams[race.homeLetter] ?? null;
+      const awaySlot = group.resolvedTeams[race.awayLetter] ?? null;
+      r2Races.push({
+        groupNum: group.groupNum,
+        raceNum: r2Races.length + 1,
+        raceId: `r2-${group.groupNum}-${race.raceNum}`,
+        homeSlot,
+        awaySlot,
+        homeTeamName: homeSlot ? (teamMap.get(homeSlot) ?? `Team ${homeSlot}`) : 'TBD',
+        awayTeamName: awaySlot ? (teamMap.get(awaySlot) ?? `Team ${awaySlot}`) : 'TBD',
+        homeLetter: race.homeLetter,
+        awayLetter: race.awayLetter,
+      });
     }
 
     // R2 score lookup
