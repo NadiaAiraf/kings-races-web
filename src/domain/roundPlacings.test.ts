@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeRoundPlacings, leaguePoints } from './roundPlacings';
+import { computeRoundPlacings, leaguePoints, roundResults } from './roundPlacings';
 import { playedDiscipline, withUnplaceableTeams } from './__fixtures__/playedDiscipline';
 
 describe('computeRoundPlacings', () => {
@@ -108,5 +108,29 @@ describe('leaguePoints', () => {
 
   it('scores 1 point beyond the 30 places the sheet lists', () => {
     expect(leaguePoints('mixed', 31)).toBe(1);
+  });
+});
+
+describe('roundResults (CSV export)', () => {
+  it('lists every team, not only finalists, matching the placings', () => {
+    // 9 teams: 7th-9th are placed from Group III, not by a final.
+    const results = roundResults(playedDiscipline(9))!;
+    expect(results.map((r) => r.position)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  it("uses an official's corrected place", () => {
+    const state = playedDiscipline(4);
+    const team = state.teams[0];
+    state.placings = { [team.slot]: 4 };
+    const row = roundResults(state)!.find((r) => r.teamName === team.name)!;
+    expect(row.position).toBe(4);
+  });
+
+  it('marks shared places as joint', () => {
+    const state = playedDiscipline(4);
+    state.scores = state.scores.map((s) =>
+      s.raceId === 'fin-0' ? { ...s, homeOutcome: 'not-run', awayOutcome: 'not-run' } : s
+    );
+    expect(roundResults(state)!.filter((r) => r.placementLabel === 'Joint 3rd')).toHaveLength(2);
   });
 });

@@ -4,7 +4,7 @@ import { useStandings } from '../../hooks/useStandings';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useR2State } from '../../hooks/useR2State';
 import { useFinalResults } from '../../hooks/useFinalResults';
-import { buildResultsForDiscipline } from '../../domain/disciplineResults';
+import { roundResults } from '../../domain/roundPlacings';
 import { getGroupRaces } from '../../domain/groupCalculations';
 import { generateEventCSV, triggerCSVDownload } from '../../domain/csvExport';
 import type { FinalResult } from '../../domain/csvExport';
@@ -44,7 +44,7 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
 
     for (const key of DISCIPLINE_KEYS) {
       const discState = state.disciplines[key];
-      const results = buildResultsForDiscipline(discState);
+      const results = roundResults(discState);
       if (results) {
         disciplines[key] = results;
       }

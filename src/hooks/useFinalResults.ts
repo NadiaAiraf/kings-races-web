@@ -17,7 +17,7 @@ export function parsePlacementLabel(label: string): [number, number] {
 /**
  * Format a number as an ordinal string: 1 -> "1st", 2 -> "2nd", etc.
  */
-function formatOrdinal(n: number): string {
+export function formatOrdinal(n: number): string {
   const suffixes: Record<number, string> = { 1: 'st', 2: 'nd', 3: 'rd' };
   const mod10 = n % 10;
   const mod100 = n % 100;

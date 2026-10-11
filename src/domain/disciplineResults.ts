@@ -1,12 +1,10 @@
 import type { DisciplineState, Score, TeamStanding, TournamentStructure } from './types';
-import type { FinalResult } from './csvExport';
 import type { ResolvedFinalsMatchup } from './finalsSeeding';
 import { calculateAllGroupStandings } from './groupCalculations';
 import { calculateGroupStandings } from './scoring';
 import { getCheatSheet } from './cheatSheets';
 import { resolveAllFinalsMatchups, areAllFinalsScored } from './finalsSeeding';
 import { resolveR2GroupTeams } from './r2Seeding';
-import { computeFinalResults } from '../hooks/useFinalResults';
 import { NO_TIEBREAKS, orderStandings, r2TiebreakKey } from '../hooks/groupOrder';
 
 export interface CompletedDiscipline {
@@ -79,16 +77,4 @@ export function resolveCompletedDiscipline(
   }));
 
   return { structure, r1Standings, r2Standings, finals };
-}
-
-/**
- * Build final results for a single discipline from raw store data (no hooks).
- * Replicates the logic from useFinalsState + computeFinalResults.
- */
-export function buildResultsForDiscipline(
-  disciplineState: DisciplineState
-): FinalResult[] | null {
-  const completed = resolveCompletedDiscipline(disciplineState);
-  if (!completed) return null;
-  return computeFinalResults(completed.finals, disciplineState.teams, 'all-scored');
 }

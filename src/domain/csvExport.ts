@@ -45,7 +45,7 @@ export function generateEventCSV(
     rows.push(['#', 'Team', 'Placement']);
     // Data rows
     for (const r of results) {
-      rows.push([String(r.position), r.teamName, r.placementLabel]);
+      rows.push([r.position ? String(r.position) : '', r.teamName, r.placementLabel]);
     }
     // Blank row separator (except after last discipline)
     if (i < DISCIPLINE_ORDER.length - 1) {

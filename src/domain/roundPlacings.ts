@@ -2,7 +2,8 @@ import type { DisciplineKey, DisciplineState } from './types';
 import { resolveCompletedDiscipline } from './disciplineResults';
 import { resolveFinalsRef } from './finalsSeeding';
 import { PLACING_REFS } from './placingRefs';
-import { parsePlacementLabel } from '../hooks/useFinalResults';
+import { formatOrdinal, parsePlacementLabel } from '../hooks/useFinalResults';
+import type { FinalResult } from './csvExport';
 import { NO_TIEBREAKS } from '../hooks/groupOrder';
 
 export type PlacingSource = 'final' | 'group' | 'official';
@@ -49,7 +50,7 @@ export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | nu
   const unplaced = state.teams.filter((t) => !computed.has(t.slot));
   const free = freePlaces(
     [...computed.values()].map((c) => c.place),
-    state.teamCount
+    state.teamCount,
   );
   if (unplaced.length === 1 && free.length === 1) {
     computed.set(unplaced[0].slot, { place: free[0], source: 'group' });
@@ -68,7 +69,7 @@ export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | nu
   });
 
   return placings.sort(
-    (a, b) => (a.place ?? Infinity) - (b.place ?? Infinity) || a.name.localeCompare(b.name)
+    (a, b) => (a.place ?? Infinity) - (b.place ?? Infinity) || a.name.localeCompare(b.name),
   );
 }
 
@@ -84,6 +85,26 @@ function freePlaces(places: number[], teamCount: number): number[] {
     for (let i = 0; i < count; i++) taken.add(place + i);
   }
   return Array.from({ length: teamCount }, (_, i) => i + 1).filter((p) => !taken.has(p));
+}
+
+/**
+ * A finished discipline's results for the CSV export, matching the on-screen
+ * table: every team's place, shared places marked "Joint", and teams without
+ * a place last with no position. Null until the discipline is complete.
+ */
+export function roundResults(state: DisciplineState): FinalResult[] | null {
+  const placings = computeRoundPlacings(state);
+  if (!placings) return null;
+  const count = new Map<number, number>();
+  for (const p of placings) if (p.place !== null) count.set(p.place, (count.get(p.place) ?? 0) + 1);
+  return placings.map((p) => ({
+    position: p.place ?? 0,
+    teamName: p.name,
+    placementLabel:
+      p.place === null
+        ? 'No place'
+        : `${count.get(p.place)! > 1 ? 'Joint ' : ''}${formatOrdinal(p.place)}`,
+  }));
 }
 
 // From the "League Points Lookup" sheet: fixed points for the top three, then
