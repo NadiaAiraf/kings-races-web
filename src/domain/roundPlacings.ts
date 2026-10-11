@@ -6,7 +6,7 @@ import { formatOrdinal, parsePlacementLabel } from '../hooks/useFinalResults';
 import type { FinalResult } from './csvExport';
 import { NO_TIEBREAKS } from '../hooks/groupOrder';
 
-export type PlacingSource = 'final' | 'group' | 'official';
+export type PlacingSource = 'final' | 'group' | 'official' | 'entered';
 
 export interface TeamPlacing {
   slot: number;
@@ -24,7 +24,16 @@ export interface TeamPlacing {
  * spreadsheet's group-position refs (PLACING_REFS). An official's place
  * overrides both and fills any gap. Null until the discipline is complete.
  */
+/**
+ * A discipline run outside the app: finished, with teams and their final
+ * places but no race results.
+ */
+export function isResultsOnly(state: DisciplineState): boolean {
+  return state.phase === 'complete' && state.scores.length === 0 && state.teams.length > 0;
+}
+
 export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | null {
+  if (isResultsOnly(state)) return enteredPlacings(state);
   const completed = resolveCompletedDiscipline(state);
   if (!completed) return null;
 
@@ -70,6 +79,23 @@ export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | nu
 
   return placings.sort(
     (a, b) => (a.place ?? Infinity) - (b.place ?? Infinity) || a.name.localeCompare(b.name),
+  );
+}
+
+/** A results-only discipline's places, as entered. */
+function enteredPlacings(state: DisciplineState): TeamPlacing[] {
+  const placings = state.teams.map((team): TeamPlacing => {
+    const place = state.placings[team.slot] ?? null;
+    return {
+      slot: team.slot,
+      name: team.name,
+      place,
+      source: place === null ? null : 'entered',
+      computedPlace: place,
+    };
+  });
+  return placings.sort(
+    (a, b) => (a.place ?? Infinity) - (b.place ?? Infinity) || a.name.localeCompare(b.name)
   );
 }
 
