@@ -5,12 +5,12 @@ export const TEAMS_31: TournamentStructure = {
   seedMap: [1, 11, 21, 31, 41, 51, 61, 71, 73, 64, 54, 44, 34, 24, 14, 4, 2, 12, 22, 32, 42, 52, 62, 72, 63, 53, 43, 33, 23, 13, 3],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4] },
-    { letter: 'B', teamSlots: [21, 22, 23, 24] },
-    { letter: 'C', teamSlots: [41, 42, 43, 44] },
-    { letter: 'D', teamSlots: [61, 62, 63, 64] },
     { letter: 'E', teamSlots: [11, 12, 13, 14] },
+    { letter: 'B', teamSlots: [21, 22, 23, 24] },
     { letter: 'F', teamSlots: [31, 32, 33, 34] },
+    { letter: 'C', teamSlots: [41, 42, 43, 44] },
     { letter: 'G', teamSlots: [51, 52, 53, 54] },
+    { letter: 'D', teamSlots: [61, 62, 63, 64] },
     { letter: 'H', teamSlots: [71, 72, 73] },
   ],
   roundOneRaces: [
