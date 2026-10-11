@@ -259,7 +259,11 @@ describe('HomePage', () => {
     renderAt('/', SIGNED_OUT);
     act(() => repo.onSeasons!(SEASONS, ONLINE));
 
-    expect((screen.getByLabelText('Season') as HTMLSelectElement).value).toBe('2026-27');
+    const newest = screen.getByRole('button', { name: 'Season 26/27' });
+    expect(newest.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('button', { name: 'Season 25/26' }).getAttribute('aria-expanded')).toBe(
+      'false'
+    );
     expect(screen.getByText('Scotland').getAttribute('href')).toBe('/seasons/2026-27/scotland');
   });
 
@@ -270,13 +274,23 @@ describe('HomePage', () => {
     expect(screen.getByText('Southern').getAttribute('href')).toBe('/seasons/2025-26/southern');
   });
 
-  it('switches season from the picker', () => {
+  it('opens a season to show its leagues, closing the other', () => {
     renderAt('/', SIGNED_OUT);
     act(() => repo.onSeasons!(SEASONS, ONLINE));
 
-    fireEvent.change(screen.getByLabelText('Season'), { target: { value: '2025-26' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Season 25/26' }));
 
+    expect(screen.getAllByText('Midlands')).toHaveLength(1);
     expect(screen.getByText('Midlands').getAttribute('href')).toBe('/seasons/2025-26/midlands');
+  });
+
+  it('collapses the open season when tapped again', () => {
+    renderAt('/', SIGNED_OUT);
+    act(() => repo.onSeasons!(SEASONS, ONLINE));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Season 26/27' }));
+
+    expect(screen.queryByText('Southern')).toBeNull();
   });
 
   it('shows an empty state when there are no seasons', () => {
