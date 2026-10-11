@@ -35,6 +35,11 @@ const PENDING_WRITES_TIMEOUT_MS = 3000;
 
 const eventsCollection = () => collection(db, 'events');
 
+// includeMetadataChanges: the callback reads fromCache, and without it a
+// result the server confirms unchanged (e.g. still empty) is never delivered,
+// so a new project would look offline forever.
+const METADATA_CHANGES = { includeMetadataChanges: true };
+
 /**
  * Create an event and return its id straight away. The id is generated
  * client-side so this works offline: Firestore queues the write and the
@@ -67,6 +72,7 @@ export function subscribeEvents(
   // viewers); split out a summaries collection if that ever changes.
   return onSnapshot(
     query(eventsCollection(), orderBy('date', 'desc'), limit(EVENT_LIST_LIMIT)),
+    METADATA_CHANGES,
     (snap) =>
       onEvents(
         snap.docs.map((d) => parseEventSummary(d.id, d.data())),
@@ -106,6 +112,7 @@ export function subscribeEvent(
 ): () => void {
   return onSnapshot(
     doc(eventsCollection(), id),
+    METADATA_CHANGES,
     (snap) =>
       onEvent(snap.exists() ? parseEventDetail(snap.id, snap.data()) : null, {
         fromCache: snap.metadata.fromCache,

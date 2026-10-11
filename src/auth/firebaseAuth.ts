@@ -9,8 +9,12 @@ export const firebaseAuthDeps: AuthDeps = {
       onUser(user ? { uid: user.uid, email: user.email } : null)
     ),
   watchApproval: (uid, onApproved, onError) =>
+    // includeMetadataChanges: a missing doc (not approved) looks the same from
+    // cache and server, so without it the server's answer is never delivered
+    // and approvalCheckFailed (missing + fromCache) would stick.
     onSnapshot(
       doc(db, 'approvedUsers', uid),
+      { includeMetadataChanges: true },
       (snap) => onApproved(snap.exists(), snap.metadata.fromCache),
       onError
     ),
