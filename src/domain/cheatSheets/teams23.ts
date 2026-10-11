@@ -146,6 +146,9 @@ export const TEAMS_23: TournamentStructure = {
     },
   ],
   finals: [
+    { label: '21st/22nd', homeRef: 'Third Group V', awayRef: 'Third Group VI', optional: true },
+    { label: '19th/20th', homeRef: 'Second Group V', awayRef: 'Second Group VI', optional: true },
+    { label: '17th/18th', homeRef: 'Winner Group V', awayRef: 'Winner Group VI' },
     { label: '15th/16th', homeRef: 'Loser Group III', awayRef: 'Loser Group IV' },
     { label: '13th/14th', homeRef: 'Third Group III', awayRef: 'Third Group IV' },
     { label: '11th/12th', homeRef: 'Second Group III', awayRef: 'Second Group IV' },

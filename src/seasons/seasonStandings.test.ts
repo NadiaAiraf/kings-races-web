@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createInitialDisciplines } from '../store/initialState';
-import { playedDiscipline } from '../domain/__fixtures__/playedDiscipline';
+import { playedDiscipline, withUnplaceableTeams } from '../domain/__fixtures__/playedDiscipline';
 import {
   computeSeasonStandings,
   seedingOrder,
@@ -115,8 +115,8 @@ describe('computeSeasonStandings', () => {
   });
 
   it('scores 0 for a team with no place set yet', () => {
-    // 7 teams: nothing places 3rd and 4th until an official does.
-    const mixed = playedDiscipline(7);
+    // Two teams nothing places until an official does.
+    const mixed = withUnplaceableTeams(playedDiscipline(8), 2);
     const r: StandingsRound = {
       round: { seasonId: '2026-27', league: 'southern', roundNumber: 1, venue: 'Hemel' },
       disciplines: { ...createInitialDisciplines(), mixed },

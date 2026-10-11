@@ -268,8 +268,10 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                           score={matchup.score ?? undefined}
                           isExpanded={expandedRaceId === matchup.raceId}
                           matchupLabel={matchup.label}
-                          seedingContext={`${matchup.homeRef} vs ${matchup.awayRef}`}
-                          isFinalMatch={matchup.label.includes('1st')}
+                          seedingContext={`${matchup.homeRef} vs ${matchup.awayRef}${
+                            matchup.optional ? ' · If time allows' : ''
+                          }`}
+                          isFinalMatch={matchup.label.startsWith('1st/')}
                           allowNotRun
                           onExpand={handleExpand}
                           onScore={handleScore}

@@ -3,8 +3,12 @@ import { cleanup, fireEvent, render, screen, within } from '@testing-library/rea
 import { EditAccessContext } from '../../auth/editAccess';
 import { useEventStore } from '../../store/eventStore';
 import { createInitialDisciplines } from '../../store/initialState';
-import { playedDiscipline } from '../../domain/__fixtures__/playedDiscipline';
+import {
+  playedDiscipline,
+  withUnplaceableTeams,
+} from '../../domain/__fixtures__/playedDiscipline';
 import { RoundPlacingsTable } from './RoundPlacingsTable';
+import { leaguePoints } from '../../domain/roundPlacings';
 
 const store = () => useEventStore.getState();
 
@@ -18,9 +22,12 @@ function renderTable(canEdit: boolean) {
 
 describe('RoundPlacingsTable', () => {
   beforeEach(() => {
-    // 7 teams: 1st/2nd from the final, 5th-7th from group II, 3rd/4th open.
+    // 8 teams, two of which nothing can place.
     useEventStore.setState({
-      disciplines: { ...createInitialDisciplines(), mixed: playedDiscipline(7) },
+      disciplines: {
+        ...createInitialDisciplines(),
+        mixed: withUnplaceableTeams(playedDiscipline(8), 2),
+      },
     });
   });
 
@@ -34,7 +41,10 @@ describe('RoundPlacingsTable', () => {
 
   it('shows league points for a placed team', () => {
     renderTable(false);
-    expect(screen.getAllByRole('row')[1].textContent).toContain('30');
+    // The first row is the best-placed team; the place is the row's first cell.
+    const cells = screen.getAllByRole('row')[1].querySelectorAll('td');
+    const place = Number(cells[0].textContent);
+    expect(cells[2].textContent).toBe(String(leaguePoints('mixed', place)));
   });
 
   it('says how many teams still need a place', () => {
@@ -59,7 +69,7 @@ describe('RoundPlacingsTable', () => {
   });
 
   it('clears an official place back to the computed one', () => {
-    const winner = store().disciplines.mixed.teams[0];
+    const winner = store().disciplines.mixed.teams[2];
     store().setPlacing('mixed', winner.slot, 4);
     renderTable(true);
 

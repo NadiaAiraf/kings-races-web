@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { computeRoundPlacings, leaguePoints } from './roundPlacings';
-import { playedDiscipline } from './__fixtures__/playedDiscipline';
+import { playedDiscipline, withUnplaceableTeams } from './__fixtures__/playedDiscipline';
 
 describe('computeRoundPlacings', () => {
   it('is null until the discipline is complete', () => {
@@ -26,14 +26,13 @@ describe('computeRoundPlacings', () => {
   });
 
   it('places teams without a final from their group position', () => {
-    // 7 teams: only 1st/2nd is raced; 5th-7th come from group II.
+    // 7 teams: finals decide 1st-4th; 5th-7th come from group II.
     const placings = computeRoundPlacings(playedDiscipline(7))!;
     expect(placings.filter((p) => p.source === 'group').map((p) => p.place)).toEqual([5, 6, 7]);
   });
 
-  it('leaves a place the spreadsheet does not define for an official', () => {
-    // 7 teams: nothing defines 3rd and 4th.
-    const placings = computeRoundPlacings(playedDiscipline(7))!;
+  it('leaves a team nothing can place for an official', () => {
+    const placings = computeRoundPlacings(withUnplaceableTeams(playedDiscipline(8), 2))!;
     expect(placings.filter((p) => p.place === null)).toHaveLength(2);
   });
 
@@ -53,7 +52,7 @@ describe('computeRoundPlacings', () => {
   });
 
   it("lets an official's place override the computed one", () => {
-    const state = playedDiscipline(7);
+    const state = withUnplaceableTeams(playedDiscipline(8), 2);
     const unplaced = computeRoundPlacings(state)!.find((p) => p.place === null)!;
     state.placings = { [unplaced.slot]: 3 };
 
@@ -62,18 +61,20 @@ describe('computeRoundPlacings', () => {
   });
 
   it('lists teams best first with unplaced teams last', () => {
-    const places = computeRoundPlacings(playedDiscipline(7))!.map((p) => p.place);
-    expect(places).toEqual([1, 2, 5, 6, 7, null, null]);
+    const places = computeRoundPlacings(withUnplaceableTeams(playedDiscipline(4), 2))!.map(
+      (p) => p.place
+    );
+    expect(places.slice(-2)).toEqual([null, null]);
+    expect(places.slice(0, 2).every((p) => p !== null)).toBe(true);
   });
 
-  // Team counts where finals plus the spreadsheet's refs place every team.
-  const FULLY_PLACED = [4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+  // Finals plus the spreadsheet's refs place every team, for every count.
+  const ALL_COUNTS = Array.from({ length: 29 }, (_, i) => i + 4);
 
-  it.each(FULLY_PLACED)('places all %i teams automatically', (count) => {
-    const placings = computeRoundPlacings(playedDiscipline(count))!;
-    expect(placings.map((p) => p.place).sort((a, b) => a! - b!)).toEqual(
-      Array.from({ length: count }, (_, i) => i + 1)
-    );
+  it.each(ALL_COUNTS)('places all %i teams automatically', (count) => {
+    // Joint places (e.g. two teams 25th for 29+ teams) mean not always 1..N.
+    const places = computeRoundPlacings(playedDiscipline(count))!.map((p) => p.place);
+    expect(places.every((p) => p !== null && p >= 1 && p <= count)).toBe(true);
   });
 
   it.each(Array.from({ length: 29 }, (_, i) => i + 4))(

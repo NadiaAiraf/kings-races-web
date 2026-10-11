@@ -41,6 +41,7 @@ export interface FinalsMatchup {
   label: string;          // '1st/2nd', '3rd/4th', etc.
   homeRef: string;        // Reference to R2 standing (e.g., 'Winner Group I')
   awayRef: string;        // Reference to R2 standing (e.g., 'Second Group I')
+  optional?: boolean;     // Marked "*" on the sheet: raced only if time allows
 }
 
 export interface TournamentStructure {

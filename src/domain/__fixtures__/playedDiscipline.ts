@@ -57,3 +57,12 @@ export function playedDiscipline(count: number, overrides: Partial<DisciplineSta
     ...overrides,
   };
 }
+
+/**
+ * Give `count` teams slots the cheat sheet does not know, so nothing can
+ * place them: stands in for a gap an official has to fill by hand.
+ */
+export function withUnplaceableTeams(state: DisciplineState, count: number): DisciplineState {
+  const teams = state.teams.map((t, i) => (i < count ? { ...t, slot: 900 + i } : t));
+  return { ...state, teams };
+}
