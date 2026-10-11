@@ -6,6 +6,13 @@ import type {
   RoundTwoSeeding,
 } from './types';
 
+/** Parse a position code like "A3" (3rd in group A) into a 0-indexed position. */
+function parsePositionCode(code: string): { position: number; groupLetter: string } | null {
+  const match = /^([A-Z])(\d+)$/.exec(code);
+  if (!match) return null;
+  return { position: Number(match[2]) - 1, groupLetter: match[1] };
+}
+
 /**
  * Parse an R2 seeding label like "Winner A", "Runner Up B", "Third A", "Loser A",
  * "2nd A", "3rd  A" (double space), "Winner f" (lowercase).
@@ -64,7 +71,10 @@ export function resolveR2TeamSlot(
   r1Standings: Record<string, TeamStanding[]>,
   manualTiebreaks: Record<string, number[]>
 ): number | null {
-  const parsed = parseSeedingLabel(entry.label);
+  // Like the spreadsheet's VLOOKUP: the position code (e.g. "A3") decides,
+  // and the label is only a fallback. They disagree for 11 teams, where the
+  // labels name a group D that does not exist.
+  const parsed = parsePositionCode(entry.positionCode) ?? parseSeedingLabel(entry.label);
   if (!parsed) return null;
 
   const { position, groupLetter } = parsed;

@@ -5,6 +5,7 @@ import { calculateAllGroupStandings } from './groupCalculations';
 import { calculateGroupStandings } from './scoring';
 import { getCheatSheet } from './cheatSheets';
 import { resolveAllFinalsMatchups, areAllFinalsScored } from './finalsSeeding';
+import { resolveR2GroupTeams } from './r2Seeding';
 import { computeFinalResults } from '../hooks/useFinalResults';
 import { NO_TIEBREAKS, orderStandings, r2TiebreakKey } from '../hooks/groupOrder';
 
@@ -50,20 +51,11 @@ export function resolveCompletedDiscipline(
       const r2Scores = disciplineState.scores.filter((s) =>
         s.raceId.startsWith(`r2-${r2Group.groupNum}-`)
       );
-      // Get team slots for this R2 group from seeding entries
-      const teamSlots: number[] = [];
-      for (const entry of r2Group.seedingEntries) {
-        // positionCode is like "A1" meaning group A, position 1
-        const letterMatch = entry.positionCode.match(/^([A-Z])(\d+)$/);
-        if (letterMatch) {
-          const groupKey = letterMatch[1];
-          const pos = parseInt(letterMatch[2], 10) - 1;
-          const groupStandings = r1Standings[groupKey];
-          if (groupStandings && groupStandings[pos]) {
-            teamSlots.push(groupStandings[pos].slot);
-          }
-        }
-      }
+      // Seed from the labels, as useR2State does: some sheets (24, 25 and
+      // 32 teams) have no positionCode.
+      const teamSlots = Object.values(
+        resolveR2GroupTeams(r2Group, r1Standings, NO_TIEBREAKS)
+      ).filter((slot): slot is number => slot !== null);
       r2Standings[r2Group.groupNum] = orderStandings(
         calculateGroupStandings(r2Scores, teamSlots),
         tiebreaks[r2TiebreakKey(r2Group.groupNum)]
