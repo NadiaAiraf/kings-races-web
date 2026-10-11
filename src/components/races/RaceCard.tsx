@@ -30,7 +30,7 @@ export function RaceCard({ raceNum, homeTeamName, awayTeamName, score, disabled,
   return (
     <div
       className={clsx(
-        'bg-white border border-slate-200 rounded-lg p-4 mb-2',
+        'bg-white border border-slate-200 rounded-sm p-4 mb-2',
         disabled && 'opacity-40 pointer-events-none'
       )}
     >

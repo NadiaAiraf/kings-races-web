@@ -58,7 +58,7 @@ export function NewSeasonPage() {
       <p className="text-sm text-slate-600">
         Only approved officials can create seasons.{' '}
         {!user && (
-          <Link to="/login" className="font-semibold text-blue-600">
+          <Link to="/login" className="font-semibold text-brand-600">
             Sign in
           </Link>
         )}
@@ -87,12 +87,12 @@ export function NewSeasonPage() {
             }}
             placeholder="e.g. 2026"
             maxLength={4}
-            className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg"
+            className="h-12 text-base font-normal px-4 border border-slate-200 rounded-sm"
           />
         </label>
         {preview && <p className="text-sm text-slate-600">Creates season {preview}</p>}
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <button type="submit" className="min-h-14 rounded-lg bg-blue-600 text-white font-semibold">
+        <button type="submit" className="min-h-14 rounded-sm bg-brand-600 text-white font-semibold">
           Create season
         </button>
       </form>

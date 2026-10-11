@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+/* Kings Ski Club brand, from kingsski.club. */
+@theme {
+  --color-brand-50: #fbeae9; /* table row tint */
+  --color-brand-600: #d72d28; /* club red */
+  --color-brand-700: #ac2420; /* dark red */
+  --color-ink: #272727;
+}

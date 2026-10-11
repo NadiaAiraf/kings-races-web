@@ -55,30 +55,30 @@ export function GroupStandingsTable({
       </h3>
       <table className="w-full table-auto">
         <thead>
-          <tr className="border-b border-slate-200">
-            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-slate-500">
+          <tr className="bg-brand-600 text-white">
+            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               #
             </th>
-            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               Team
             </th>
-            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-white">
               W
             </th>
-            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-white">
               L
             </th>
-            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-white">
               DSQ
             </th>
-            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-center text-sm font-semibold text-white">
               Pts
             </th>
             {groupRaces.map((race) => (
               <th
                 key={race.raceNum}
                 scope="col"
-                className="px-1 py-2 text-center text-xs font-semibold text-slate-400"
+                className="px-1 py-2 text-center text-xs font-semibold text-white"
               >
                 {race.raceNum}
               </th>
@@ -89,7 +89,7 @@ export function GroupStandingsTable({
           {standings.map((standing, index) => (
             <tr
               key={standing.slot}
-              className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
+              className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}
             >
               <td className="px-2 py-2 text-sm text-slate-500">
                 {index + 1}

@@ -4,6 +4,7 @@ import { useAuth } from '../auth/authContext';
 import { subscribeSeasons } from '../seasons/seasonsRepo';
 import { LEAGUES, seasonLabel, type Season } from '../seasons/seasons';
 import { PageHeader, PageLayout } from './PageLayout';
+import logoUrl from '../assets/kings-ski-club-logo.png';
 import { withErrorCode } from '../lib/firebaseErrors';
 
 const CLOSED = 'none';
@@ -50,6 +51,11 @@ export function HomePage() {
     <PageLayout>
       <PageHeader title="Kings Races" subtitle="Leagues" />
       <main className="flex-1 px-4 py-4 flex flex-col gap-3">
+        <img
+          src={logoUrl}
+          alt="Kings Ski Club, est. 1978"
+          className="self-center w-56 max-w-full h-auto my-2"
+        />
         {user && !loading && !isApproved && (
           <p className="text-sm text-slate-500">
             {approvalCheckFailed
@@ -66,7 +72,7 @@ export function HomePage() {
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-blue-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
             >
               Retry
             </button>
@@ -93,7 +99,7 @@ export function HomePage() {
                     type="button"
                     onClick={() => toggle(s.id)}
                     aria-expanded={open}
-                    className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 min-h-14 text-base font-semibold text-slate-900"
+                    className="flex items-center justify-between bg-white border border-slate-200 rounded-sm px-4 min-h-14 text-base font-semibold text-slate-900"
                   >
                     Season {seasonLabel(s.startYear)}
                     <span aria-hidden="true" className="text-slate-400">
@@ -109,7 +115,7 @@ export function HomePage() {
                         <li key={league.key}>
                           <Link
                             to={`/seasons/${s.id}/${league.key}`}
-                            className="flex items-center bg-white border border-slate-200 rounded-lg px-4 min-h-12 text-base text-slate-900"
+                            className="flex items-center bg-white border border-slate-200 rounded-sm px-4 min-h-12 text-base text-slate-900"
                           >
                             {league.name}
                           </Link>
@@ -126,14 +132,14 @@ export function HomePage() {
         {isApproved && seasons !== null && (
           <Link
             to="/seasons/new"
-            className="flex items-center justify-center min-h-14 rounded-lg border border-blue-600 text-blue-600 font-semibold"
+            className="flex items-center justify-center min-h-14 rounded-sm border border-brand-600 text-brand-600 font-semibold"
           >
             New season
           </Link>
         )}
         <Link
           to="/rounds"
-          className="self-center min-h-11 flex items-center text-sm font-semibold text-blue-600"
+          className="self-center min-h-11 flex items-center text-sm font-semibold text-brand-600"
         >
           All rounds by date
         </Link>

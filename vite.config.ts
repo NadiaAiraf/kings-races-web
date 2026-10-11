@@ -21,7 +21,7 @@ export default defineConfig({
         short_name: 'Kings Races',
         description:
           'Race management for Kings Ski Club parallel slalom events',
-        theme_color: '#2563EB',
+        theme_color: '#d72d28',
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',

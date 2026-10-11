@@ -39,14 +39,14 @@ export function TeamInput({ onAdd, disabled, error, existingNames = [] }: TeamIn
           onKeyDown={handleKeyDown}
           placeholder="Team name"
           disabled={disabled}
-          className="flex-1 h-12 text-base px-4 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-40"
+          className="flex-1 h-12 text-base px-4 border border-slate-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-brand-600 disabled:opacity-40"
         />
         <button
           type="button"
           onClick={handleSubmit}
           disabled={!canAdd}
           className={clsx(
-            'h-12 px-4 text-sm font-semibold rounded-lg min-w-[100px] bg-blue-600 text-white',
+            'h-12 px-4 text-sm font-semibold rounded-sm min-w-[100px] bg-brand-600 text-white',
             !canAdd && 'opacity-40 cursor-not-allowed'
           )}
         >

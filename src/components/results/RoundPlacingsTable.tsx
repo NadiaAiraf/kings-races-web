@@ -40,7 +40,7 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
           <button
             type="button"
             onClick={() => setCorrecting((on) => !on)}
-            className="min-h-11 px-2 text-sm font-semibold text-blue-600"
+            className="min-h-11 px-2 text-sm font-semibold text-brand-600"
           >
             {correcting ? 'Done' : 'Correct places'}
           </button>
@@ -54,28 +54,28 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
       )}
       <table className="w-full table-auto">
         <thead>
-          <tr className="border-b border-slate-200">
-            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-slate-500">
+          <tr className="bg-brand-600 text-white">
+            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               Place
             </th>
-            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               Team
             </th>
-            <th scope="col" className="px-2 py-2 text-right text-sm font-semibold text-slate-500">
+            <th scope="col" className="px-2 py-2 text-right text-sm font-semibold text-white">
               Pts
             </th>
           </tr>
         </thead>
         <tbody>
           {placings.map((p, index) => (
-            <tr key={p.slot} className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
+            <tr key={p.slot} className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}>
               <td className="px-2 py-2 w-24">
                 {canEdit && (correcting || p.place === null) ? (
                   <select
                     aria-label={`Place for ${p.name}`}
                     value={p.place === null ? '' : String(p.place)}
                     onChange={(e) => choosePlace(p.slot, p.computedPlace, e.target.value)}
-                    className="min-h-11 w-full px-1 border border-slate-200 rounded-lg bg-white text-base"
+                    className="min-h-11 w-full px-1 border border-slate-200 rounded-sm bg-white text-base"
                   >
                     {p.computedPlace === null && <option value="">?</option>}
                     {places.map((n) => (

@@ -88,7 +88,7 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
       <div
         ref={ref}
         className={clsx(
-          'border border-slate-200 rounded-lg p-4 bg-white',
+          'border border-slate-200 rounded-sm p-4 bg-white',
           isScored && winnerSide === 'home' && 'border-l-4 border-l-green-600',
           isScored && winnerSide === 'away' && 'border-l-4 border-l-green-600'
         )}
@@ -98,7 +98,7 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-slate-900">{matchup.label}</span>
           {isFinalMatch && (
-            <span className="text-xs font-semibold text-blue-600">FINAL</span>
+            <span className="text-xs font-semibold text-brand-600">FINAL</span>
           )}
         </div>
 
@@ -196,7 +196,7 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
               <button
                 type="button"
                 onClick={handleEdit}
-                className="text-sm text-slate-500 min-h-14 px-2 focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+                className="text-sm text-slate-500 min-h-14 px-2 focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
               >
                 Edit
               </button>

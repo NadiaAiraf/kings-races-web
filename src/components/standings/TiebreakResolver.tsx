@@ -41,7 +41,7 @@ export function TiebreakResolver({
   if (!canEdit) {
     if (isResolved) return null;
     return (
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-2">
+      <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-2">
         <h3 className="text-base font-semibold text-amber-900 mb-1">Tie: {label}</h3>
         <p className="text-sm text-amber-700">Waiting for an official to set the finishing order.</p>
       </div>
@@ -50,7 +50,7 @@ export function TiebreakResolver({
 
   if (isResolved && !editing) {
     return (
-      <div className="bg-white border border-slate-200 rounded-lg p-4 mb-2">
+      <div className="bg-white border border-slate-200 rounded-sm p-4 mb-2">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-slate-900">{label}: order set manually</h3>
           {canChange && (
@@ -60,7 +60,7 @@ export function TiebreakResolver({
                 setOrder(orderStandings(standings, savedOrder));
                 setEditing(true);
               }}
-              className="min-h-11 px-2 text-sm font-semibold text-blue-600"
+              className="min-h-11 px-2 text-sm font-semibold text-brand-600"
             >
               Change
             </button>
@@ -92,7 +92,7 @@ export function TiebreakResolver({
   }
 
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-2">
+    <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-2">
       <h3 className="text-base font-semibold text-amber-900 mb-1">Resolve tie: {label}</h3>
       <p className="text-sm text-amber-700 mb-3">
         Teams level on points can be moved. Set the finishing order, then confirm to complete the
@@ -139,7 +139,7 @@ export function TiebreakResolver({
       <button
         type="button"
         onClick={handleConfirm}
-        className="mt-4 w-full min-h-[44px] bg-amber-600 text-white font-semibold rounded-lg active:bg-amber-700"
+        className="mt-4 w-full min-h-[44px] bg-amber-600 text-white font-semibold rounded-sm active:bg-amber-700"
       >
         Confirm order
       </button>

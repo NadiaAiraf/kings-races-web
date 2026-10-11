@@ -42,7 +42,7 @@ export function EventListPage() {
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-blue-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
             >
               Retry
             </button>
@@ -60,7 +60,7 @@ export function EventListPage() {
             <li key={event.id}>
               <Link
                 to={`/events/${event.id}`}
-                className="block bg-white border border-slate-200 rounded-lg px-4 py-3 min-h-14"
+                className="block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
               >
                 <span className="block text-base font-semibold text-slate-900">{event.name}</span>
                 <span className="block text-sm text-slate-500">

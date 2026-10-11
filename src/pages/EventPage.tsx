@@ -156,13 +156,13 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
             <button
               type="button"
               onClick={onRetry}
-              className="mt-4 min-h-11 px-4 text-sm font-semibold text-blue-600"
+              className="mt-4 min-h-11 px-4 text-sm font-semibold text-brand-600"
             >
               Retry
             </button>
           )}
           {view.status !== 'loading' && (
-            <Link to="/" className="block mt-4 text-sm font-semibold text-blue-600">
+            <Link to="/" className="block mt-4 text-sm font-semibold text-brand-600">
               All rounds
             </Link>
           )}
@@ -229,7 +229,7 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
                   <button
                     type="button"
                     onClick={onRetry}
-                    className="mt-4 min-h-11 px-4 text-sm font-semibold text-blue-600"
+                    className="mt-4 min-h-11 px-4 text-sm font-semibold text-brand-600"
                   >
                     Retry
                   </button>
