@@ -76,14 +76,28 @@ export function currentSeasonStartYear(date: Date): number {
   return date.getMonth() >= SEASON_START_MONTH_INDEX ? date.getFullYear() : date.getFullYear() - 1;
 }
 
-/** Start years that can still be created, newest first: up to next season. */
-export function availableSeasonYears(existing: number[], today: Date): number[] {
-  const taken = new Set(existing);
-  const years: number[] = [];
-  for (let y = currentSeasonStartYear(today) + 1; y >= MIN_SEASON_START_YEAR; y--) {
-    if (!taken.has(y)) years.push(y);
+/**
+ * The start year to suggest for a new season: the current season if it does
+ * not exist yet, otherwise the year after the newest season.
+ */
+export function suggestedSeasonStartYear(existing: number[], today: Date): number {
+  const current = currentSeasonStartYear(today);
+  if (!existing.includes(current)) return current;
+  return Math.max(...existing) + 1;
+}
+
+/** The start year typed for a new season, or an error message. */
+export function parseSeasonStartYear(
+  input: string,
+  existing: number[]
+): { year: number } | { error: string } {
+  const year = Number(input.trim());
+  if (!/^\d{4}$/.test(input.trim())) return { error: 'Enter the year the season starts, e.g. 2026' };
+  if (year < MIN_SEASON_START_YEAR || year > MAX_SEASON_START_YEAR) {
+    return { error: `Enter a year from ${MIN_SEASON_START_YEAR} to ${MAX_SEASON_START_YEAR}` };
   }
-  return years;
+  if (existing.includes(year)) return { error: `Season ${seasonLabel(year)} already exists` };
+  return { year };
 }
 
 /**

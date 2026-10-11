@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
-  availableSeasonYears,
   currentSeasonStartYear,
   isLeagueKey,
+  parseSeasonStartYear,
   leagueName,
   parseSeason,
   seasonIdFor,
@@ -10,6 +10,7 @@ import {
   seasonLabel,
   seasonRoundEventId,
   seasonStartYear,
+  suggestedSeasonStartYear,
 } from './seasons';
 
 describe('season ids and labels', () => {
@@ -80,14 +81,30 @@ describe('parseSeason', () => {
   });
 });
 
-describe('availableSeasonYears', () => {
-  it('offers up to next season, newest first, skipping existing seasons', () => {
-    const years = availableSeasonYears([2026, 2024], new Date(2026, 9, 11));
-    expect(years.slice(0, 3)).toEqual([2027, 2025, 2023]);
+describe('suggestedSeasonStartYear', () => {
+  it('suggests the current season when it does not exist yet', () => {
+    expect(suggestedSeasonStartYear([2025], new Date(2026, 9, 11))).toBe(2026);
   });
 
-  it('stops at the earliest season the rules allow', () => {
-    const years = availableSeasonYears([], new Date(2026, 9, 11));
-    expect(years.at(-1)).toBe(2020);
+  it('suggests the year after the newest season otherwise', () => {
+    expect(suggestedSeasonStartYear([2026, 2027], new Date(2026, 9, 11))).toBe(2028);
+  });
+});
+
+describe('parseSeasonStartYear', () => {
+  it('accepts any year in range, however far ahead', () => {
+    expect(parseSeasonStartYear(' 2031 ', [])).toEqual({ year: 2031 });
+  });
+
+  it('rejects a season that already exists', () => {
+    expect(parseSeasonStartYear('2026', [2026])).toEqual({ error: 'Season 26/27 already exists' });
+  });
+
+  it('rejects something that is not a year', () => {
+    expect(parseSeasonStartYear('26/27', [])).toHaveProperty('error');
+  });
+
+  it('rejects a year outside 2020-2098', () => {
+    expect(parseSeasonStartYear('2019', [])).toHaveProperty('error');
   });
 });

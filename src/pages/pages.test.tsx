@@ -333,25 +333,36 @@ describe('NewSeasonPage', () => {
     expect(screen.getByText(/Only approved officials can create seasons/)).toBeTruthy();
   });
 
-  it('does not offer a season that already exists', () => {
+  it('suggests the next season after the newest one', () => {
     renderAt('/seasons/new', APPROVED);
     act(() => repo.onSeasons!(SEASONS, ONLINE));
 
-    const options = Array.from(screen.getByLabelText('Season').querySelectorAll('option'));
-    expect(options.map((o) => o.textContent)).not.toContain('26/27');
+    expect((screen.getByLabelText('Year the season starts') as HTMLInputElement).value).toBe('2027');
+    expect(screen.getByText('Creates season 27/28')).toBeTruthy();
   });
 
-  it('creates the chosen season and returns to it', () => {
+  it('creates a season for any year typed, however far ahead', () => {
     renderAt('/seasons/new', APPROVED);
     act(() => repo.onSeasons!(SEASONS, ONLINE));
 
-    fireEvent.change(screen.getByLabelText('Season'), { target: { value: '2024' } });
+    fireEvent.change(screen.getByLabelText('Year the season starts'), { target: { value: '2031' } });
     fireEvent.click(screen.getByText('Create season'));
 
-    expect(repo.createdSeasons).toEqual([{ startYear: 2024, uid: 'official' }]);
+    expect(repo.createdSeasons).toEqual([{ startYear: 2031, uid: 'official' }]);
     // Firestore includes the queued write in the next snapshot.
-    act(() => repo.onSeasons!([...SEASONS, { id: '2024-25', startYear: 2024 }], ONLINE));
-    expect(screen.getByText('Southern').getAttribute('href')).toBe('/seasons/2024-25/southern');
+    act(() => repo.onSeasons!([{ id: '2031-32', startYear: 2031 }, ...SEASONS], ONLINE));
+    expect(screen.getByText('Southern').getAttribute('href')).toBe('/seasons/2031-32/southern');
+  });
+
+  it('refuses a season that already exists', () => {
+    renderAt('/seasons/new', APPROVED);
+    act(() => repo.onSeasons!(SEASONS, ONLINE));
+
+    fireEvent.change(screen.getByLabelText('Year the season starts'), { target: { value: '2026' } });
+    fireEvent.click(screen.getByText('Create season'));
+
+    expect(screen.getByText('Season 26/27 already exists')).toBeTruthy();
+    expect(repo.createdSeasons).toEqual([]);
   });
 });
 

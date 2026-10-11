@@ -3,10 +3,10 @@ import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../auth/authContext';
 import { createSeason, subscribeSeasons } from '../seasons/seasonsRepo';
 import {
-  availableSeasonYears,
-  currentSeasonStartYear,
+  parseSeasonStartYear,
   seasonIdFor,
   seasonLabel,
+  suggestedSeasonStartYear,
 } from '../seasons/seasons';
 import { PageHeader, PageLayout } from './PageLayout';
 import { withErrorCode } from '../lib/firebaseErrors';
@@ -16,7 +16,9 @@ export function NewSeasonPage() {
   const navigate = useNavigate();
   const [existing, setExisting] = useState<number[] | null>(null);
   const [loadError, setLoadError] = useState<unknown>(null);
-  const [chosen, setChosen] = useState<number | null>(null);
+  // What the official typed; null shows the suggested year until they type.
+  const [typed, setTyped] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(
     () =>
@@ -30,13 +32,18 @@ export function NewSeasonPage() {
     []
   );
 
-  const years = existing ? availableSeasonYears(existing, new Date()) : [];
-  const current = currentSeasonStartYear(new Date());
-  const startYear = chosen ?? (years.includes(current) ? current : years[0]);
+  const input = typed ?? (existing ? String(suggestedSeasonStartYear(existing, new Date())) : '');
+  const parsed = existing ? parseSeasonStartYear(input, existing) : null;
+  const preview = parsed && 'year' in parsed ? seasonLabel(parsed.year) : null;
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!user || !isApproved || startYear === undefined) return;
+    if (!user || !isApproved || !parsed) return;
+    if ('error' in parsed) {
+      setError(parsed.error);
+      return;
+    }
+    const startYear = parsed.year;
     // Like rounds, the write is queued locally and syncs when online.
     const { id, committed } = createSeason(startYear, user.uid);
     committed.catch((err) => console.error('Failed to create season', { seasonId: id }, err));
@@ -65,25 +72,26 @@ export function NewSeasonPage() {
     );
   } else if (existing === null) {
     body = <p className="text-sm text-slate-500">Loading seasons...</p>;
-  } else if (startYear === undefined) {
-    body = <p className="text-sm text-slate-500">Every season up to next year already exists.</p>;
   } else {
     body = (
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
         <label className="flex flex-col gap-1 text-sm font-semibold text-slate-700">
-          Season
-          <select
-            value={startYear}
-            onChange={(e) => setChosen(Number(e.target.value))}
-            className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg bg-white"
-          >
-            {years.map((y) => (
-              <option key={y} value={y}>
-                {seasonLabel(y)}
-              </option>
-            ))}
-          </select>
+          Year the season starts
+          <input
+            type="text"
+            inputMode="numeric"
+            value={input}
+            onChange={(e) => {
+              setTyped(e.target.value);
+              setError(null);
+            }}
+            placeholder="e.g. 2026"
+            maxLength={4}
+            className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg"
+          />
         </label>
+        {preview && <p className="text-sm text-slate-600">Creates season {preview}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
         <button type="submit" className="min-h-14 rounded-lg bg-blue-600 text-white font-semibold">
           Create season
         </button>
