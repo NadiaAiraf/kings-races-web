@@ -21,6 +21,11 @@ const SEASON_LIST_LIMIT = 20;
 
 const seasonsCollection = () => collection(db, 'seasons');
 
+// includeMetadataChanges: the callback reads fromCache, and without it a
+// result the server confirms unchanged (e.g. still empty) is never delivered,
+// so a new project would look offline forever.
+const METADATA_CHANGES = { includeMetadataChanges: true };
+
 /** Newest season first. */
 export function subscribeSeasons(
   onSeasons: (seasons: Season[], meta: EventSnapshotMeta) => void,
@@ -28,6 +33,7 @@ export function subscribeSeasons(
 ): () => void {
   return onSnapshot(
     query(seasonsCollection(), orderBy('startYear', 'desc'), limit(SEASON_LIST_LIMIT)),
+    METADATA_CHANGES,
     (snap) =>
       onSeasons(
         snap.docs.flatMap((d) => parseSeason(d.id, d.data()) ?? []),
