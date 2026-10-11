@@ -6,6 +6,8 @@ import { LEAGUES, seasonLabel, type Season } from '../seasons/seasons';
 import { PageHeader, PageLayout } from './PageLayout';
 import { withErrorCode } from '../lib/firebaseErrors';
 
+const CLOSED = 'none';
+
 export function HomePage() {
   const { user, isApproved, loading, approvalCheckFailed } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,14 +28,23 @@ export function HomePage() {
         (err) => {
           console.error('Season list subscription failed', err);
           setError(err);
-        }
+        },
       ),
-    [attempt]
+    [attempt],
   );
 
   // The chosen season lives in the URL so Back returns to it.
+  // The open season lives in the URL so Back returns to it. The newest is
+  // open by default; CLOSED means the official collapsed it.
   const requested = searchParams.get('season');
-  const season = seasons?.find((s) => s.id === requested) ?? seasons?.[0] ?? null;
+  const openId =
+    requested === CLOSED
+      ? null
+      : ((seasons?.find((s) => s.id === requested) ?? seasons?.[0])?.id ?? null);
+
+  function toggle(seasonId: string) {
+    setSearchParams({ season: seasonId === openId ? CLOSED : seasonId }, { replace: true });
+  }
 
   return (
     <PageLayout>
@@ -61,42 +72,55 @@ export function HomePage() {
             </button>
           </div>
         )}
-        {error === null && seasons === null && <p className="text-sm text-slate-500">Loading seasons...</p>}
+        {error === null && seasons === null && (
+          <p className="text-sm text-slate-500">Loading seasons...</p>
+        )}
         {seasons?.length === 0 && (
           <p className="text-sm text-slate-500 text-center py-8">
-            {fromCache ? 'You are offline. Seasons appear here once you reconnect.' : 'No seasons yet.'}
+            {fromCache
+              ? 'You are offline. Seasons appear here once you reconnect.'
+              : 'No seasons yet.'}
           </p>
         )}
 
-        {season && seasons && (
-          <>
-            <label className="flex flex-col gap-1 text-sm font-semibold text-slate-700">
-              Season
-              <select
-                value={season.id}
-                onChange={(e) => setSearchParams({ season: e.target.value }, { replace: true })}
-                className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg bg-white"
-              >
-                {seasons.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {seasonLabel(s.startYear)}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <ul className="flex flex-col gap-2">
-              {LEAGUES.map((league) => (
-                <li key={league.key}>
-                  <Link
-                    to={`/seasons/${season.id}/${league.key}`}
-                    className="flex items-center bg-white border border-slate-200 rounded-lg px-4 min-h-14 text-base font-semibold text-slate-900"
+        {seasons && seasons.length > 0 && (
+          <ul className="flex flex-col gap-2">
+            {seasons.map((s) => {
+              const open = s.id === openId;
+              return (
+                <li key={s.id} className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() => toggle(s.id)}
+                    aria-expanded={open}
+                    className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-4 min-h-14 text-base font-semibold text-slate-900"
                   >
-                    {league.name}
-                  </Link>
+                    Season {seasonLabel(s.startYear)}
+                    <span aria-hidden="true" className="text-slate-400">
+                      {open ? '▾' : '▸'}
+                    </span>
+                  </button>
+                  {open && (
+                    <ul
+                      className="flex flex-col gap-2 pl-4"
+                      aria-label={`Leagues in ${seasonLabel(s.startYear)}`}
+                    >
+                      {LEAGUES.map((league) => (
+                        <li key={league.key}>
+                          <Link
+                            to={`/seasons/${s.id}/${league.key}`}
+                            className="flex items-center bg-white border border-slate-200 rounded-lg px-4 min-h-12 text-base text-slate-900"
+                          >
+                            {league.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
-              ))}
-            </ul>
-          </>
+              );
+            })}
+          </ul>
         )}
 
         {isApproved && seasons !== null && (
@@ -107,7 +131,10 @@ export function HomePage() {
             New season
           </Link>
         )}
-        <Link to="/rounds" className="self-center min-h-11 flex items-center text-sm font-semibold text-blue-600">
+        <Link
+          to="/rounds"
+          className="self-center min-h-11 flex items-center text-sm font-semibold text-blue-600"
+        >
           All rounds by date
         </Link>
       </main>
