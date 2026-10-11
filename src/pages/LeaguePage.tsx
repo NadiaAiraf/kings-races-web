@@ -1,9 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useAuth } from '../auth/authContext';
 import { subscribeLeagueRounds } from '../events/eventsRepo';
 import type { EventDetail } from '../events/eventDoc';
-import { MAX_ROUNDS, isLeagueKey, leagueName, seasonIdLabel, type LeagueKey } from '../seasons/seasons';
+import {
+  MAX_ROUNDS,
+  isLeagueKey,
+  leagueName,
+  seasonIdFor,
+  seasonIdLabel,
+  seasonStartYear,
+  type LeagueKey,
+} from '../seasons/seasons';
+import { computeSeasonStandings, standingsPositions } from '../seasons/seasonStandings';
+import type { DisciplineKey } from '../domain/types';
+import { DisciplineTabs } from '../components/layout/DisciplineTabs';
+import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
 import { withErrorCode } from '../lib/firebaseErrors';
@@ -27,8 +39,30 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
   const { isApproved } = useAuth();
   const [rounds, setRounds] = useState<EventDetail[] | null>(null);
   const [error, setError] = useState<unknown>(null);
+  const [lastSeasonRounds, setLastSeasonRounds] = useState<EventDetail[]>([]);
+  const [discipline, setDiscipline] = useState<DisciplineKey>('mixed');
   // Bumped by Retry: Firestore stops a listener after an error.
   const [attempt, setAttempt] = useState(0);
+
+  // Last season's final table breaks ties on equal points, as in the sheet.
+  const startYear = seasonStartYear(seasonId);
+  const lastSeasonId = startYear === null ? null : seasonIdFor(startYear - 1);
+  useEffect(() => {
+    if (!lastSeasonId) return;
+    return subscribeLeagueRounds(
+      lastSeasonId,
+      league,
+      (list) => setLastSeasonRounds(list),
+      // Standings still work without it, just without that tiebreak.
+      (err) => console.error('Last season rounds subscription failed', { lastSeasonId, league }, err)
+    );
+  }, [lastSeasonId, league, attempt]);
+
+  const standings = useMemo(() => {
+    if (!rounds) return null;
+    const lastSeason = standingsPositions(computeSeasonStandings(lastSeasonRounds, discipline));
+    return computeSeasonStandings(rounds, discipline, lastSeason);
+  }, [rounds, lastSeasonRounds, discipline]);
 
   useEffect(
     () =>
@@ -110,6 +144,14 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
               );
             })}
           </ul>
+        )}
+
+        {standings && (
+          <section className="flex flex-col gap-2 mt-4" aria-label="Season standings">
+            <h2 className="text-lg font-semibold text-slate-900">Season standings</h2>
+            <DisciplineTabs active={discipline} onSelect={setDiscipline} />
+            <SeasonStandingsTable rows={standings} />
+          </section>
         )}
       </main>
     </PageLayout>

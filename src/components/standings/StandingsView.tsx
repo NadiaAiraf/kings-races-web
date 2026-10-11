@@ -13,7 +13,7 @@ import { useEventInfo } from '../../events/eventInfo';
 import { DISCIPLINE_KEYS } from '../../events/eventDoc';
 import { exportFilename } from '../../lib/dates';
 import { GroupStandingsTable } from './GroupStandingsTable';
-import { FinalResultsTable } from '../results/FinalResultsTable';
+import { RoundPlacingsTable } from '../results/RoundPlacingsTable';
 import { ExportButton } from '../results/ExportButton';
 
 interface StandingsViewProps {
@@ -80,7 +80,7 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {phase === 'complete' && finalResults && (
           <div className="mb-6">
-            <FinalResultsTable discipline={discipline} results={finalResults} />
+            <RoundPlacingsTable discipline={discipline} />
             <div className="mt-4">
               <ExportButton
                 disabled={!anyComplete}

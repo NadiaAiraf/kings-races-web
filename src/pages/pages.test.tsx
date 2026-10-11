@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { FirebaseError } from 'firebase/app';
 import { AuthContext } from '../auth/authContext';
@@ -21,6 +21,7 @@ import { HomePage } from './HomePage';
 import { LeaguePage } from './LeaguePage';
 import { NewSeasonPage } from './NewSeasonPage';
 import type { Season } from '../seasons/seasons';
+import { playedDiscipline } from '../domain/__fixtures__/playedDiscipline';
 
 // Firebase boundary: replace the modules that talk to Firestore and Auth.
 const repo = vi.hoisted(() => ({
@@ -35,8 +36,9 @@ const repo = vi.hoisted(() => ({
   created: [] as { input: NewEventInput; uid: string }[],
   unsynced: false,
   canStoreOffline: true,
-  onLeagueRounds: null as ((events: EventDetail[], meta: EventSnapshotMeta) => void) | null,
-  leagueRoundsQuery: null as { seasonId: string; league: string } | null,
+  /** League round listeners by season id (the page also loads last season). */
+  onLeagueRounds: {} as Record<string, (events: EventDetail[], meta: EventSnapshotMeta) => void>,
+  leagueRoundsQueries: [] as { seasonId: string; league: string }[],
   onSeasons: null as ((seasons: Season[], meta: EventSnapshotMeta) => void) | null,
   onSeasonsError: null as ((e: Error) => void) | null,
   createdSeasons: [] as { startYear: number; uid: string }[],
@@ -71,8 +73,8 @@ vi.mock('../events/eventsRepo', () => ({
     league: string,
     onEvents: (e: EventDetail[], meta: EventSnapshotMeta) => void
   ) => {
-    repo.leagueRoundsQuery = { seasonId, league };
-    repo.onLeagueRounds = onEvents;
+    repo.leagueRoundsQueries.push({ seasonId, league });
+    repo.onLeagueRounds[seasonId] = onEvents;
     return () => {};
   },
   createEvent: (input: NewEventInput, uid: string) => {
@@ -214,8 +216,8 @@ beforeEach(() => {
   repo.writeError = null;
   repo.created = [];
   repo.unsynced = false;
-  repo.onLeagueRounds = null;
-  repo.leagueRoundsQuery = null;
+  repo.onLeagueRounds = {};
+  repo.leagueRoundsQueries = [];
   repo.onSeasons = null;
   repo.onSeasonsError = null;
   repo.createdSeasons = [];
@@ -333,9 +335,14 @@ describe('NewSeasonPage', () => {
 });
 
 describe('LeaguePage', () => {
-  it('queries the rounds of the league in the season', () => {
+  it('queries the rounds of the league in this season and last season', () => {
     renderAt('/seasons/2026-27/southern', SIGNED_OUT);
-    expect(repo.leagueRoundsQuery).toEqual({ seasonId: '2026-27', league: 'southern' });
+    expect(repo.leagueRoundsQueries).toEqual(
+      expect.arrayContaining([
+        { seasonId: '2026-27', league: 'southern' },
+        { seasonId: '2025-26', league: 'southern' },
+      ])
+    );
   });
 
   it('shows the league and season in the header', () => {
@@ -346,7 +353,7 @@ describe('LeaguePage', () => {
 
   it('links each set-up round and marks the rest as not set up', () => {
     renderAt('/seasons/2026-27/southern', SIGNED_OUT);
-    act(() => repo.onLeagueRounds!([southernR1], ONLINE));
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
 
     expect(screen.getByText('R1 - Hemel').closest('a')!.getAttribute('href')).toBe(
       '/events/2026-27_southern_r1'
@@ -356,19 +363,39 @@ describe('LeaguePage', () => {
 
   it('hides "Set up" from viewers', () => {
     renderAt('/seasons/2026-27/southern', SIGNED_OUT);
-    act(() => repo.onLeagueRounds!([], ONLINE));
+    act(() => repo.onLeagueRounds['2026-27']([], ONLINE));
 
     expect(screen.queryByText('Set up R1')).toBeNull();
   });
 
   it('offers approved users to set up each missing round', () => {
     renderAt('/seasons/2026-27/southern', APPROVED);
-    act(() => repo.onLeagueRounds!([southernR1], ONLINE));
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
 
     expect(screen.queryByText('Set up R1')).toBeNull();
     expect(screen.getByText('Set up R2').getAttribute('href')).toBe(
       '/seasons/2026-27/southern/new?round=2'
     );
+  });
+
+  it('shows season standings from finished rounds', () => {
+    const mixed = playedDiscipline(4);
+    mixed.teams = mixed.teams.map((t, i) => ({ ...t, name: ['Kings', 'UCL', 'LSE', 'Bath'][i] }));
+    const finished = { ...southernR1, disciplines: { ...createInitialDisciplines(), mixed } };
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([finished], ONLINE));
+
+    const table = within(screen.getByRole('region', { name: 'Season standings' }));
+    expect(table.getAllByRole('row')[1].textContent).toMatch(/30$/);
+  });
+
+  it('switches the standings discipline', () => {
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Board' }));
+
+    expect(screen.getByRole('tab', { name: 'Board' }).getAttribute('aria-selected')).toBe('true');
   });
 
   it('rejects an unknown league', () => {
