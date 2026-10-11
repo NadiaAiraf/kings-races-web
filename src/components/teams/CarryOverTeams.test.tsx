@@ -44,21 +44,46 @@ function renderEntry(canEdit: boolean, rounds: LeagueRounds | null, event: Event
   );
 }
 
+/** Tick these teams as having turned up. */
+function tick(...names: string[]) {
+  for (const name of names) fireEvent.click(screen.getByLabelText(name));
+}
+
 const SEASON: LeagueRounds = { season: [finishedR1()], lastSeason: [], teams: emptyLeagueTeams() };
 
 describe('carrying teams over from the league standings', () => {
   beforeEach(() => store().resetEvent());
   afterEach(() => cleanup());
 
-  it('lists the league teams in standings order', () => {
+  it('lists the league teams alphabetically', () => {
     renderEntry(true, SEASON);
     const labels = screen.getAllByRole('checkbox').map((c) => c.closest('label')!.textContent);
-    expect(labels).toEqual(['1. Kings', '2. UCL', '3. LSE', '4. Bath']);
+    expect(labels).toEqual(['Bath', 'Kings', 'LSE', 'UCL']);
+  });
+
+  it('sorts numbered teams naturally', () => {
+    const teams = { ...emptyLeagueTeams(), mixed: ['UCL 10', 'UCL 2', 'UCL 1'] };
+    renderEntry(true, { season: [], lastSeason: [], teams });
+    const labels = screen.getAllByRole('checkbox').map((c) => c.closest('label')!.textContent);
+    expect(labels).toEqual(['UCL 1', 'UCL 2', 'UCL 10']);
+  });
+
+  it('starts with no team ticked', () => {
+    renderEntry(true, SEASON);
+    expect(screen.getAllByRole('checkbox').some((c) => (c as HTMLInputElement).checked)).toBe(false);
+    expect((screen.getByText('Enter 0 teams') as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('enters all teams in standings order, not list order', () => {
+    renderEntry(true, SEASON);
+    tick('UCL', 'Bath', 'Kings', 'LSE');
+    fireEvent.click(screen.getByText('Enter 4 teams'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual(['Kings', 'UCL', 'LSE', 'Bath']);
   });
 
   it('enters the teams that turned up in seeding order', () => {
     renderEntry(true, SEASON);
-    fireEvent.click(screen.getByLabelText('2. UCL'));
+    tick('Bath', 'LSE', 'Kings');
     fireEvent.click(screen.getByText('Enter 3 teams'));
 
     // Fewer than 4 teams are slotted in entry order.
@@ -67,6 +92,7 @@ describe('carrying teams over from the league standings', () => {
 
   it('keeps new teams added afterwards at the bottom of the seeding', () => {
     renderEntry(true, SEASON);
+    tick('Kings', 'UCL', 'LSE', 'Bath');
     fireEvent.click(screen.getByText('Enter 4 teams'));
     fireEvent.change(screen.getByPlaceholderText('Team name'), { target: { value: 'Exeter' } });
     fireEvent.click(screen.getByText('Add Team'));
@@ -77,25 +103,33 @@ describe('carrying teams over from the league standings', () => {
 
   it('hides the league teams once teams are entered', () => {
     renderEntry(true, SEASON);
+    tick('Kings', 'UCL', 'LSE', 'Bath');
     fireEvent.click(screen.getByText('Enter 4 teams'));
     expect(screen.queryByRole('region', { name: 'League teams' })).toBeNull();
   });
 
-  it("lists teams from the league's team list after the standings", () => {
+  it("seeds teams from the league's team list after the teams with standings", () => {
     const teams = { ...emptyLeagueTeams(), mixed: ['Exeter', 'UCL'] };
     renderEntry(true, { ...SEASON, teams });
-    const labels = screen.getAllByRole('checkbox').map((c) => c.closest('label')!.textContent);
-    expect(labels).toEqual(['1. Kings', '2. UCL', '3. LSE', '4. Bath', '5. Exeter']);
+    tick('Exeter', 'Kings', 'UCL', 'LSE', 'Bath');
+    fireEvent.click(screen.getByText('Enter 5 teams'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual([
+      'Kings',
+      'UCL',
+      'LSE',
+      'Bath',
+      'Exeter',
+    ]);
   });
 
   it('allows a list longer than 32 and applies the limit to who is ticked', () => {
     const names = Array.from({ length: 34 }, (_, i) => `Team ${i + 1}`);
     const r1: EventSummary = { ...r2, round: { ...r2.round!, roundNumber: 1 } };
     renderEntry(true, { season: [], lastSeason: [], teams: { ...emptyLeagueTeams(), mixed: names } }, r1);
+    tick(...names);
     expect(screen.getByText('Maximum 32 teams. Untick some teams.')).toBeTruthy();
 
-    fireEvent.click(screen.getByLabelText('33. Team 33'));
-    fireEvent.click(screen.getByLabelText('34. Team 34'));
+    tick('Team 33', 'Team 34');
     fireEvent.click(screen.getByText('Enter 32 teams'));
 
     expect(store().disciplines.mixed.teams).toHaveLength(32);
@@ -131,6 +165,7 @@ describe('carrying teams over from the league standings', () => {
       </EventInfoContext.Provider>
     );
 
+    tick(...many);
     expect(screen.getByText('Maximum 17 teams. Untick some teams.')).toBeTruthy();
     expect((screen.getByText('Enter 18 teams') as HTMLButtonElement).disabled).toBe(true);
   });

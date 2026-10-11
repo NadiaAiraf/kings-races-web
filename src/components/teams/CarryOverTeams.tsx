@@ -2,23 +2,29 @@ import { useState } from 'react';
 import { clsx } from 'clsx';
 
 interface CarryOverTeamsProps {
-  /** League teams in seeding order. */
+  /** League teams in seeding order (see seedingOrder). */
   names: string[];
   max: number;
   onConfirm: (names: string[]) => void;
 }
 
+// Natural order, so "UCL 2" comes before "UCL 10".
+const alphabetical = (a: string, b: string) =>
+  a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+
 /**
- * The league's teams in seeding order, for an official to tick off who has
- * turned up. Entered in this order, so the standings decide the seeding.
+ * The league's teams A-Z, for an official to tick who has turned up.
+ * The ticked teams are entered in seeding order, so the league standings
+ * decide the seeding however the list is shown.
  */
 export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
-  const [absent, setAbsent] = useState<ReadonlySet<string>>(new Set());
-  const present = names.filter((n) => !absent.has(n));
+  const [ticked, setTicked] = useState<ReadonlySet<string>>(new Set());
+  const present = names.filter((n) => ticked.has(n));
+  const listed = [...names].sort(alphabetical);
   const overLimit = present.length > max;
 
   function toggle(name: string) {
-    setAbsent((prev) => {
+    setTicked((prev) => {
       const next = new Set(prev);
       if (next.has(name)) next.delete(name);
       else next.add(name);
@@ -33,26 +39,26 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
     >
       <h3 className="text-base font-semibold text-slate-900">League teams</h3>
       <p className="text-sm text-slate-500">
-        In seeding order from the league standings. Untick any team that has not turned up, then
-        add new teams below.
+        Tick each team that has turned up. Teams are seeded from the league standings when
+        entered. Add new teams below afterwards.
       </p>
       <ul>
-        {names.map((name, i) => (
+        {listed.map((name) => (
           <li key={name}>
             <label className="flex items-center gap-3 min-h-12 border-b border-slate-100">
               <input
                 type="checkbox"
-                checked={!absent.has(name)}
+                checked={ticked.has(name)}
                 onChange={() => toggle(name)}
                 className="h-5 w-5"
               />
               <span
                 className={clsx(
                   'flex-1 text-base',
-                  absent.has(name) ? 'text-slate-400 line-through' : 'text-slate-900'
+                  ticked.has(name) ? 'text-slate-900' : 'text-slate-500'
                 )}
               >
-                {i + 1}. {name}
+                {name}
               </span>
             </label>
           </li>
