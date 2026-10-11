@@ -20,9 +20,10 @@ interface PageHeaderProps {
   title: string;
   subtitle?: string;
   backTo?: string;
+  backLabel?: string;
 }
 
-export function PageHeader({ title, subtitle, backTo }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to rounds' }: PageHeaderProps) {
   const { user } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
 
@@ -40,7 +41,7 @@ export function PageHeader({ title, subtitle, backTo }: PageHeaderProps) {
       {backTo && (
         <Link
           to={backTo}
-          aria-label="Back to rounds"
+          aria-label={backLabel}
           className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-blue-600"
         >
           {'‹'}

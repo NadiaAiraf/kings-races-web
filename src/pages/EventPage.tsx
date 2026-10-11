@@ -11,6 +11,7 @@ import type { EventSummary } from '../events/eventDoc';
 import { useEventStore } from '../store/eventStore';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
+import { leagueName, seasonIdLabel } from '../seasons/seasons';
 import { canStoreOffline } from '../lib/offlineStorage';
 import { isPermissionDenied, withErrorCode } from '../lib/firebaseErrors';
 
@@ -160,12 +161,21 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
   }
 
   const { event } = view;
+  const subtitle = [
+    event.round && `${leagueName(event.round.league)} ${seasonIdLabel(event.round.seasonId)}`,
+    formatEventDate(event.date),
+    !isApproved && 'View only',
+  ]
+    .filter(Boolean)
+    .join(' · ');
   const header = (
     <>
       <PageHeader
         title={event.name}
-        subtitle={`${formatEventDate(event.date)}${isApproved ? '' : ' · View only'}`}
-        backTo="/"
+        subtitle={subtitle}
+        {...(event.round
+          ? { backTo: `/seasons/${event.round.seasonId}/${event.round.league}`, backLabel: 'Back to league' }
+          : { backTo: '/rounds' })}
       />
       {isApproved && !canSaveOffline && (
         <p role="alert" className="bg-amber-50 text-amber-800 text-sm px-4 py-2">

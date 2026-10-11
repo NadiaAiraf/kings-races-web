@@ -22,6 +22,29 @@ service cloud.firestore {
       return ['name', 'date', 'createdBy', 'createdAt', 'updatedAt', 'disciplines'];
     }
 
+    // Where a round sits in a season (see SeasonRound in src/seasons/seasons.ts).
+    // Optional so rounds created before seasons existed stay valid.
+    function seasonRoundKeys() {
+      return ['seasonId', 'league', 'roundNumber', 'venue'];
+    }
+
+    // All or none of the season fields. The id must be derived from them
+    // (seasonRoundEventId) so each league has at most one R1..R4 per season.
+    function hasValidSeasonRound(eventId, data) {
+      return !data.keys().hasAny(seasonRoundKeys())
+        || (data.keys().hasAll(seasonRoundKeys())
+          && data.seasonId is string
+          && data.league in ['southern', 'western', 'northern', 'midlands', 'scotland']
+          && data.roundNumber is int
+          && data.roundNumber >= 1
+          && data.roundNumber <= 4
+          && data.venue is string
+          && data.venue.size() > 0
+          && data.venue.size() <= 60
+          && eventId == data.seasonId + '_' + data.league + '_r' + string(data.roundNumber)
+          && exists(/databases/$(database)/documents/seasons/$(data.seasonId)));
+    }
+
     function isValidDiscipline(d) {
       return d is map
         && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks'])
@@ -61,15 +84,17 @@ service cloud.firestore {
       allow list: if request.query.limit <= 40;
 
       allow create: if isApproved()
-        && request.resource.data.keys().hasOnly(eventKeys())
+        && request.resource.data.keys().hasOnly(eventKeys().concat(seasonRoundKeys()))
         && request.resource.data.keys().hasAll(eventKeys())
+        && hasValidSeasonRound(eventId, request.resource.data)
         && request.resource.data.createdBy == request.auth.uid
         && request.resource.data.createdAt == request.time
         && request.resource.data.updatedAt == request.time
         && hasValidFields(request.resource.data);
 
       // name and date stay editable for a future rename UI (console edits
-      // bypass these rules anyway); createdBy/createdAt never change.
+      // bypass these rules anyway); createdBy/createdAt and the season
+      // fields never change.
       allow update: if isApproved()
         && request.resource.data.diff(resource.data).affectedKeys()
              .hasOnly(['name', 'date', 'updatedAt', 'disciplines'])
@@ -80,6 +105,26 @@ service cloud.firestore {
         && teamsChangeAllowed('ladies');
 
       allow delete: if false;
+    }
+
+    // A season document's id is derived from its start year (seasonIdFor in
+    // src/seasons/seasons.ts), so each season exists at most once.
+    match /seasons/{seasonId} {
+      allow get: if true;
+      allow list: if request.query.limit <= 20;
+
+      allow create: if isApproved()
+        && request.resource.data.keys().hasOnly(['startYear', 'createdBy', 'createdAt'])
+        && request.resource.data.keys().hasAll(['startYear', 'createdBy', 'createdAt'])
+        && request.resource.data.startYear is int
+        && request.resource.data.startYear >= 2020
+        && request.resource.data.startYear <= 2098
+        && seasonId == string(request.resource.data.startYear) + '-'
+             + string((request.resource.data.startYear + 1) % 100)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.createdAt == request.time;
+
+      allow update, delete: if false;
     }
 
     match /approvedUsers/{uid} {

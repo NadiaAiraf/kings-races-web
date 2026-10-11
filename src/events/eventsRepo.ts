@@ -11,9 +11,11 @@ import {
   setDoc,
   updateDoc,
   waitForPendingWrites,
+  where,
 } from 'firebase/firestore';
 import { db } from '../firebase/app';
 import type { DisciplineKey } from '../domain/types';
+import { MAX_ROUNDS, seasonRoundEventId, type LeagueKey } from '../seasons/seasons';
 import {
   buildNewEventDoc,
   parseEventDetail,
@@ -37,12 +39,16 @@ const eventsCollection = () => collection(db, 'events');
  * Create an event and return its id straight away. The id is generated
  * client-side so this works offline: Firestore queues the write and the
  * returned promise settles only once the server accepts or rejects it.
+ * A season round gets a deterministic id, so firestore.rules rejects a
+ * second round with the same number in the same league and season.
  */
 export function createEvent(
   input: NewEventInput,
   uid: string
 ): { id: string; committed: Promise<void> } {
-  const ref = doc(eventsCollection());
+  const ref = input.round
+    ? doc(eventsCollection(), seasonRoundEventId(input.round))
+    : doc(eventsCollection());
   const committed = setDoc(ref, buildNewEventDoc(input, uid, serverTimestamp));
   return { id: ref.id, committed };
 }
@@ -64,6 +70,29 @@ export function subscribeEvents(
     (snap) =>
       onEvents(
         snap.docs.map((d) => parseEventSummary(d.id, d.data())),
+        { fromCache: snap.metadata.fromCache }
+      ),
+    onError
+  );
+}
+
+/** The rounds of one league in one season, in no particular order. */
+export function subscribeLeagueRounds(
+  seasonId: string,
+  league: LeagueKey,
+  onEvents: (events: EventDetail[], meta: EventSnapshotMeta) => void,
+  onError: (error: Error) => void
+): () => void {
+  return onSnapshot(
+    query(
+      eventsCollection(),
+      where('seasonId', '==', seasonId),
+      where('league', '==', league),
+      limit(MAX_ROUNDS)
+    ),
+    (snap) =>
+      onEvents(
+        snap.docs.map((d) => parseEventDetail(d.id, d.data())),
         { fromCache: snap.metadata.fromCache }
       ),
     onError

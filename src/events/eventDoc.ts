@@ -10,6 +10,7 @@ import type {
   Score,
   Team,
 } from '../domain/types';
+import { MAX_ROUNDS, isLeagueKey, type SeasonRound } from '../seasons/seasons';
 
 export { createInitialDisciplines, type EventDisciplines };
 
@@ -25,11 +26,16 @@ const MAX_TEAMS = 32;
 // Must match firestore.rules (data.name.size() <= 100).
 export const MAX_EVENT_NAME_LENGTH = 100;
 
+// Must match firestore.rules (data.venue.size() <= 60).
+export const MAX_VENUE_LENGTH = 60;
+
 /** An event as shown in the event list. */
 export interface EventSummary {
   id: string;
   name: string;
   date: string; // YYYY-MM-DD, or '' if missing
+  /** Null for rounds created before seasons existed. */
+  round: SeasonRound | null;
 }
 
 /** A fully loaded event, as held by the sync layer. */
@@ -40,6 +46,7 @@ export interface EventDetail extends EventSummary {
 export interface NewEventInput {
   name: string;
   date: string;
+  round?: SeasonRound;
 }
 
 /**
@@ -154,13 +161,33 @@ export function parseDisciplines(raw: unknown): EventDisciplines {
   };
 }
 
+function parseSeasonRound(data: Record<string, unknown>): SeasonRound | null {
+  const { seasonId, league, roundNumber, venue } = data;
+  if (typeof seasonId !== 'string' || !isLeagueKey(league)) return null;
+  if (!Number.isInteger(roundNumber) || (roundNumber as number) < 1) return null;
+  if ((roundNumber as number) > MAX_ROUNDS) return null;
+  return {
+    seasonId,
+    league,
+    roundNumber: roundNumber as number,
+    venue: typeof venue === 'string' ? venue : '',
+  };
+}
+
 export function parseEventSummary(id: string, raw: unknown): EventSummary {
   const data = isRecord(raw) ? raw : {};
   return {
     id,
     name: typeof data.name === 'string' && data.name ? data.name : 'Untitled round',
     date: typeof data.date === 'string' ? data.date : '',
+    round: parseSeasonRound(data),
   };
+}
+
+/** Event name for a season round, e.g. "R2 - Hemel". */
+export function seasonRoundName(roundNumber: number, venue: string): string {
+  const trimmed = venue.trim();
+  return trimmed ? `R${roundNumber} - ${trimmed}` : `R${roundNumber}`;
 }
 
 export function parseEventDetail(id: string, raw: unknown): EventDetail {
@@ -174,9 +201,16 @@ export function parseEventDetail(id: string, raw: unknown): EventDetail {
  */
 export function buildNewEventDoc(input: NewEventInput, uid: string, serverTimestamp: () => unknown) {
   const initial = createInitialDisciplines();
+  const round = input.round && {
+    seasonId: input.round.seasonId,
+    league: input.round.league,
+    roundNumber: input.round.roundNumber,
+    venue: input.round.venue.trim(),
+  };
   return {
     name: input.name.trim(),
     date: input.date,
+    ...round,
     createdBy: uid,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -261,6 +295,13 @@ export function validateNewEvent(input: NewEventInput): string | null {
   if (!name) return 'Enter a name';
   if (name.length > MAX_EVENT_NAME_LENGTH) {
     return `Name must be ${MAX_EVENT_NAME_LENGTH} characters or fewer`;
+  }
+  if (input.round) {
+    const venue = input.round.venue.trim();
+    if (!venue) return 'Enter a venue';
+    if (venue.length > MAX_VENUE_LENGTH) {
+      return `Venue must be ${MAX_VENUE_LENGTH} characters or fewer`;
+    }
   }
   if (!isCalendarDate(input.date)) return 'Choose a date';
   return null;
