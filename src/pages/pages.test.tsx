@@ -751,29 +751,52 @@ describe('EventPage', () => {
 
   it('keeps showing the round with a banner when live updates stop', () => {
     renderAt('/events/e1', SIGNED_OUT);
-    act(() => repo.onEvent!(withMixedTeams(['Kings']), ONLINE));
+    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial', 'UCL', 'LSE']), ONLINE));
     act(() => repo.onEventError!(new Error('unavailable')));
 
     expect(screen.getByText('Live updates stopped.')).toBeTruthy();
-    expect(screen.getByText('1. Kings')).toBeTruthy();
+    expect(screen.getAllByText('Kings').length).toBeGreaterThan(0);
   });
 
   it('shows the event read-only to anonymous viewers', () => {
     renderAt('/events/e1', SIGNED_OUT);
-    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial']), ONLINE));
+    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial', 'UCL', 'LSE']), ONLINE));
 
     expect(screen.getByText('Round 1 - Hemel')).toBeTruthy();
     expect(screen.getByText(/View only/)).toBeTruthy();
-    expect(screen.getByText('1. Kings')).toBeTruthy();
+    expect(screen.getAllByText('Kings').length).toBeGreaterThan(0);
     expect(screen.queryByPlaceholderText('Team name')).toBeNull();
+  });
+
+  it('shows viewers only the Races and Stds tabs, opening on Races', () => {
+    renderAt('/events/e1', SIGNED_OUT);
+    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial', 'UCL', 'LSE']), ONLINE));
+
+    const section = within(screen.getByRole('tablist', { name: 'Section' }));
+    expect(section.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Races', 'Stds']);
+    expect(section.getByRole('tab', { name: 'Races' }).getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('hides the Teams tab from unapproved signed-in users', () => {
+    renderAt('/events/e1', UNAPPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+
+    expect(screen.queryByRole('tab', { name: 'Teams' })).toBeNull();
+  });
+
+  it('shows approved users the Teams tab, opening on it', () => {
+    renderAt('/events/e1', APPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+
+    expect(screen.getByRole('tab', { name: 'Teams' }).getAttribute('aria-selected')).toBe('true');
   });
 
   it('shows live updates to viewers', () => {
     renderAt('/events/e1', SIGNED_OUT);
-    act(() => repo.onEvent!(withMixedTeams(['Kings']), ONLINE));
-    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial']), ONLINE));
+    act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial', 'UCL', 'LSE']), ONLINE));
+    act(() => repo.onEvent!(withMixedTeams([...['Kings', 'Imperial', 'UCL', 'LSE'], 'Bath']), ONLINE));
 
-    expect(screen.getByText('2. Imperial')).toBeTruthy();
+    expect(screen.getAllByText('Bath').length).toBeGreaterThan(0);
   });
 
   it('keeps unapproved signed-in users read-only', () => {

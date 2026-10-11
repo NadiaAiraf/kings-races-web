@@ -3,6 +3,7 @@ import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
 import type { SubTabKey } from './SubTabs';
+import { useCanEdit } from '../../auth/editAccess';
 import type { DisciplineKey } from '../../domain/types';
 import { ProgressBar } from '../shared/ProgressBar';
 import { TeamEntryView } from '../teams/TeamEntryView';
@@ -24,7 +25,11 @@ export function AppShell({ header }: AppShellProps) {
   const activeDiscipline = useEventStore((s) => s.activeDiscipline);
   const setActiveDiscipline = useEventStore((s) => s.setActiveDiscipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
-  const [activeSubTab, setActiveSubTab] = useState<SubTabKey>('teams');
+  const [selectedSubTab, setActiveSubTab] = useState<SubTabKey>('teams');
+  // Viewers only follow the racing, so the Teams tab is for officials.
+  // Derived rather than stored so signing in or out switches tabs at once.
+  const canEdit = useCanEdit();
+  const activeSubTab = !canEdit && selectedSubTab === 'teams' ? 'races' : selectedSubTab;
   const [showStandings, setShowStandings] = useState(false);
 
   const { scores, structure, phase } = useDisciplineState(activeDiscipline);
@@ -87,7 +92,7 @@ export function AppShell({ header }: AppShellProps) {
         />
       ) : (
         <>
-          <SubTabs active={activeSubTab} onSelect={setActiveSubTab} />
+          <SubTabs showTeams={canEdit} active={activeSubTab} onSelect={setActiveSubTab} />
           <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
             {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
             {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
