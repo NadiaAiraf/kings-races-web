@@ -8,18 +8,20 @@ import { teamKey } from './seasonStandings';
  */
 export type LeagueTeams = Record<DisciplineKey, string[]>;
 
-// Must match firestore.rules.
+// MAX_LEAGUE_TEAMS must match firestore.rules. The rules cannot check each
+// name, so parseLeagueTeams drops any entry that is not a valid team name.
 export const MAX_LEAGUE_TEAMS = 100;
 export const MAX_TEAM_NAME_LENGTH = 60;
 
 export const emptyLeagueTeams = (): LeagueTeams => ({ mixed: [], board: [], ladies: [] });
 
-const isNameList = (value: unknown): value is string[] =>
-  Array.isArray(value) && value.every((n) => typeof n === 'string');
+const isTeamName = (value: unknown): value is string =>
+  typeof value === 'string' && value.trim().length > 0 && value.length <= MAX_TEAM_NAME_LENGTH;
 
+/** One bad entry (e.g. from a hand edit) is dropped rather than hiding the list. */
 export function parseLeagueTeams(raw: unknown): LeagueTeams {
   const data = typeof raw === 'object' && raw !== null ? (raw as Record<string, unknown>) : {};
-  const list = (value: unknown) => (isNameList(value) ? value : []);
+  const list = (value: unknown) => (Array.isArray(value) ? value.filter(isTeamName) : []);
   return { mixed: list(data.mixed), board: list(data.board), ladies: list(data.ladies) };
 }
 

@@ -9,7 +9,7 @@ export interface FinalResult {
 
 const DISCIPLINE_ORDER: DisciplineKey[] = ['mixed', 'board', 'ladies'];
 
-const DISCIPLINE_LABELS: Record<DisciplineKey, string> = {
+export const DISCIPLINE_LABELS: Record<DisciplineKey, string> = {
   mixed: 'Mixed',
   board: 'Board',
   ladies: 'Ladies',

@@ -45,6 +45,7 @@ const repo = vi.hoisted(() => ({
   createdSeasons: [] as { startYear: number; uid: string }[],
   onLeagueTeams: null as ((teams: LeagueTeams) => void) | null,
   leagueTeamWrites: [] as { op: 'add' | 'remove'; discipline: string; names: string[] }[],
+  existingSeasonIds: ['2026-27'] as string[],
 }));
 
 vi.mock('../events/eventsRepo', () => ({
@@ -99,6 +100,10 @@ vi.mock('../seasons/seasonsRepo', () => ({
   createSeason: (startYear: number, uid: string) => {
     repo.createdSeasons.push({ startYear, uid });
     return { id: `${startYear}`, committed: Promise.resolve() };
+  },
+  subscribeSeasonExists: (seasonId: string, onExists: (exists: boolean) => void) => {
+    onExists(repo.existingSeasonIds.includes(seasonId));
+    return () => {};
   },
   subscribeLeagueTeams: (_s: string, _l: string, onTeams: (teams: LeagueTeams) => void) => {
     repo.onLeagueTeams = onTeams;
@@ -236,6 +241,7 @@ beforeEach(() => {
   repo.createdSeasons = [];
   repo.onLeagueTeams = null;
   repo.leagueTeamWrites = [];
+  repo.existingSeasonIds = ['2026-27'];
   auth.signInError = null;
   auth.signIns = [];
   auth.signOuts = 0;
@@ -446,6 +452,14 @@ describe('LeaguePage', () => {
     fireEvent.click(screen.getByLabelText('Remove Kings 1'));
 
     expect(repo.leagueTeamWrites).toEqual([{ op: 'remove', discipline: 'board', names: ['Kings 1'] }]);
+  });
+
+  it('does not offer to set up rounds in a season that does not exist', () => {
+    renderAt('/seasons/2019-20/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2019-20']([], ONLINE));
+
+    expect(screen.getByText('This season does not exist.')).toBeTruthy();
+    expect(screen.queryByText('Set up R1')).toBeNull();
   });
 
   it('rejects an unknown league', () => {

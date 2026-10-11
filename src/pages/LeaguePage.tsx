@@ -17,7 +17,12 @@ import type { DisciplineKey } from '../domain/types';
 import { DisciplineTabs } from '../components/layout/DisciplineTabs';
 import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
 import { LeagueTeamsEditor } from '../components/season/LeagueTeamsEditor';
-import { addLeagueTeams, removeLeagueTeam, subscribeLeagueTeams } from '../seasons/seasonsRepo';
+import {
+  addLeagueTeams,
+  removeLeagueTeam,
+  subscribeLeagueTeams,
+  subscribeSeasonExists,
+} from '../seasons/seasonsRepo';
 import { emptyLeagueTeams, type LeagueTeams } from '../seasons/leagueTeams';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
@@ -62,6 +67,16 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
       (err) => console.error('Last season rounds subscription failed', { lastSeasonId, league }, err)
     );
   }, [lastSeasonId, league, attempt]);
+
+  // Rounds can only be created in a season that exists (firestore.rules).
+  const [seasonExists, setSeasonExists] = useState<boolean | null>(null);
+  useEffect(
+    () =>
+      subscribeSeasonExists(seasonId, setSeasonExists, (err) =>
+        console.error('Season lookup failed', { seasonId }, err)
+      ),
+    [seasonId, attempt]
+  );
 
   useEffect(
     () =>
@@ -129,6 +144,9 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
           </div>
         )}
         {error === null && rounds === null && <p className="text-sm text-slate-500">Loading rounds...</p>}
+        {seasonExists === false && (
+          <p className="text-sm text-slate-500">This season does not exist.</p>
+        )}
 
         {rounds && (
           <ul className="flex flex-col gap-2">
@@ -153,7 +171,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                   className="flex items-center gap-2 border border-dashed border-slate-300 rounded-lg px-4 min-h-14"
                 >
                   <span className="flex-1 text-base text-slate-400">R{n} not set up</span>
-                  {isApproved && (
+                  {isApproved && seasonExists && (
                     <Link
                       to={`${basePath}/new?round=${n}`}
                       className="min-h-11 flex items-center px-2 text-sm font-semibold text-blue-600"

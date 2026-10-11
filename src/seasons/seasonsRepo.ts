@@ -54,6 +54,15 @@ export function createSeason(
   return { id, committed };
 }
 
+/** Whether a season exists, e.g. before offering to set up its rounds. */
+export function subscribeSeasonExists(
+  seasonId: string,
+  onExists: (exists: boolean) => void,
+  onError: (error: Error) => void
+): () => void {
+  return onSnapshot(doc(seasonsCollection(), seasonId), (snap) => onExists(snap.exists()), onError);
+}
+
 const leagueTeamsDoc = (seasonId: string, league: LeagueKey) =>
   doc(seasonsCollection(), seasonId, 'leagues', league);
 

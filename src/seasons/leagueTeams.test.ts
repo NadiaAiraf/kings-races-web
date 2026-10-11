@@ -6,8 +6,15 @@ describe('parseLeagueTeams', () => {
     expect(parseLeagueTeams({ mixed: ['Kings 1'] }).mixed).toEqual(['Kings 1']);
   });
 
-  it('treats a malformed list as empty', () => {
-    expect(parseLeagueTeams({ board: ['Kings', 3] }).board).toEqual([]);
+  it('drops entries that are not team names and keeps the rest', () => {
+    expect(parseLeagueTeams({ board: ['Kings', 3, '', 'x'.repeat(61), 'UCL'] }).board).toEqual([
+      'Kings',
+      'UCL',
+    ]);
+  });
+
+  it('treats a list that is not an array as empty', () => {
+    expect(parseLeagueTeams({ board: 'Kings' }).board).toEqual([]);
   });
 });
 

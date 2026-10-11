@@ -3,13 +3,7 @@ import type { DisciplineKey } from '../../domain/types';
 import { computeRoundPlacings, leaguePoints } from '../../domain/roundPlacings';
 import { useEventStore } from '../../store/eventStore';
 import { useCanEdit } from '../../auth/editAccess';
-
-const DISCIPLINE_DISPLAY: Record<DisciplineKey, string> = {
-  mixed: 'Mixed',
-  board: 'Board',
-  ladies: 'Ladies',
-};
-
+import { DISCIPLINE_LABELS } from '../../domain/csvExport';
 
 interface RoundPlacingsTableProps {
   discipline: DisciplineKey;
@@ -40,7 +34,7 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
     <div>
       <div className="flex items-center mb-1">
         <h2 className="flex-1 text-xl font-semibold text-slate-900">
-          Final Results: {DISCIPLINE_DISPLAY[discipline]}
+          Final Results: {DISCIPLINE_LABELS[discipline]}
         </h2>
         {canEdit && (
           <button
