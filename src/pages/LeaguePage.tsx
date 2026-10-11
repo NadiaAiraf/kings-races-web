@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useAuth } from '../auth/authContext';
-import { subscribeLeagueRounds } from '../events/eventsRepo';
+import { deleteEvent, subscribeLeagueRounds } from '../events/eventsRepo';
 import type { EventDetail } from '../events/eventDoc';
 import {
   MAX_ROUNDS,
@@ -17,6 +17,7 @@ import type { DisciplineKey } from '../domain/types';
 import { DisciplineTabs } from '../components/layout/DisciplineTabs';
 import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
 import { LeagueTeamsEditor } from '../components/season/LeagueTeamsEditor';
+import { ConfirmButton } from '../components/shared/ConfirmButton';
 import {
   addLeagueTeams,
   removeLeagueTeam,
@@ -51,6 +52,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
   const [discipline, setDiscipline] = useState<DisciplineKey>('mixed');
   const [leagueTeams, setLeagueTeams] = useState<LeagueTeams>(emptyLeagueTeams);
   const [teamsError, setTeamsError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   // Bumped by Retry: Firestore stops a listener after an error.
   const [attempt, setAttempt] = useState(0);
 
@@ -92,6 +94,16 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
   function reportTeamsWriteError(err: unknown) {
     console.error('League teams change failed', { seasonId, league }, err);
     setTeamsError(withErrorCode('A change to the league teams could not be saved.', err));
+  }
+
+  // Not awaited, like the team list writes: the round drops out of the list
+  // from the local cache, and comes back with an error if the server refuses.
+  function removeRound(round: EventDetail) {
+    setDeleteError(null);
+    deleteEvent(round.id).catch((err) => {
+      console.error('Round delete failed', { id: round.id }, err);
+      setDeleteError(withErrorCode(`${round.name} could not be deleted.`, err));
+    });
   }
 
   const standings = useMemo(() => {
@@ -148,20 +160,33 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
           <p className="text-sm text-slate-500">This season does not exist.</p>
         )}
 
+        {deleteError && (
+          <p role="alert" className="text-sm text-red-600">
+            {deleteError}
+          </p>
+        )}
         {rounds && (
           <ul className="flex flex-col gap-2">
             {ROUND_NUMBERS.map((n) => {
               const round = byNumber.get(n);
               if (round) {
                 return (
-                  <li key={n}>
+                  <li key={n} className="flex items-stretch gap-2">
                     <Link
                       to={`/events/${round.id}`}
-                      className="block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
+                      className="flex-1 min-w-0 block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
                     >
                       <span className="block text-base font-semibold text-slate-900">{round.name}</span>
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
                     </Link>
+                    {isApproved && (
+                      <ConfirmButton
+                        label={`Delete R${n}`}
+                        confirmLabel={`Confirm delete R${n}`}
+                        onConfirm={() => removeRound(round)}
+                        className="w-24 shrink-0"
+                      />
+                    )}
                   </li>
                 );
               }

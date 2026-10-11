@@ -1,6 +1,7 @@
 import {
   FieldPath,
   collection,
+  deleteDoc,
   deleteField,
   doc,
   limit,
@@ -119,6 +120,15 @@ export function subscribeEvent(
       }),
     onError
   );
+}
+
+/**
+ * Delete a round. For a season round this frees its R1..R4 slot, so it can be
+ * set up again. Like createEvent, this works offline: listeners drop the round
+ * at once and the promise settles when the server accepts or rejects it.
+ */
+export function deleteEvent(id: string): Promise<void> {
+  return deleteDoc(doc(eventsCollection(), id));
 }
 
 /**

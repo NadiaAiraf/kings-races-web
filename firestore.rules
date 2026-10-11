@@ -105,7 +105,9 @@ service cloud.firestore {
         && teamsChangeAllowed('board')
         && teamsChangeAllowed('ladies');
 
-      allow delete: if false;
+      // The app asks for confirmation first. Deleting a season round frees
+      // its R1..R4 slot (the id is derived) so it can be set up again.
+      allow delete: if isApproved();
     }
 
     // A season document's id is derived from its start year (seasonIdFor in
