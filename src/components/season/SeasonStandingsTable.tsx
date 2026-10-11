@@ -21,18 +21,18 @@ export function SeasonStandingsTable({ rows }: SeasonStandingsTableProps) {
     <table className="w-full table-fixed text-sm">
       <thead>
         <tr className="bg-brand-600 text-white">
-          <th scope="col" className="w-8 px-1 py-2 text-left font-semibold">
+          <th scope="col" className="w-8 pl-2 pr-1 py-2 text-left font-semibold">
             #
           </th>
           <th scope="col" className="px-1 py-2 text-left font-semibold">
             Team
           </th>
           {ROUND_NUMBERS.map((n) => (
-            <th key={n} scope="col" className="w-9 px-1 py-2 text-right font-semibold">
+            <th key={n} scope="col" className="w-10 px-0.5 py-2 text-center font-semibold">
               R{n}
             </th>
           ))}
-          <th scope="col" className="w-11 px-1 py-2 text-right font-semibold">
+          <th scope="col" className="w-14 pl-1 pr-2 py-2 text-right font-semibold">
             Total
           </th>
         </tr>
@@ -40,26 +40,27 @@ export function SeasonStandingsTable({ rows }: SeasonStandingsTableProps) {
       <tbody>
         {rows.map((row, index) => (
           <tr key={row.key} className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}>
-            <td className="px-1 py-2 font-mono text-slate-700">{index + 1}</td>
-            <td className="px-1 py-2 text-slate-900 truncate">{row.name}</td>
+            <td className="pl-2 pr-1 py-1.5 font-mono text-slate-700">{index + 1}</td>
+            <td className="px-1 py-1.5 text-slate-900 truncate">{row.name}</td>
             {ROUND_NUMBERS.map((n) => {
               const result = row.results[n];
               return (
-                <td key={n} className="px-1 py-2 text-right font-mono text-slate-700">
+                <td key={n} className="px-0.5 py-1.5 text-center font-mono text-slate-700">
                   {result ? (
                     <>
-                      <span className="block">{result.points}</span>
-                      <span className="block text-xs text-slate-400">
-                        {result.place === null ? '?' : `${result.place}`}
+                      <span className="block leading-tight">{result.points}</span>
+                      {/* The place in that round, small under its points. */}
+                      <span className="block text-[11px] leading-none text-slate-400">
+                        {result.place === null ? '?' : result.place}
                       </span>
                     </>
                   ) : (
-                    '-'
+                    <span className="text-slate-300">–</span>
                   )}
                 </td>
               );
             })}
-            <td className="px-1 py-2 text-right font-mono font-semibold text-slate-900">
+            <td className="pl-1 pr-2 py-1.5 text-right font-mono font-semibold text-slate-900">
               {row.total}
             </td>
           </tr>
