@@ -1,6 +1,6 @@
 export type DisciplineKey = 'mixed' | 'board' | 'ladies';
-// 'not-run' is only offered for finals: both teams get it and share the
-// higher placing.
+// 'not-run' is offered for Round 2 races and finals; both teams get it. In
+// Round 2 neither team scores; in a final both share the higher placing.
 export type RaceOutcome = 'win' | 'loss' | 'dsq' | 'not-run';
 
 export interface Team {

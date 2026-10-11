@@ -33,7 +33,10 @@ interface ExpandableRaceCardProps {
   matchupLabel?: string;
   seedingContext?: string;
   isFinalMatch?: boolean;
-  /** Finals only: offer "Race not run", which ties both teams on the higher placing. */
+  /**
+   * Round 2 and finals: offer "Race not run". In Round 2 neither team gets
+   * points; in the finals both teams share the higher placing.
+   */
   allowNotRun?: boolean;
   onExpand: (raceId: string) => void;
   onScore: (result: {
