@@ -4,7 +4,7 @@
  * position in the same format as finals refs (see resolveFinalsRef). Team
  * counts whose finals place every team have no entry.
  *
- * Copied verbatim, including the sheet's own inconsistencies (e.g. 29-32
+ * Copied verbatim, including the sheet's own inconsistencies (e.g. 29-31
  * teams list "2nd Group VIII" twice for joint 27th). A ref that resolves to a
  * team already placed is skipped, leaving that place for an official.
  */
@@ -103,15 +103,5 @@ export const PLACING_REFS: Record<number, ReadonlyArray<{ place: number; ref: st
     { place: 29, ref: '3rd Group VII' },
     { place: 29, ref: 'Loser Group VIII' },
     { place: 31, ref: 'Loser Group VII' },
-  ],
-  32: [
-    { place: 25, ref: 'Winner Group VII' },
-    { place: 25, ref: 'Winner Group VIII' },
-    { place: 27, ref: '2nd Group VIII' },
-    { place: 27, ref: '2nd Group VIII' },
-    { place: 29, ref: '3rd Group VII' },
-    { place: 29, ref: '3rd Group VIII' },
-    { place: 31, ref: 'Loser Group VII' },
-    { place: 31, ref: 'Loser Group VIII' },
   ],
 };

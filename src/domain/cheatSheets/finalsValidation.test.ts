@@ -15,7 +15,7 @@ const golden = goldenFinals as Record<
 >;
 
 const norm = (ref: string) => ref.toLowerCase().replace(/\s+/g, ' ').trim();
-const TEAM_COUNTS = Array.from({ length: 29 }, (_, i) => i + 4);
+const TEAM_COUNTS = Array.from({ length: 28 }, (_, i) => i + 4);
 
 describe('finals match the spreadsheet', () => {
   it.each(TEAM_COUNTS)('races the same finals in the same order for %i teams', (count) => {

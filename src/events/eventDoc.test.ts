@@ -99,9 +99,9 @@ describe('parseDiscipline', () => {
     );
   });
 
-  it('keeps exactly 32 teams', () => {
-    const teams = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `T${i}` }));
-    expect(parseDiscipline({ teams }).teamCount).toBe(32);
+  it('keeps exactly 31 teams', () => {
+    const teams = Array.from({ length: 31 }, (_, i) => ({ slot: i + 1, name: `T${i}` }));
+    expect(parseDiscipline({ teams }).teamCount).toBe(31);
   });
 
   it('ignores a score whose key does not match its race id', () => {
@@ -218,8 +218,8 @@ describe('placings', () => {
     expect(parseDiscipline({ phase: 'complete' }).placings).toEqual({});
   });
 
-  it('drops a place that is not a whole number from 1 to 32', () => {
-    expect(parseDiscipline({ placings: { '1': 0, '2': 3.5, '3': 'x', '4': 33, '5': 6 } }).placings).toEqual({
+  it('drops a place that is not a whole number from 1 to 31', () => {
+    expect(parseDiscipline({ placings: { '1': 0, '2': 3.5, '3': 'x', '4': 32, '5': 6 } }).placings).toEqual({
       '5': 6,
     });
   });

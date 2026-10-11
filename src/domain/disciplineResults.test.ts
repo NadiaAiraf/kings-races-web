@@ -7,8 +7,8 @@ describe('buildResultsForDiscipline', () => {
     expect(buildResultsForDiscipline(playedDiscipline(8, { phase: 'finals' }))).toBeNull();
   });
 
-  // 24, 25 and 32 teams seed Round 2 by label only (blank positionCode).
-  it.each([8, 24, 25, 32])('lists a result for every finalist with %i teams', (count) => {
+  // 24 and 25 teams seed Round 2 by label only (blank positionCode).
+  it.each([8, 24, 25])('lists a result for every finalist with %i teams', (count) => {
     const state = playedDiscipline(count);
     const results = buildResultsForDiscipline(state)!;
     const finalsRaced = state.scores.filter((s) => s.raceId.startsWith('fin-')).length;

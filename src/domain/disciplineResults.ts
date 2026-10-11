@@ -51,8 +51,8 @@ export function resolveCompletedDiscipline(
       const r2Scores = disciplineState.scores.filter((s) =>
         s.raceId.startsWith(`r2-${r2Group.groupNum}-`)
       );
-      // Seed from the labels, as useR2State does: some sheets (24, 25 and
-      // 32 teams) have no positionCode.
+      // Seed from the labels, as useR2State does: some sheets (24 and 25
+      // teams) have no positionCode.
       const teamSlots = Object.values(
         resolveR2GroupTeams(r2Group, r1Standings, NO_TIEBREAKS)
       ).filter((slot): slot is number => slot !== null);

@@ -21,7 +21,7 @@ export { createInitialDisciplines, type EventDisciplines };
 export const DISCIPLINE_KEYS: DisciplineKey[] = ['mixed', 'board', 'ladies'];
 
 /** Largest team count with a cheat sheet; more would crash every viewer. Must match firestore.rules. */
-const MAX_TEAMS = 32;
+const MAX_TEAMS = 31;
 
 // Must match firestore.rules (data.name.size() <= 100).
 export const MAX_EVENT_NAME_LENGTH = 100;

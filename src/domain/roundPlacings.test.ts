@@ -69,7 +69,7 @@ describe('computeRoundPlacings', () => {
   });
 
   // Finals plus the spreadsheet's refs place every team, for every count.
-  const ALL_COUNTS = Array.from({ length: 29 }, (_, i) => i + 4);
+  const ALL_COUNTS = Array.from({ length: 28 }, (_, i) => i + 4);
 
   it.each(ALL_COUNTS)('places all %i teams automatically', (count) => {
     // Joint places (e.g. two teams 25th for 29+ teams) mean not always 1..N.
@@ -77,7 +77,7 @@ describe('computeRoundPlacings', () => {
     expect(places.every((p) => p !== null && p >= 1 && p <= count)).toBe(true);
   });
 
-  it.each(Array.from({ length: 29 }, (_, i) => i + 4))(
+  it.each(Array.from({ length: 28 }, (_, i) => i + 4))(
     'never gives two teams the same place from finals for %i teams',
     (count) => {
       const fromFinals = computeRoundPlacings(playedDiscipline(count))!
@@ -107,6 +107,6 @@ describe('leaguePoints', () => {
   });
 
   it('scores 1 point beyond the 30 places the sheet lists', () => {
-    expect(leaguePoints('mixed', 32)).toBe(1);
+    expect(leaguePoints('mixed', 31)).toBe(1);
   });
 });

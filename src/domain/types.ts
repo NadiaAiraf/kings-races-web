@@ -89,7 +89,7 @@ export interface EventState {
 
 // Discipline team count ranges per TEAM-02
 export const DISCIPLINE_TEAM_RANGES: Record<DisciplineKey, { min: number; max: number }> = {
-  mixed: { min: 4, max: 32 },
+  mixed: { min: 4, max: 31 },
   board: { min: 4, max: 17 },
   ladies: { min: 4, max: 17 },
 };

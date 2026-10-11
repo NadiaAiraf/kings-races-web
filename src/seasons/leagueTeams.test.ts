@@ -26,7 +26,7 @@ describe('newTeamNames', () => {
 });
 
 describe('validateNewTeamNames', () => {
-  it('accepts more than 32 teams', () => {
+  it('accepts more than 31 teams', () => {
     const names = Array.from({ length: 34 }, (_, i) => `Team ${i + 1}`);
     expect(validateNewTeamNames(names, [])).toBeNull();
   });

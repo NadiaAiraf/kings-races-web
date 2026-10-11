@@ -49,7 +49,7 @@ service cloud.firestore {
       return d is map
         && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings'])
         && d.teams is list
-        && d.teams.size() <= 32
+        && d.teams.size() <= 31
         && d.phase in ['setup', 'group-stage', 'round-two', 'finals', 'complete']
         && d.scores is map
         && d.manualTiebreaks is map
@@ -129,7 +129,7 @@ service cloud.firestore {
     }
 
     // A league's team list for a season (see LeagueTeams in
-    // src/seasons/leagueTeams.ts). Unlike a round it may exceed 32 teams.
+    // src/seasons/leagueTeams.ts). Unlike a round it may exceed 31 teams.
     function isValidTeamList(data, key) {
       return !(key in data) || (data[key] is list && data[key].size() <= 100);
     }

@@ -197,8 +197,8 @@ describe('events: approved user field-level scoring', () => {
     );
   });
 
-  it('cannot store more than 32 teams in a discipline', async () => {
-    const teams = Array.from({ length: 33 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
+  it('cannot store more than 31 teams in a discipline', async () => {
+    const teams = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
     await assertFails(
       eventDoc().update({ 'disciplines.mixed.teams': teams, updatedAt: serverTimestamp() })
     );
@@ -290,8 +290,8 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
-  it('can store exactly 32 teams', async () => {
-    const many = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
+  it('can store exactly 31 teams', async () => {
+    const many = Array.from({ length: 31 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
     await assertSucceeds(
       eventDoc().update({ 'disciplines.mixed.teams': many, updatedAt: serverTimestamp() })
     );
@@ -560,7 +560,7 @@ describe('league teams', () => {
     await assertSucceeds(teamsDoc(anonDb()).get());
   });
 
-  it('lets an approved user list more than 32 teams', async () => {
+  it('lets an approved user list more than 31 teams', async () => {
     await assertSucceeds(
       teamsDoc(approvedDb()).set({ mixed: names(34), updatedAt: serverTimestamp() }, { merge: true })
     );

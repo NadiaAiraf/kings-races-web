@@ -122,17 +122,17 @@ describe('carrying teams over from the league standings', () => {
     ]);
   });
 
-  it('allows a list longer than 32 and applies the limit to who is ticked', () => {
+  it('allows a list longer than 31 and applies the limit to who is ticked', () => {
     const names = Array.from({ length: 34 }, (_, i) => `Team ${i + 1}`);
     const r1: EventSummary = { ...r2, round: { ...r2.round!, roundNumber: 1 } };
     renderEntry(true, { season: [], lastSeason: [], teams: { ...emptyLeagueTeams(), mixed: names } }, r1);
     tick(...names);
-    expect(screen.getByText('Maximum 32 teams. Untick some teams.')).toBeTruthy();
+    expect(screen.getByText('Maximum 31 teams. Untick some teams.')).toBeTruthy();
 
-    tick('Team 33', 'Team 34');
-    fireEvent.click(screen.getByText('Enter 32 teams'));
+    tick('Team 32', 'Team 33', 'Team 34');
+    fireEvent.click(screen.getByText('Enter 31 teams'));
 
-    expect(store().disciplines.mixed.teams).toHaveLength(32);
+    expect(store().disciplines.mixed.teams).toHaveLength(31);
   });
 
   it('does not offer league teams to viewers', () => {

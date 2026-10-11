@@ -27,7 +27,6 @@ import { TEAMS_28 } from './teams28';
 import { TEAMS_29 } from './teams29';
 import { TEAMS_30 } from './teams30';
 import { TEAMS_31 } from './teams31';
-import { TEAMS_32 } from './teams32';
 
 const CHEAT_SHEETS: Record<number, TournamentStructure> = {
   4: TEAMS_4,
@@ -58,19 +57,18 @@ const CHEAT_SHEETS: Record<number, TournamentStructure> = {
   29: TEAMS_29,
   30: TEAMS_30,
   31: TEAMS_31,
-  32: TEAMS_32,
 };
 
 export function getCheatSheet(teamCount: number): TournamentStructure {
   const sheet = CHEAT_SHEETS[teamCount];
   if (!sheet) {
     throw new Error(
-      `No cheat sheet for ${teamCount} teams. Valid range: 4-32.`
+      `No cheat sheet for ${teamCount} teams. Valid range: 4-31.`
     );
   }
   return sheet;
 }
 
 export function isValidTeamCount(teamCount: number): boolean {
-  return teamCount >= 4 && teamCount <= 32 && Number.isInteger(teamCount);
+  return teamCount >= 4 && teamCount <= 31 && Number.isInteger(teamCount);
 }

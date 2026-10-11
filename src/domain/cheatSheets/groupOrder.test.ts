@@ -10,7 +10,7 @@ import goldenGroupOrder from './__fixtures__/goldenGroupOrder.json';
 const golden = goldenGroupOrder as Record<string, string[]>;
 
 describe('group order matches the spreadsheet', () => {
-  it.each(Array.from({ length: 29 }, (_, i) => i + 4))(
+  it.each(Array.from({ length: 28 }, (_, i) => i + 4))(
     'lists the groups for %i teams in sheet order',
     (count) => {
       expect(getCheatSheet(count).groups.map((g) => g.letter)).toEqual(golden[count]);

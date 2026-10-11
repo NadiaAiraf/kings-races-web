@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { getCheatSheet } from './cheatSheets';
 import { R2_RACE_ORDER, r2RunningOrder } from './r2RaceOrder';
 
-const R2_TEAM_COUNTS = Array.from({ length: 29 }, (_, i) => i + 4).filter(
+const R2_TEAM_COUNTS = Array.from({ length: 28 }, (_, i) => i + 4).filter(
   (n) => (getCheatSheet(n).roundTwoGroups ?? []).length > 0
 );
 

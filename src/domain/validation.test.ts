@@ -2,16 +2,16 @@ import { describe, it, expect } from 'vitest';
 import { validateTeamCount, getValidTeamCountRange } from './validation';
 
 describe('validateTeamCount', () => {
-  it('accepts valid mixed range (4-32)', () => {
+  it('accepts valid mixed range (4-31)', () => {
     expect(validateTeamCount('mixed', 4).valid).toBe(true);
-    expect(validateTeamCount('mixed', 32).valid).toBe(true);
+    expect(validateTeamCount('mixed', 31).valid).toBe(true);
     expect(validateTeamCount('mixed', 16).valid).toBe(true);
   });
 
   it('rejects out-of-range mixed', () => {
     const result = validateTeamCount('mixed', 33);
     expect(result.valid).toBe(false);
-    expect(result.reason).toContain('4-32');
+    expect(result.reason).toContain('4-31');
   });
 
   it('rejects below minimum', () => {
@@ -49,7 +49,7 @@ describe('validateTeamCount', () => {
 
 describe('getValidTeamCountRange', () => {
   it('returns correct range for mixed', () => {
-    expect(getValidTeamCountRange('mixed')).toEqual({ min: 4, max: 32 });
+    expect(getValidTeamCountRange('mixed')).toEqual({ min: 4, max: 31 });
   });
   it('returns correct range for board', () => {
     expect(getValidTeamCountRange('board')).toEqual({ min: 4, max: 17 });

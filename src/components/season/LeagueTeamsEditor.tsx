@@ -10,7 +10,7 @@ interface LeagueTeamsEditorProps {
 
 /**
  * The league's teams for one discipline this season. It can list more than
- * a round's 32 teams; officials tick who is racing when they enter a round.
+ * a round's 31 teams; officials tick who is racing when they enter a round.
  */
 export function LeagueTeamsEditor({ names, canEdit, onAdd, onRemove }: LeagueTeamsEditorProps) {
   const [text, setText] = useState('');

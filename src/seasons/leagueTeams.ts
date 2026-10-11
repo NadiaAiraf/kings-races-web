@@ -3,7 +3,7 @@ import { teamKey } from './seasonStandings';
 
 /**
  * Every team registered in a league for a season, per discipline. Unlike a
- * round (at most 32 teams), the list can hold the whole league; officials
+ * round (at most 31 teams), the list can hold the whole league; officials
  * pick who races when they enter a round's teams.
  */
 export type LeagueTeams = Record<DisciplineKey, string[]>;

@@ -87,8 +87,8 @@ function freePlaces(places: number[], teamCount: number): number[] {
 }
 
 // From the "League Points Lookup" sheet: fixed points for the top three, then
-// one point fewer per place, never below 1. The sheet stops at 30th; 31st and
-// 32nd are assumed to score 1 like the places before them.
+// one point fewer per place, never below 1. The sheet stops at 30th; 31st is
+// assumed to score 1 like the places before it.
 const TOP_THREE_POINTS: Record<DisciplineKey, [number, number, number]> = {
   mixed: [30, 28, 26],
   ladies: [15, 13, 11],
