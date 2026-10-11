@@ -94,6 +94,10 @@ describe('events: signed-in user who is not approved', () => {
     await assertFails(unapprovedDb().collection('events').add(newEvent(UNAPPROVED_UID)));
   });
 
+  it('cannot delete an event', async () => {
+    await assertFails(unapprovedDb().doc(`events/${EVENT_ID}`).delete());
+  });
+
   it('cannot update a discipline', async () => {
     await assertFails(
       unapprovedDb()
@@ -159,8 +163,8 @@ describe('events: approved user', () => {
     );
   });
 
-  it('cannot delete an event', async () => {
-    await assertFails(approvedDb().doc(`events/${EVENT_ID}`).delete());
+  it('can delete an event', async () => {
+    await assertSucceeds(approvedDb().doc(`events/${EVENT_ID}`).delete());
   });
 });
 
@@ -508,6 +512,14 @@ describe('events: season rounds', () => {
   it('rejects a second R2 for the same league and season', async () => {
     await approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID));
     await assertFails(
+      approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID))
+    );
+  });
+
+  it('lets a deleted round be set up again', async () => {
+    await approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID));
+    await approvedDb().doc(`events/${SEASON_ROUND_ID}`).delete();
+    await assertSucceeds(
       approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID))
     );
   });

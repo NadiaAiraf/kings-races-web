@@ -46,6 +46,8 @@ const repo = vi.hoisted(() => ({
   onLeagueTeams: null as ((teams: LeagueTeams) => void) | null,
   leagueTeamWrites: [] as { op: 'add' | 'remove'; discipline: string; names: string[] }[],
   existingSeasonIds: ['2026-27'] as string[],
+  deletedEvents: [] as string[],
+  deleteEventError: null as Error | null,
 }));
 
 vi.mock('../events/eventsRepo', () => ({
@@ -86,6 +88,10 @@ vi.mock('../events/eventsRepo', () => ({
     return { id: 'new-event-id', committed: Promise.resolve() };
   },
   hasUnsyncedWrites: async () => repo.unsynced,
+  deleteEvent: async (id: string) => {
+    repo.deletedEvents.push(id);
+    if (repo.deleteEventError) throw repo.deleteEventError;
+  },
 }));
 
 vi.mock('../seasons/seasonsRepo', () => ({
@@ -242,6 +248,8 @@ beforeEach(() => {
   repo.onLeagueTeams = null;
   repo.leagueTeamWrites = [];
   repo.existingSeasonIds = ['2026-27'];
+  repo.deletedEvents = [];
+  repo.deleteEventError = null;
   auth.signInError = null;
   auth.signIns = [];
   auth.signOuts = 0;
@@ -338,6 +346,7 @@ describe('HomePage', () => {
     act(() => repo.onSeasons!(SEASONS, ONLINE));
     expect(screen.getByText('New season')).toBeTruthy();
   });
+
 });
 
 describe('NewSeasonPage', () => {
@@ -422,6 +431,46 @@ describe('LeaguePage', () => {
     expect(screen.getByText('Set up R2').getAttribute('href')).toBe(
       '/seasons/2026-27/southern/new?round=2'
     );
+  });
+
+  it('hides "Delete" from viewers', () => {
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    expect(screen.queryByText('Delete R1')).toBeNull();
+  });
+
+  it('does not delete a round on the first tap', () => {
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByText('Delete R1'));
+
+    expect(repo.deletedEvents).toEqual([]);
+    expect(screen.getByText('Confirm delete R1')).toBeTruthy();
+  });
+
+  it('deletes a round once the delete is confirmed', () => {
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByText('Delete R1'));
+    fireEvent.click(screen.getByText('Confirm delete R1'));
+
+    expect(repo.deletedEvents).toEqual(['2026-27_southern_r1']);
+  });
+
+  it('shows an error when a round cannot be deleted', async () => {
+    repo.deleteEventError = new FirebaseError('permission-denied', 'denied');
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByText('Delete R1'));
+    await act(async () => {
+      fireEvent.click(screen.getByText('Confirm delete R1'));
+    });
+
+    expect(screen.getByRole('alert').textContent).toMatch(/R1 - Hemel could not be deleted/);
   });
 
   it('shows season standings from finished rounds', () => {
