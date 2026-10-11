@@ -541,6 +541,26 @@ describe('NewEventPage', () => {
 });
 
 describe('EventPage', () => {
+  it("loads the league's rounds for a season round, for seeding", () => {
+    renderAt('/events/2026-27_southern_r1', SIGNED_OUT);
+    act(() => repo.onEvent!(southernR1, ONLINE));
+
+    expect(repo.leagueRoundsQueries).toEqual([
+      { seasonId: '2026-27', league: 'southern' },
+      { seasonId: '2025-26', league: 'southern' },
+    ]);
+  });
+
+  it('links back to the league from a season round', () => {
+    renderAt('/events/2026-27_southern_r1', SIGNED_OUT);
+    act(() => repo.onEvent!(southernR1, ONLINE));
+
+    expect(screen.getByLabelText('Back to league').getAttribute('href')).toBe(
+      '/seasons/2026-27/southern'
+    );
+    expect(screen.getByText('Southern 26/27 · Sat 14 Nov 2026 · View only')).toBeTruthy();
+  });
+
   it('shows a loading state until the first snapshot', () => {
     renderAt('/events/e1', SIGNED_OUT);
     expect(screen.getByText('Loading round...')).toBeTruthy();

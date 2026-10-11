@@ -3,6 +3,7 @@ import { createInitialDisciplines } from '../store/initialState';
 import { playedDiscipline } from '../domain/__fixtures__/playedDiscipline';
 import {
   computeSeasonStandings,
+  seedingOrder,
   standingsPositions,
   teamKey,
   type StandingsRound,
@@ -12,13 +13,17 @@ import {
  * A round whose mixed discipline finished with the given places. Places are
  * set as an official's placings so each test states them directly.
  */
-function round(roundNumber: number, places: Record<string, number>): StandingsRound {
+function round(
+  roundNumber: number,
+  places: Record<string, number>,
+  seasonId = '2026-27'
+): StandingsRound {
   const names = Object.keys(places);
   const mixed = playedDiscipline(names.length);
   mixed.teams = mixed.teams.map((t, i) => ({ ...t, name: names[i] }));
   mixed.placings = Object.fromEntries(mixed.teams.map((t) => [t.slot, places[t.name]]));
   return {
-    round: { seasonId: '2026-27', league: 'southern', roundNumber, venue: 'Hemel' },
+    round: { seasonId, league: 'southern', roundNumber, venue: 'Hemel' },
     disciplines: { ...createInitialDisciplines(), mixed },
   };
 }
@@ -131,5 +136,33 @@ describe('standingsPositions', () => {
   it('numbers teams from 1 in standings order', () => {
     const rows = computeSeasonStandings([round(1, { Kings: 2, UCL: 1, LSE: 3, Bath: 4 })], 'mixed');
     expect(standingsPositions(rows).get('ucl')).toBe(1);
+  });
+});
+
+describe('seedingOrder', () => {
+  const lastSeason = [round(1, { Bath: 1, LSE: 2, UCL: 3, Kings: 4 }, '2025-26')];
+
+  it("seeds R1 from last season's final table", () => {
+    expect(seedingOrder(1, [], lastSeason, 'mixed')).toEqual(['Bath', 'LSE', 'UCL', 'Kings']);
+  });
+
+  it("seeds R2 from this season's R1 standings", () => {
+    const r1 = round(1, { Kings: 1, UCL: 2, LSE: 3, Bath: 4 });
+    expect(seedingOrder(2, [r1], lastSeason, 'mixed')).toEqual(['Kings', 'UCL', 'LSE', 'Bath']);
+  });
+
+  it('ignores the round being entered and later rounds', () => {
+    const r1 = round(1, { Kings: 1, UCL: 2, LSE: 3, Bath: 4 });
+    const r2 = round(2, { Bath: 1, LSE: 2, UCL: 3, Kings: 4 });
+    expect(seedingOrder(2, [r1, r2], [], 'mixed')).toEqual(['Kings', 'UCL', 'LSE', 'Bath']);
+  });
+
+  it("ranks last season's teams who have not raced yet below teams with points", () => {
+    const r1 = round(1, { Kings: 1, UCL: 2, LSE: 3, Exeter: 4 });
+    expect(seedingOrder(2, [r1], lastSeason, 'mixed').at(-1)).toBe('Bath');
+  });
+
+  it('is empty for a new league with no history', () => {
+    expect(seedingOrder(1, [], [], 'mixed')).toEqual([]);
   });
 });

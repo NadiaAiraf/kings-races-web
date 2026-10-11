@@ -9,6 +9,8 @@ import { TeamList } from './TeamList';
 import { Toast } from '../shared/Toast';
 import { ConfirmButton } from '../shared/ConfirmButton';
 import { useCanEdit } from '../../auth/editAccess';
+import { useSeedingOrder } from '../../seasons/leagueRounds';
+import { CarryOverTeams } from './CarryOverTeams';
 
 interface TeamEntryViewProps {
   discipline: DisciplineKey;
@@ -18,6 +20,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
   const { teams, teamCount, scores } = useDisciplineState(discipline);
   const setTeams = useEventStore((s) => s.setTeams);
   const canEdit = useCanEdit();
+  const seedingOrder = useSeedingOrder(discipline);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const { max } = getValidTeamCountRange(discipline);
@@ -56,6 +59,11 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
     [teams, hasScores, discipline, setTeams]
   );
 
+  const handleCarryOver = useCallback(
+    (names: string[]) => setTeams(discipline, assignSlots(names)),
+    [discipline, setTeams]
+  );
+
   const resetDiscipline = useEventStore((s) => s.resetDiscipline);
 
   const handleReset = useCallback(() => {
@@ -64,6 +72,15 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      {canEdit && teamCount === 0 && !hasScores && seedingOrder && seedingOrder.length > 0 && (
+        // Keyed by the list so a change in standings resets the ticks.
+        <CarryOverTeams
+          key={seedingOrder.join('\n')}
+          names={seedingOrder}
+          max={max}
+          onConfirm={handleCarryOver}
+        />
+      )}
       {canEdit && (
         <TeamInput
           onAdd={handleAdd}

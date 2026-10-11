@@ -103,3 +103,34 @@ function compareRows(a: SeasonStandingRow, b: SeasonStandingRow): number {
 export function standingsPositions(rows: SeasonStandingRow[]): Map<string, number> {
   return new Map(rows.map((row, i) => [row.key, i + 1]));
 }
+
+/**
+ * Team names in seeding order for a new round: this season's standings from
+ * the earlier rounds, with last season's teams that have not raced yet
+ * ranked in by the same rules (0 points, then last season's position). For
+ * R1 that is simply last season's final table.
+ */
+export function seedingOrder(
+  roundNumber: number,
+  seasonRounds: StandingsRound[],
+  lastSeasonRounds: StandingsRound[],
+  discipline: DisciplineKey
+): string[] {
+  const lastSeason = computeSeasonStandings(lastSeasonRounds, discipline);
+  const lastPositions = standingsPositions(lastSeason);
+  const earlier = seasonRounds.filter((r) => r.round && r.round.roundNumber < roundNumber);
+  const rows = computeSeasonStandings(earlier, discipline, lastPositions);
+
+  const seen = new Set(rows.map((r) => r.key));
+  for (const row of lastSeason) {
+    if (seen.has(row.key)) continue;
+    rows.push({
+      key: row.key,
+      name: row.name,
+      results: {},
+      total: 0,
+      lastSeasonPosition: lastPositions.get(row.key)!,
+    });
+  }
+  return rows.sort(compareRows).map((r) => r.name);
+}
