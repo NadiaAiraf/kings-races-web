@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { DisciplineKey } from '../../domain/types';
-import { computeRoundPlacings, leaguePoints, type PlacingSource } from '../../domain/roundPlacings';
+import { computeRoundPlacings, leaguePoints } from '../../domain/roundPlacings';
 import { useEventStore } from '../../store/eventStore';
 import { useCanEdit } from '../../auth/editAccess';
 
@@ -10,11 +10,6 @@ const DISCIPLINE_DISPLAY: Record<DisciplineKey, string> = {
   ladies: 'Ladies',
 };
 
-const SOURCE_LABEL: Record<PlacingSource, string> = {
-  final: 'Final',
-  group: 'Group',
-  official: 'Set by official',
-};
 
 interface RoundPlacingsTableProps {
   discipline: DisciplineKey;
@@ -101,9 +96,12 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
               </td>
               <td className="px-2 py-2">
                 <span className="block text-base text-slate-900">{p.name}</span>
-                <span className="block text-xs text-slate-500">
-                  {p.source ? SOURCE_LABEL[p.source] : 'Needs a place'}
-                </span>
+                {p.source === 'official' && (
+                  <span className="block text-xs text-slate-500">Corrected</span>
+                )}
+                {p.place === null && (
+                  <span className="block text-xs text-amber-700">Needs a place</span>
+                )}
               </td>
               <td className="px-2 py-2 text-right font-mono text-base text-slate-700">
                 {p.place === null ? '-' : leaguePoints(discipline, p.place)}

@@ -99,6 +99,14 @@ describe('RoundPlacingsTable', () => {
     expect(store().disciplines.mixed.placings).toEqual({});
   });
 
+  it('labels only corrected places, not ones from the finals', () => {
+    const team = store().disciplines.mixed.teams[2];
+    store().setPlacing('mixed', team.slot, 8);
+    renderTable(false);
+    expect(screen.queryByText('Final')).toBeNull();
+    expect(screen.getAllByText('Corrected')).toHaveLength(1);
+  });
+
   it('does not offer corrections to viewers', () => {
     renderTable(false);
     expect(screen.queryByText('Correct places')).toBeNull();
