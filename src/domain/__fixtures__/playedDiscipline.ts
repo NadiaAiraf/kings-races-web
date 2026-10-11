@@ -53,6 +53,7 @@ export function playedDiscipline(count: number, overrides: Partial<DisciplineSta
     phase: 'complete',
     scores,
     manualTiebreaks: {},
+    placings: {},
     ...overrides,
   };
 }

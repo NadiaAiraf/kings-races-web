@@ -30,6 +30,7 @@ const discipline = (overrides: Partial<DisciplineState> = {}): DisciplineState =
   phase: 'group-stage',
   scores: [],
   manualTiebreaks: {},
+  placings: {},
   ...overrides,
 });
 
@@ -57,6 +58,7 @@ describe('parseDiscipline', () => {
       phase: 'setup',
       scores: [],
       manualTiebreaks: {},
+      placings: {},
     });
   });
 
@@ -203,6 +205,34 @@ describe('buildNewEventDoc', () => {
     const round = { seasonId: '2026-27', league: 'southern' as const, roundNumber: 1, venue: ' Hemel ' };
     const doc = buildNewEventDoc({ name: 'R1', date: '2026-11-14', round }, 'uid-1', () => 'TS');
     expect(doc).toMatchObject({ ...round, venue: 'Hemel' });
+  });
+});
+
+describe('placings', () => {
+  it('round-trips placings through the Firestore shape', () => {
+    const state = discipline({ placings: { '2': 5 } });
+    expect(parseDiscipline(toFirestoreDiscipline(state)).placings).toEqual({ '2': 5 });
+  });
+
+  it('defaults placings for a round stored before placings existed', () => {
+    expect(parseDiscipline({ phase: 'complete' }).placings).toEqual({});
+  });
+
+  it('drops a place that is not a whole number from 1 to 32', () => {
+    expect(parseDiscipline({ placings: { '1': 0, '2': 3.5, '3': 'x', '4': 33, '5': 6 } }).placings).toEqual({
+      '5': 6,
+    });
+  });
+
+  it('writes a changed place as its own field', () => {
+    const prev = discipline({ placings: { '1': 3 } });
+    const next = discipline({ placings: { '1': 4 } });
+    expect(diffDiscipline(prev, next)).toEqual([{ path: ['placings', '1'], value: 4 }]);
+  });
+
+  it('deletes a removed place', () => {
+    const prev = discipline({ placings: { '1': 3 } });
+    expect(diffDiscipline(prev, discipline())).toEqual([{ path: ['placings', '1'], value: undefined }]);
   });
 });
 

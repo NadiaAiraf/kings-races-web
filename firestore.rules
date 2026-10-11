@@ -47,12 +47,13 @@ service cloud.firestore {
 
     function isValidDiscipline(d) {
       return d is map
-        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks'])
+        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings'])
         && d.teams is list
         && d.teams.size() <= 32
         && d.phase in ['setup', 'group-stage', 'round-two', 'finals', 'complete']
         && d.scores is map
-        && d.manualTiebreaks is map;
+        && d.manualTiebreaks is map
+        && (!('placings' in d) || d.placings is map);
     }
 
     function hasValidFields(data) {

@@ -185,7 +185,12 @@ describe('startEventSync', () => {
     expect(remote.writes).toEqual([
       {
         key: 'mixed',
-        changes: [{ path: [], value: { teams: [], phase: 'setup', scores: {}, manualTiebreaks: {} } }],
+        changes: [
+          {
+            path: [],
+            value: { teams: [], phase: 'setup', scores: {}, manualTiebreaks: {}, placings: {} },
+          },
+        ],
       },
     ]);
   });

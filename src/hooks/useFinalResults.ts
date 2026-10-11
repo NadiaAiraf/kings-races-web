@@ -8,7 +8,7 @@ import type { FinalResult } from '../domain/csvExport';
  * Parse a placement label like "1st/2nd" into [1, 2].
  * Handles ordinals from 1st through 32nd.
  */
-function parsePlacementLabel(label: string): [number, number] {
+export function parsePlacementLabel(label: string): [number, number] {
   const parts = label.match(/(\d+)\w+\s*\/\s*(\d+)\w+/);
   if (!parts) return [0, 0];
   return [parseInt(parts[1], 10), parseInt(parts[2], 10)];

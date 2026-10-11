@@ -252,6 +252,37 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
+  it('can write a single placing field', async () => {
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'placings', '11'),
+        7,
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store placings as a list', async () => {
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'placings'),
+        [7],
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('accepts a round stored before placings existed', async () => {
+    await assertSucceeds(
+      eventDoc().update({
+        'disciplines.mixed': { teams: [], phase: 'setup', scores: {}, manualTiebreaks: {} },
+        updatedAt: serverTimestamp(),
+      })
+    );
+  });
+
   it('can reset a scored discipline by replacing it whole', async () => {
     await seedScoredMixed();
     await assertSucceeds(

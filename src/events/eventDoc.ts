@@ -60,6 +60,8 @@ export interface FirestoreDiscipline {
   phase: DisciplineState['phase'];
   scores: Record<string, Score>;
   manualTiebreaks: Record<string, number[]>;
+  /** Optional: rounds created before placings existed do not have it. */
+  placings: Record<string, number>;
 }
 
 /**
@@ -108,12 +110,16 @@ const isScore = (value: unknown): value is Score =>
 const isSlotList = (value: unknown): value is number[] =>
   Array.isArray(value) && value.every((n) => typeof n === 'number');
 
+const isPlace = (value: unknown): value is number =>
+  Number.isInteger(value) && (value as number) >= 1 && (value as number) <= MAX_TEAMS;
+
 export function toFirestoreDiscipline(state: DisciplineState): FirestoreDiscipline {
   return {
     teams: state.teams,
     phase: state.phase,
     scores: Object.fromEntries(state.scores.map((s) => [s.raceId, s])),
     manualTiebreaks: state.manualTiebreaks,
+    placings: state.placings,
   };
 }
 
@@ -143,12 +149,17 @@ export function parseDiscipline(raw: unknown): DisciplineState {
       )
     : {};
 
+  const placings = isRecord(raw.placings)
+    ? Object.fromEntries(Object.entries(raw.placings).filter(([, place]) => isPlace(place)))
+    : {};
+
   return {
     teams,
     teamCount: teams.length,
     phase: isPhase(raw.phase) ? raw.phase : initial.phase,
     scores,
     manualTiebreaks: manualTiebreaks as Record<string, number[]>,
+    placings: placings as Record<string, number>,
   };
 }
 
@@ -229,6 +240,7 @@ const isInitialDiscipline = (state: DisciplineState) =>
   state.teams.length === 0 &&
   state.scores.length === 0 &&
   Object.keys(state.manualTiebreaks).length === 0 &&
+  Object.keys(state.placings).length === 0 &&
   state.phase === 'setup';
 
 /**
@@ -276,6 +288,13 @@ export function diffDiscipline(prev: DisciplineState, next: DisciplineState): Di
     if (!(groupKey in next.manualTiebreaks)) {
       changes.push({ path: ['manualTiebreaks', groupKey], value: undefined });
     }
+  }
+
+  for (const [slot, place] of Object.entries(next.placings)) {
+    if (prev.placings[slot] !== place) changes.push({ path: ['placings', slot], value: place });
+  }
+  for (const slot of Object.keys(prev.placings)) {
+    if (!(slot in next.placings)) changes.push({ path: ['placings', slot], value: undefined });
   }
 
   return changes;

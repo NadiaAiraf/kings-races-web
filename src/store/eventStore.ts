@@ -100,6 +100,19 @@ export const useEventStore = create<EventStoreState & EventStoreActions>()(
         },
       })),
 
+    setPlacing: (discipline: DisciplineKey, slot: number, place: number | null) =>
+      set((state) => {
+        const placings = { ...state.disciplines[discipline].placings };
+        if (place === null) delete placings[slot];
+        else placings[slot] = place;
+        return {
+          disciplines: {
+            ...state.disciplines,
+            [discipline]: { ...state.disciplines[discipline], placings },
+          },
+        };
+      }),
+
     resetDiscipline: (discipline: DisciplineKey) =>
       set((state) => ({
         disciplines: {

@@ -10,6 +10,7 @@ export const createInitialDisciplineState = (): DisciplineState => ({
   phase: 'setup',
   scores: [],
   manualTiebreaks: {},
+  placings: {},
 });
 
 export const createInitialDisciplines = (): EventDisciplines => ({
