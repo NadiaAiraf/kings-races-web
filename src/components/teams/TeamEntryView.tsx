@@ -86,9 +86,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
   return (
     <div className="flex flex-col gap-4">
       {canEdit && teamCount === 0 && !hasScores && seedingOrder && seedingOrder.length > 0 && (
-        // Keyed by the list so a change in standings resets the ticks.
         <CarryOverTeams
-          key={seedingOrder.join('\n')}
           names={seedingOrder}
           max={max}
           onConfirm={handleCarryOver}

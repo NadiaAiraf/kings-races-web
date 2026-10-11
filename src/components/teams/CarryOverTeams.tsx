@@ -19,6 +19,8 @@ const alphabetical = (a: string, b: string) =>
  */
 export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
   const [ticked, setTicked] = useState<ReadonlySet<string>>(new Set());
+  // Ticks are kept by name, so they survive the list updating (e.g. another
+  // official adding a league team) while teams are being ticked.
   const present = names.filter((n) => ticked.has(n));
   const listed = [...names].sort(alphabetical);
   const overLimit = present.length > max;

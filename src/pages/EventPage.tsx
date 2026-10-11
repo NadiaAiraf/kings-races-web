@@ -7,7 +7,7 @@ import { ErrorBoundary } from '../components/shared/ErrorBoundary';
 import { startEventSync } from '../events/eventSync';
 import { subscribeEvent, writeDisciplineChanges } from '../events/eventsRepo';
 import { EventInfoContext } from '../events/eventInfo';
-import type { EventSummary } from '../events/eventDoc';
+import { DISCIPLINE_KEYS, type EventSummary } from '../events/eventDoc';
 import { useEventStore } from '../store/eventStore';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
@@ -77,7 +77,15 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [canSaveOffline, setCanSaveOffline] = useState(true);
   const hasLoaded = useRef(false);
-  const leagueRounds = useLeagueRounds(view.status === 'ready' ? view.event.round : null);
+  // League rounds only seed team entry, so stop listening once every
+  // discipline has teams: the open round is in its own league query, so each
+  // score would otherwise re-read the league for the whole event.
+  const needsSeeding = useEventStore((s) =>
+    DISCIPLINE_KEYS.some((key) => s.disciplines[key].teams.length === 0)
+  );
+  const leagueRounds = useLeagueRounds(
+    view.status === 'ready' && needsSeeding ? view.event.round : null
+  );
 
   useEffect(() => {
     let active = true;

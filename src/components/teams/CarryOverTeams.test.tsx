@@ -135,6 +135,25 @@ describe('carrying teams over from the league standings', () => {
     expect(store().disciplines.mixed.teams).toHaveLength(31);
   });
 
+  it('keeps ticks when the list updates while ticking', () => {
+    const view = renderEntry(true, SEASON);
+    tick('Kings', 'UCL');
+
+    // Another official adds a team to the league list.
+    const teams = { ...emptyLeagueTeams(), mixed: ['Exeter'] };
+    view.rerender(
+      <EventInfoContext.Provider value={r2}>
+        <LeagueRoundsContext.Provider value={{ ...SEASON, teams }}>
+          <EditAccessContext.Provider value={true}>
+            <TeamEntryView discipline="mixed" />
+          </EditAccessContext.Provider>
+        </LeagueRoundsContext.Provider>
+      </EventInfoContext.Provider>
+    );
+
+    expect(screen.getByText('Enter 2 teams')).toBeTruthy();
+  });
+
   it('does not offer league teams to viewers', () => {
     renderEntry(false, SEASON);
     expect(screen.queryByRole('region', { name: 'League teams' })).toBeNull();
