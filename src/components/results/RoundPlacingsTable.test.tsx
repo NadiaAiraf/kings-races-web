@@ -68,13 +68,39 @@ describe('RoundPlacingsTable', () => {
     expect(screen.getAllByText('Needs a place')).toHaveLength(1);
   });
 
-  it('clears an official place back to the computed one', () => {
-    const winner = store().disciplines.mixed.teams[2];
-    store().setPlacing('mixed', winner.slot, 4);
+  it('shows plain places with no dropdown for placed teams', () => {
+    renderTable(true);
+    const placed = store().disciplines.mixed.teams[2];
+    expect(screen.queryByLabelText(`Place for ${placed.name}`)).toBeNull();
+  });
+
+  it('lets an official correct a placed team after tapping "Correct places"', () => {
+    const team = store().disciplines.mixed.teams[2];
     renderTable(true);
 
-    fireEvent.change(screen.getByLabelText(`Place for ${winner.name}`), { target: { value: '' } });
+    fireEvent.click(screen.getByText('Correct places'));
+    const select = screen.getByLabelText(`Place for ${team.name}`) as HTMLSelectElement;
+    const other = select.value === '8' ? '7' : '8';
+    fireEvent.change(select, { target: { value: other } });
+
+    expect(store().disciplines.mixed.placings).toEqual({ [team.slot]: Number(other) });
+  });
+
+  it('clears a correction when the computed place is chosen again', () => {
+    renderTable(true);
+    fireEvent.click(screen.getByText('Correct places'));
+    const team = store().disciplines.mixed.teams[2];
+    const select = screen.getByLabelText(`Place for ${team.name}`) as HTMLSelectElement;
+    const computed = select.value;
+
+    fireEvent.change(select, { target: { value: computed === '8' ? '7' : '8' } });
+    fireEvent.change(screen.getByLabelText(`Place for ${team.name}`), { target: { value: computed } });
 
     expect(store().disciplines.mixed.placings).toEqual({});
+  });
+
+  it('does not offer corrections to viewers', () => {
+    renderTable(false);
+    expect(screen.queryByText('Correct places')).toBeNull();
   });
 });
