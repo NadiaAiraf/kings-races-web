@@ -1,12 +1,8 @@
 import { clsx } from 'clsx';
 import type { DisciplineKey } from '../../domain/types';
+import { DISCIPLINE_LABELS } from '../../domain/csvExport';
 
 const DISCIPLINES = ['mixed', 'board', 'ladies'] as const;
-const LABELS: Record<DisciplineKey, string> = {
-  mixed: 'Mixed',
-  board: 'Board',
-  ladies: 'Ladies',
-};
 
 interface DisciplineTabsProps {
   active: DisciplineKey;
@@ -33,7 +29,7 @@ export function DisciplineTabs({ active, onSelect }: DisciplineTabsProps) {
               : 'text-slate-500'
           )}
         >
-          {LABELS[key]}
+          {DISCIPLINE_LABELS[key]}
         </button>
       ))}
     </div>

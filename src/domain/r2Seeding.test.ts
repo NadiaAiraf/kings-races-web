@@ -19,6 +19,24 @@ function makeScore(raceId: string, homeSlot: number, awaySlot: number): Score {
 }
 
 describe('resolveR2TeamSlot', () => {
+  it('follows the position code when the label names another group', () => {
+    // 11 teams, R2 group I: the sheet's label says "Runner Up D" but there is
+    // no group D; its VLOOKUP uses the code A3 (3rd in group A).
+    const entry: RoundTwoSeeding = { positionCode: 'A3', letter: 'D', label: 'Runner Up D' };
+    const r1Standings: Record<string, TeamStanding[]> = {
+      A: [standing(1, 9), standing(2, 6), standing(3, 3), standing(4, 0)],
+    };
+    expect(resolveR2TeamSlot(entry, r1Standings, {})).toBe(3);
+  });
+
+  it('falls back to the label when there is no position code', () => {
+    const entry: RoundTwoSeeding = { positionCode: '', letter: 'I', label: '2nd A' };
+    const r1Standings: Record<string, TeamStanding[]> = {
+      A: [standing(1, 9), standing(2, 6), standing(3, 3)],
+    };
+    expect(resolveR2TeamSlot(entry, r1Standings, {})).toBe(2);
+  });
+
   it('Test 1: "Winner A" returns 1st ranked slot', () => {
     const entry: RoundTwoSeeding = { positionCode: 'A1', letter: 'A', label: 'Winner A' };
     const r1Standings: Record<string, TeamStanding[]> = {

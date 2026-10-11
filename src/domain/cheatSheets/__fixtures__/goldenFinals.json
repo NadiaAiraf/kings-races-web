@@ -1,0 +1,1348 @@
+{
+ "4": [
+  {
+   "homeRef": "3rd Group A",
+   "awayRef": "Loser Group A",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group A",
+   "awayRef": "2nd Group A",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "5": [
+  {
+   "homeRef": "3rd Group A",
+   "awayRef": "4th Group A",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group A",
+   "awayRef": "2nd Group A",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "6": [
+  {
+   "homeRef": "5th Group A",
+   "awayRef": "Loser Group A",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "3rd Group A",
+   "awayRef": "4th Group A",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group A",
+   "awayRef": "2nd Group A",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "7": [
+  {
+   "homeRef": "Third I",
+   "awayRef": "Fourth I",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner I",
+   "awayRef": "Runner up I",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "8": [
+  {
+   "homeRef": "Third Group II",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group II",
+   "awayRef": "Second Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Loser Group I",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Second Group I",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "9": [
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "10": [
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "11": [
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "12": [
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "13": [
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "14": [
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "15": [
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "16": [
+  {
+   "homeRef": "Third Group IV",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group IV",
+   "awayRef": "Second Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Loser Group III",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Second Group III",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "17": [
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "18": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": "17th/18th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "19": [
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": "17th/18th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "20": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": "19th/20th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": "17th/18th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "21": [
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": "19th/20th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": "17th/18th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "12th/13th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "10th/11th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "8th/9th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "22": [
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "23": [
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "24": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "25": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": null,
+   "optional": false
+  }
+ ],
+ "26": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "27": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "28": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "29": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "30": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": "15th/16th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": "13th/14th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": "11th/12th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": "9th/10th",
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": "7th/8th",
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": "5th/6th",
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": "3rd/4th",
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": "1st/2nd",
+   "optional": false
+  }
+ ],
+ "31": [
+  {
+   "homeRef": "Loser Group V",
+   "awayRef": "Loser Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Third Group V",
+   "awayRef": "Third Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Second Group V",
+   "awayRef": "Second Group VI",
+   "label": null,
+   "optional": true
+  },
+  {
+   "homeRef": "Winner Group V",
+   "awayRef": "Winner Group VI",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group III",
+   "awayRef": "Loser Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group III",
+   "awayRef": "Third Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group III",
+   "awayRef": "Second Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group III",
+   "awayRef": "Winner Group IV",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Loser Group I",
+   "awayRef": "Loser Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Third Group I",
+   "awayRef": "Third Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Second Group I",
+   "awayRef": "Second Group II",
+   "label": null,
+   "optional": false
+  },
+  {
+   "homeRef": "Winner Group I",
+   "awayRef": "Winner Group II",
+   "label": null,
+   "optional": false
+  }
+ ]
+}

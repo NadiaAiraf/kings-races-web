@@ -41,6 +41,7 @@ export interface FinalsMatchup {
   label: string;          // '1st/2nd', '3rd/4th', etc.
   homeRef: string;        // Reference to R2 standing (e.g., 'Winner Group I')
   awayRef: string;        // Reference to R2 standing (e.g., 'Second Group I')
+  optional?: boolean;     // Marked "*" on the sheet: raced only if time allows
 }
 
 export interface TournamentStructure {
@@ -77,6 +78,8 @@ export interface DisciplineState {
   phase: 'setup' | 'group-stage' | 'round-two' | 'finals' | 'complete';
   scores: Score[];
   manualTiebreaks: Record<string, number[]>;  // groupKey -> ordered slot numbers (per D-07)
+  /** Places entered by an official, keyed by team slot; they override the computed place. */
+  placings: Record<string, number>;
 }
 
 export interface EventState {
@@ -86,7 +89,7 @@ export interface EventState {
 
 // Discipline team count ranges per TEAM-02
 export const DISCIPLINE_TEAM_RANGES: Record<DisciplineKey, { min: number; max: number }> = {
-  mixed: { min: 4, max: 32 },
+  mixed: { min: 4, max: 31 },
   board: { min: 4, max: 17 },
   ladies: { min: 4, max: 17 },
 };

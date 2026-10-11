@@ -4,9 +4,11 @@ import { TeamRow } from './TeamRow';
 interface TeamListProps {
   teams: Team[];
   onDelete?: (slot: number) => void;
+  /** Move the team at `index` one place up (-1) or down (+1) the seeding. */
+  onMove?: (index: number, direction: -1 | 1) => void;
 }
 
-export function TeamList({ teams, onDelete }: TeamListProps) {
+export function TeamList({ teams, onDelete, onMove }: TeamListProps) {
   if (teams.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-8 gap-2">
@@ -26,6 +28,8 @@ export function TeamList({ teams, onDelete }: TeamListProps) {
           team={team}
           index={index}
           onDelete={onDelete}
+          onMoveUp={onMove && index > 0 ? () => onMove(index, -1) : undefined}
+          onMoveDown={onMove && index < teams.length - 1 ? () => onMove(index, 1) : undefined}
         />
       ))}
     </div>

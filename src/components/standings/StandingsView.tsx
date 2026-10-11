@@ -1,108 +1,25 @@
 import { useCallback } from 'react';
-import type { DisciplineKey, DisciplineState, RaceMatchup, TeamStanding } from '../../domain/types';
+import type { DisciplineKey, RaceMatchup } from '../../domain/types';
 import { useStandings } from '../../hooks/useStandings';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useR2State } from '../../hooks/useR2State';
-import { useFinalResults, computeFinalResults } from '../../hooks/useFinalResults';
+import { useFinalResults } from '../../hooks/useFinalResults';
+import { roundResults } from '../../domain/roundPlacings';
 import { getGroupRaces } from '../../domain/groupCalculations';
-import { calculateAllGroupStandings } from '../../domain/groupCalculations';
-import { calculateGroupStandings } from '../../domain/scoring';
-import { getCheatSheet } from '../../domain/cheatSheets';
-import { resolveAllFinalsMatchups, areAllFinalsScored } from '../../domain/finalsSeeding';
 import { generateEventCSV, triggerCSVDownload } from '../../domain/csvExport';
 import type { FinalResult } from '../../domain/csvExport';
 import { useEventStore } from '../../store/eventStore';
 import { useEventInfo } from '../../events/eventInfo';
 import { DISCIPLINE_KEYS } from '../../events/eventDoc';
 import { exportFilename } from '../../lib/dates';
-import { NO_TIEBREAKS, orderStandings, r2TiebreakKey } from '../../hooks/groupOrder';
 import { GroupStandingsTable } from './GroupStandingsTable';
-import { FinalResultsTable } from '../results/FinalResultsTable';
+import { RoundPlacingsTable } from '../results/RoundPlacingsTable';
 import { ExportButton } from '../results/ExportButton';
 
 interface StandingsViewProps {
   discipline: DisciplineKey;
   onClose?: () => void;
   asTab?: boolean;
-}
-
-
-/**
- * Build final results for a single discipline from raw store data (no hooks).
- * Replicates the logic from useFinalsState + computeFinalResults.
- */
-function buildResultsForDiscipline(
-  disciplineState: DisciplineState
-): FinalResult[] | null {
-  if (disciplineState.phase !== 'complete') return null;
-  if (disciplineState.teamCount < 4) return null;
-
-  const structure = getCheatSheet(disciplineState.teamCount);
-  if (!structure) return null;
-
-  // Build R1 standings (filter to r1-* scores only)
-  const r1Scores = disciplineState.scores.filter((s) => s.raceId.startsWith('r1-'));
-  // Apply any valid manual order so resolved ties feed R2 and finals.
-  const tiebreaks = disciplineState.manualTiebreaks;
-  const r1Standings = Object.fromEntries(
-    Object.entries(calculateAllGroupStandings(r1Scores, structure.groups)).map(
-      ([letter, standings]) => [letter, orderStandings(standings, tiebreaks[letter])]
-    )
-  );
-
-  // Build R2 standings if applicable
-  let r2Standings: Record<string, TeamStanding[]> | null = null;
-  if (structure.roundTwoGroups && structure.roundTwoGroups.length > 0) {
-    r2Standings = {};
-    for (const r2Group of structure.roundTwoGroups) {
-      // Resolve R2 group teams from R1 standings
-      const r2Scores = disciplineState.scores.filter((s) =>
-        s.raceId.startsWith(`r2-${r2Group.groupNum}-`)
-      );
-      // Get team slots for this R2 group from seeding entries
-      const teamSlots: number[] = [];
-      for (const entry of r2Group.seedingEntries) {
-        // positionCode is like "A1" meaning group A, position 1
-        const letterMatch = entry.positionCode.match(/^([A-Z])(\d+)$/);
-        if (letterMatch) {
-          const groupKey = letterMatch[1];
-          const pos = parseInt(letterMatch[2], 10) - 1;
-          const groupStandings = r1Standings[groupKey];
-          if (groupStandings && groupStandings[pos]) {
-            teamSlots.push(groupStandings[pos].slot);
-          }
-        }
-      }
-      r2Standings[r2Group.groupNum] = orderStandings(
-        calculateGroupStandings(r2Scores, teamSlots),
-        tiebreaks[r2TiebreakKey(r2Group.groupNum)]
-      );
-    }
-  }
-
-  // Resolve finals matchups
-  const resolvedMatchups = resolveAllFinalsMatchups(
-    structure,
-    r2Standings,
-    r1Standings,
-    NO_TIEBREAKS
-  );
-
-  // Build finalsWithNames equivalent
-  const finalsWithNames = resolvedMatchups.map((m, index) => ({
-    ...m,
-    score: disciplineState.scores.find((s) => s.raceId === `fin-${index}`) ?? null,
-  }));
-
-  // Check if all finals are scored
-  const allScored = areAllFinalsScored(structure.finals, disciplineState.scores);
-  if (!allScored) return null;
-
-  return computeFinalResults(
-    finalsWithNames,
-    disciplineState.teams,
-    'all-scored'
-  );
 }
 
 export function StandingsView({ discipline, onClose, asTab = false }: StandingsViewProps) {
@@ -127,7 +44,7 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
 
     for (const key of DISCIPLINE_KEYS) {
       const discState = state.disciplines[key];
-      const results = buildResultsForDiscipline(discState);
+      const results = roundResults(discState);
       if (results) {
         disciplines[key] = results;
       }
@@ -163,7 +80,7 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {phase === 'complete' && finalResults && (
           <div className="mb-6">
-            <FinalResultsTable discipline={discipline} results={finalResults} />
+            <RoundPlacingsTable discipline={discipline} />
             <div className="mt-4">
               <ExportButton
                 disabled={!anyComplete}

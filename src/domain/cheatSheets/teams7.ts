@@ -53,6 +53,7 @@ export const TEAMS_7: TournamentStructure = {
     },
   ],
   finals: [
+    { label: '3rd/4th', homeRef: 'Third I', awayRef: 'Fourth I' },
     { label: '1st/2nd', homeRef: 'Winner I', awayRef: 'Runner up I' },
   ],
   roundOneRaceCount: 9,

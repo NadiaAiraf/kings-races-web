@@ -8,6 +8,7 @@ import {
   parseDisciplines,
   parseEventDetail,
   parseEventSummary,
+  seasonRoundName,
   toFirestoreDiscipline,
   validateNewEvent,
 } from './eventDoc';
@@ -29,6 +30,7 @@ const discipline = (overrides: Partial<DisciplineState> = {}): DisciplineState =
   phase: 'group-stage',
   scores: [],
   manualTiebreaks: {},
+  placings: {},
   ...overrides,
 });
 
@@ -56,6 +58,7 @@ describe('parseDiscipline', () => {
       phase: 'setup',
       scores: [],
       manualTiebreaks: {},
+      placings: {},
     });
   });
 
@@ -96,9 +99,9 @@ describe('parseDiscipline', () => {
     );
   });
 
-  it('keeps exactly 32 teams', () => {
-    const teams = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `T${i}` }));
-    expect(parseDiscipline({ teams }).teamCount).toBe(32);
+  it('keeps exactly 31 teams', () => {
+    const teams = Array.from({ length: 31 }, (_, i) => ({ slot: i + 1, name: `T${i}` }));
+    expect(parseDiscipline({ teams }).teamCount).toBe(31);
   });
 
   it('ignores a score whose key does not match its race id', () => {
@@ -134,11 +137,37 @@ describe('parseEventSummary', () => {
       id: 'e1',
       name: 'Round 2',
       date: '2026-11-14',
+      round: null,
     });
   });
 
   it('labels a round with no name', () => {
     expect(parseEventSummary('e1', {}).name).toBe('Untitled round');
+  });
+
+  it('reads where the round sits in the season', () => {
+    const raw = { seasonId: '2025-26', league: 'northern', roundNumber: 3, venue: 'Halifax' };
+    expect(parseEventSummary('e1', raw).round).toEqual(raw);
+  });
+
+  it('ignores a round number outside R1-R4', () => {
+    const raw = { seasonId: '2025-26', league: 'northern', roundNumber: 5, venue: 'Halifax' };
+    expect(parseEventSummary('e1', raw).round).toBeNull();
+  });
+
+  it('ignores an unknown league', () => {
+    const raw = { seasonId: '2025-26', league: 'eastern', roundNumber: 1, venue: 'Ely' };
+    expect(parseEventSummary('e1', raw).round).toBeNull();
+  });
+});
+
+describe('seasonRoundName', () => {
+  it('names a round after its number and venue', () => {
+    expect(seasonRoundName(2, ' Hemel ')).toBe('R2 - Hemel');
+  });
+
+  it('falls back to the round number without a venue', () => {
+    expect(seasonRoundName(1, '')).toBe('R1');
   });
 });
 
@@ -165,6 +194,45 @@ describe('buildNewEventDoc', () => {
     const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
     const initial = toFirestoreDiscipline(createInitialDisciplines().mixed);
     expect(doc.disciplines).toEqual({ mixed: initial, board: initial, ladies: initial });
+  });
+
+  it('omits season fields for a round outside any season', () => {
+    const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
+    expect(doc).not.toHaveProperty('seasonId');
+  });
+
+  it('stores where the round sits in the season with a trimmed venue', () => {
+    const round = { seasonId: '2026-27', league: 'southern' as const, roundNumber: 1, venue: ' Hemel ' };
+    const doc = buildNewEventDoc({ name: 'R1', date: '2026-11-14', round }, 'uid-1', () => 'TS');
+    expect(doc).toMatchObject({ ...round, venue: 'Hemel' });
+  });
+});
+
+describe('placings', () => {
+  it('round-trips placings through the Firestore shape', () => {
+    const state = discipline({ placings: { '2': 5 } });
+    expect(parseDiscipline(toFirestoreDiscipline(state)).placings).toEqual({ '2': 5 });
+  });
+
+  it('defaults placings for a round stored before placings existed', () => {
+    expect(parseDiscipline({ phase: 'complete' }).placings).toEqual({});
+  });
+
+  it('drops a place that is not a whole number from 1 to 31', () => {
+    expect(parseDiscipline({ placings: { '1': 0, '2': 3.5, '3': 'x', '4': 32, '5': 6 } }).placings).toEqual({
+      '5': 6,
+    });
+  });
+
+  it('writes a changed place as its own field', () => {
+    const prev = discipline({ placings: { '1': 3 } });
+    const next = discipline({ placings: { '1': 4 } });
+    expect(diffDiscipline(prev, next)).toEqual([{ path: ['placings', '1'], value: 4 }]);
+  });
+
+  it('deletes a removed place', () => {
+    const prev = discipline({ placings: { '1': 3 } });
+    expect(diffDiscipline(prev, discipline())).toEqual([{ path: ['placings', '1'], value: undefined }]);
   });
 });
 
@@ -270,5 +338,20 @@ describe('validateNewEvent', () => {
 
   it('rejects a missing date', () => {
     expect(validateNewEvent({ name: 'Round 1', date: '' })).toBe('Choose a date');
+  });
+
+  it('rejects a season round with no venue', () => {
+    const round = { seasonId: '2026-27', league: 'southern' as const, roundNumber: 1, venue: ' ' };
+    expect(validateNewEvent({ name: 'R1', date: '2026-11-14', round })).toBe('Enter a venue');
+  });
+
+  it('rejects a venue over 60 characters', () => {
+    const round = {
+      seasonId: '2026-27',
+      league: 'southern' as const,
+      roundNumber: 1,
+      venue: 'x'.repeat(61),
+    };
+    expect(validateNewEvent({ name: 'R1', date: '2026-11-14', round })).toMatch(/60/);
   });
 });

@@ -5,23 +5,23 @@ describe('cheat sheet lookup', () => {
   it('throws for team count below 4', () => {
     expect(() => getCheatSheet(3)).toThrow();
   });
-  it('throws for team count above 32', () => {
-    expect(() => getCheatSheet(33)).toThrow();
+  it('throws for team count above 31', () => {
+    expect(() => getCheatSheet(32)).toThrow();
   });
-  it('isValidTeamCount returns true for 4-32', () => {
+  it('isValidTeamCount returns true for 4-31', () => {
     expect(isValidTeamCount(4)).toBe(true);
-    expect(isValidTeamCount(32)).toBe(true);
+    expect(isValidTeamCount(31)).toBe(true);
     expect(isValidTeamCount(16)).toBe(true);
   });
   it('isValidTeamCount returns false outside range', () => {
     expect(isValidTeamCount(3)).toBe(false);
-    expect(isValidTeamCount(33)).toBe(false);
+    expect(isValidTeamCount(32)).toBe(false);
     expect(isValidTeamCount(4.5)).toBe(false);
   });
 });
 
 describe('cheat sheet structural integrity', () => {
-  for (let n = 4; n <= 32; n++) {
+  for (let n = 4; n <= 31; n++) {
     describe(`${n} teams`, () => {
       const sheet = getCheatSheet(n);
 

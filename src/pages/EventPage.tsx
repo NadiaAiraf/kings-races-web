@@ -7,10 +7,13 @@ import { ErrorBoundary } from '../components/shared/ErrorBoundary';
 import { startEventSync } from '../events/eventSync';
 import { subscribeEvent, writeDisciplineChanges } from '../events/eventsRepo';
 import { EventInfoContext } from '../events/eventInfo';
-import type { EventSummary } from '../events/eventDoc';
+import { DISCIPLINE_KEYS, type EventSummary } from '../events/eventDoc';
 import { useEventStore } from '../store/eventStore';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
+import { leagueName, seasonIdLabel } from '../seasons/seasons';
+import { LeagueRoundsContext } from '../seasons/leagueRounds';
+import { useLeagueRounds } from '../seasons/useLeagueRounds';
 import { canStoreOffline } from '../lib/offlineStorage';
 import { isPermissionDenied, withErrorCode } from '../lib/firebaseErrors';
 
@@ -74,6 +77,15 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [canSaveOffline, setCanSaveOffline] = useState(true);
   const hasLoaded = useRef(false);
+  // League rounds only seed team entry, so stop listening once every
+  // discipline has teams: the open round is in its own league query, so each
+  // score would otherwise re-read the league for the whole event.
+  const needsSeeding = useEventStore((s) =>
+    DISCIPLINE_KEYS.some((key) => s.disciplines[key].teams.length === 0)
+  );
+  const leagueRounds = useLeagueRounds(
+    view.status === 'ready' && needsSeeding ? view.event.round : null
+  );
 
   useEffect(() => {
     let active = true;
@@ -160,12 +172,21 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
   }
 
   const { event } = view;
+  const subtitle = [
+    event.round && `${leagueName(event.round.league)} ${seasonIdLabel(event.round.seasonId)}`,
+    formatEventDate(event.date),
+    !isApproved && 'View only',
+  ]
+    .filter(Boolean)
+    .join(' · ');
   const header = (
     <>
       <PageHeader
         title={event.name}
-        subtitle={`${formatEventDate(event.date)}${isApproved ? '' : ' · View only'}`}
-        backTo="/"
+        subtitle={subtitle}
+        {...(event.round
+          ? { backTo: `/seasons/${event.round.seasonId}/${event.round.league}`, backLabel: 'Back to league' }
+          : { backTo: '/rounds' })}
       />
       {isApproved && !canSaveOffline && (
         <p role="alert" className="bg-amber-50 text-amber-800 text-sm px-4 py-2">
@@ -197,27 +218,29 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
 
   return (
     <EventInfoContext.Provider value={event}>
-      <EditAccessContext.Provider value={isApproved}>
-        <ErrorBoundary
-          fallback={
-            <PageLayout>
-              {header}
-              <div className="px-4 py-8 text-center">
-                <p className="text-sm text-slate-500">Something went wrong showing this round.</p>
-                <button
-                  type="button"
-                  onClick={onRetry}
-                  className="mt-4 min-h-11 px-4 text-sm font-semibold text-blue-600"
-                >
-                  Retry
-                </button>
-              </div>
-            </PageLayout>
-          }
-        >
-          <AppShell header={header} />
-        </ErrorBoundary>
-      </EditAccessContext.Provider>
+      <LeagueRoundsContext.Provider value={leagueRounds}>
+        <EditAccessContext.Provider value={isApproved}>
+          <ErrorBoundary
+            fallback={
+              <PageLayout>
+                {header}
+                <div className="px-4 py-8 text-center">
+                  <p className="text-sm text-slate-500">Something went wrong showing this round.</p>
+                  <button
+                    type="button"
+                    onClick={onRetry}
+                    className="mt-4 min-h-11 px-4 text-sm font-semibold text-blue-600"
+                  >
+                    Retry
+                  </button>
+                </div>
+              </PageLayout>
+            }
+          >
+            <AppShell header={header} />
+          </ErrorBoundary>
+        </EditAccessContext.Provider>
+      </LeagueRoundsContext.Provider>
     </EventInfoContext.Provider>
   );
 }

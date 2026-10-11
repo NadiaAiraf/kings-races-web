@@ -12,7 +12,7 @@ const data = goldenData as Record<
   }
 >;
 
-const teamCounts = Array.from({ length: 29 }, (_, i) => i + 4);
+const teamCounts = Array.from({ length: 28 }, (_, i) => i + 4);
 
 describe('VALID-01: seed-to-slot mapping matches xlsx', () => {
   for (const n of teamCounts) {

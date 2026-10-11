@@ -197,8 +197,8 @@ describe('events: approved user field-level scoring', () => {
     );
   });
 
-  it('cannot store more than 32 teams in a discipline', async () => {
-    const teams = Array.from({ length: 33 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
+  it('cannot store more than 31 teams in a discipline', async () => {
+    const teams = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
     await assertFails(
       eventDoc().update({ 'disciplines.mixed.teams': teams, updatedAt: serverTimestamp() })
     );
@@ -252,6 +252,37 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
+  it('can write a single placing field', async () => {
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'placings', '11'),
+        7,
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store placings as a list', async () => {
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'placings'),
+        [7],
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('accepts a round stored before placings existed', async () => {
+    await assertSucceeds(
+      eventDoc().update({
+        'disciplines.mixed': { teams: [], phase: 'setup', scores: {}, manualTiebreaks: {} },
+        updatedAt: serverTimestamp(),
+      })
+    );
+  });
+
   it('can reset a scored discipline by replacing it whole', async () => {
     await seedScoredMixed();
     await assertSucceeds(
@@ -259,8 +290,8 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
-  it('can store exactly 32 teams', async () => {
-    const many = Array.from({ length: 32 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
+  it('can store exactly 31 teams', async () => {
+    const many = Array.from({ length: 31 }, (_, i) => ({ slot: i + 1, name: `Team ${i + 1}` }));
     await assertSucceeds(
       eventDoc().update({ 'disciplines.mixed.teams': many, updatedAt: serverTimestamp() })
     );
@@ -388,5 +419,180 @@ describe('approvedUsers', () => {
 
   it('does not let an approved user remove their approval doc', async () => {
     await assertFails(approvedDb().doc(`approvedUsers/${APPROVED_UID}`).delete());
+  });
+});
+
+const SEASON_ID = '2026-27';
+
+const newSeason = (createdBy: string, startYear = 2026) => ({
+  startYear,
+  createdBy,
+  createdAt: serverTimestamp(),
+});
+
+const seasonRound = { seasonId: SEASON_ID, league: 'southern' as const, roundNumber: 2, venue: 'Hemel' };
+const SEASON_ROUND_ID = '2026-27_southern_r2';
+
+// The exact payload the app sends when creating a round in a season.
+const newSeasonRound = (createdBy: string, round = seasonRound) =>
+  buildNewEventDoc({ name: 'R2 - Hemel', date: '2026-11-14', round }, createdBy, serverTimestamp);
+
+async function seedSeason() {
+  await testEnv.withSecurityRulesDisabled(async (ctx) => {
+    await ctx.firestore().doc(`seasons/${SEASON_ID}`).set({
+      startYear: 2026,
+      createdBy: APPROVED_UID,
+      createdAt: new Date('2026-09-01'),
+    });
+  });
+}
+
+describe('seasons', () => {
+  it('lets anyone list seasons', async () => {
+    await assertSucceeds(anonDb().collection('seasons').orderBy('startYear', 'desc').limit(20).get());
+  });
+
+  it('rejects an unbounded season list', async () => {
+    await assertFails(anonDb().collection('seasons').orderBy('startYear', 'desc').get());
+  });
+
+  it('lets an approved user create a season', async () => {
+    await assertSucceeds(approvedDb().doc('seasons/2026-27').set(newSeason(APPROVED_UID)));
+  });
+
+  it('does not let an unapproved user create a season', async () => {
+    await assertFails(unapprovedDb().doc('seasons/2026-27').set(newSeason(UNAPPROVED_UID)));
+  });
+
+  it('rejects a season whose id does not match its start year', async () => {
+    await assertFails(approvedDb().doc('seasons/2026-28').set(newSeason(APPROVED_UID)));
+  });
+
+  it('does not let an existing season be overwritten', async () => {
+    await seedSeason();
+    await assertFails(approvedDb().doc(`seasons/${SEASON_ID}`).set(newSeason(APPROVED_UID)));
+  });
+
+  it('does not let a season be deleted', async () => {
+    await seedSeason();
+    await assertFails(approvedDb().doc(`seasons/${SEASON_ID}`).delete());
+  });
+});
+
+describe('events: season rounds', () => {
+  beforeEach(seedSeason);
+
+  it('lets an approved user create a round in a season', async () => {
+    await assertSucceeds(
+      approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID))
+    );
+  });
+
+  it('lets anyone list the rounds of a league in a season', async () => {
+    await assertSucceeds(
+      anonDb()
+        .collection('events')
+        .where('seasonId', '==', SEASON_ID)
+        .where('league', '==', 'southern')
+        .limit(4)
+        .get()
+    );
+  });
+
+  it('rejects a round whose id does not match its season fields', async () => {
+    await assertFails(
+      approvedDb().doc('events/2026-27_southern_r3').set(newSeasonRound(APPROVED_UID))
+    );
+  });
+
+  it('rejects a second R2 for the same league and season', async () => {
+    await approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID));
+    await assertFails(
+      approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID))
+    );
+  });
+
+  it('rejects a round in a season that does not exist', async () => {
+    const round = { ...seasonRound, seasonId: '2030-31' };
+    await assertFails(
+      approvedDb().doc('events/2030-31_southern_r2').set(newSeasonRound(APPROVED_UID, round))
+    );
+  });
+
+  it('rejects an R5', async () => {
+    const round = { ...seasonRound, roundNumber: 5 };
+    await assertFails(
+      approvedDb().doc('events/2026-27_southern_r5').set(newSeasonRound(APPROVED_UID, round))
+    );
+  });
+
+  it('rejects an unknown league', async () => {
+    const round = { ...seasonRound, league: 'eastern' as 'southern' };
+    await assertFails(
+      approvedDb().doc('events/2026-27_eastern_r2').set(newSeasonRound(APPROVED_UID, round))
+    );
+  });
+
+  it('rejects a round with only some season fields', async () => {
+    const partial: Record<string, unknown> = { ...newSeasonRound(APPROVED_UID) };
+    delete partial.venue;
+    await assertFails(approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(partial));
+  });
+
+  it('does not let a round move to another league', async () => {
+    await approvedDb().doc(`events/${SEASON_ROUND_ID}`).set(newSeasonRound(APPROVED_UID));
+    await assertFails(
+      approvedDb()
+        .doc(`events/${SEASON_ROUND_ID}`)
+        .update({ league: 'western', updatedAt: serverTimestamp() })
+    );
+  });
+});
+
+describe('league teams', () => {
+  const teamsDoc = (db: ReturnType<typeof approvedDb>, league = 'southern', season = SEASON_ID) =>
+    db.doc(`seasons/${season}/leagues/${league}`);
+  const names = (n: number) => Array.from({ length: n }, (_, i) => `Team ${i + 1}`);
+
+  beforeEach(seedSeason);
+
+  it('lets anyone read a league team list', async () => {
+    await assertSucceeds(teamsDoc(anonDb()).get());
+  });
+
+  it('lets an approved user list more than 31 teams', async () => {
+    await assertSucceeds(
+      teamsDoc(approvedDb()).set({ mixed: names(34), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('rejects more than 100 teams in a discipline', async () => {
+    await assertFails(
+      teamsDoc(approvedDb()).set({ mixed: names(101), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('does not let an unapproved user change the list', async () => {
+    await assertFails(
+      teamsDoc(unapprovedDb()).set({ mixed: names(4), updatedAt: serverTimestamp() }, { merge: true })
+    );
+  });
+
+  it('rejects an unknown league', async () => {
+    await assertFails(
+      teamsDoc(approvedDb(), 'eastern').set({ mixed: names(4), updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('rejects a list for a season that does not exist', async () => {
+    await assertFails(
+      teamsDoc(approvedDb(), 'southern', '2030-31').set({ mixed: names(4), updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('rejects unknown fields', async () => {
+    await assertFails(
+      teamsDoc(approvedDb()).set({ freestyle: names(4), updatedAt: serverTimestamp() })
+    );
   });
 });

@@ -128,6 +128,19 @@ describe('eventStore', () => {
     });
   });
 
+  describe('setPlacing', () => {
+    it("stores an official's place for a team slot", () => {
+      store().setPlacing('mixed', 11, 7);
+      expect(store().disciplines.mixed.placings).toEqual({ '11': 7 });
+    });
+
+    it('removes the place when set to null', () => {
+      store().setPlacing('mixed', 11, 7);
+      store().setPlacing('mixed', 11, null);
+      expect(store().disciplines.mixed.placings).toEqual({});
+    });
+  });
+
   describe('resetEvent', () => {
     it('returns all state to initial values', () => {
       store().setTeams('mixed', [{ slot: 1, name: 'Alpha' }]);

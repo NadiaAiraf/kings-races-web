@@ -21,6 +21,7 @@ function parsePositionWord(word: string): number | null {
     case 'third':
       return 2;
     case '4th':
+    case 'fourth':
       return 3;
     case '5th':
       return 4;
@@ -123,6 +124,7 @@ export interface ResolvedFinalsMatchup {
   awayRef: string;
   homeSlot: number | null;
   awaySlot: number | null;
+  optional?: boolean;
 }
 
 /**
@@ -140,6 +142,7 @@ export function resolveAllFinalsMatchups(
     awayRef: matchup.awayRef,
     homeSlot: resolveFinalsRef(matchup.homeRef, r2Standings, r1Standings, manualTiebreaks),
     awaySlot: resolveFinalsRef(matchup.awayRef, r2Standings, r1Standings, manualTiebreaks),
+    optional: matchup.optional,
   }));
 }
 

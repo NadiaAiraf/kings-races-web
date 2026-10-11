@@ -142,7 +142,7 @@ describe('resolveAllFinalsMatchups', () => {
 
 describe('Exhaustive cheat sheet test', () => {
   it('Test 10: resolveFinalsRef returns non-null for every homeRef/awayRef across all 29 cheat sheets', () => {
-    for (let teamCount = 4; teamCount <= 32; teamCount++) {
+    for (let teamCount = 4; teamCount <= 31; teamCount++) {
       const structure = getCheatSheet(teamCount);
 
       // Build mock R1 standings: each group gets standings with unique points

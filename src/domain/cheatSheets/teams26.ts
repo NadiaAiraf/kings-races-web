@@ -5,12 +5,12 @@ export const TEAMS_26: TournamentStructure = {
   seedMap: [1, 11, 21, 31, 41, 51, 61, 71, 73, 63, 53, 43, 33, 23, 14, 4, 2, 12, 22, 32, 42, 52, 62, 72, 13, 3],
   groups: [
     { letter: 'A', teamSlots: [1, 2, 3, 4] },
-    { letter: 'B', teamSlots: [21, 22, 23] },
-    { letter: 'C', teamSlots: [41, 42, 43] },
-    { letter: 'D', teamSlots: [61, 62, 63] },
     { letter: 'E', teamSlots: [11, 12, 13, 14] },
+    { letter: 'B', teamSlots: [21, 22, 23] },
     { letter: 'F', teamSlots: [31, 32, 33] },
+    { letter: 'C', teamSlots: [41, 42, 43] },
     { letter: 'G', teamSlots: [51, 52, 53] },
+    { letter: 'D', teamSlots: [61, 62, 63] },
     { letter: 'H', teamSlots: [71, 72, 73] },
   ],
   roundOneRaces: [
@@ -169,6 +169,10 @@ export const TEAMS_26: TournamentStructure = {
     },
   ],
   finals: [
+    { label: '23rd/24th', homeRef: 'Loser Group V', awayRef: 'Loser Group VI', optional: true },
+    { label: '21st/22nd', homeRef: 'Third Group V', awayRef: 'Third Group VI', optional: true },
+    { label: '19th/20th', homeRef: 'Second Group V', awayRef: 'Second Group VI', optional: true },
+    { label: '17th/18th', homeRef: 'Winner Group V', awayRef: 'Winner Group VI' },
     { label: '15th/16th', homeRef: 'Loser Group III', awayRef: 'Loser Group IV' },
     { label: '13th/14th', homeRef: 'Third Group III', awayRef: 'Third Group IV' },
     { label: '11th/12th', homeRef: 'Second Group III', awayRef: 'Second Group IV' },

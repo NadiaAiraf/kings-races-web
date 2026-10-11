@@ -10,6 +10,8 @@ export interface EventStoreActions {
   setActiveDiscipline: (discipline: DisciplineKey) => void;
   setDisciplinePhase: (discipline: DisciplineKey, phase: DisciplineState['phase']) => void;
   setManualTiebreak: (discipline: DisciplineKey, groupKey: string, orderedSlots: number[]) => void;
+  /** place null removes the official's place so the computed one applies. */
+  setPlacing: (discipline: DisciplineKey, slot: number, place: number | null) => void;
   resetDiscipline: (discipline: DisciplineKey) => void;
   resetEvent: () => void;
 }

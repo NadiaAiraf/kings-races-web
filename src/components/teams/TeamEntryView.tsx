@@ -9,6 +9,8 @@ import { TeamList } from './TeamList';
 import { Toast } from '../shared/Toast';
 import { ConfirmButton } from '../shared/ConfirmButton';
 import { useCanEdit } from '../../auth/editAccess';
+import { useSeedingOrder } from '../../seasons/leagueRounds';
+import { CarryOverTeams } from './CarryOverTeams';
 
 interface TeamEntryViewProps {
   discipline: DisciplineKey;
@@ -18,6 +20,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
   const { teams, teamCount, scores } = useDisciplineState(discipline);
   const setTeams = useEventStore((s) => s.setTeams);
   const canEdit = useCanEdit();
+  const seedingOrder = useSeedingOrder(discipline);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const { max } = getValidTeamCountRange(discipline);
@@ -56,6 +59,24 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
     [teams, hasScores, discipline, setTeams]
   );
 
+  // Entry order is seed order, so moving a team re-seeds it.
+  const handleMove = useCallback(
+    (index: number, direction: -1 | 1) => {
+      if (hasScores) return;
+      const names = teams.map((t) => t.name);
+      const target = index + direction;
+      if (target < 0 || target >= names.length) return;
+      [names[index], names[target]] = [names[target], names[index]];
+      setTeams(discipline, assignSlots(names));
+    },
+    [teams, hasScores, discipline, setTeams]
+  );
+
+  const handleCarryOver = useCallback(
+    (names: string[]) => setTeams(discipline, assignSlots(names)),
+    [discipline, setTeams]
+  );
+
   const resetDiscipline = useEventStore((s) => s.resetDiscipline);
 
   const handleReset = useCallback(() => {
@@ -64,6 +85,13 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      {canEdit && teamCount === 0 && !hasScores && seedingOrder && seedingOrder.length > 0 && (
+        <CarryOverTeams
+          names={seedingOrder}
+          max={max}
+          onConfirm={handleCarryOver}
+        />
+      )}
       {canEdit && (
         <TeamInput
           onAdd={handleAdd}
@@ -79,6 +107,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
       <TeamList
         teams={teams}
         onDelete={canEdit && !hasScores ? handleDelete : undefined}
+        onMove={canEdit && !hasScores ? handleMove : undefined}
       />
       {canEdit && teamCount > 0 && (
         <ConfirmButton

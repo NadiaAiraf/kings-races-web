@@ -4,20 +4,49 @@ interface TeamRowProps {
   team: Team;
   index: number;
   onDelete?: (slot: number) => void;
+  /** Omitted when the team cannot move that way (first/last, or locked). */
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
 }
 
-export function TeamRow({ team, index, onDelete }: TeamRowProps) {
+const MOVE_BUTTON =
+  'min-h-11 min-w-11 flex items-center justify-center text-lg text-slate-500 disabled:opacity-20';
+
+export function TeamRow({ team, index, onDelete, onMoveUp, onMoveDown }: TeamRowProps) {
+  const canMove = Boolean(onMoveUp || onMoveDown);
   return (
-    <div className="flex items-center h-12 border-b border-slate-200">
+    <div className="flex items-center min-h-12 border-b border-slate-200">
       <span className="flex-1 text-base text-slate-900">
         {index + 1}. {team.name}
       </span>
+      {canMove && (
+        <>
+          <button
+            type="button"
+            onClick={onMoveUp}
+            disabled={!onMoveUp}
+            aria-label={`Move ${team.name} up`}
+            className={MOVE_BUTTON}
+          >
+            {'↑'}
+          </button>
+          <button
+            type="button"
+            onClick={onMoveDown}
+            disabled={!onMoveDown}
+            aria-label={`Move ${team.name} down`}
+            className={MOVE_BUTTON}
+          >
+            {'↓'}
+          </button>
+        </>
+      )}
       {onDelete && (
         <button
           type="button"
           onClick={() => onDelete(team.slot)}
           aria-label={`Remove ${team.name}`}
-          className="min-h-14 min-w-14 flex items-center justify-center text-slate-400 hover:text-red-600"
+          className="min-h-11 min-w-11 flex items-center justify-center text-slate-400 hover:text-red-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
