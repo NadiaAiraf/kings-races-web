@@ -59,6 +59,19 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
     [teams, hasScores, discipline, setTeams]
   );
 
+  // Entry order is seed order, so moving a team re-seeds it.
+  const handleMove = useCallback(
+    (index: number, direction: -1 | 1) => {
+      if (hasScores) return;
+      const names = teams.map((t) => t.name);
+      const target = index + direction;
+      if (target < 0 || target >= names.length) return;
+      [names[index], names[target]] = [names[target], names[index]];
+      setTeams(discipline, assignSlots(names));
+    },
+    [teams, hasScores, discipline, setTeams]
+  );
+
   const handleCarryOver = useCallback(
     (names: string[]) => setTeams(discipline, assignSlots(names)),
     [discipline, setTeams]
@@ -96,6 +109,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
       <TeamList
         teams={teams}
         onDelete={canEdit && !hasScores ? handleDelete : undefined}
+        onMove={canEdit && !hasScores ? handleMove : undefined}
       />
       {canEdit && teamCount > 0 && (
         <ConfirmButton
