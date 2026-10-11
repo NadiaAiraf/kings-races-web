@@ -10,18 +10,21 @@ const LABELS: Record<SubTabKey, string> = {
 };
 
 interface SubTabsProps {
+  /** False hides the Teams tab, e.g. from viewers. Defaults to true. */
+  showTeams?: boolean;
   active: SubTabKey;
   onSelect: (tab: SubTabKey) => void;
 }
 
-export function SubTabs({ active, onSelect }: SubTabsProps) {
+export function SubTabs({ showTeams = true, active, onSelect }: SubTabsProps) {
+  const tabs = showTeams ? SUB_TABS : SUB_TABS.filter((key) => key !== 'teams');
   return (
     <div
       role="tablist"
       aria-label="Section"
       className="sticky top-12 z-10 flex h-11 bg-white border-b border-slate-200 overflow-x-auto"
     >
-      {SUB_TABS.map((key) => (
+      {tabs.map((key) => (
         <button
           key={key}
           role="tab"
