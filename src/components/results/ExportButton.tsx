@@ -7,7 +7,7 @@ export function ExportButton({ disabled, onExport }: ExportButtonProps) {
   return (
     <button
       onClick={disabled ? undefined : onExport}
-      className={`w-full bg-blue-600 text-white text-base font-semibold min-h-14 rounded-lg flex items-center justify-center gap-2 ${
+      className={`w-full bg-brand-600 text-white text-base font-semibold min-h-14 rounded-sm flex items-center justify-center gap-2 ${
         disabled ? 'opacity-40 cursor-not-allowed' : ''
       }`}
       aria-disabled={disabled ? 'true' : undefined}

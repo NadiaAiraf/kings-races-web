@@ -35,8 +35,8 @@ export function OutcomeButton({ outcome, selected, disabled, onSelect }: Outcome
       disabled={isDisabled}
       onClick={() => onSelect(outcome)}
       className={clsx(
-        'h-16 flex-1 font-semibold text-base rounded-lg',
-        'focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2',
+        'h-16 flex-1 font-semibold text-base rounded-sm',
+        'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         selected ? styles.active : styles.inactive,
         isDisabled && 'opacity-40 cursor-not-allowed'
       )}

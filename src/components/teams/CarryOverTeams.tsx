@@ -37,7 +37,7 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
   return (
     <section
       aria-label="League teams"
-      className="flex flex-col gap-2 bg-white border border-slate-200 rounded-lg p-3"
+      className="flex flex-col gap-2 bg-white border border-slate-200 rounded-sm p-3"
     >
       <h3 className="text-base font-semibold text-slate-900">League teams</h3>
       <p className="text-sm text-slate-500">
@@ -71,7 +71,7 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
         type="button"
         onClick={() => onConfirm(present)}
         disabled={present.length === 0 || overLimit}
-        className="min-h-12 rounded-lg bg-blue-600 text-white font-semibold disabled:opacity-40"
+        className="min-h-12 rounded-sm bg-brand-600 text-white font-semibold disabled:opacity-40"
       >
         Enter {present.length} {present.length === 1 ? 'team' : 'teams'}
       </button>

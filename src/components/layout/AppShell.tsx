@@ -98,7 +98,7 @@ export function AppShell({ header }: AppShellProps) {
           {activeSubTab !== 'teams' && activeSubTab !== 'standings' && (
             <button
               onClick={() => setShowStandings(true)}
-              className="fixed bottom-16 right-4 max-w-[430px] bg-blue-600 text-white px-4 min-h-14 rounded-lg shadow-lg text-sm font-semibold z-20"
+              className="fixed bottom-16 right-4 max-w-[430px] bg-brand-600 text-white px-4 min-h-14 rounded-sm shadow-lg text-sm font-semibold z-20"
             >
               Standings
             </button>

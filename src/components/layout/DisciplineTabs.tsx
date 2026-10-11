@@ -25,7 +25,7 @@ export function DisciplineTabs({ active, onSelect }: DisciplineTabsProps) {
           className={clsx(
             'flex-1 text-sm font-semibold transition-colors',
             active === key
-              ? 'border-b-[3px] border-blue-600 text-blue-600'
+              ? 'border-b-[3px] border-brand-600 text-brand-600'
               : 'text-slate-500'
           )}
         >

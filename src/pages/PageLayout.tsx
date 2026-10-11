@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { useAuth } from '../auth/authContext';
 import { signOutUser } from '../auth/firebaseAuth';
 import { hasUnsyncedWrites } from '../events/eventsRepo';
+import crownUrl from '../assets/kings-ski-club-crown.png';
 
 const UNSYNCED_SIGN_OUT_WARNING =
   'Some results on this phone have not synced yet. If you sign out, they stay queued here and are only sent when you sign back in on this phone. Sign out anyway?';
@@ -42,11 +43,12 @@ export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to round
         <Link
           to={backTo}
           aria-label={backLabel}
-          className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-blue-600"
+          className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-brand-600"
         >
           {'‹'}
         </Link>
       )}
+      {!backTo && <img src={crownUrl} alt="" className="h-8 w-8 shrink-0" />}
       <div className="flex-1 min-w-0 py-2">
         <h1 className="text-base font-semibold text-slate-900 truncate">{title}</h1>
         {subtitle && <p className="text-xs text-slate-500">{subtitle}</p>}
@@ -61,7 +63,7 @@ export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to round
           Sign out
         </button>
       ) : (
-        <Link to="/login" className="min-h-11 px-2 flex items-center text-sm font-semibold text-blue-600">
+        <Link to="/login" className="min-h-11 px-2 flex items-center text-sm font-semibold text-brand-600">
           Sign in
         </Link>
       )}

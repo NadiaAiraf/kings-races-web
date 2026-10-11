@@ -101,8 +101,8 @@ export function ExpandableRaceCard({
   return (
     <div
       className={clsx(
-        'bg-white border border-slate-200 rounded-lg p-4 mb-2',
-        'focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2',
+        'bg-white border border-slate-200 rounded-sm p-4 mb-2',
+        'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         disabled && 'opacity-40 pointer-events-none',
       )}
       style={{ scrollMarginTop: '92px' }}
@@ -124,7 +124,7 @@ export function ExpandableRaceCard({
           <span className="text-xs text-slate-600 font-medium">{matchupLabel}</span>
         )}
         {isFinalMatch && (
-          <span className="text-xs font-semibold text-blue-600">FINAL</span>
+          <span className="text-xs font-semibold text-brand-600">FINAL</span>
         )}
       </div>
 

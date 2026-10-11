@@ -30,7 +30,7 @@ export function SubTabs({ active, onSelect }: SubTabsProps) {
           className={clsx(
             'flex-1 min-w-[64px] whitespace-nowrap text-sm font-semibold transition-colors',
             active === key
-              ? 'border-b-[3px] border-blue-600 text-blue-600'
+              ? 'border-b-[3px] border-brand-600 text-brand-600'
               : 'text-slate-500'
           )}
         >

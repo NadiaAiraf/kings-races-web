@@ -137,7 +137,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-blue-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
             >
               Retry
             </button>
@@ -157,7 +157,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                   <li key={n}>
                     <Link
                       to={`/events/${round.id}`}
-                      className="block bg-white border border-slate-200 rounded-lg px-4 py-3 min-h-14"
+                      className="block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
                     >
                       <span className="block text-base font-semibold text-slate-900">{round.name}</span>
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
@@ -168,13 +168,13 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
               return (
                 <li
                   key={n}
-                  className="flex items-center gap-2 border border-dashed border-slate-300 rounded-lg px-4 min-h-14"
+                  className="flex items-center gap-2 border border-dashed border-slate-300 rounded-sm px-4 min-h-14"
                 >
                   <span className="flex-1 text-base text-slate-400">R{n} not set up</span>
                   {isApproved && seasonExists && (
                     <Link
                       to={`${basePath}/new?round=${n}`}
-                      className="min-h-11 flex items-center px-2 text-sm font-semibold text-blue-600"
+                      className="min-h-11 flex items-center px-2 text-sm font-semibold text-brand-600"
                     >
                       Set up R{n}
                     </Link>

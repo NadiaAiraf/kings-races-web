@@ -31,7 +31,7 @@ export function ConfirmButton({ label, confirmLabel, onConfirm, className }: Con
       type="button"
       onClick={handleClick}
       className={clsx(
-        'min-h-14 px-4 rounded-lg font-semibold text-sm transition-colors',
+        'min-h-14 px-4 rounded-sm font-semibold text-sm transition-colors',
         confirming
           ? 'bg-red-600 text-white'
           : 'bg-slate-100 text-slate-600',

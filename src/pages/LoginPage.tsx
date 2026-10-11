@@ -59,7 +59,7 @@ export function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg"
+                className="h-12 text-base font-normal px-4 border border-slate-200 rounded-sm"
               />
             </label>
             <label className="flex flex-col gap-1 text-sm font-semibold text-slate-700">
@@ -70,14 +70,14 @@ export function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-12 text-base font-normal px-4 border border-slate-200 rounded-lg"
+                className="h-12 text-base font-normal px-4 border border-slate-200 rounded-sm"
               />
             </label>
             {error && <p className="text-sm text-red-600">{error}</p>}
             <button
               type="submit"
               disabled={submitting}
-              className="min-h-14 rounded-lg bg-blue-600 text-white font-semibold disabled:opacity-40"
+              className="min-h-14 rounded-sm bg-brand-600 text-white font-semibold disabled:opacity-40"
             >
               {submitting ? 'Signing in...' : 'Sign in'}
             </button>

@@ -20,7 +20,7 @@ export function SeasonStandingsTable({ rows }: SeasonStandingsTableProps) {
   return (
     <table className="w-full table-fixed text-sm">
       <thead>
-        <tr className="border-b border-slate-200 text-slate-500">
+        <tr className="bg-brand-600 text-white">
           <th scope="col" className="w-8 px-1 py-2 text-left font-semibold">
             #
           </th>
@@ -39,7 +39,7 @@ export function SeasonStandingsTable({ rows }: SeasonStandingsTableProps) {
       </thead>
       <tbody>
         {rows.map((row, index) => (
-          <tr key={row.key} className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
+          <tr key={row.key} className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}>
             <td className="px-1 py-2 font-mono text-slate-700">{index + 1}</td>
             <td className="px-1 py-2 text-slate-900 truncate">{row.name}</td>
             {ROUND_NUMBERS.map((n) => {
