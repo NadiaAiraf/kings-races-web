@@ -212,6 +212,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                   score={r2State.r2ScoreMap.get(race.raceId)}
                   isExpanded={expandedRaceId === race.raceId}
                   groupLabel={`Group ${race.groupNum}`}
+                  allowNotRun
                   onExpand={handleExpand}
                   onScore={handleScore}
                 />

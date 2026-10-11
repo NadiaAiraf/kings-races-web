@@ -23,7 +23,8 @@ export function ResultCell({ outcome }: ResultCellProps) {
     <div
       className={`w-6 h-6 rounded-sm text-xs font-mono text-center leading-6 ${OUTCOME_STYLES[outcome]}`}
     >
-      {POINTS[outcome]}
+      {/* A race not run scores nothing, but is not a 0-point DSQ. */}
+      {outcome === 'not-run' ? '–' : POINTS[outcome]}
     </div>
   );
 }
