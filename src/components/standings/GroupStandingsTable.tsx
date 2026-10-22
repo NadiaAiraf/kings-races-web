@@ -55,7 +55,7 @@ export function GroupStandingsTable({
       </h3>
       <table className="w-full table-auto">
         <thead>
-          <tr className="bg-brand-600 text-white">
+          <tr className="bg-table-head text-white">
             <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               #
             </th>
@@ -89,7 +89,7 @@ export function GroupStandingsTable({
           {standings.map((standing, index) => (
             <tr
               key={standing.slot}
-              className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}
+              className={index % 2 === 0 ? 'bg-white' : 'bg-table-stripe'}
             >
               <td className="px-2 py-2 text-sm text-slate-500">
                 {index + 1}
