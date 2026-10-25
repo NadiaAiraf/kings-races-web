@@ -46,3 +46,21 @@ export function readFirebaseConfig(env: FirebaseEnv): FirebaseConfig {
     useEmulators,
   };
 }
+
+export interface FirestoreTransportSettings {
+  experimentalForceLongPolling: boolean;
+  useFetchStreams: boolean;
+}
+
+/**
+ * Firestore network transport options. Safari 26 applies advanced tracking
+ * and fingerprinting protection to all browsing, which broke the streaming
+ * WebChannel Listen channel on iPad until the user chose "Reload with Reduced
+ * Protections". Forcing long polling over plain XHR requests avoids the
+ * streaming path. useFetchStreams is a private SDK setting (not on the public
+ * FirestoreSettings type) whose browser default is true, so it is turned off
+ * explicitly.
+ */
+export function firestoreTransportSettings(): FirestoreTransportSettings {
+  return { experimentalForceLongPolling: true, useFetchStreams: false };
+}

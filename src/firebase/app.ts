@@ -6,7 +6,7 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
 } from 'firebase/firestore';
-import { readFirebaseConfig } from './config';
+import { firestoreTransportSettings, readFirebaseConfig } from './config';
 
 // Firebase initialises when this module is first imported (via eventsRepo or
 // firebaseAuth). Tests mock those modules so they never load this one.
@@ -16,7 +16,14 @@ export const app = initializeApp(config.options);
 
 // Persistent cache keeps events readable and writes queued while offline
 // slope-side; Firestore flushes queued writes when connectivity returns.
+// If IndexedDB is missing or refused (private browsing, quota, abort), the
+// SDK itself falls back to an in-memory cache with a warning. Rarer errors
+// such as SecurityError are rethrown; guarding those would need an async
+// IndexedDB probe that delays startup, so it is left out.
+// Transport options come from firestoreTransportSettings (Safari privacy
+// protections break the streaming channel).
 export const db = initializeFirestore(app, {
+  ...firestoreTransportSettings(),
   localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
 });
 
