@@ -90,7 +90,7 @@ export function AppShell({ header }: AppShellProps) {
 
   return (
     <div
-      className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto ${disciplineBg[activeDiscipline]}`}
+      className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto ${disciplineBg[activeDiscipline]}`}
       style={disciplineTableColours[activeDiscipline]}
     >
       {header}
@@ -113,7 +113,7 @@ export function AppShell({ header }: AppShellProps) {
           {activeSubTab !== 'teams' && activeSubTab !== 'standings' && (
             <button
               onClick={() => setShowStandings(true)}
-              className="fixed bottom-16 right-4 max-w-[430px] bg-brand-600 text-white px-4 min-h-14 rounded-sm shadow-lg text-sm font-semibold z-20"
+              className="fixed bottom-16 right-[max(1rem,calc((100vw-430px)/2+1rem))] md:right-[max(1rem,calc((100vw-48rem)/2+1rem))] bg-brand-600 text-white px-4 min-h-14 rounded-sm shadow-lg text-sm font-semibold z-20"
             >
               Standings
             </button>

@@ -73,7 +73,7 @@ export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to round
 
 export function PageLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto bg-slate-50">
+    <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto bg-slate-50">
       {children}
     </div>
   );
