@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import type { RaceOutcome, Score } from '../../domain/types';
 import { OutcomeButton } from '../scoring/OutcomeButton';
 import { useCanEdit } from '../../auth/editAccess';
+import { MAX_NOTE_LENGTH } from '../../events/eventDoc';
 
 const OUTCOME_BADGE: Record<string, { className: string; label: string }> = {
   win: { className: 'bg-green-100 text-green-800', label: 'W' },
@@ -38,6 +39,10 @@ interface ExpandableRaceCardProps {
    * points; in the finals both teams share the higher placing.
    */
   allowNotRun?: boolean;
+  /** Official's free-text note for this race, shown to everyone. */
+  note?: string;
+  /** Called on blur with the edited text; empty text removes the note. */
+  onNoteChange?: (raceId: string, note: string) => void;
   onExpand: (raceId: string) => void;
   onScore: (result: {
     raceId: string;
@@ -63,12 +68,16 @@ export function ExpandableRaceCard({
   seedingContext,
   isFinalMatch,
   allowNotRun,
+  note,
+  onNoteChange,
   onExpand,
   onScore,
 }: ExpandableRaceCardProps) {
   const canEdit = useCanEdit();
   const isExpanded = canEdit && isExpandedProp;
   const interactive = canEdit && !disabled;
+  // isExpanded already requires canEdit, so only officials get the editor.
+  const isEditingNote = isExpanded && !!onNoteChange;
 
   function handleScore(team: 'home' | 'away', outcome: 'win' | 'dsq') {
     let homeOutcome: RaceOutcome;
@@ -203,6 +212,29 @@ export function ExpandableRaceCard({
         <div className="flex mt-3" onClick={(e) => e.stopPropagation()}>
           <OutcomeButton outcome="not-run" selected={wasNotRun} onSelect={handleNotRun} />
         </div>
+      )}
+      {isEditingNote && (
+        <div className="mt-3" onClick={(e) => e.stopPropagation()}>
+          <textarea
+            // Remount when another device changes the note, so the box shows it.
+            key={note ?? ''}
+            aria-label="Race note"
+            placeholder="Add a note"
+            maxLength={MAX_NOTE_LENGTH}
+            rows={2}
+            defaultValue={note ?? ''}
+            className="w-full text-sm border border-slate-300 rounded-sm p-2 focus-visible:ring-2 focus-visible:ring-brand-600"
+            onBlur={(e) => {
+              if (e.currentTarget.value.trim() !== (note ?? '')) {
+                onNoteChange(raceId, e.currentTarget.value);
+              }
+            }}
+          />
+        </div>
+      )}
+      {/* While an official edits, the textarea already shows the note. */}
+      {note && !isEditingNote && (
+        <p className="text-xs text-slate-500 mt-2 break-words whitespace-pre-wrap">{note}</p>
       )}
     </div>
   );

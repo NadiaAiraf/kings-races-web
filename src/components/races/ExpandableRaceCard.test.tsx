@@ -105,7 +105,7 @@ describe('ExpandableRaceCard notes', () => {
 
   it('shows the note only in the textarea when an official expands the card', () => {
     renderCard({ note, onNoteChange: () => {} });
-    expect(screen.queryByText(note)).toBeNull();
+    expect(screen.queryByText(note, { ignore: 'textarea' })).toBeNull();
   });
 
   it('gives viewers who cannot edit no textarea', () => {
