@@ -54,6 +54,7 @@ export function playedDiscipline(count: number, overrides: Partial<DisciplineSta
     scores,
     manualTiebreaks: {},
     placings: {},
+    notes: {},
     ...overrides,
   };
 }
