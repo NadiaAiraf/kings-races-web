@@ -278,6 +278,54 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
+  it('can write a single note field', async () => {
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'notes', 'r1-1'),
+        "Summit racer 2 DSQ'd at gate 4",
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('can delete a note field', async () => {
+    await testEnv.withSecurityRulesDisabled((ctx) =>
+      ctx.firestore().doc(`events/${EVENT_ID}`).update({ 'disciplines.mixed.notes': { 'r1-1': 'late start' } })
+    );
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'notes', 'r1-1'),
+        FieldValue.delete(),
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store notes as a list', async () => {
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'notes'),
+        ['x'],
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store more than 200 notes', async () => {
+    const notes = Object.fromEntries(Array.from({ length: 201 }, (_, i) => [`r1-${i + 1}`, 'x']));
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'notes'),
+        notes,
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
   it('accepts a round stored before placings existed', async () => {
     await assertSucceeds(
       eventDoc().update({

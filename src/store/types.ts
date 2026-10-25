@@ -12,6 +12,8 @@ export interface EventStoreActions {
   setManualTiebreak: (discipline: DisciplineKey, groupKey: string, orderedSlots: number[]) => void;
   /** place null removes the official's place so the computed one applies. */
   setPlacing: (discipline: DisciplineKey, slot: number, place: number | null) => void;
+  /** Empty or whitespace-only text removes the note. */
+  setNote: (discipline: DisciplineKey, raceId: string, note: string) => void;
   resetDiscipline: (discipline: DisciplineKey) => void;
   resetEvent: () => void;
 }

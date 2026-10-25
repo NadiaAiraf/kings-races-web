@@ -31,6 +31,7 @@ const discipline = (overrides: Partial<DisciplineState> = {}): DisciplineState =
   scores: [],
   manualTiebreaks: {},
   placings: {},
+  notes: {},
   ...overrides,
 });
 
@@ -59,6 +60,7 @@ describe('parseDiscipline', () => {
       scores: [],
       manualTiebreaks: {},
       placings: {},
+      notes: {},
     });
   });
 
@@ -233,6 +235,66 @@ describe('placings', () => {
   it('deletes a removed place', () => {
     const prev = discipline({ placings: { '1': 3 } });
     expect(diffDiscipline(prev, discipline())).toEqual([{ path: ['placings', '1'], value: undefined }]);
+  });
+});
+
+describe('notes', () => {
+  it('omits the notes key when there are no notes', () => {
+    expect(toFirestoreDiscipline(discipline())).not.toHaveProperty('notes');
+  });
+
+  it('round-trips notes through the Firestore shape', () => {
+    const state = discipline({ notes: { 'r1-1': "Summit racer 2 DSQ'd at gate 4" } });
+    const stored = toFirestoreDiscipline(state);
+    expect(stored.notes).toEqual({ 'r1-1': "Summit racer 2 DSQ'd at gate 4" });
+    expect(parseDiscipline(stored).notes).toEqual(state.notes);
+  });
+
+  it('writes no notes key in any discipline of a new event', () => {
+    const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
+    for (const d of Object.values(doc.disciplines)) expect(d).not.toHaveProperty('notes');
+  });
+
+  it('defaults notes for a discipline stored without notes', () => {
+    expect(parseDiscipline({ phase: 'complete' }).notes).toEqual({});
+  });
+
+  it('drops notes that are not strings', () => {
+    expect(parseDiscipline({ notes: { 'r1-1': 5, 'r1-2': null, 'r1-3': 'ok' } }).notes).toEqual({
+      'r1-3': 'ok',
+    });
+  });
+
+  it('trims notes and drops ones that are empty after trimming', () => {
+    expect(parseDiscipline({ notes: { 'r1-1': '  late start  ', 'r1-2': '   ' } }).notes).toEqual({
+      'r1-1': 'late start',
+    });
+  });
+
+  it('caps a note longer than 200 characters at 200', () => {
+    expect(parseDiscipline({ notes: { 'r1-1': 'x'.repeat(250) } }).notes['r1-1']).toHaveLength(200);
+  });
+
+  it('writes a new or changed note as its own field', () => {
+    const prev = discipline({ notes: { 'r1-1': 'old' } });
+    const next = discipline({ notes: { 'r1-1': 'new', 'r1-2': 'added' } });
+    expect(diffDiscipline(prev, next)).toEqual([
+      { path: ['notes', 'r1-1'], value: 'new' },
+      { path: ['notes', 'r1-2'], value: 'added' },
+    ]);
+  });
+
+  it('deletes a removed note', () => {
+    const prev = discipline({ notes: { 'r1-1': 'old' } });
+    expect(diffDiscipline(prev, discipline())).toEqual([{ path: ['notes', 'r1-1'], value: undefined }]);
+  });
+
+  it('replaces the whole discipline when one with only notes is reset', () => {
+    const prev = { ...createInitialDisciplines().mixed, notes: { 'r1-1': 'old' } };
+    const reset = createInitialDisciplines().mixed;
+    const changes = diffDiscipline(prev, reset);
+    expect(changes).toEqual([{ path: [], value: toFirestoreDiscipline(reset) }]);
+    expect(changes[0].value).not.toHaveProperty('notes');
   });
 });
 

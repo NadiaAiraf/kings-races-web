@@ -80,6 +80,8 @@ export interface DisciplineState {
   manualTiebreaks: Record<string, number[]>;  // groupKey -> ordered slot numbers (per D-07)
   /** Places entered by an official, keyed by team slot; they override the computed place. */
   placings: Record<string, number>;
+  /** Officials' free-text note per race, keyed by raceId. */
+  notes: Record<string, string>;
 }
 
 export interface EventState {

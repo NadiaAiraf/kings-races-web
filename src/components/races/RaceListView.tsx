@@ -41,6 +41,8 @@ export function RaceListView({ discipline }: RaceListViewProps) {
   const standingsResult = useStandings(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+  const notes = useEventStore((s) => s.disciplines[discipline].notes);
+  const setNote = useEventStore((s) => s.setNote);
   const eventId = useEventInfo()?.id ?? '';
   const r1Fold = useRoundFold(eventId, discipline, 'r1', allR1Scored);
   const r2Complete = r2State?.allR2Scored ?? false;
@@ -107,6 +109,11 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       }
     },
     [discipline, recordResult, scoreMap, allRaceIds],
+  );
+
+  const handleNoteChange = useCallback(
+    (raceId: string, note: string) => setNote(discipline, raceId, note),
+    [discipline, setNote],
   );
 
   if (resultsOnly) {
@@ -177,6 +184,8 @@ export function RaceListView({ discipline }: RaceListViewProps) {
               awaySlot={race.awaySlot}
               score={scoreMap.get(raceId)}
               isExpanded={expandedRaceId === raceId}
+              note={notes[raceId]}
+              onNoteChange={handleNoteChange}
               onExpand={handleExpand}
               onScore={handleScore}
             />
@@ -229,6 +238,8 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                   isExpanded={expandedRaceId === race.raceId}
                   groupLabel={`Group ${race.groupNum}`}
                   allowNotRun
+                  note={notes[race.raceId]}
+                  onNoteChange={handleNoteChange}
                   onExpand={handleExpand}
                   onScore={handleScore}
                 />
@@ -303,6 +314,8 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                           }`}
                           isFinalMatch={matchup.label.startsWith('1st/')}
                           allowNotRun
+                          note={notes[matchup.raceId]}
+                          onNoteChange={handleNoteChange}
                           onExpand={handleExpand}
                           onScore={handleScore}
                         />

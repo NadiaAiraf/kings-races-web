@@ -141,6 +141,51 @@ describe('eventStore', () => {
     });
   });
 
+  describe('setNote', () => {
+    it('stores a trimmed note for a race', () => {
+      store().setNote('mixed', 'r1-1', '  Summit racer 2 DSQ  ');
+      expect(store().disciplines.mixed.notes).toEqual({ 'r1-1': 'Summit racer 2 DSQ' });
+    });
+
+    it('removes the note when set to empty text', () => {
+      store().setNote('mixed', 'r1-1', 'late start');
+      store().setNote('mixed', 'r1-1', '');
+      expect(store().disciplines.mixed.notes).toEqual({});
+    });
+
+    it('removes the note when set to whitespace-only text', () => {
+      store().setNote('mixed', 'r1-1', 'late start');
+      store().setNote('mixed', 'r1-1', '   ');
+      expect(store().disciplines.mixed.notes).toEqual({});
+    });
+
+    it('caps the stored note at 200 characters', () => {
+      store().setNote('mixed', 'r1-1', 'x'.repeat(250));
+      expect(store().disciplines.mixed.notes['r1-1']).toHaveLength(200);
+    });
+
+    it('leaves other disciplines as the same object', () => {
+      const board = store().disciplines.board;
+      store().setNote('mixed', 'r1-1', 'late start');
+      expect(store().disciplines.board).toBe(board);
+    });
+
+    it('leaves the state unchanged when the note is the same', () => {
+      store().setNote('mixed', 'r1-1', 'late start');
+      const mixed = store().disciplines.mixed;
+      store().setNote('mixed', 'r1-1', ' late start ');
+      expect(store().disciplines.mixed).toBe(mixed);
+    });
+  });
+
+  describe('resetDiscipline', () => {
+    it('clears race notes', () => {
+      store().setNote('mixed', 'r1-1', 'late start');
+      store().resetDiscipline('mixed');
+      expect(store().disciplines.mixed.notes).toEqual({});
+    });
+  });
+
   describe('resetEvent', () => {
     it('returns all state to initial values', () => {
       store().setTeams('mixed', [{ slot: 1, name: 'Alpha' }]);
