@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFirebaseConfig } from './config';
+import { firestoreTransportSettings, readFirebaseConfig } from './config';
 
 const validEnv = {
   VITE_FIREBASE_API_KEY: 'key',
@@ -44,5 +44,22 @@ describe('readFirebaseConfig', () => {
     expect(() =>
       readFirebaseConfig({ ...validEnv, VITE_FIREBASE_USE_EMULATORS: 'true', PROD: true })
     ).toThrow('must not be set in a production build');
+  });
+});
+
+describe('firestoreTransportSettings', () => {
+  it('forces long polling so Safari privacy protections do not break the stream', () => {
+    expect(firestoreTransportSettings().experimentalForceLongPolling).toBe(true);
+  });
+
+  it('uses XHR instead of fetch streams', () => {
+    expect(firestoreTransportSettings().useFetchStreams).toBe(false);
+  });
+
+  it('sets only the transport options', () => {
+    expect(firestoreTransportSettings()).toEqual({
+      experimentalForceLongPolling: true,
+      useFetchStreams: false,
+    });
   });
 });
