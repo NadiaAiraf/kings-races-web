@@ -29,6 +29,9 @@ export const MAX_EVENT_NAME_LENGTH = 100;
 // Must match firestore.rules (data.venue.size() <= 60).
 export const MAX_VENUE_LENGTH = 60;
 
+// Must match the textarea maxLength in ExpandableRaceCard.
+export const MAX_NOTE_LENGTH = 200;
+
 /** An event as shown in the event list. */
 export interface EventSummary {
   id: string;
@@ -62,6 +65,8 @@ export interface FirestoreDiscipline {
   manualTiebreaks: Record<string, number[]>;
   /** Optional: rounds created before placings existed do not have it. */
   placings: Record<string, number>;
+  /** Optional: only written when a race has a note, so event create and reset stay valid under rules without notes. */
+  notes?: Record<string, string>;
 }
 
 /**
@@ -120,6 +125,7 @@ export function toFirestoreDiscipline(state: DisciplineState): FirestoreDiscipli
     scores: Object.fromEntries(state.scores.map((s) => [s.raceId, s])),
     manualTiebreaks: state.manualTiebreaks,
     placings: state.placings,
+    ...(Object.keys(state.notes).length > 0 && { notes: state.notes }),
   };
 }
 
@@ -153,6 +159,15 @@ export function parseDiscipline(raw: unknown): DisciplineState {
     ? Object.fromEntries(Object.entries(raw.placings).filter(([, place]) => isPlace(place)))
     : {};
 
+  const notes = isRecord(raw.notes)
+    ? Object.fromEntries(
+        Object.entries(raw.notes)
+          .filter((entry): entry is [string, string] => typeof entry[1] === 'string')
+          .map(([raceId, note]) => [raceId, note.trim().slice(0, MAX_NOTE_LENGTH)] as const)
+          .filter(([, note]) => note !== '')
+      )
+    : {};
+
   return {
     teams,
     teamCount: teams.length,
@@ -160,6 +175,7 @@ export function parseDiscipline(raw: unknown): DisciplineState {
     scores,
     manualTiebreaks: manualTiebreaks as Record<string, number[]>,
     placings: placings as Record<string, number>,
+    notes,
   };
 }
 
@@ -241,6 +257,7 @@ const isInitialDiscipline = (state: DisciplineState) =>
   state.scores.length === 0 &&
   Object.keys(state.manualTiebreaks).length === 0 &&
   Object.keys(state.placings).length === 0 &&
+  Object.keys(state.notes).length === 0 &&
   state.phase === 'setup';
 
 /**
@@ -295,6 +312,13 @@ export function diffDiscipline(prev: DisciplineState, next: DisciplineState): Di
   }
   for (const slot of Object.keys(prev.placings)) {
     if (!(slot in next.placings)) changes.push({ path: ['placings', slot], value: undefined });
+  }
+
+  for (const [raceId, note] of Object.entries(next.notes)) {
+    if (prev.notes[raceId] !== note) changes.push({ path: ['notes', raceId], value: note });
+  }
+  for (const raceId of Object.keys(prev.notes)) {
+    if (!(raceId in next.notes)) changes.push({ path: ['notes', raceId], value: undefined });
   }
 
   return changes;

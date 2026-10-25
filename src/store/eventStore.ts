@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { DisciplineKey, DisciplineState, Team, Score } from '../domain/types';
 import type { EventStoreState, EventStoreActions } from './types';
 import { createInitialDisciplineState, createInitialDisciplines } from './initialState';
+import { MAX_NOTE_LENGTH } from '../events/eventDoc';
 
 // The store holds the currently open event. It is hydrated from Firestore by
 // startEventSync (src/events/eventSync.ts) and is deliberately not persisted
@@ -109,6 +110,22 @@ export const useEventStore = create<EventStoreState & EventStoreActions>()(
           disciplines: {
             ...state.disciplines,
             [discipline]: { ...state.disciplines[discipline], placings },
+          },
+        };
+      }),
+
+    setNote: (discipline: DisciplineKey, raceId: string, note: string) =>
+      set((state) => {
+        const text = note.trim().slice(0, MAX_NOTE_LENGTH);
+        const current = state.disciplines[discipline].notes;
+        if ((current[raceId] ?? '') === text) return state;
+        const notes = { ...current };
+        if (text === '') delete notes[raceId];
+        else notes[raceId] = text;
+        return {
+          disciplines: {
+            ...state.disciplines,
+            [discipline]: { ...state.disciplines[discipline], notes },
           },
         };
       }),
