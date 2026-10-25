@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { EditAccessContext } from '../../auth/editAccess';
 import { EventInfoContext } from '../../events/eventInfo';
 import type { EventSummary } from '../../events/eventDoc';
@@ -47,6 +47,13 @@ function renderEntry(canEdit: boolean, rounds: LeagueRounds | null, event: Event
 /** Tick these teams as having turned up. */
 function tick(...names: string[]) {
   for (const name of names) fireEvent.click(screen.getByLabelText(name));
+}
+
+/** Type a team that is not on the list into the checklist's own box and add it. */
+function addNew(name: string) {
+  const list = screen.getByRole('region', { name: 'League teams' });
+  fireEvent.change(within(list).getByPlaceholderText('Team name'), { target: { value: name } });
+  fireEvent.click(within(list).getByRole('button', { name: 'Add' }));
 }
 
 const SEASON: LeagueRounds = { season: [finishedR1()], lastSeason: [], teams: emptyLeagueTeams() };
@@ -185,6 +192,138 @@ describe('carrying teams over from the league standings', () => {
     );
 
     tick(...many);
+    expect(screen.getByText('Maximum 17 teams. Untick some teams.')).toBeTruthy();
+    expect((screen.getByText('Enter 18 teams') as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('hides the standalone team box while the league teams show', () => {
+    renderEntry(true, SEASON);
+    const list = screen.getByRole('region', { name: 'League teams' });
+    const inputs = screen.getAllByPlaceholderText('Team name');
+    expect(inputs).toHaveLength(1);
+    expect(list.contains(inputs[0])).toBe(true);
+    expect(screen.queryByText('Add Team')).toBeNull();
+  });
+
+  it('adds a typed team to the list ticked and marked new', () => {
+    renderEntry(true, SEASON);
+    addNew('Exeter');
+    const list = screen.getByRole('region', { name: 'League teams' });
+    expect((screen.getByLabelText('Exeter') as HTMLInputElement).checked).toBe(true);
+    expect(within(list).getByText('New')).toBeTruthy();
+    expect(screen.getByText('Enter 1 team')).toBeTruthy();
+  });
+
+  it('enters new teams after the league teams in seeding order', () => {
+    renderEntry(true, SEASON);
+    tick('Bath', 'Kings');
+    addNew('Exeter');
+    addNew('Durham');
+    tick('UCL');
+    fireEvent.click(screen.getByText('Enter 5 teams'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual([
+      'Kings',
+      'UCL',
+      'Bath',
+      'Exeter',
+      'Durham',
+    ]);
+  });
+
+  it('ticks a league team instead of adding a duplicate', () => {
+    renderEntry(true, SEASON);
+    addNew('  kings ');
+    const list = screen.getByRole('region', { name: 'League teams' });
+    expect((screen.getByLabelText('Kings') as HTMLInputElement).checked).toBe(true);
+    expect(within(list).queryByText('New')).toBeNull();
+    expect(screen.getAllByRole('checkbox')).toHaveLength(4);
+    expect(screen.getByText('Enter 1 team')).toBeTruthy();
+  });
+
+  it('rejects a team already added as new', () => {
+    renderEntry(true, SEASON);
+    addNew('Exeter');
+    const list = screen.getByRole('region', { name: 'League teams' });
+    fireEvent.change(within(list).getByPlaceholderText('Team name'), { target: { value: 'exeter' } });
+    expect(screen.getByText('Team already added')).toBeTruthy();
+    expect((within(list).getByRole('button', { name: 'Add' }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('keeps an unticked new team in the list and leaves it out', () => {
+    renderEntry(true, SEASON);
+    addNew('Exeter');
+    tick('Kings');
+    fireEvent.click(screen.getByLabelText('Exeter'));
+    expect((screen.getByLabelText('Exeter') as HTMLInputElement).checked).toBe(false);
+    fireEvent.click(screen.getByText('Enter 1 team'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual(['Kings']);
+  });
+
+  it('enters a ticked new team as the league team it now matches, in its seeding position', () => {
+    const view = renderEntry(true, SEASON);
+    tick('Kings');
+    addNew('Durham');
+    addNew('exeter');
+
+    // Another official adds Exeter to the league list while teams are being ticked.
+    const teams = { ...emptyLeagueTeams(), mixed: ['Exeter'] };
+    view.rerender(
+      <EventInfoContext.Provider value={r2}>
+        <LeagueRoundsContext.Provider value={{ ...SEASON, teams }}>
+          <EditAccessContext.Provider value={true}>
+            <TeamEntryView discipline="mixed" />
+          </EditAccessContext.Provider>
+        </LeagueRoundsContext.Provider>
+      </EventInfoContext.Provider>
+    );
+
+    fireEvent.click(screen.getByText('Enter 3 teams'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual(['Kings', 'Exeter', 'Durham']);
+  });
+
+  it('does not enter an unticked new team that now matches a league team', () => {
+    const view = renderEntry(true, SEASON);
+    tick('Kings');
+    addNew('Exeter');
+    fireEvent.click(screen.getByLabelText('Exeter'));
+
+    const teams = { ...emptyLeagueTeams(), mixed: ['Exeter'] };
+    view.rerender(
+      <EventInfoContext.Provider value={r2}>
+        <LeagueRoundsContext.Provider value={{ ...SEASON, teams }}>
+          <EditAccessContext.Provider value={true}>
+            <TeamEntryView discipline="mixed" />
+          </EditAccessContext.Provider>
+        </LeagueRoundsContext.Provider>
+      </EventInfoContext.Provider>
+    );
+
+    fireEvent.click(screen.getByText('Enter 1 team'));
+    expect(store().disciplines.mixed.teams.map((t) => t.name)).toEqual(['Kings']);
+  });
+
+  it('counts new teams towards the limit', () => {
+    const many = Array.from({ length: 17 }, (_, i) => `Team ${i + 1}`);
+    const board = playedDiscipline(17);
+    board.teams = board.teams.map((t, i) => ({ ...t, name: many[i] }));
+    board.placings = Object.fromEntries(board.teams.map((t, i) => [t.slot, i + 1]));
+    const rounds: LeagueRounds = {
+      season: [{ round: SEASON.season[0].round, disciplines: { ...createInitialDisciplines(), board } }],
+      lastSeason: [],
+      teams: emptyLeagueTeams(),
+    };
+    render(
+      <EventInfoContext.Provider value={r2}>
+        <LeagueRoundsContext.Provider value={rounds}>
+          <EditAccessContext.Provider value={true}>
+            <TeamEntryView discipline="board" />
+          </EditAccessContext.Provider>
+        </LeagueRoundsContext.Provider>
+      </EventInfoContext.Provider>
+    );
+
+    tick(...many);
+    addNew('Extra');
     expect(screen.getByText('Maximum 17 teams. Untick some teams.')).toBeTruthy();
     expect((screen.getByText('Enter 18 teams') as HTMLButtonElement).disabled).toBe(true);
   });
