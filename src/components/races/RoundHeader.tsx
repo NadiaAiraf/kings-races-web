@@ -24,10 +24,10 @@ export function RoundHeader({
           type="button"
           onClick={onToggle}
           aria-expanded={open}
-          className="flex w-full items-center justify-between bg-white border border-slate-200 rounded-sm px-4 min-h-14 text-base font-semibold text-slate-900"
+          className="flex w-full items-center justify-between bg-slate-700 border border-slate-700 rounded-sm px-4 min-h-14 text-base font-semibold text-white"
         >
           {label}
-          <span aria-hidden="true" className="text-slate-400">
+          <span aria-hidden="true" className="text-slate-300">
             {open ? '▾' : '▸'}
           </span>
         </button>
