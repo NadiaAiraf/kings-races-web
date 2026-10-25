@@ -45,15 +45,21 @@ service cloud.firestore {
           && exists(/databases/$(database)/documents/seasons/$(data.seasonId)));
     }
 
+    // notes are optional: they are only present once a race has a note, so
+    // the app's create and reset payloads never include the key. They are
+    // keyed by raceId and bounded in count; each note's 200 character cap is
+    // enforced by the app, as rules cannot iterate map values. A discipline
+    // has well under 200 races (at most about 45 R1 + 46 R2 + finals).
     function isValidDiscipline(d) {
       return d is map
-        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings'])
+        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings', 'notes'])
         && d.teams is list
         && d.teams.size() <= 31
         && d.phase in ['setup', 'group-stage', 'round-two', 'finals', 'complete']
         && d.scores is map
         && d.manualTiebreaks is map
-        && (!('placings' in d) || d.placings is map);
+        && (!('placings' in d) || d.placings is map)
+        && (!('notes' in d) || (d.notes is map && d.notes.size() <= 200));
     }
 
     function hasValidFields(data) {
