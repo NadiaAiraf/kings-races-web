@@ -5,6 +5,8 @@ import { useCurrentRace } from '../../hooks/useCurrentRace';
 import { useR2State } from '../../hooks/useR2State';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { useStandings } from '../../hooks/useStandings';
+import { useRoundFold } from '../../hooks/useRoundFold';
+import { useEventInfo } from '../../events/eventInfo';
 import { ExpandableRaceCard } from './ExpandableRaceCard';
 import { RoundHeader } from './RoundHeader';
 import { FinalsBlockedBanner } from '../finals/FinalsBlockedBanner';
@@ -39,6 +41,10 @@ export function RaceListView({ discipline }: RaceListViewProps) {
   const standingsResult = useStandings(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
+  const eventId = useEventInfo()?.id ?? '';
+  const r1Fold = useRoundFold(eventId, discipline, 'r1', allR1Scored);
+  const r2Complete = r2State?.allR2Scored ?? false;
+  const r2Fold = useRoundFold(eventId, discipline, 'r2', r2Complete);
 
   const [expandedRaceId, setExpandedRaceId] = useState<string | null>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
@@ -149,8 +155,11 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         label="Round 1"
         isActive={phase === 'group-stage' || phase === 'setup'}
         isFirst={true}
+        collapsible={allR1Scored}
+        open={r1Fold.open}
+        onToggle={r1Fold.toggle}
       />
-      {structure.roundOneRaces.map((race) => {
+      {r1Fold.open && structure.roundOneRaces.map((race) => {
         const raceId = `r1-${race.raceNum}`;
         return (
           <div
@@ -192,9 +201,16 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       {/* Round 2 */}
       {structure.roundTwoGroups && (
         <>
-          <RoundHeader label="Round 2" isActive={phase === 'round-two'} />
+          <RoundHeader
+            label="Round 2"
+            isActive={phase === 'round-two'}
+            collapsible={r2Complete}
+            open={r2Fold.open}
+            onToggle={r2Fold.toggle}
+          />
           {(phase === 'round-two' || (r2State && r2State.scoredR2Races > 0)) &&
           r2State ? (
+            r2Fold.open &&
             r2State.r2Races.map((race) => (
               <div
                 key={race.raceId}
