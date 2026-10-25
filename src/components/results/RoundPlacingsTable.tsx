@@ -54,7 +54,7 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
       )}
       <table className="w-full table-auto">
         <thead>
-          <tr className="bg-brand-600 text-white">
+          <tr className="bg-table-head text-white">
             <th scope="col" className="px-2 py-2 text-left text-sm font-semibold text-white">
               Place
             </th>
@@ -68,7 +68,7 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
         </thead>
         <tbody>
           {placings.map((p, index) => (
-            <tr key={p.slot} className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50'}>
+            <tr key={p.slot} className={index % 2 === 0 ? 'bg-white' : 'bg-table-stripe'}>
               <td className="px-2 py-2 w-24">
                 {canEdit && (correcting || p.place === null) ? (
                   <select

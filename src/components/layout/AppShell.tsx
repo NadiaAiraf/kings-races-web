@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, type CSSProperties, type ReactNode } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
@@ -81,8 +81,18 @@ export function AppShell({ header }: AppShellProps) {
     ladies: 'bg-red-50',
   };
 
+  // Results tables follow the discipline colour. Ladies keeps the club red default.
+  const disciplineTableColours: Record<DisciplineKey, CSSProperties> = {
+    mixed: { '--color-table-head': '#1d4ed8', '--color-table-stripe': '#dbeafe' } as CSSProperties,
+    board: { '--color-table-head': '#15803d', '--color-table-stripe': '#dcfce7' } as CSSProperties,
+    ladies: {},
+  };
+
   return (
-    <div className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto ${disciplineBg[activeDiscipline]}`}>
+    <div
+      className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] mx-auto ${disciplineBg[activeDiscipline]}`}
+      style={disciplineTableColours[activeDiscipline]}
+    >
       {header}
       <DisciplineTabs active={activeDiscipline} onSelect={setActiveDiscipline} />
       {showStandings ? (

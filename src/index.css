@@ -6,4 +6,7 @@
   --color-brand-600: #d72d28; /* club red */
   --color-brand-700: #ac2420; /* dark red */
   --color-ink: #272727;
+  /* Results tables. Default to club red; AppShell overrides per discipline. */
+  --color-table-head: #d72d28;
+  --color-table-stripe: #fbeae9;
 }
