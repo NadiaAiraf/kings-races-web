@@ -28,6 +28,9 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
   // A finished discipline (including one entered without races) is locked too.
   const hasScores = scores.length > 0 || phase === 'complete';
 
+  const showChecklist =
+    canEdit && teamCount === 0 && !hasScores && !!seedingOrder && seedingOrder.length > 0;
+
   const validationError = atLimit
     ? `Maximum ${max} teams for ${discipline}`
     : undefined;
@@ -86,14 +89,14 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      {canEdit && teamCount === 0 && !hasScores && seedingOrder && seedingOrder.length > 0 && (
+      {showChecklist && (
         <CarryOverTeams
-          names={seedingOrder}
+          names={seedingOrder ?? []}
           max={max}
           onConfirm={handleCarryOver}
         />
       )}
-      {canEdit && (
+      {canEdit && !showChecklist && (
         <TeamInput
           onAdd={handleAdd}
           disabled={atLimit || hasScores}

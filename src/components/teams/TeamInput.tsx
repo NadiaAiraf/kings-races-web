@@ -6,9 +6,16 @@ interface TeamInputProps {
   disabled?: boolean;
   error?: string;
   existingNames?: string[];
+  buttonLabel?: string;
 }
 
-export function TeamInput({ onAdd, disabled, error, existingNames = [] }: TeamInputProps) {
+export function TeamInput({
+  onAdd,
+  disabled,
+  error,
+  existingNames = [],
+  buttonLabel = 'Add Team',
+}: TeamInputProps) {
   const [value, setValue] = useState('');
 
   const trimmed = value.trim();
@@ -50,7 +57,7 @@ export function TeamInput({ onAdd, disabled, error, existingNames = [] }: TeamIn
             !canAdd && 'opacity-40 cursor-not-allowed'
           )}
         >
-          Add Team
+          {buttonLabel}
         </button>
       </div>
       {isDuplicate && <p className="text-sm text-amber-600">Team already added</p>}
