@@ -1,4 +1,5 @@
 import { useState, useEffect, type CSSProperties, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
@@ -15,6 +16,13 @@ import { useR2State } from '../../hooks/useR2State';
 import { useStandings } from '../../hooks/useStandings';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { areAllR1RacesScored } from '../../domain/r2Seeding';
+import { DISCIPLINE_KEYS } from '../../events/eventDoc';
+
+const SUB_TAB_KEYS: readonly SubTabKey[] = ['teams', 'races', 'standings'];
+
+function parseKey<K extends string>(value: string | null, keys: readonly K[]): K | null {
+  return keys.find((key) => key === value) ?? null;
+}
 
 interface AppShellProps {
   /** Rendered above the discipline tabs, e.g. the open event's name. */
@@ -22,15 +30,35 @@ interface AppShellProps {
 }
 
 export function AppShell({ header }: AppShellProps) {
-  const activeDiscipline = useEventStore((s) => s.activeDiscipline);
+  const storedDiscipline = useEventStore((s) => s.activeDiscipline);
   const setActiveDiscipline = useEventStore((s) => s.setActiveDiscipline);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
-  const [selectedSubTab, setActiveSubTab] = useState<SubTabKey>('teams');
+  const [searchParams, setSearchParams] = useSearchParams();
+  // The open discipline and tab live in the URL so a reload or a shared link
+  // keeps them. Without ?d the round opens on the last discipline chosen this session.
+  const activeDiscipline = parseKey(searchParams.get('d'), DISCIPLINE_KEYS) ?? storedDiscipline;
+  const selectedSubTab = parseKey(searchParams.get('v'), SUB_TAB_KEYS) ?? 'teams';
   // Viewers only follow the racing, so the Teams tab is for officials.
   // Derived rather than stored so signing in or out switches tabs at once.
   const canEdit = useCanEdit();
   const activeSubTab = !canEdit && selectedSubTab === 'teams' ? 'races' : selectedSubTab;
   const [showStandings, setShowStandings] = useState(false);
+
+  function setParam(key: 'd' | 'v', value: string) {
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set(key, value);
+        return next;
+      },
+      { replace: true },
+    );
+  }
+
+  function selectDiscipline(d: DisciplineKey) {
+    setActiveDiscipline(d);
+    setParam('d', d);
+  }
 
   const { scores, structure, phase } = useDisciplineState(activeDiscipline);
   const { currentIndex, totalRaces, scoredR1, scoredR2 } =
@@ -94,7 +122,7 @@ export function AppShell({ header }: AppShellProps) {
       style={disciplineTableColours[activeDiscipline]}
     >
       {header}
-      <DisciplineTabs active={activeDiscipline} onSelect={setActiveDiscipline} />
+      <DisciplineTabs active={activeDiscipline} onSelect={selectDiscipline} />
       {showStandings ? (
         <StandingsView
           discipline={activeDiscipline}
@@ -102,7 +130,7 @@ export function AppShell({ header }: AppShellProps) {
         />
       ) : (
         <>
-          <SubTabs showTeams={canEdit} active={activeSubTab} onSelect={setActiveSubTab} />
+          <SubTabs showTeams={canEdit} active={activeSubTab} onSelect={(v) => setParam('v', v)} />
           <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
             {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
             {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
