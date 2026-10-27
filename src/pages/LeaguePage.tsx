@@ -17,7 +17,7 @@ import type { DisciplineKey } from '../domain/types';
 import { DisciplineTabs } from '../components/layout/DisciplineTabs';
 import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
 import { LeagueTeamsEditor } from '../components/season/LeagueTeamsEditor';
-import { ConfirmButton } from '../components/shared/ConfirmButton';
+import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import {
   addLeagueTeams,
   removeLeagueTeam,
@@ -182,9 +182,11 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
                     </Link>
                     {isApproved && (
-                      <ConfirmButton
-                        label={`Delete R${n}`}
-                        confirmLabel={`Confirm delete R${n}`}
+                      <ConfirmDialog
+                        triggerLabel={`Delete R${n}`}
+                        title={`Delete ${round.name}?`}
+                        description="This removes the round and every Mixed, Board and Ladies result in it for everyone. It cannot be undone in the app."
+                        confirmLabel={`Delete R${n}`}
                         onConfirm={() => removeRound(round)}
                         className="w-24 shrink-0"
                       />

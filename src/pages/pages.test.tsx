@@ -46,7 +46,7 @@ const repo = vi.hoisted(() => ({
   onLeagueTeams: null as ((teams: LeagueTeams) => void) | null,
   leagueTeamWrites: [] as { op: 'add' | 'remove'; discipline: string; names: string[] }[],
   existingSeasonIds: ['2026-27'] as string[],
-  deletedEvents: [] as string[],
+  deletedEvents: [] as { id: string; uid: string }[],
   deleteEventError: null as Error | null,
 }));
 
@@ -88,8 +88,8 @@ vi.mock('../events/eventsRepo', () => ({
     return { id: 'new-event-id', committed: Promise.resolve() };
   },
   hasUnsyncedWrites: async () => repo.unsynced,
-  deleteEvent: async (id: string) => {
-    repo.deletedEvents.push(id);
+  deleteEvent: async (id: string, uid: string) => {
+    repo.deletedEvents.push({ id, uid });
     if (repo.deleteEventError) throw repo.deleteEventError;
   },
 }));
@@ -260,6 +260,7 @@ beforeEach(() => {
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 
 describe('HomePage', () => {
@@ -447,28 +448,57 @@ describe('LeaguePage', () => {
     fireEvent.click(screen.getByText('Delete R1'));
 
     expect(repo.deletedEvents).toEqual([]);
-    expect(screen.getByText('Confirm delete R1')).toBeTruthy();
+    expect(within(screen.getByRole('alertdialog')).getByText('Delete R1 - Hemel?')).toBeTruthy();
   });
 
   it('deletes a round once the delete is confirmed', () => {
+    vi.useFakeTimers();
     renderAt('/seasons/2026-27/southern', APPROVED);
     act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
 
     fireEvent.click(screen.getByText('Delete R1'));
-    fireEvent.click(screen.getByText('Confirm delete R1'));
+    act(() => vi.advanceTimersByTime(500));
+    fireEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Delete R1' }));
 
-    expect(repo.deletedEvents).toEqual(['2026-27_southern_r1']);
+    expect(repo.deletedEvents).toEqual([{ id: '2026-27_southern_r1', uid: 'official' }]);
+    vi.useRealTimers();
+  });
+
+  it('ignores a double tap on Delete', () => {
+    vi.useFakeTimers();
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByText('Delete R1'));
+    fireEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Delete R1' }));
+
+    expect(repo.deletedEvents).toEqual([]);
+    vi.useRealTimers();
+  });
+
+  it('keeps the round when the delete is cancelled', () => {
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    fireEvent.click(screen.getByText('Delete R1'));
+    fireEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Cancel' }));
+
+    expect(screen.queryByRole('alertdialog')).toBeNull();
+    expect(repo.deletedEvents).toEqual([]);
   });
 
   it('shows an error when a round cannot be deleted', async () => {
+    vi.useFakeTimers();
     repo.deleteEventError = new FirebaseError('permission-denied', 'denied');
     renderAt('/seasons/2026-27/southern', APPROVED);
     act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
 
     fireEvent.click(screen.getByText('Delete R1'));
+    act(() => vi.advanceTimersByTime(500));
     await act(async () => {
-      fireEvent.click(screen.getByText('Confirm delete R1'));
+      fireEvent.click(within(screen.getByRole('alertdialog')).getByRole('button', { name: 'Delete R1' }));
     });
+    vi.useRealTimers();
 
     expect(screen.getByRole('alert').textContent).toMatch(/R1 - Hemel could not be deleted/);
   });
