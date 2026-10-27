@@ -17,7 +17,7 @@ import type { DisciplineKey } from '../domain/types';
 import { DisciplineTabs } from '../components/layout/DisciplineTabs';
 import { SeasonStandingsTable } from '../components/season/SeasonStandingsTable';
 import { LeagueTeamsEditor } from '../components/season/LeagueTeamsEditor';
-import { ConfirmButton } from '../components/shared/ConfirmButton';
+import { ConfirmDialog } from '../components/shared/ConfirmDialog';
 import {
   addLeagueTeams,
   removeLeagueTeam,
@@ -45,7 +45,7 @@ export function LeaguePage() {
 }
 
 function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey }) {
-  const { isApproved } = useAuth();
+  const { user, isApproved } = useAuth();
   const [rounds, setRounds] = useState<EventDetail[] | null>(null);
   const [error, setError] = useState<unknown>(null);
   const [lastSeasonRounds, setLastSeasonRounds] = useState<EventDetail[]>([]);
@@ -96,11 +96,13 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
     setTeamsError(withErrorCode('A change to the league teams could not be saved.', err));
   }
 
-  // Not awaited, like the team list writes: the round drops out of the list
-  // from the local cache, and comes back with an error if the server refuses.
+  // Not awaited, like the team list writes: the round is archived and drops
+  // out of the list from the local cache, and comes back with an error if the
+  // server refuses.
   function removeRound(round: EventDetail) {
+    if (!user) return;
     setDeleteError(null);
-    deleteEvent(round.id).catch((err) => {
+    deleteEvent(round.id, user.uid).catch((err) => {
       console.error('Round delete failed', { id: round.id }, err);
       setDeleteError(withErrorCode(`${round.name} could not be deleted.`, err));
     });
@@ -180,9 +182,11 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
                     </Link>
                     {isApproved && (
-                      <ConfirmButton
-                        label={`Delete R${n}`}
-                        confirmLabel={`Confirm delete R${n}`}
+                      <ConfirmDialog
+                        triggerLabel={`Delete R${n}`}
+                        title={`Delete ${round.name}?`}
+                        description="This removes the round and every Mixed, Board and Ladies result in it for everyone. It cannot be undone in the app."
+                        confirmLabel={`Delete R${n}`}
                         onConfirm={() => removeRound(round)}
                         className="w-24 shrink-0"
                       />

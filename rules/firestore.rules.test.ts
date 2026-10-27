@@ -656,3 +656,83 @@ describe('league teams', () => {
     );
   });
 });
+
+describe('deletedEvents archive', () => {
+  const ARCHIVE_ID = `${EVENT_ID}_1700000000000`;
+
+  const archive = (deletedBy: string) => ({
+    eventId: EVENT_ID,
+    event: newEvent(APPROVED_UID),
+    deletedBy,
+    deletedAt: serverTimestamp(),
+  });
+
+  const seedArchive = () =>
+    testEnv.withSecurityRulesDisabled(async (ctx) => {
+      await ctx.firestore().doc(`deletedEvents/${ARCHIVE_ID}`).set({
+        eventId: EVENT_ID,
+        event: { name: 'Round 1' },
+        deletedBy: APPROVED_UID,
+        deletedAt: new Date('2026-11-20'),
+      });
+    });
+
+  it('approved user can archive and delete an event in one batch', async () => {
+    const db = approvedDb();
+    const event = (await db.doc(`events/${EVENT_ID}`).get()).data();
+    const batch = db.batch();
+    batch.set(db.doc(`deletedEvents/${ARCHIVE_ID}`), { ...archive(APPROVED_UID), event });
+    batch.delete(db.doc(`events/${EVENT_ID}`));
+    await assertSucceeds(batch.commit());
+  });
+
+  it('unapproved user cannot archive and delete an event', async () => {
+    const db = unapprovedDb();
+    const batch = db.batch();
+    batch.set(db.doc(`deletedEvents/${ARCHIVE_ID}`), archive(UNAPPROVED_UID));
+    batch.delete(db.doc(`events/${EVENT_ID}`));
+    await assertFails(batch.commit());
+  });
+
+  it('cannot write an archive without deleting the event', async () => {
+    await assertFails(
+      approvedDb().doc(`deletedEvents/${ARCHIVE_ID}`).set(archive(APPROVED_UID))
+    );
+  });
+
+  it('cannot archive in someone else\'s name', async () => {
+    const db = approvedDb();
+    const batch = db.batch();
+    batch.set(db.doc(`deletedEvents/${ARCHIVE_ID}`), archive('official-2'));
+    batch.delete(db.doc(`events/${EVENT_ID}`));
+    await assertFails(batch.commit());
+  });
+
+  it('archive id must be the event id and a timestamp', async () => {
+    const db = approvedDb();
+    const batch = db.batch();
+    batch.set(db.doc('deletedEvents/other_123'), archive(APPROVED_UID));
+    batch.delete(db.doc(`events/${EVENT_ID}`));
+    await assertFails(batch.commit());
+  });
+
+  it('archive cannot carry extra keys', async () => {
+    const db = approvedDb();
+    const batch = db.batch();
+    batch.set(db.doc(`deletedEvents/${ARCHIVE_ID}`), { ...archive(APPROVED_UID), note: 'x' });
+    batch.delete(db.doc(`events/${EVENT_ID}`));
+    await assertFails(batch.commit());
+  });
+
+  it('archive is not readable', async () => {
+    await seedArchive();
+    await assertFails(approvedDb().doc(`deletedEvents/${ARCHIVE_ID}`).get());
+  });
+
+  it('archive cannot be updated or deleted', async () => {
+    await seedArchive();
+    const ref = approvedDb().doc(`deletedEvents/${ARCHIVE_ID}`);
+    await assertFails(ref.update({ deletedBy: 'official-2' }));
+    await assertFails(ref.delete());
+  });
+});

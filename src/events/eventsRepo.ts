@@ -1,9 +1,9 @@
 import {
   FieldPath,
   collection,
-  deleteDoc,
   deleteField,
   doc,
+  getDoc,
   limit,
   onSnapshot,
   orderBy,
@@ -13,6 +13,7 @@ import {
   updateDoc,
   waitForPendingWrites,
   where,
+  writeBatch,
 } from 'firebase/firestore';
 import { db } from '../firebase/app';
 import type { DisciplineKey } from '../domain/types';
@@ -123,12 +124,27 @@ export function subscribeEvent(
 }
 
 /**
- * Delete a round. For a season round this frees its R1..R4 slot, so it can be
- * set up again. Like createEvent, this works offline: listeners drop the round
- * at once and the promise settles when the server accepts or rejects it.
+ * Soft delete a round: a full copy goes to deletedEvents/{id}_{ms} in the same
+ * batch as the delete, so both land or neither does. For a season round this
+ * still frees its R1..R4 slot (the event id is unchanged), so it can be set up
+ * again. Recovery is by hand from deletedEvents in the Firebase console. Like
+ * createEvent, this works offline (getDoc serves from cache): listeners drop
+ * the round at once and the promise settles when the server accepts or
+ * rejects it.
  */
-export function deleteEvent(id: string): Promise<void> {
-  return deleteDoc(doc(eventsCollection(), id));
+export async function deleteEvent(id: string, uid: string): Promise<void> {
+  const ref = doc(eventsCollection(), id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) throw new Error(`Round ${id} no longer exists.`);
+  const batch = writeBatch(db);
+  batch.set(doc(db, 'deletedEvents', `${id}_${Date.now()}`), {
+    eventId: id,
+    event: snap.data(),
+    deletedBy: uid,
+    deletedAt: serverTimestamp(),
+  });
+  batch.delete(ref);
+  return batch.commit();
 }
 
 /**

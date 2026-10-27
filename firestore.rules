@@ -111,9 +111,27 @@ service cloud.firestore {
         && teamsChangeAllowed('board')
         && teamsChangeAllowed('ladies');
 
-      // The app asks for confirmation first. Deleting a season round frees
-      // its R1..R4 slot (the id is derived) so it can be set up again.
+      // The app asks for confirmation first and archives the round to
+      // deletedEvents in the same batch. Deleting a season round frees its
+      // R1..R4 slot (the id is derived) so it can be set up again.
       allow delete: if isApproved();
+    }
+
+    // A deleted round, kept so it can be restored by hand from the console.
+    // Only written in the same batch that deletes the event (eventsRepo
+    // deleteEvent), so an archive always means the round really went.
+    match /deletedEvents/{archiveId} {
+      allow create: if isApproved()
+        && request.resource.data.keys().hasOnly(['eventId', 'event', 'deletedBy', 'deletedAt'])
+        && request.resource.data.keys().hasAll(['eventId', 'event', 'deletedBy', 'deletedAt'])
+        && request.resource.data.eventId is string
+        && request.resource.data.event is map
+        && request.resource.data.deletedBy == request.auth.uid
+        && request.resource.data.deletedAt == request.time
+        && archiveId.matches(request.resource.data.eventId + '_[0-9]+')
+        && exists(/databases/$(database)/documents/events/$(request.resource.data.eventId))
+        && !existsAfter(/databases/$(database)/documents/events/$(request.resource.data.eventId));
+      allow read, update, delete: if false;
     }
 
     // A season document's id is derived from its start year (seasonIdFor in

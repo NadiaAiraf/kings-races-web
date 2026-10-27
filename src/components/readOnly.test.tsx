@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { EditAccessContext } from '../auth/editAccess';
 import { useEventStore } from '../store/eventStore';
@@ -56,6 +56,7 @@ describe('read-only mode', () => {
 
   afterEach(() => {
     cleanup();
+    vi.useRealTimers();
   });
 
   describe('defaults', () => {
@@ -99,6 +100,25 @@ describe('read-only mode', () => {
     it('shows the reset button to editors', () => {
       renderWithAccess(<TeamEntryView discipline="mixed" />, true);
       expect(screen.getByText('Reset Mixed')).toBeTruthy();
+    });
+
+    it('says exactly what a reset loses and only resets once confirmed', () => {
+      vi.useFakeTimers();
+      const store = useEventStore.getState();
+      store.setTeams('mixed', ['Kings', 'Imperial', 'UCL', 'LSE', 'Bath'].map((name, i) => ({ slot: i + 1, name })));
+      store.recordResult('mixed', { raceId: 'r1-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' });
+      store.recordResult('mixed', { raceId: 'r1-2', homeSlot: 3, awaySlot: 4, homeOutcome: 'win', awayOutcome: 'loss' });
+      renderWithAccess(<TeamEntryView discipline="mixed" />, true);
+
+      fireEvent.click(screen.getByText('Reset Mixed'));
+      const dialog = screen.getByRole('alertdialog');
+      expect(dialog.textContent).toContain('all 5 teams and 2 race results in Mixed');
+      expect(useEventStore.getState().disciplines.mixed.teamCount).toBe(5);
+
+      act(() => vi.advanceTimersByTime(500));
+      fireEvent.click(within(dialog).getByRole('button', { name: 'Reset Mixed' }));
+      expect(useEventStore.getState().disciplines.mixed.teamCount).toBe(0);
+      vi.useRealTimers();
     });
   });
 

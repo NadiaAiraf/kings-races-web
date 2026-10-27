@@ -7,7 +7,7 @@ import { getValidTeamCountRange } from '../../domain/validation';
 import { TeamInput } from './TeamInput';
 import { TeamList } from './TeamList';
 import { Toast } from '../shared/Toast';
-import { ConfirmButton } from '../shared/ConfirmButton';
+import { ConfirmDialog } from '../shared/ConfirmDialog';
 import { useCanEdit } from '../../auth/editAccess';
 import { useSeedingOrder } from '../../seasons/leagueRounds';
 import { CarryOverTeams } from './CarryOverTeams';
@@ -87,6 +87,12 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
     resetDiscipline(discipline);
   }, [discipline, resetDiscipline]);
 
+  const teamsPart = `all ${teamCount} team${teamCount === 1 ? '' : 's'}`;
+  const resetDescription =
+    scores.length === 0
+      ? `This removes ${teamsPart} in ${label} for everyone.`
+      : `This removes ${teamsPart} and ${scores.length} race result${scores.length === 1 ? '' : 's'} in ${label} for everyone.`;
+
   return (
     <div className="flex flex-col gap-4">
       {showChecklist && (
@@ -114,9 +120,11 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
         onMove={canEdit && !hasScores ? handleMove : undefined}
       />
       {canEdit && teamCount > 0 && (
-        <ConfirmButton
-          label={`Reset ${label}`}
-          confirmLabel="Confirm Reset?"
+        <ConfirmDialog
+          triggerLabel={`Reset ${label}`}
+          title={`Reset ${label}?`}
+          description={resetDescription}
+          confirmLabel={`Reset ${label}`}
           onConfirm={handleReset}
         />
       )}
