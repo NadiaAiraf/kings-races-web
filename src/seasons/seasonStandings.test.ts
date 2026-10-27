@@ -1,6 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { createInitialDisciplines } from '../store/initialState';
-import { playedDiscipline, withUnplaceableTeams } from '../domain/__fixtures__/playedDiscipline';
+import {
+  jointPlacings19,
+  playedDiscipline,
+  stoppedEarlyDiscipline,
+  withUnplaceableTeams,
+} from '../domain/__fixtures__/playedDiscipline';
 import {
   computeSeasonStandings,
   seedingOrder,
@@ -73,6 +78,18 @@ describe('computeSeasonStandings', () => {
       'mixed'
     );
     expect(rows[0].results[2]).toBeUndefined();
+  });
+
+  it("awards league points for a round stopped early from the officials' joint places", () => {
+    const mixed = stoppedEarlyDiscipline(19, 42);
+    mixed.placings = jointPlacings19(mixed);
+    const stopped: StandingsRound = {
+      round: { seasonId: '2026-27', league: 'southern', roundNumber: 2, venue: 'Hemel' },
+      disciplines: { ...createInitialDisciplines(), mixed },
+    };
+
+    const totals = new Set(computeSeasonStandings([stopped], 'mixed').map((r) => r.total));
+    expect([...totals]).toEqual([30, 22, 16]);
   });
 
   it('ignores rounds outside any season', () => {

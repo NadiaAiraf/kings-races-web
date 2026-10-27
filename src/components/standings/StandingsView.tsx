@@ -4,7 +4,12 @@ import { useStandings } from '../../hooks/useStandings';
 import { useDisciplineState } from '../../hooks/useDisciplineState';
 import { useR2State } from '../../hooks/useR2State';
 import { useFinalResults } from '../../hooks/useFinalResults';
-import { isResultsOnly, roundResults } from '../../domain/roundPlacings';
+import {
+  isResultsOnly,
+  isStoppedEarly,
+  roundResults,
+  usesEnteredPlacings,
+} from '../../domain/roundPlacings';
 import { getGroupRaces } from '../../domain/groupCalculations';
 import { generateEventCSV, triggerCSVDownload } from '../../domain/csvExport';
 import type { FinalResult } from '../../domain/csvExport';
@@ -29,10 +34,14 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
   const finalResults = useFinalResults(discipline);
   const disciplineState = useEventStore((s) => s.disciplines[discipline]);
   const resultsOnly = isResultsOnly(disciplineState);
+  const stoppedEarly = isStoppedEarly(disciplineState);
 
+  // A round stopped during Round 1 has no Round 2 groups worth showing.
   const showR2 =
     r2State !== null &&
-    (phase === 'round-two' || phase === 'finals' || phase === 'complete');
+    (phase === 'round-two' ||
+      phase === 'finals' ||
+      (phase === 'complete' && (!stoppedEarly || r2State.scoredR2Races > 0)));
 
   const eventInfo = useEventInfo();
 
@@ -80,11 +89,16 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
       )}
 
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        {phase === 'complete' && (finalResults || resultsOnly) && (
+        {phase === 'complete' && (finalResults || usesEnteredPlacings(disciplineState)) && (
           <div className="mb-6">
             {resultsOnly && (
               <p className="text-sm text-slate-500 mb-2">
                 Results entered after the event; no races were recorded.
+              </p>
+            )}
+            {stoppedEarly && (
+              <p className="text-sm text-slate-500 mb-2">
+                Stopped early: places entered by officials.
               </p>
             )}
             <RoundPlacingsTable discipline={discipline} />

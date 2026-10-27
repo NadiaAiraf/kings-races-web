@@ -14,7 +14,7 @@ import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
 import type { DisciplineKey, Score, RaceOutcome } from '../../domain/types';
-import { isResultsOnly } from '../../domain/roundPlacings';
+import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 
 function findNextUnscoredId(
   allRaceIds: string[],
@@ -35,6 +35,9 @@ interface RaceListViewProps {
 export function RaceListView({ discipline }: RaceListViewProps) {
   const { teams, scores, structure, phase, manualTiebreaks } = useDisciplineState(discipline);
   const resultsOnly = useEventStore((s) => isResultsOnly(s.disciplines[discipline]));
+  // Read-only: another result could make it resolvable and silently swap
+  // the officials' places for computed ones.
+  const stoppedEarly = useEventStore((s) => isStoppedEarly(s.disciplines[discipline]));
   const { allR1Scored } = useCurrentRace(discipline);
   const r2State = useR2State(discipline);
   const finalsState = useFinalsState(discipline);
@@ -75,16 +78,20 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
   // Auto-expand first unscored card on mount
   useEffect(() => {
-    if (expandedRaceId === null) {
+    if (expandedRaceId === null && !stoppedEarly) {
       const firstUnscored = allRaceIds.find((id) => !scoreMap.has(id));
       if (firstUnscored) setExpandedRaceId(firstUnscored);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleExpand = useCallback((raceId: string) => {
-    setExpandedRaceId((prev) => (prev === raceId ? null : raceId));
-  }, []);
+  const handleExpand = useCallback(
+    (raceId: string) => {
+      if (stoppedEarly) return;
+      setExpandedRaceId((prev) => (prev === raceId ? null : raceId));
+    },
+    [stoppedEarly],
+  );
 
   const handleScore = useCallback(
     (result: {
@@ -157,6 +164,11 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
   return (
     <div>
+      {stoppedEarly && (
+        <p className="text-sm text-slate-500 px-4 py-2">
+          Stopped early: places entered by officials. See Stds for the final places.
+        </p>
+      )}
       {/* Round 1 */}
       <RoundHeader
         label="Round 1"
@@ -183,7 +195,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
               homeSlot={race.homeSlot}
               awaySlot={race.awaySlot}
               score={scoreMap.get(raceId)}
-              isExpanded={expandedRaceId === raceId}
+              isExpanded={!stoppedEarly && expandedRaceId === raceId}
               note={notes[raceId]}
               onNoteChange={handleNoteChange}
               onExpand={handleExpand}
@@ -203,7 +215,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
           groups={r1TiebreakGroups}
           manualTiebreaks={manualTiebreaks}
           teamNames={teamMap}
-          canChange={!anyR2Scored}
+          canChange={!anyR2Scored && !stoppedEarly}
         />
       )}
 
@@ -235,7 +247,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                   homeSlot={race.homeSlot ?? 0}
                   awaySlot={race.awaySlot ?? 0}
                   score={r2State.r2ScoreMap.get(race.raceId)}
-                  isExpanded={expandedRaceId === race.raceId}
+                  isExpanded={!stoppedEarly && expandedRaceId === race.raceId}
                   groupLabel={`Group ${race.groupNum}`}
                   allowNotRun
                   note={notes[race.raceId]}
@@ -259,7 +271,11 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         <>
           <RoundHeader label="Finals" isActive={phase === 'finals'} />
 
-          {finalsState ? (
+          {stoppedEarly ? (
+            <p className="text-sm text-slate-500 px-4 py-2">
+              Not raced: the round was stopped early.
+            </p>
+          ) : finalsState ? (
             <>
               {finalsState.finalsPhase === 'blocked-incomplete' && (
                 <FinalsBlockedBanner reason="incomplete" />
