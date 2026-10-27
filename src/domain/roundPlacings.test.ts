@@ -1,6 +1,17 @@
 import { describe, it, expect } from 'vitest';
-import { computeRoundPlacings, leaguePoints, roundResults } from './roundPlacings';
-import { playedDiscipline, withUnplaceableTeams } from './__fixtures__/playedDiscipline';
+import {
+  computeRoundPlacings,
+  isResultsOnly,
+  isStoppedEarly,
+  leaguePoints,
+  roundResults,
+} from './roundPlacings';
+import {
+  jointPlacings19,
+  playedDiscipline,
+  stoppedEarlyDiscipline,
+  withUnplaceableTeams,
+} from './__fixtures__/playedDiscipline';
 
 describe('computeRoundPlacings', () => {
   it('is null until the discipline is complete', () => {
@@ -132,5 +143,63 @@ describe('roundResults (CSV export)', () => {
       s.raceId === 'fin-0' ? { ...s, homeOutcome: 'not-run', awayOutcome: 'not-run' } : s
     );
     expect(roundResults(state)!.filter((r) => r.placementLabel === 'Joint 3rd')).toHaveLength(2);
+  });
+});
+
+describe('a round stopped early', () => {
+  /** 19 teams stopped after 42 races (mid round two), as in production. */
+  function mixedStoppedEarly() {
+    const state = stoppedEarlyDiscipline(19, 42);
+    return { ...state, placings: jointPlacings19(state) };
+  }
+
+  it('is stopped early when complete with some results and finals not all scored', () => {
+    expect(isStoppedEarly(stoppedEarlyDiscipline(8, 5))).toBe(true);
+  });
+
+  it('is not stopped early when every race including the finals was run', () => {
+    expect(isStoppedEarly(playedDiscipline(8))).toBe(false);
+  });
+
+  it('is not stopped early when it has no race results (results only)', () => {
+    expect(isStoppedEarly(playedDiscipline(8, { scores: [] }))).toBe(false);
+  });
+
+  it('is not stopped early while the discipline is still being raced', () => {
+    const racing = { ...stoppedEarlyDiscipline(8, 5), phase: 'round-two' as const };
+    expect(isStoppedEarly(racing)).toBe(false);
+  });
+
+  it('takes its places from the officials, not null', () => {
+    const state = stoppedEarlyDiscipline(8, 5);
+    const slot = state.teams[0].slot;
+    state.placings = { [slot]: 2 };
+
+    const placing = computeRoundPlacings(state)!.find((p) => p.slot === slot)!;
+    expect(placing).toMatchObject({ place: 2, source: 'entered', computedPlace: 2 });
+  });
+
+  it('keeps joint places: six on 1st, six on 7th, seven on 13th', () => {
+    const places = computeRoundPlacings(mixedStoppedEarly())!.map((p) => p.place);
+    expect(places).toEqual([...Array(6).fill(1), ...Array(6).fill(7), ...Array(7).fill(13)]);
+  });
+
+  it('lists a team without an entered place last with no place', () => {
+    const state = stoppedEarlyDiscipline(8, 5, {});
+    const first = state.teams[0];
+    state.placings = Object.fromEntries(
+      state.teams.filter((t) => t.slot !== first.slot).map((t, i) => [t.slot, i + 1])
+    );
+
+    expect(computeRoundPlacings(state)!.at(-1)).toMatchObject({ slot: first.slot, place: null });
+  });
+
+  it('labels the shared places as joint in the CSV export', () => {
+    const labels = new Set(roundResults(mixedStoppedEarly())!.map((r) => r.placementLabel));
+    expect([...labels]).toEqual(['Joint 1st', 'Joint 7th', 'Joint 13th']);
+  });
+
+  it('is not a results-only discipline', () => {
+    expect(isResultsOnly(mixedStoppedEarly())).toBe(false);
   });
 });

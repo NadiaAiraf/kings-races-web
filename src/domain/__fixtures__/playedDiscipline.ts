@@ -67,3 +67,27 @@ export function withUnplaceableTeams(state: DisciplineState, count: number): Dis
   const teams = state.teams.map((t, i) => (i < count ? { ...t, slot: 900 + i } : t));
   return { ...state, teams };
 }
+
+/**
+ * A discipline of `count` teams ended after its first `racesRun` races (e.g.
+ * abandoned for weather mid round two): phase 'complete', no finals raced,
+ * places as the officials entered them.
+ */
+export function stoppedEarlyDiscipline(
+  count: number,
+  racesRun: number,
+  placings: Record<number, number> = {}
+): DisciplineState {
+  const played = playedDiscipline(count);
+  return { ...played, scores: played.scores.slice(0, racesRun), placings };
+}
+
+/**
+ * Joint places as hand-decided for a 19-team round stopped mid round two:
+ * six teams on 1st, six on 7th, seven on 13th, in slot order.
+ */
+export function jointPlacings19(state: DisciplineState): Record<number, number> {
+  return Object.fromEntries(
+    state.teams.map((t, i) => [t.slot, i < 6 ? 1 : i < 12 ? 7 : 13])
+  );
+}

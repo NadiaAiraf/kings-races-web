@@ -19,12 +19,6 @@ export interface TeamPlacing {
 }
 
 /**
- * Every team's final place in a finished discipline, best first, with
- * unplaced teams last. Finals decide most places; the rest come from the
- * spreadsheet's group-position refs (PLACING_REFS). An official's place
- * overrides both and fills any gap. Null until the discipline is complete.
- */
-/**
  * A discipline run outside the app: finished, with teams and their final
  * places but no race results.
  */
@@ -32,10 +26,37 @@ export function isResultsOnly(state: DisciplineState): boolean {
   return state.phase === 'complete' && state.scores.length === 0 && state.teams.length > 0;
 }
 
+/**
+ * A discipline finished before all its races were run (e.g. weather): some
+ * results, no finals outcome, so officials enter the places.
+ */
+export function isStoppedEarly(state: DisciplineState): boolean {
+  return (
+    state.phase === 'complete' &&
+    state.scores.length > 0 &&
+    resolveCompletedDiscipline(state) === null
+  );
+}
+
+/** Whether a discipline's places are the officials' entered places. */
+export function usesEnteredPlacings(state: DisciplineState): boolean {
+  return isResultsOnly(state) || isStoppedEarly(state);
+}
+
+/**
+ * Every team's final place in a finished discipline, best first, with
+ * unplaced teams last. Finals decide most places; the rest come from the
+ * spreadsheet's group-position refs (PLACING_REFS). An official's place
+ * overrides both and fills any gap. A results-only or stopped-early
+ * discipline uses the entered places. Null until the discipline is complete.
+ */
 export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | null {
   if (isResultsOnly(state)) return enteredPlacings(state);
   const completed = resolveCompletedDiscipline(state);
-  if (!completed) return null;
+  if (!completed) {
+    // Stopped early: same test as isStoppedEarly, without resolving twice.
+    return state.phase === 'complete' && state.scores.length > 0 ? enteredPlacings(state) : null;
+  }
 
   const computed = new Map<number, { place: number; source: PlacingSource }>();
   for (const final of completed.finals) {
@@ -82,7 +103,7 @@ export function computeRoundPlacings(state: DisciplineState): TeamPlacing[] | nu
   );
 }
 
-/** A results-only discipline's places, as entered. */
+/** A results-only or stopped-early discipline's places, as entered. */
 function enteredPlacings(state: DisciplineState): TeamPlacing[] {
   const placings = state.teams.map((team): TeamPlacing => {
     const place = state.placings[team.slot] ?? null;
