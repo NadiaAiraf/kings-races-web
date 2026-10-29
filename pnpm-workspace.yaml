@@ -1,0 +1,49 @@
+# Enforce engines.node (>=26) on install instead of warning.
+engineStrict: true
+
+# Refuse versions published less than 7 days ago (npm account-takeover defence).
+minimumReleaseAge: 10080
+minimumReleaseAgeExclude:
+  # GHSA-gg6h-894w-4m9c fix, published 2026-10-28. Remove once it is 7 days old.
+  - re2js@2.9.1
+
+# Single source for the Vite range, shared by package.json and the override
+# below (pnpm deprecated the "$vite" override reference in favour of catalogs).
+catalog:
+  vite: ^8.0.1
+
+overrides:
+  # vite-plugin-pwa 1.x declares a Vite peer below 8; pin it to the installed Vite.
+  # Remove when vite-plugin-pwa declares Vite 8 support.
+  vite-plugin-pwa>vite: 'catalog:'
+  # GHSA-m9gg-hp2v-232j, GHSA-f596-whhp-79r4 - transitive via firebase
+  # (@firebase/firestore pins vulnerable ~1.9.x); patched in 1.14.5.
+  # Remove when firebase and firebase-tools depend on >=1.14.5 directly.
+  '@grpc/grpc-js': ^1.14.5
+  # superstatic 10.x declares engines node "20 || 22 || 24", which engineStrict
+  # rejects on Node 26. 11.x adds Node 26 and keeps the same server API used by
+  # the firebase-tools hosting emulator (not used by this project's scripts).
+  # Remove when firebase-tools depends on superstatic >=11.
+  firebase-tools>superstatic: ^11.0.0
+  # GHSA-gg6h-894w-4m9c (quadratic-time lookbehind DoS) - transitive via
+  # @firebase/firestore; patched in 2.9.1.
+  # Remove when @firebase/firestore depends on re2js >=2.9.1.
+  re2js: ^2.9.1
+
+# Packages with install scripts. Every entry is false: none is needed here.
+allowBuilds:
+  # Optional postinstall that bakes FIREBASE_DEFAULTS for auto-init; the app
+  # passes explicit config from VITE_FIREBASE_* vars instead.
+  '@firebase/util': false
+  # install.js only verifies the platform binary, which arrives via
+  # optionalDependencies; Vite 8 bundles with Rolldown anyway.
+  esbuild: false
+  # postinstall is a version-compatibility warning only.
+  protobufjs: false
+  # Native RegExp replacement used by superstatic (hosting emulator, unused
+  # here); superstatic falls back to built-in RegExp when re2 is absent.
+  re2: false
+  # Prebuilt libvips binaries arrive via @img/sharp-* optionalDependencies;
+  # the script only compiles from source as a fallback. Used by
+  # @vite-pwa/assets-generator for icon generation.
+  sharp: false

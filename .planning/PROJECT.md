@@ -67,7 +67,7 @@ None - no milestone open
 
 ## Context
 
-- **Tech stack:** React 19.2, React Router 7 (HashRouter), Vite 8, TypeScript 5.9, Zustand 5 (no persist), Tailwind CSS 4, Firebase 12 (Auth + Firestore), vite-plugin-pwa, papaparse, Vitest 3; npm with package-lock.json, Node 22 in CI
+- **Tech stack:** React 19.2, React Router 7 (HashRouter), Vite 8, TypeScript 6.0, Zustand 5 (no persist), Tailwind CSS 4, Firebase 12 (Auth + Firestore), vite-plugin-pwa, papaparse, Vitest 5; pnpm 12 via corepack with pnpm-lock.yaml, Node 26 (.nvmrc) locally and in CI
 - **Race format:** Parallel slalom, team relay. Head-to-head round-robin in groups, cross-group R2 for 8+ teams, then placement finals
 - **Three disciplines:** Mixed (4-32 teams), Board (4-17), Ladies (4-17)
 - **Users:** Approved Kings Ski Club officials scoring on phones slope-side (possibly gloved), plus read-only viewers

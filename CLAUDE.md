@@ -25,7 +25,7 @@ A mobile-first PWA for Kings Ski Club race officials to run university dry slope
 | Technology | Version | Purpose | Notes |
 |------------|---------|---------|-------|
 | React | 19.2.x | UI framework | Client-only SPA. |
-| TypeScript | 5.9 | Type safety | Catches bugs at compile time -- critical for complex race logic (scoring, bracket generation). `npm run build` runs `tsc -b` first. |
+| TypeScript | 6.0.x | Type safety | Catches bugs at compile time -- critical for complex race logic (scoring, bracket generation). `pnpm build` runs `tsc -b` first. TS 7 (Go) is not adopted: typescript-eslint 8.x peers on `<6.1.0`. |
 | Vite | 8.0.x | Build tool / dev server | Rolldown-powered bundler, `@vitejs/plugin-react` 6. |
 | Tailwind CSS | 4.2.x | Styling | Mobile-first utility classes via `@tailwindcss/vite`; no config file, just `@import "tailwindcss"`. |
 | Zustand | 5.0.x | State management | Single store for the open event. No `persist` middleware; Firestore's offline cache is the storage. |
@@ -38,7 +38,7 @@ A mobile-first PWA for Kings Ski Club race officials to run university dry slope
 ### PWA / Offline Support
 | Technology | Version | Purpose | Notes |
 |------------|---------|---------|-------|
-| vite-plugin-pwa | 1.2.x | Service worker generation, offline caching | Workbox precache of the app shell for slope-side use. Its Vite peer is pinned to the installed Vite via `overrides` in package.json. |
+| vite-plugin-pwa | 1.2.x | Service worker generation, offline caching | Workbox precache of the app shell for slope-side use. Its Vite peer is pinned to the installed Vite via `overrides` in pnpm-workspace.yaml. |
 ### Supporting Libraries
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
@@ -47,20 +47,22 @@ A mobile-first PWA for Kings Ski Club race officials to run university dry slope
 ### Development Tools
 | Tool | Version | Purpose | Notes |
 |------|---------|---------|-------|
-| Vitest | 3.2.x | Unit and component testing | jsdom environment, `vitest.config.ts` includes `src/**/*.test.ts(x)`. |
+| Vitest | 5.0.x | Unit and component testing | jsdom environment, `vitest.config.ts` includes `src/**/*.test.ts(x)`. `test.execArgv: ['--no-experimental-webstorage']` keeps jsdom's localStorage on Node 25+. |
 | @testing-library/react | 16.x | Component testing | Test UI interactions, not implementation. |
 | @firebase/rules-unit-testing + firebase-tools | 5.x / 15.x | Firestore rules tests | Runs `rules/firestore.rules.test.ts` against the Firestore emulator via `vitest.rules.config.ts`. |
 | ESLint | 9.x | Linting | `@eslint/js` + `typescript-eslint`, flat config (`eslint.config.js`). |
 | Prettier | - | Not set up | No formatter is installed. |
 ## Installation
-Tooling is npm with `package-lock.json`; CI uses Node 22.
+Tooling is pnpm 12 managed by corepack (exact version + hash in `packageManager`), Node pinned in `.nvmrc` (v26.5.1, `engines.node >=26`, enforced by `engineStrict` in pnpm-workspace.yaml). pnpm settings (engineStrict, minimumReleaseAge, allowBuilds, overrides) live in pnpm-workspace.yaml, never in package.json or .npmrc.
 ```bash
-npm ci                # install
-npm run dev           # dev server
-npm test              # unit + component tests (vitest run)
-npm run test:rules    # Firestore rules tests in the emulator (needs Java)
-npm run emulators     # local Firestore + Auth emulators
-npm run build         # tsc -b && vite build
+npm i -g corepack@0.35.0 && corepack enable   # one-time; Node 26 does not bundle corepack
+pnpm install --frozen-lockfile   # install
+pnpm dev               # dev server
+pnpm test              # unit + component tests (vitest run)
+pnpm test:rules        # Firestore rules tests in the emulator (needs Java)
+pnpm emulators         # local Firestore + Auth emulators
+pnpm build             # tsc -b && vite build
+pnpm audit --prod --audit-level moderate   # same gate as CI
 ```
 The app needs `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` and `VITE_FIREBASE_APP_ID`; it throws at startup if any are missing. `VITE_FIREBASE_USE_EMULATORS=true` points at the local emulators and is rejected in production builds.
 ## Alternatives Considered
@@ -96,9 +98,11 @@ The app needs `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBA
 ## Version Compatibility
 | Package | Compatible With | Notes |
 |---------|-----------------|-------|
-| Vite 8.0.x | vite-plugin-pwa 1.2.x | Works; peer dependency pinned to the installed Vite via `overrides` |
+| Vite 8.0.x | vite-plugin-pwa 1.2.x | Works; peer dependency pinned to the installed Vite via `overrides` in pnpm-workspace.yaml |
 | Vite 8.0.x | @tailwindcss/vite 4.2.2+ | Officially supports Vite 8 |
-| Vitest 3.2.x | Vite 8.0.x | In use for unit, component and rules tests |
+| Vitest 5.0.x | Vite 8.0.x | In use for unit, component and rules tests |
+| TypeScript 6.0.x | typescript-eslint 8.x | 8.x peer range is <6.1.0 |
+| Node 26 | pnpm 12 via corepack 0.35.0 | corepack installed explicitly in CI |
 | React 19.2.x | React Router 7.x, Zustand 5.0.x, @testing-library/react 16.x | Fully compatible |
 | Firebase 12.x | @firebase/rules-unit-testing 5.x, firebase-tools 15.x | Emulator-based rules tests |
 ## Sources
@@ -117,7 +121,7 @@ The app needs `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBA
 - Destructive actions go through `ConfirmDialog` and soft delete (rounds are archived to `deletedEvents`)
 - Conventional Commits with the quick-task scope, e.g. `feat(quick-261027-noe): ...`; a failing `test(...)` commit lands before the `feat(...)` commit
 - Branches are `af/<brief-descriptor>`, merged to `master` by PR
-- CI must pass (lint, tests, build, rules tests, npm audit) before the GitHub Pages deploy runs
+- CI must pass (lint, tests, build, rules tests, pnpm audit) before the GitHub Pages deploy runs
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
