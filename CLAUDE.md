@@ -3,82 +3,89 @@
 
 **Kings Races Web**
 
-A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet — handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 → R2 → Finals), final results, and CSV export. Works offline slope-side.
+A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet - handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 -> R2 -> Finals), final results, and CSV export. Officials sign in with Firebase Auth: approved officials (the approvedUsers allowlist) can create and score rounds, everyone else views read-only. Rounds sync through Firestore with a persistent offline cache, so scoring still works slope-side, and each round belongs to a season and league with season standings and league points. Hosted on GitHub Pages.
 
-**Core Value:** A race official can run an entire event from their phone — entering teams, seeing the race order, recording results live, and viewing group standings at any time.
+**Core Value:** A race official can run an entire event from their phone - entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
 ### Constraints
 
 - **Platform**: Web app, mobile-first (no native app)
-- **Data**: Client-side localStorage only
+- **Data**: Firebase Auth + Firestore with persistent offline cache; no custom server
 - **Race orders**: Exact cheat sheet replication (29 sequences)
-- **Offline**: PWA service worker for slope-side reliability
+- **Offline**: PWA service worker for the app shell, plus the Firestore offline cache for data
+- **Hosting**: GitHub Pages static site with HashRouter
+- **Access control**: `firestore.rules` is authoritative and is deployed by hand (not by CI)
 <!-- GSD:project-end -->
 
 <!-- GSD:stack-start source:research/STACK.md -->
 ## Technology Stack
 
-## Recommended Stack
+## Installed Stack
 ### Core Technologies
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| React | 19.1.x | UI framework | Industry standard for component-based UIs. React 19 stable with server components, but we use client-only features. Massive ecosystem, excellent mobile web support. 19.1.x over 19.2.x for stability (19.2 adds Activity/SSR features we don't need). |
-| TypeScript | 6.0 | Type safety | Current stable release (March 2026). Catches bugs at compile time -- critical for complex race logic (scoring, bracket generation). TS 6.0 is last JS-based compiler; TS 7 (Go-based) coming but not stable yet. |
-| Vite | 8.0.x | Build tool / dev server | Latest stable (March 2026). Rolldown-powered bundler is 10-30x faster builds. Native React support. Tailwind v4.2.2+ officially supports Vite 8. |
-| Tailwind CSS | 4.2.x | Styling | Mobile-first utility classes. v4 eliminates config files -- just `@import "tailwindcss"`. 5x faster builds than v3. `@tailwindcss/vite` plugin for native integration. Perfect for rapid mobile UI development without writing custom CSS. |
-| Zustand | 5.0.x | State management | 1KB, no boilerplate, no provider needed. Centralized store pattern fits race management well (event state, race results, standings are app-global). Built-in `persist` middleware writes to localStorage automatically. Simpler than Jotai for this use case where state is naturally centralized per-event. |
-| React Router | 7.13.x | Client-side routing | Stable, mature. Handles navigation between disciplines, race views, standings, and results. Non-breaking upgrade path from v6 if needed. |
+| Technology | Version | Purpose | Notes |
+|------------|---------|---------|-------|
+| React | 19.2.x | UI framework | Client-only SPA. |
+| TypeScript | 5.9 | Type safety | Catches bugs at compile time -- critical for complex race logic (scoring, bracket generation). `npm run build` runs `tsc -b` first. |
+| Vite | 8.0.x | Build tool / dev server | Rolldown-powered bundler, `@vitejs/plugin-react` 6. |
+| Tailwind CSS | 4.2.x | Styling | Mobile-first utility classes via `@tailwindcss/vite`; no config file, just `@import "tailwindcss"`. |
+| Zustand | 5.0.x | State management | Single store for the open event. No `persist` middleware; Firestore's offline cache is the storage. |
+| React Router | 7.x | Client-side routing | `HashRouter`, because GitHub Pages cannot serve deep links. |
+| Firebase | 12.x | Auth + database | Auth for sign-in; Firestore for events, seasons, leagues and approvedUsers, with `persistentLocalCache` (multi-tab manager). |
 ### Storage
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| localStorage (via Zustand persist) | N/A | Primary data persistence | Sufficient for this app's data volume. Race event data is small (teams, scores, brackets -- well under 5MB). Zustand's `persist` middleware handles serialization automatically. No extra dependency needed. |
+| Technology | Version | Purpose | Notes |
+|------------|---------|---------|-------|
+| Firestore persistent local cache (IndexedDB) | via Firebase SDK | Offline storage and sync | Writes queue offline and sync when back online. `src/lib/offlineStorage.ts` warns when IndexedDB is unavailable (private modes). The legacy `kings-races-event` localStorage key is left untouched and not read. |
 ### PWA / Offline Support
-| Technology | Version | Purpose | Why Recommended |
-|------------|---------|---------|-----------------|
-| vite-plugin-pwa | 1.2.x | Service worker generation, offline caching | Zero-config PWA support via Workbox. Precaches app shell for offline use. Critical for slope-side reliability with spotty connectivity. |
+| Technology | Version | Purpose | Notes |
+|------------|---------|---------|-------|
+| vite-plugin-pwa | 1.2.x | Service worker generation, offline caching | Workbox precache of the app shell for slope-side use. Its Vite peer is pinned to the installed Vite via `overrides` in package.json. |
 ### Supporting Libraries
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
 | clsx | 2.x | Conditional CSS class joining | When building components with conditional Tailwind classes (active states, responsive toggles) |
-| papaparse | 5.x | CSV export | For the "Export results as CSV" requirement. Lightweight, handles edge cases (commas in team names, unicode). |
+| papaparse | 5.x | CSV export | For the "Export results as CSV" requirement. Handles edge cases (commas in team names, unicode). |
 ### Development Tools
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| Vitest | 4.1.x | Unit and integration testing | Native Vite integration, fast, compatible with React Testing Library. Test race logic (scoring, bracket generation, cheat sheet matching) thoroughly. |
-| @testing-library/react | 16.x | Component testing | Test UI interactions (recording results, navigating disciplines). Encourages testing user behavior not implementation. |
-| ESLint | 9.x | Linting | With `@eslint/js` and `typescript-eslint`. Flat config format (eslint.config.js). |
-| Prettier | 3.x | Code formatting | Consistent formatting. Use `prettier-plugin-tailwindcss` for automatic class sorting. |
+| Tool | Version | Purpose | Notes |
+|------|---------|---------|-------|
+| Vitest | 3.2.x | Unit and component testing | jsdom environment, `vitest.config.ts` includes `src/**/*.test.ts(x)`. |
+| @testing-library/react | 16.x | Component testing | Test UI interactions, not implementation. |
+| @firebase/rules-unit-testing + firebase-tools | 5.x / 15.x | Firestore rules tests | Runs `rules/firestore.rules.test.ts` against the Firestore emulator via `vitest.rules.config.ts`. |
+| ESLint | 9.x | Linting | `@eslint/js` + `typescript-eslint`, flat config (`eslint.config.js`). |
+| Prettier | - | Not set up | No formatter is installed. |
 ## Installation
-# Core
-# Styling
-# PWA
-# CSV Export
-# Dev dependencies
+Tooling is npm with `package-lock.json`; CI uses Node 22.
+```bash
+npm ci                # install
+npm run dev           # dev server
+npm test              # unit + component tests (vitest run)
+npm run test:rules    # Firestore rules tests in the emulator (needs Java)
+npm run emulators     # local Firestore + Auth emulators
+npm run build         # tsc -b && vite build
+```
+The app needs `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` and `VITE_FIREBASE_APP_ID`; it throws at startup if any are missing. `VITE_FIREBASE_USE_EMULATORS=true` points at the local emulators and is rejected in production builds.
 ## Alternatives Considered
-| Recommended | Alternative | When to Use Alternative |
-|-------------|-------------|-------------------------|
+| Chosen | Alternative | When to Use Alternative |
+|--------|-------------|-------------------------|
 | React | Preact | If bundle size is absolutely critical (<3KB). But React's ecosystem and tooling are vastly better for a project this complex. |
 | React | Svelte 5 | If starting fresh with no React experience. Svelte has less boilerplate. But React's ecosystem depth (testing, libraries, community answers) wins for a project with complex state logic. |
 | Zustand | Jotai | If state is naturally atomic (many independent pieces). Race management state is centralized (event -> disciplines -> races -> results), making Zustand's store pattern a better fit. |
 | Zustand | React Context | If state is trivial. Race state (teams, scores, standings, brackets across 3 disciplines) is complex enough to warrant a proper state library. Context causes unnecessary re-renders without careful memoization. |
 | Tailwind CSS | Plain CSS / CSS Modules | If you prefer writing traditional CSS. Tailwind is faster for mobile-first responsive development -- `sm:`, `md:` breakpoint prefixes are exactly what this app needs. |
-| localStorage | Dexie.js (IndexedDB) | If the app needs to store multi-event history, large datasets, or complex queries. For v1 with single-event data, localStorage is simpler and sufficient. |
-| Vite 7.3.x | Vite 8.0.x | When vite-plugin-pwa officially supports Vite 8 peer dependencies. Vite 8's Rolldown bundler is faster but the speed difference is negligible for a small app. |
+| Firebase | Custom backend / Supabase | If the app outgrows Firestore's data model or needs server-side logic. Firebase gives auth, sync and an offline cache with no server to run. |
 ## What NOT to Use
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
-| Next.js / Remix | Server-side frameworks. This app is client-side only with no backend. SSR/SSG adds complexity for zero benefit. Deployment is a static file host. | Vite + React (SPA) |
+| Next.js / Remix | Server-side frameworks. This app is a static SPA on GitHub Pages. SSR/SSG adds complexity for zero benefit. | Vite + React (SPA) |
 | Redux / Redux Toolkit | Overkill boilerplate for this app size. Actions, reducers, selectors pattern is unnecessary when Zustand does the same in 1/10th the code. | Zustand |
 | Bootstrap / Material UI | Heavy component libraries. Bootstrap is 22KB+ gzipped CSS. MUI ships JS-in-CSS runtime. Both are bloated for a mobile-first app that needs fast load on spotty connectivity. | Tailwind CSS (utility classes, no runtime) |
-| Firebase / Supabase | Backend-as-a-service. v1 explicitly requires no server. Adding a BaaS creates a dependency, requires auth setup, and adds latency. Build client-only first. | localStorage via Zustand persist |
-| Axios | Unnecessary -- this app makes no HTTP requests in v1. If API calls are needed later, native `fetch()` is sufficient. | Nothing (no network calls in v1) |
+| Other BaaS (Supabase etc.) | Firebase is already the backend; a second one splits auth and data. | Firebase Auth + Firestore |
+| Axios | Unnecessary -- the app makes no HTTP requests beyond the Firebase SDK. If one is needed, native `fetch()` is sufficient. | Firebase SDK / `fetch()` |
 | CSS-in-JS (styled-components, Emotion) | Runtime overhead on every render. Worse performance on mobile. Tailwind's utility classes are zero-runtime. | Tailwind CSS |
 | Jest | Slower than Vitest, requires separate configuration, doesn't integrate with Vite's transform pipeline. | Vitest |
 ## Stack Patterns for This Project
-- Use Zustand's `persist` middleware with `localStorage` as the storage engine
-- Structure stores per-domain: `useEventStore`, `useRaceStore`, `useResultsStore`
-- Zustand persist handles JSON serialization/deserialization automatically
-- No need for loading states or error boundaries around data fetching
+- One Zustand store (`src/store/eventStore.ts`) for the open event, fed by `startEventSync`
+- Firestore writes go through the repos in `src/events` and `src/seasons`
+- Firestore snapshots are async: handle loading and empty states, do not assume data is present on first render
 - PWA with precached app shell (vite-plugin-pwa with `generateSW` strategy)
 - Tailwind's mobile-first breakpoints (`sm:` for tablet, `md:` for desktop -- mobile is the default)
 - Large touch targets (min 44x44px) -- Tailwind classes like `p-4`, `min-h-[44px]`
@@ -89,37 +96,49 @@ A mobile-first PWA for Kings Ski Club race officials to run university dry slope
 ## Version Compatibility
 | Package | Compatible With | Notes |
 |---------|-----------------|-------|
-| Vite 7.3.x | vite-plugin-pwa 1.2.x | Officially supported peer dependency |
-| Vite 7.3.x | @tailwindcss/vite 4.2.x | Tailwind v4 supports Vite 5+ |
-| React 19.1.x | React Router 7.13.x | Fully compatible |
-| React 19.1.x | Zustand 5.0.x | Fully compatible, supports React 18+ |
-| React 19.1.x | @testing-library/react 16.x | Compatible with React 19 |
-| Vitest 4.1.x | Vite 7.3.x | Vitest 4.x supports Vite 7 and 8 |
-| TypeScript 6.0 | All above | Universal compatibility |
+| Vite 8.0.x | vite-plugin-pwa 1.2.x | Works; peer dependency pinned to the installed Vite via `overrides` |
+| Vite 8.0.x | @tailwindcss/vite 4.2.2+ | Officially supports Vite 8 |
+| Vitest 3.2.x | Vite 8.0.x | In use for unit, component and rules tests |
+| React 19.2.x | React Router 7.x, Zustand 5.0.x, @testing-library/react 16.x | Fully compatible |
+| Firebase 12.x | @firebase/rules-unit-testing 5.x, firebase-tools 15.x | Emulator-based rules tests |
 ## Sources
-- [React versions](https://react.dev/versions) -- React 19.2 latest, 19.1 for stability (HIGH confidence)
-- [Vite releases](https://vite.dev/releases) -- Vite 8.0 stable March 2026, Vite 7.3 LTS (HIGH confidence)
 - [Tailwind CSS v4.0 announcement](https://tailwindcss.com/blog/tailwindcss-v4) -- v4 architecture changes (HIGH confidence)
 - [Tailwind CSS Vite 8 support](https://github.com/tailwindlabs/tailwindcss/discussions/19624) -- @tailwindcss/vite 4.2.2+ supports Vite 8 (HIGH confidence)
-- [TypeScript 6.0 announcement](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/) -- TS 6.0 stable March 2026 (HIGH confidence)
-- [Zustand npm](https://www.npmjs.com/package/zustand) -- v5.0.12 latest (HIGH confidence)
-- [React Router npm](https://www.npmjs.com/package/react-router) -- v7.13.2 latest (HIGH confidence)
 - [vite-plugin-pwa GitHub #918](https://github.com/vite-pwa/vite-plugin-pwa/issues/918) -- Vite 8 compatibility status (MEDIUM confidence -- functionally works but not officially declared)
-- [Vitest 4.0 announcement](https://vitest.dev/blog/vitest-4) -- Browser mode stable (HIGH confidence)
 - [Zustand vs Jotai comparison](https://dev.to/hijazi313/state-management-in-2025-when-to-use-context-redux-zustand-or-jotai-2d2k) -- State management landscape (MEDIUM confidence -- community source)
-- [Dexie.js vs localStorage](https://blog.logrocket.com/dexie-js-indexeddb-react-apps-offline-data-storage/) -- Storage comparison (MEDIUM confidence)
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+- Tests are colocated as `*.test.ts(x)` beside the source; Firestore rules tests live in `rules/`
+- Pure race logic lives in `src/domain` and is unit tested
+- Components that render a mutating control call `useCanEdit()` and hide it themselves; Firestore rules are the real access control
+- Destructive actions go through `ConfirmDialog` and soft delete (rounds are archived to `deletedEvents`)
+- Conventional Commits with the quick-task scope, e.g. `feat(quick-261027-noe): ...`; a failing `test(...)` commit lands before the `feat(...)` commit
+- Branches are `af/<brief-descriptor>`, merged to `master` by PR
+- CI must pass (lint, tests, build, rules tests, npm audit) before the GitHub Pages deploy runs
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
-Architecture not yet mapped. Follow existing patterns found in the codebase.
+- `src/domain/` - pure race logic: cheat sheets, scoring, group calculations, R2 seeding and order, finals seeding, placings, CSV export, validation, types
+- `src/store/` - single Zustand `eventStore` for the open event (not persisted)
+- `src/events/` - Firestore event doc shape (`eventDoc`), sync (`eventSync`), repo (`eventsRepo`), event info
+- `src/seasons/` - seasons, leagues, league rounds and teams, season standings (league points + spreadsheet tiebreak order)
+- `src/auth/` - `AuthProvider`, auth status, Firebase Auth wrapper, `editAccess` (`useCanEdit`, defaults to false)
+- `src/firebase/` - app init (persistent multi-tab cache) and env config (Safari long-polling transport)
+- `src/lib/` - small helpers (dates, Firebase error messages, offline storage detection)
+- `src/hooks/` - derived-state hooks (standings, R2, finals, final results, current race, round fold, discipline state)
+- `src/components/{finals,layout,races,results,scoring,season,shared,standings,teams}` - UI components
+- `src/pages/` - route pages
+- `rules/` - Firestore rules tests; `firestore.rules` - security rules (events, deletedEvents, seasons, seasons/{seasonId}/leagues/{league}, approvedUsers)
+- `.github/workflows/` - `ci.yml` (lint, tests, build, rules tests, dependency audit) and `deploy.yml` (GitHub Pages)
+
+Data flow: Firestore snapshot -> `startEventSync` -> Zustand `eventStore` -> hooks derive standings and brackets -> components. Writes go back to Firestore through `eventSync`, which drops them for users who cannot edit.
+
+Routes (HashRouter): `/`, `/rounds`, `/seasons/new`, `/seasons/:seasonId/:league`, `/seasons/:seasonId/:league/new`, `/events/:id`, `/login`.
 <!-- GSD:architecture-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
