@@ -13,6 +13,10 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  # Never let corepack block on its download confirmation prompt.
+  COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -28,9 +32,10 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
+          node-version-file: .nvmrc
+      # Node 26 no longer bundles corepack; pin it so pnpm resolves from packageManager.
+      - run: npm i -g corepack@0.35.0 && corepack enable
+      - run: pnpm install --frozen-lockfile
       # The app throws at startup without these, so a missing variable would
       # deploy a blank site that the service worker then caches on phones.
       - name: Check Firebase config variables
@@ -49,7 +54,7 @@ jobs:
             echo "::error::Missing repository variables:$missing"
             exit 1
           fi
-      - run: npm run build
+      - run: pnpm build
         env:
           BASE_URL: /kings-races-web/
           VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
