@@ -3,7 +3,7 @@
 
 **Kings Races Web**
 
-A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet - handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 -> R2 -> Finals), final results, and CSV export. Officials sign in with Firebase Auth: approved officials (the approvedUsers allowlist) can create and score rounds, everyone else views read-only. Rounds sync through Firestore with a persistent offline cache, so scoring still works slope-side, and each round belongs to a season and league with season standings and league points. Hosted on GitHub Pages.
+A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet - handles team entry, race order generation (28 pre-computed sequences for 4-31 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 -> R2 -> Finals), final results, and CSV export. Officials sign in with Firebase Auth: approved officials (the approvedUsers allowlist) can create and score rounds, everyone else views read-only. Rounds sync through Firestore with a persistent offline cache, so scoring still works slope-side, and each round belongs to a season and league with season standings and league points. Hosted on GitHub Pages.
 
 **Core Value:** A race official can run an entire event from their phone - entering teams, seeing the race order, recording results live, and viewing group standings at any time.
 
@@ -11,7 +11,7 @@ A mobile-first PWA for Kings Ski Club race officials to run university dry slope
 
 - **Platform**: Web app, mobile-first (no native app)
 - **Data**: Firebase Auth + Firestore with persistent offline cache; no custom server
-- **Race orders**: Exact cheat sheet replication (29 sequences)
+- **Race orders**: Exact cheat sheet replication (28 sequences, 4-31 teams)
 - **Offline**: PWA service worker for the app shell, plus the Firestore offline cache for data
 - **Hosting**: GitHub Pages static site with HashRouter
 - **Access control**: `firestore.rules` is authoritative and is deployed by hand (not by CI)

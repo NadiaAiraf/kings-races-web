@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet - handles team entry, race order generation (29 pre-computed sequences for 4-32 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 -> R2 -> Finals), final results, and CSV export. Officials sign in with Firebase Auth: approved officials (the approvedUsers allowlist) can create and score rounds, everyone else views read-only. Rounds sync through Firestore with a persistent offline cache, so scoring still works slope-side, and each round belongs to a season and league with season standings and league points.
+A mobile-first PWA for Kings Ski Club race officials to run university dry slope parallel slalom championship events from their phone. Replaces a Google Spreadsheet - handles team entry, race order generation (28 pre-computed sequences for 4-31 teams), live result recording with 1-tap scoring, group standings with race-by-race grids, multi-round tournament flow (R1 -> R2 -> Finals), final results, and CSV export. Officials sign in with Firebase Auth: approved officials (the approvedUsers allowlist) can create and score rounds, everyone else views read-only. Rounds sync through Firestore with a persistent offline cache, so scoring still works slope-side, and each round belongs to a season and league with season standings and league points.
 
 ## Core Value
 
@@ -22,7 +22,7 @@ A race official can run an entire event from their phone - entering teams, seein
 ### Validated
 
 - Enter teams by name per discipline (Mixed, Board, Ladies) - v1.0
-- Auto-generate race order from exact cheat sheet sequences (4-32 teams) - v1.0
+- Auto-generate race order from exact cheat sheet sequences (4-32 teams) - v1.0 (later capped at 31 teams)
 - Display race list with team names resolved - v1.0
 - Record results: Win (3pts) / Loss (1pt) / DSQ (0pts) - v1.0
 - Live-updating group tables with race-by-race grid - v1.0
@@ -37,7 +37,7 @@ A race official can run an entire event from their phone - entering teams, seein
 - Fix DSQ-then-Win scoring bug (SCORE-01, SCORE-02) - v1.1 Phase 6
 - Fix standings to count only per-round results (STAND-01, STAND-02, STAND-03) - v1.1 Phase 7
 - Fix finals to determine placement solely from finals results (FINAL-01, FINAL-02) - v1.1 Phase 7
-- Group seeding matches xlsx serpentine draft for all 29 team counts (SEED-01, SEED-02) - v1.2 Phase 9
+- Group seeding matches xlsx serpentine draft for all 29 team counts (SEED-01, SEED-02) - v1.2 Phase 9 (later capped at 31 teams)
 - R2 race order matches xlsx for all team counts (R2ORD-01) - v1.2 Phase 9
 - All cheat sheet data validated against xlsx source of truth (VALID-01, VALID-02, VALID-03) - v1.2 Phase 8
 
@@ -69,7 +69,7 @@ None - no milestone open
 
 - **Tech stack:** React 19.2, React Router 7 (HashRouter), Vite 8, TypeScript 6.0, Zustand 5 (no persist), Tailwind CSS 4, Firebase 12 (Auth + Firestore), vite-plugin-pwa, papaparse, Vitest 5; pnpm 12 via corepack with pnpm-lock.yaml, Node 26 (.nvmrc) locally and in CI
 - **Race format:** Parallel slalom, team relay. Head-to-head round-robin in groups, cross-group R2 for 8+ teams, then placement finals
-- **Three disciplines:** Mixed (4-32 teams), Board (4-17), Ladies (4-17)
+- **Three disciplines:** Mixed (4-31 teams), Board (4-17), Ladies (4-17)
 - **Users:** Approved Kings Ski Club officials scoring on phones slope-side (possibly gloved), plus read-only viewers
 - **Data model:** Firestore collections `events`, `deletedEvents`, `seasons`, `seasons/{seasonId}/leagues/{league}` and `approvedUsers`. Event docs store scores and tiebreaks as maps keyed by race id / group so concurrent scorers write separate fields and do not clobber each other. A single Zustand store holds the open event.
 - **Known tech debt:** `isValidTeamCount` export only used by its own test; Firestore rules deployed by hand, not by CI; approvedUsers allowlist managed by hand in the Firebase console
@@ -79,7 +79,7 @@ None - no milestone open
 - **Platform**: Web app, mobile-first (no native app)
 - **Data**: Firebase Auth + Firestore, with Firestore persistent offline cache; no custom server
 - **Hosting**: GitHub Pages static site, HashRouter for deep links
-- **Race orders**: Exact cheat sheet replication (29 sequences)
+- **Race orders**: Exact cheat sheet replication (28 sequences, 4-31 teams)
 - **Offline**: PWA service worker for slope-side reliability, plus the Firestore offline cache
 
 ## Key Decisions
@@ -88,7 +88,7 @@ None - no milestone open
 |----------|-----------|---------|
 | No auth for v1 | Single official per event | Superseded (PR #2) - multiple officials and viewers needed shared live results; Firebase Auth + approvedUsers allowlist |
 | Client-side only | No server needed | Superseded (PR #2) - Firestore backend for shared events, offline cache keeps slope-side use |
-| Exact cheat sheet replication | Officials know existing race orders | Good - 29 sequences extracted from xlsx |
+| Exact cheat sheet replication | Officials know existing race orders | Good - 29 sequences extracted from xlsx, later capped at 31 teams (28 sequences) |
 | Mobile-first design | Slope-side phone use | Good - 56px+ touch targets, high contrast |
 | Zustand single store with persist | Atomic state, auto-save | Partly superseded - single store kept, persist removed in favour of Firestore cache |
 | No component tests | Domain logic fully tested (372 tests) | Superseded - component tests added alongside UI work |
