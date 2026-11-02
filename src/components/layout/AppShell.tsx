@@ -1,7 +1,7 @@
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useState, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router';
 import { useEventStore } from '../../store/eventStore';
-import { DisciplineTabs } from './DisciplineTabs';
+import { DisciplineTabs, type DisciplineView } from './DisciplineTabs';
 import { SubTabs } from './SubTabs';
 import type { SubTabKey } from './SubTabs';
 import { useCanEdit } from '../../auth/editAccess';
@@ -9,12 +9,23 @@ import type { DisciplineKey } from '../../domain/types';
 import { ProgressBar } from '../shared/ProgressBar';
 import { TeamEntryView } from '../teams/TeamEntryView';
 import { RaceListView } from '../races/RaceListView';
+import { AllRacesListView } from '../races/AllRacesListView';
 import { StandingsView } from '../standings/StandingsView';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
 import { usePhaseTransitions } from '../../hooks/usePhaseTransitions';
 import { DISCIPLINE_KEYS } from '../../events/eventDoc';
+import {
+  DEFAULT_COMBINED_ORDERING,
+  combinedR1Progress,
+  combinedRaceKey,
+  orderCombinedRaces,
+  r1RacesByDiscipline,
+} from '../../domain/combinedRaceOrder';
 
 const SUB_TAB_KEYS: readonly SubTabKey[] = ['teams', 'races', 'standings'];
+
+/** The three disciplines plus the combined All R1 list. */
+const DISCIPLINE_VIEWS: readonly DisciplineView[] = [...DISCIPLINE_KEYS, 'all'];
 
 function parseKey<K extends string>(value: string | null, keys: readonly K[]): K | null {
   return keys.find((key) => key === value) ?? null;
@@ -32,6 +43,9 @@ export function AppShell({ header }: AppShellProps) {
   // The open discipline and tab live in the URL so a reload or a shared link
   // keeps them. Without ?d the round opens on the last discipline chosen this session.
   const activeDiscipline = parseKey(searchParams.get('d'), DISCIPLINE_KEYS) ?? storedDiscipline;
+  // ?d=all opens every discipline's Round 1 in one list. It never reaches the
+  // store, so activeDiscipline stays a real discipline.
+  const showAll = searchParams.get('d') === 'all';
   const selectedSubTab = parseKey(searchParams.get('v'), SUB_TAB_KEYS) ?? 'teams';
   // Viewers only follow the racing, so the Teams tab is for officials.
   // Derived rather than stored so signing in or out switches tabs at once.
@@ -50,9 +64,13 @@ export function AppShell({ header }: AppShellProps) {
     );
   }
 
-  function selectDiscipline(d: DisciplineKey) {
-    setActiveDiscipline(d);
-    setParam('d', d);
+  function selectView(view: DisciplineView) {
+    if (view === 'all') {
+      setParam('d', 'all');
+      return;
+    }
+    setActiveDiscipline(view);
+    setParam('d', view);
   }
 
   const { currentIndex, totalRaces, scoredR1, scoredR2 } =
@@ -62,6 +80,15 @@ export function AppShell({ header }: AppShellProps) {
   usePhaseTransitions('mixed');
   usePhaseTransitions('board');
   usePhaseTransitions('ladies');
+
+  const disciplines = useEventStore((s) => s.disciplines);
+  const allProgress = useMemo(() => {
+    const races = orderCombinedRaces(r1RacesByDiscipline(disciplines), DEFAULT_COMBINED_ORDERING);
+    const scoredKeys = new Set(
+      DISCIPLINE_KEYS.flatMap((d) => disciplines[d].scores.map((s) => combinedRaceKey(d, s.raceId))),
+    );
+    return combinedR1Progress(races, scoredKeys);
+  }, [disciplines]);
 
   // Combined progress for progress bar
   const totalScored = scoredR1 + scoredR2;
@@ -82,13 +109,30 @@ export function AppShell({ header }: AppShellProps) {
     ladies: {},
   };
 
+  if (showAll) {
+    return (
+      <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto bg-slate-50">
+        {header}
+        <DisciplineTabs<DisciplineView> active="all" onSelect={selectView} views={DISCIPLINE_VIEWS} />
+        <main className="flex-1 overflow-y-auto px-4 py-4">
+          <AllRacesListView />
+        </main>
+        <ProgressBar current={allProgress.scored} total={allProgress.total} />
+      </div>
+    );
+  }
+
   return (
     <div
       className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto ${disciplineBg[activeDiscipline]}`}
       style={disciplineTableColours[activeDiscipline]}
     >
       {header}
-      <DisciplineTabs active={activeDiscipline} onSelect={selectDiscipline} />
+      <DisciplineTabs<DisciplineView>
+        active={activeDiscipline}
+        onSelect={selectView}
+        views={DISCIPLINE_VIEWS}
+      />
       {showStandings ? (
         <StandingsView
           discipline={activeDiscipline}

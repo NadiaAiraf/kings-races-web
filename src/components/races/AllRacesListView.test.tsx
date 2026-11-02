@@ -51,11 +51,17 @@ function renderList(canEdit = true) {
 
 const section = (name: string) => within(screen.getByRole('region', { name }));
 
+/** The accessible label of `race`'s card, using that discipline's team names. */
+function cardLabel(discipline: DisciplineKey, race: RaceMatchup) {
+  const { teams } = useEventStore.getState().disciplines[discipline];
+  const name = (slot: number) => teams.find((t) => t.slot === slot)!.name;
+  return `Race ${race.raceNum}: ${name(race.homeSlot)} versus ${name(race.awaySlot)}`;
+}
+
 /** The card for `race` in the named discipline section. */
-function card(sectionName: string, race: RaceMatchup) {
-  return section(sectionName).getByLabelText(
-    `Race ${race.raceNum}: Team ${race.homeSlot} versus Team ${race.awaySlot}`,
-  );
+function card(sectionName: 'Mixed' | 'Ladies' | 'Board', race: RaceMatchup) {
+  const discipline = sectionName.toLowerCase() as DisciplineKey;
+  return section(sectionName).getByLabelText(cardLabel(discipline, race));
 }
 
 const isExpanded = (el: HTMLElement) => el.getAttribute('aria-expanded') === 'true';
@@ -91,9 +97,7 @@ describe('All R1 race list', () => {
     renderList();
 
     const labels = section('Mixed').getAllByLabelText(CARD_LABEL).map((el) => el.getAttribute('aria-label'));
-    expect(labels).toEqual(
-      MIXED_RACES.map((r) => `Race ${r.raceNum}: Team ${r.homeSlot} versus Team ${r.awaySlot}`),
-    );
+    expect(labels).toEqual(MIXED_RACES.map((r) => cardLabel('mixed', r)));
   });
 
   it('expands only the first Mixed race on mount when nothing is scored', () => {

@@ -4,19 +4,30 @@ import { DISCIPLINE_LABELS } from '../../domain/csvExport';
 
 const DISCIPLINES = ['mixed', 'board', 'ladies'] as const;
 
-interface DisciplineTabsProps {
-  active: DisciplineKey;
-  onSelect: (discipline: DisciplineKey) => void;
+/** A single discipline, or 'all' for the combined Round 1 race list. */
+export type DisciplineView = DisciplineKey | 'all';
+
+const VIEW_LABELS: Record<DisciplineView, string> = { ...DISCIPLINE_LABELS, all: 'All R1' };
+
+interface DisciplineTabsProps<V extends DisciplineView> {
+  active: V;
+  onSelect: (view: V) => void;
+  /** Tabs to show, in order. Defaults to the three disciplines. */
+  views?: readonly V[];
 }
 
-export function DisciplineTabs({ active, onSelect }: DisciplineTabsProps) {
+export function DisciplineTabs<V extends DisciplineView = DisciplineKey>({
+  active,
+  onSelect,
+  views = DISCIPLINES as readonly DisciplineView[] as readonly V[],
+}: DisciplineTabsProps<V>) {
   return (
     <div
       role="tablist"
       aria-label="Discipline"
       className="sticky top-0 z-10 flex h-12 bg-white border-b border-slate-200"
     >
-      {DISCIPLINES.map((key) => (
+      {views.map((key) => (
         <button
           key={key}
           role="tab"
@@ -29,7 +40,7 @@ export function DisciplineTabs({ active, onSelect }: DisciplineTabsProps) {
               : 'text-slate-500'
           )}
         >
-          {DISCIPLINE_LABELS[key]}
+          {VIEW_LABELS[key]}
         </button>
       ))}
     </div>

@@ -523,6 +523,14 @@ describe('LeaguePage', () => {
     expect(screen.getByRole('tab', { name: 'Board' }).getAttribute('aria-selected')).toBe('true');
   });
 
+  it('offers only the three disciplines for season standings, not All R1', () => {
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    const tabs = within(screen.getByRole('tablist', { name: 'Discipline' })).getAllByRole('tab');
+    expect(tabs.map((t) => t.textContent)).toEqual(['Mixed', 'Board', 'Ladies']);
+  });
+
   it("lists the league's teams for the chosen discipline", () => {
     renderAt('/seasons/2026-27/southern', SIGNED_OUT);
     act(() => repo.onLeagueRounds['2026-27']([], ONLINE));
