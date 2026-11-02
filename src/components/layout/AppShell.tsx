@@ -1,4 +1,4 @@
-import { useState, useEffect, type CSSProperties, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs } from './DisciplineTabs';
@@ -11,11 +11,7 @@ import { TeamEntryView } from '../teams/TeamEntryView';
 import { RaceListView } from '../races/RaceListView';
 import { StandingsView } from '../standings/StandingsView';
 import { useCurrentRace } from '../../hooks/useCurrentRace';
-import { useDisciplineState } from '../../hooks/useDisciplineState';
-import { useR2State } from '../../hooks/useR2State';
-import { useStandings } from '../../hooks/useStandings';
-import { useFinalsState } from '../../hooks/useFinalsState';
-import { areAllR1RacesScored } from '../../domain/r2Seeding';
+import { usePhaseTransitions } from '../../hooks/usePhaseTransitions';
 import { DISCIPLINE_KEYS } from '../../events/eventDoc';
 
 const SUB_TAB_KEYS: readonly SubTabKey[] = ['teams', 'races', 'standings'];
@@ -32,7 +28,6 @@ interface AppShellProps {
 export function AppShell({ header }: AppShellProps) {
   const storedDiscipline = useEventStore((s) => s.activeDiscipline);
   const setActiveDiscipline = useEventStore((s) => s.setActiveDiscipline);
-  const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
   const [searchParams, setSearchParams] = useSearchParams();
   // The open discipline and tab live in the URL so a reload or a shared link
   // keeps them. Without ?d the round opens on the last discipline chosen this session.
@@ -60,42 +55,13 @@ export function AppShell({ header }: AppShellProps) {
     setParam('d', d);
   }
 
-  const { scores, structure, phase } = useDisciplineState(activeDiscipline);
   const { currentIndex, totalRaces, scoredR1, scoredR2 } =
     useCurrentRace(activeDiscipline);
-  useR2State(activeDiscipline);
-  const standingsResult = useStandings(activeDiscipline);
-  const finalsState = useFinalsState(activeDiscipline);
-
-  // These transitions run on every client, viewers included, because the
-  // phase is derived from scores. Only approved clients persist them (via
-  // startEventSync), and only the phase field is written, so several
-  // approved devices making the same transition cannot overwrite scores.
-
-  // Phase auto-transition: group-stage -> round-two
-  useEffect(() => {
-    if (
-      (phase === 'group-stage' || phase === 'setup') &&
-      structure &&
-      structure.roundTwoGroups &&
-      structure.roundTwoGroups.length > 0 &&
-      areAllR1RacesScored(scores, structure) &&
-      standingsResult
-    ) {
-      // Check no ties in any R1 group
-      const anyTies = Object.values(standingsResult.tiesByGroup).some((t) => t);
-      if (!anyTies) {
-        setDisciplinePhase(activeDiscipline, 'round-two');
-      }
-    }
-  }, [phase, structure, scores, standingsResult, activeDiscipline, setDisciplinePhase]);
-
-  // Phase auto-transition: finals -> complete (when all finals scored)
-  useEffect(() => {
-    if (phase === 'finals' && finalsState && finalsState.finalsPhase === 'all-scored') {
-      setDisciplinePhase(activeDiscipline, 'complete');
-    }
-  }, [phase, finalsState, activeDiscipline, setDisciplinePhase]);
+  // Every discipline, not just the open one, so a round scored from another
+  // view still moves on. Explicit calls keep the hook order fixed.
+  usePhaseTransitions('mixed');
+  usePhaseTransitions('board');
+  usePhaseTransitions('ladies');
 
   // Combined progress for progress bar
   const totalScored = scoredR1 + scoredR2;
