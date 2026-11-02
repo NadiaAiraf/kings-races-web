@@ -158,3 +158,63 @@ describe('ExpandableRaceCard notes', () => {
     expect(expanded).toEqual([]);
   });
 });
+
+describe('ExpandableRaceCard clear result', () => {
+  afterEach(() => cleanup());
+
+  const homeWin: Score = {
+    raceId: 'fin-1',
+    homeSlot: 1,
+    awaySlot: 2,
+    homeOutcome: 'win',
+    awayOutcome: 'loss',
+  };
+
+  it('shows a "Clear result" button on an expanded, scored card', () => {
+    renderCard({ score: homeWin, onClear: () => {} });
+    expect(screen.getByRole('button', { name: 'Clear result' })).toBeTruthy();
+  });
+
+  it('hides "Clear result" on an expanded, unscored card', () => {
+    renderCard({ onClear: () => {} });
+    expect(screen.queryByRole('button', { name: 'Clear result' })).toBeNull();
+  });
+
+  it('hides "Clear result" on a collapsed, scored card', () => {
+    renderCard({ score: homeWin, isExpanded: false, onClear: () => {} });
+    expect(screen.queryByRole('button', { name: 'Clear result' })).toBeNull();
+  });
+
+  it('hides "Clear result" from a viewer who cannot edit', () => {
+    renderCard({ score: homeWin, onClear: () => {} }, false);
+    expect(screen.queryByRole('button', { name: 'Clear result' })).toBeNull();
+  });
+
+  it('clears the race when tapped without collapsing the card', () => {
+    const cleared: string[] = [];
+    const expanded: string[] = [];
+    renderCard({
+      score: homeWin,
+      onClear: (raceId: string) => cleared.push(raceId),
+      onExpand: (raceId: string) => expanded.push(raceId),
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear result' }));
+
+    expect(cleared).toEqual(['fin-1']);
+    expect(expanded).toEqual([]);
+  });
+
+  it('clears a race that was recorded as not run', () => {
+    const cleared: string[] = [];
+    renderCard({
+      allowNotRun: true,
+      score: notRun,
+      onClear: (raceId: string) => cleared.push(raceId),
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear result' }));
+
+    expect(cleared).toEqual(['fin-1']);
+  });
+});
