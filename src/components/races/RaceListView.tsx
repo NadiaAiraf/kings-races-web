@@ -43,6 +43,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
   const finalsState = useFinalsState(discipline);
   const standingsResult = useStandings(discipline);
   const recordResult = useEventStore((s) => s.recordResult);
+  const clearResult = useEventStore((s) => s.clearResult);
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
   const notes = useEventStore((s) => s.disciplines[discipline].notes);
   const setNote = useEventStore((s) => s.setNote);
@@ -116,6 +117,12 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       }
     },
     [discipline, recordResult, scoreMap, allRaceIds],
+  );
+
+  // The cleared card is already the expanded one, so it stays open for re-scoring.
+  const handleClear = useCallback(
+    (raceId: string) => clearResult(discipline, raceId),
+    [discipline, clearResult],
   );
 
   const handleNoteChange = useCallback(
@@ -198,6 +205,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
               isExpanded={!stoppedEarly && expandedRaceId === raceId}
               note={notes[raceId]}
               onNoteChange={handleNoteChange}
+              onClear={handleClear}
               onExpand={handleExpand}
               onScore={handleScore}
             />
@@ -252,6 +260,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                   allowNotRun
                   note={notes[race.raceId]}
                   onNoteChange={handleNoteChange}
+                  onClear={handleClear}
                   onExpand={handleExpand}
                   onScore={handleScore}
                 />
@@ -332,6 +341,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                           allowNotRun
                           note={notes[matchup.raceId]}
                           onNoteChange={handleNoteChange}
+                          onClear={handleClear}
                           onExpand={handleExpand}
                           onScore={handleScore}
                         />

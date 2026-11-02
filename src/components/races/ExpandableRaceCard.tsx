@@ -43,6 +43,8 @@ interface ExpandableRaceCardProps {
   note?: string;
   /** Called on blur with the edited text; empty text removes the note. */
   onNoteChange?: (raceId: string, note: string) => void;
+  /** Officials only: return a scored race to unscored. */
+  onClear?: (raceId: string) => void;
   onExpand: (raceId: string) => void;
   onScore: (result: {
     raceId: string;
@@ -70,6 +72,7 @@ export function ExpandableRaceCard({
   allowNotRun,
   note,
   onNoteChange,
+  onClear,
   onExpand,
   onScore,
 }: ExpandableRaceCardProps) {
@@ -78,6 +81,7 @@ export function ExpandableRaceCard({
   const interactive = canEdit && !disabled;
   // isExpanded already requires canEdit, so only officials get the editor.
   const isEditingNote = isExpanded && !!onNoteChange;
+  const canClear = interactive && isExpanded && !!score && !!onClear;
 
   function handleScore(team: 'home' | 'away', outcome: 'win' | 'dsq') {
     let homeOutcome: RaceOutcome;
@@ -134,6 +138,18 @@ export function ExpandableRaceCard({
         )}
         {isFinalMatch && (
           <span className="text-xs font-semibold text-brand-600">FINAL</span>
+        )}
+        {canClear && (
+          <button
+            type="button"
+            className="ml-auto -my-3 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear(raceId);
+            }}
+          >
+            Clear result
+          </button>
         )}
       </div>
 
