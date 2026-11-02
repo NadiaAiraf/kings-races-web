@@ -4,6 +4,10 @@ import { MemoryRouter, useLocation, useNavigationType } from 'react-router';
 import { EditAccessContext } from '../../auth/editAccess';
 import { useEventStore } from '../../store/eventStore';
 import { AppShell } from './AppShell';
+import { createInitialDisciplines } from '../../store/initialState';
+import { playedDiscipline } from '../../domain/__fixtures__/playedDiscipline';
+import { getCheatSheet } from '../../domain/cheatSheets';
+import type { DisciplineState, Score } from '../../domain/types';
 
 function LocationProbe() {
   const location = useLocation();
@@ -146,5 +150,54 @@ describe('AppShell discipline and tab in the URL', () => {
     expect(isSelected('Races')).toBe(true);
     expect(screen.queryByRole('tab', { name: 'Teams' })).toBeNull();
     expect(search().get('v')).toBe('teams');
+  });
+});
+
+/**
+ * 8 teams with every Round 1 race scored and nothing after. The lower slot
+ * always wins, giving a strict order in every group, so there are no ties.
+ */
+function r1CompleteNoTies(): DisciplineState {
+  const scores: Score[] = getCheatSheet(8).roundOneRaces.map((r) => {
+    const homeWins = r.homeSlot < r.awaySlot;
+    return {
+      raceId: `r1-${r.raceNum}`,
+      homeSlot: r.homeSlot,
+      awaySlot: r.awaySlot,
+      homeOutcome: homeWins ? 'win' : 'loss',
+      awayOutcome: homeWins ? 'loss' : 'win',
+    };
+  });
+  return { ...playedDiscipline(8, { phase: 'group-stage' }), scores };
+}
+
+describe('AppShell phase transitions', () => {
+  beforeEach(() => {
+    useEventStore.getState().resetEvent();
+  });
+
+  afterEach(() => cleanup());
+
+  it('moves a non-active discipline to round two when its Round 1 is complete', () => {
+    useEventStore.setState({
+      disciplines: { ...createInitialDisciplines(), mixed: r1CompleteNoTies() },
+    });
+
+    renderShellRoot({ path: '/events/e1?d=board' });
+
+    expect(useEventStore.getState().disciplines.mixed.phase).toBe('round-two');
+  });
+
+  it('completes a non-active discipline when every final is scored', () => {
+    useEventStore.setState({
+      disciplines: {
+        ...createInitialDisciplines(),
+        ladies: playedDiscipline(8, { phase: 'finals' }),
+      },
+    });
+
+    renderShellRoot({ path: '/events/e1?d=board' });
+
+    expect(useEventStore.getState().disciplines.ladies.phase).toBe('complete');
   });
 });
