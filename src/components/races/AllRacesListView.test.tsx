@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { EditAccessContext } from '../../auth/editAccess';
 import { EventInfoContext } from '../../events/eventInfo';
+import { RaceOrderContext, type RaceOrderControl } from '../../events/raceOrder';
 import { useEventStore } from '../../store/eventStore';
 import { createInitialDisciplines, createInitialDisciplineState } from '../../store/initialState';
 import {
@@ -52,6 +53,34 @@ function renderList(canEdit = true, onOpenDiscipline?: (d: DisciplineKey) => voi
     </EventInfoContext.Provider>,
   );
 }
+
+function renderWithOrder(order: RaceOrderControl, canEdit = true) {
+  return render(
+    <EventInfoContext.Provider value={{ id: 'e1', name: 'Test', date: '', round: null }}>
+      <EditAccessContext.Provider value={canEdit}>
+        <RaceOrderContext.Provider value={order}>
+          <AllRacesListView />
+        </RaceOrderContext.Provider>
+      </EditAccessContext.Provider>
+    </EventInfoContext.Provider>,
+  );
+}
+
+/** Combined keys of every card in DOM order, limited to one round by its raceId prefix. */
+function raceKeys(prefix: 'r1-' | 'r2-' | 'fin-') {
+  return Array.from(document.querySelectorAll('[data-race-key]'))
+    .map((el) => el.getAttribute('data-race-key')!)
+    .filter((key) => key.split(':')[1].startsWith(prefix));
+}
+
+const raceCard = (key: string) =>
+  within(document.querySelector<HTMLElement>(`[data-race-key="${key}"]`)!).getByLabelText(CARD_LABEL);
+
+const keys = (discipline: DisciplineKey, from: number, to: number) =>
+  Array.from({ length: to - from + 1 }, (_, i) => `${discipline}:r1-${from + i}`);
+
+const follows = (later: Element, earlier: Element) =>
+  (earlier.compareDocumentPosition(later) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
 
 const section = (name: string) => within(screen.getByRole('region', { name }));
 
@@ -378,5 +407,165 @@ describe('All races list', () => {
     expect(screen.getAllByLabelText(CARD_LABEL).length).toBeGreaterThan(0);
     expect(expandedCards()).toEqual([]);
     expect(screen.queryAllByRole('button', { name: 'Win' })).toEqual([]);
+  });
+
+  describe('race order', () => {
+    it('shows viewers the current race order as text with no buttons', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'northern', setOrder: vi.fn() }, false);
+
+      expect(screen.getByText('Race order: Northern')).toBeTruthy();
+      expect(screen.queryAllByRole('radio')).toEqual([]);
+    });
+
+    it('offers approved users the three race orders with the current one checked', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'ladies-board-blocks', setOrder: vi.fn() });
+
+      const group = within(screen.getByRole('radiogroup', { name: 'Race order' }));
+      const radios = group.getAllByRole('radio');
+      expect(radios.map((r) => r.textContent)).toEqual(['Standard', 'Ladies/Board mixed', 'Northern']);
+      expect(radios.map((r) => r.getAttribute('aria-checked'))).toEqual(['false', 'true', 'false']);
+    });
+
+    it('sets the race order when an approved user taps another option', () => {
+      const setOrder = vi.fn();
+      setDisciplines({});
+      renderWithOrder({ order: 'standard', setOrder });
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Northern' }));
+
+      expect(setOrder).toHaveBeenCalledTimes(1);
+      expect(setOrder).toHaveBeenCalledWith('northern');
+    });
+
+    it('does nothing when the checked option is tapped', () => {
+      const setOrder = vi.fn();
+      setDisciplines({});
+      renderWithOrder({ order: 'standard', setOrder });
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Standard' }));
+
+      expect(setOrder).not.toHaveBeenCalled();
+    });
+
+    it('shows the race order read-only when it cannot be changed', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'standard', setOrder: null });
+
+      expect(screen.getByText('Race order: Standard')).toBeTruthy();
+      expect(screen.queryAllByRole('radio')).toEqual([]);
+    });
+
+    it('lists Round 1 Mixed first, then alternates Ladies and Board blocks under Ladies/Board mixed', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'ladies-board-blocks', setOrder: null });
+
+      expect(raceKeys('r1-')).toEqual([
+        ...keys('mixed', 1, 12),
+        ...keys('ladies', 1, 2), ...keys('board', 1, 2),
+        ...keys('ladies', 3, 4), ...keys('board', 3, 4),
+        ...keys('ladies', 5, 6), ...keys('board', 5, 6),
+        ...keys('ladies', 7, 8), ...keys('board', 7, 8),
+        ...keys('ladies', 9, 10), ...keys('board', 9, 10),
+        ...keys('ladies', 11, 12), ...keys('board', 11, 12),
+      ]);
+      expect(screen.queryByRole('region', { name: 'Round 1 Mixed' })).toBeNull();
+    });
+
+    it('lists Round 1 in the Northern pattern', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      expect(raceKeys('r1-')).toEqual([
+        ...keys('mixed', 1, 4), ...keys('board', 1, 2),
+        ...keys('ladies', 1, 4), ...keys('board', 3, 4),
+        ...keys('mixed', 5, 8), ...keys('board', 5, 6),
+        ...keys('ladies', 5, 8), ...keys('board', 7, 8),
+        ...keys('mixed', 9, 12), ...keys('board', 9, 10),
+        ...keys('ladies', 9, 12), ...keys('board', 11, 12),
+      ]);
+    });
+
+    it('keeps the discipline label and stripe on each card in the flat list', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      const card = raceCard('board:r1-1');
+      expect(card.textContent).toContain('Board');
+      expect(card.classList.contains('border-l-green-700')).toBe(true);
+    });
+
+    it('shows a discipline without teams after the flat Round 1 list', () => {
+      setDisciplines({ ladies: createInitialDisciplineState() });
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      const r1 = raceKeys('r1-');
+      expect(r1.some((k) => k.startsWith('ladies:'))).toBe(false);
+      expect(r1.filter((k) => k.startsWith('board:'))).toHaveLength(12);
+      const ladies = screen.getByRole('region', { name: 'Round 1 Ladies' });
+      expect(within(ladies).getByText('No teams entered yet.')).toBeTruthy();
+      expect(follows(ladies, raceCard(r1[r1.length - 1]))).toBe(true);
+    });
+
+    it('lists started Round 2 races, then the sections of disciplines not yet in Round 2', () => {
+      setDisciplines({
+        mixed: roundOneWonByLowerSlot(8, { phase: 'round-two' }),
+        ladies: inRoundOne(8),
+        board: inRoundOne(8),
+      });
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      const r2 = raceKeys('r2-');
+      expect(r2).toHaveLength(R2_COUNT_8);
+      expect(r2.every((k) => k.startsWith('mixed:'))).toBe(true);
+      const r2Sections = screen
+        .getAllByRole('region')
+        .map((r) => r.getAttribute('aria-label'))
+        .filter((name) => name?.startsWith('Round 2 '));
+      expect(r2Sections).toEqual(['Round 2 Ladies', 'Round 2 Board']);
+      const ladies = screen.getByRole('region', { name: 'Round 2 Ladies' });
+      expect(within(ladies).getByText(`Round 2 - ${R2_COUNT_8} races, seeded from Round 1 results`)).toBeTruthy();
+      expect(follows(ladies, raceCard(r2[r2.length - 1]))).toBe(true);
+    });
+
+    it('keeps the Finals sections Board, Ladies, Mixed under Northern', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      const finals = screen
+        .getAllByRole('region')
+        .map((r) => r.getAttribute('aria-label'))
+        .filter((name) => name?.startsWith('Finals '));
+      expect(finals).toEqual(['Finals Board', 'Finals Ladies', 'Finals Mixed']);
+    });
+
+    it('moves on to the next race in the chosen order after scoring', () => {
+      const ladiesFirst = FOUR_TEAM_RACES.find((r) => r.raceNum === 1)!;
+      setDisciplines({ mixed: inRoundOne(8, MIXED_RACES), ladies: inRoundOne(4, [ladiesFirst]) });
+      renderWithOrder({ order: 'ladies-board-blocks', setOrder: null });
+
+      fireEvent.click(within(raceCard('ladies:r1-2')).getAllByRole('button', { name: 'Win' })[0]);
+
+      expect(expandedCards()).toEqual([raceCard('board:r1-1')]);
+    });
+
+    it('opens the first unscored race in the chosen order on mount', () => {
+      const firstFour = MIXED_RACES.filter((r) => r.raceNum <= 4);
+      setDisciplines({ mixed: inRoundOne(8, firstFour) });
+
+      renderWithOrder({ order: 'northern', setOrder: null });
+
+      expect(expandedCards()).toEqual([raceCard('board:r1-1')]);
+    });
   });
 });

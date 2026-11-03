@@ -952,6 +952,41 @@ describe('EventPage save and storage warnings', () => {
   });
 });
 
+describe('EventPage race order', () => {
+  it('writes only the race order when an approved user picks one', () => {
+    renderAt('/events/e1?d=all', APPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+    const writesBefore = repo.writes.length;
+
+    fireEvent.click(screen.getByRole('radio', { name: 'Northern' }));
+
+    expect(repo.raceOrderWrites).toEqual([{ id: 'e1', order: 'northern' }]);
+    expect(repo.writes).toHaveLength(writesBefore);
+  });
+
+  it('shows the save error banner when the race order change is rejected', async () => {
+    repo.raceOrderWriteError = new FirebaseError('permission-denied', 'Missing or insufficient permissions.');
+    renderAt('/events/e1?d=all', APPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('radio', { name: 'Northern' }));
+    });
+
+    expect(screen.getByRole('alert').textContent).toContain(
+      'The race order change was rejected. It has been undone.'
+    );
+  });
+
+  it('shows viewers the race order from the round', () => {
+    renderAt('/events/e1?d=all', SIGNED_OUT);
+    act(() => repo.onEvent!({ ...roundOne, raceOrder: 'northern' }, ONLINE));
+
+    expect(screen.getByText('Race order: Northern')).toBeTruthy();
+    expect(screen.queryAllByRole('radio')).toEqual([]);
+  });
+});
+
 describe('LoginPage', () => {
   it('signs in and returns to the leagues', async () => {
     renderAt('/login', SIGNED_OUT);
