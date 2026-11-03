@@ -84,6 +84,15 @@ service cloud.firestore {
         || request.resource.data.disciplines[key].scores.size() == 0;
     }
 
+    // raceOrder is optional (rounds created before race orders lack it) and
+    // must match RaceOrderOption in src/domain/combinedRaceOrder.ts. It is
+    // only checked when it changes, so a bad value hand-edited in the console
+    // cannot block scoring. Deleting it fails, as the field is then absent.
+    function hasValidRaceOrderChange() {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(['raceOrder'])
+        || request.resource.data.raceOrder in ['standard', 'ladies-board-blocks', 'northern'];
+    }
+
     match /events/{eventId} {
       // Anyone, signed in or not, can watch any event. List queries must be
       // bounded (EVENT_LIST_LIMIT in eventsRepo.ts) to protect the read quota.
@@ -101,12 +110,13 @@ service cloud.firestore {
 
       // name and date stay editable for a future rename UI (console edits
       // bypass these rules anyway); createdBy/createdAt and the season
-      // fields never change.
+      // fields never change. Only approved users may set raceOrder.
       allow update: if isApproved()
         && request.resource.data.diff(resource.data).affectedKeys()
-             .hasOnly(['name', 'date', 'updatedAt', 'disciplines'])
+             .hasOnly(['name', 'date', 'updatedAt', 'disciplines', 'raceOrder'])
         && request.resource.data.updatedAt == request.time
         && hasValidFields(request.resource.data)
+        && hasValidRaceOrderChange()
         && teamsChangeAllowed('mixed')
         && teamsChangeAllowed('board')
         && teamsChangeAllowed('ladies');

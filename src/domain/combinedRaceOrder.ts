@@ -6,6 +6,7 @@ import type { DisciplineKey, DisciplineState, RaceMatchup } from './types';
 import { getCheatSheet } from './cheatSheets';
 import { getRaceOrderBlocks } from './cheatSheets/raceOrderBlocks';
 import { isResultsOnly } from './roundPlacings';
+import { DEFAULT_RACE_ORDER, type RaceOrderOption } from './raceOrderOption';
 
 export type CombinedRound = 'r1' | 'r2' | 'finals';
 
@@ -28,30 +29,13 @@ export function disciplineOrderFor(round: CombinedRound): readonly DisciplineKey
   return round === 'finals' ? FINALS_DISCIPLINE_ORDER : DEFAULT_COMBINED_ORDER;
 }
 
-/**
- * How Round 1 and Round 2 are run across disciplines:
- * - standard: each discipline straight through, Mixed, Ladies, Board.
- * - ladies-board-blocks: Mixed first, then Ladies and Board alternate block
- *   by block (the cheat sheet's blank-row gaps).
- * - northern: Mixed and Ladies in thirds, Board in sixths, run
- *   M1 B1 L1 B2 M2 B3 L2 B4 M3 B5 L3 B6.
- * Stored on the event doc as raceOrder; must match firestore.rules.
- */
-export type RaceOrderOption = 'standard' | 'ladies-board-blocks' | 'northern';
-
-export const RACE_ORDER_OPTIONS: readonly RaceOrderOption[] = ['standard', 'ladies-board-blocks', 'northern'];
-
-export const DEFAULT_RACE_ORDER: RaceOrderOption = 'standard';
-
-export const RACE_ORDER_LABELS: Record<RaceOrderOption, string> = {
-  standard: 'Standard',
-  'ladies-board-blocks': 'Ladies/Board mixed',
-  northern: 'Northern',
-};
-
-export function isRaceOrderOption(value: unknown): value is RaceOrderOption {
-  return typeof value === 'string' && (RACE_ORDER_OPTIONS as readonly string[]).includes(value);
-}
+export {
+  DEFAULT_RACE_ORDER,
+  RACE_ORDER_LABELS,
+  RACE_ORDER_OPTIONS,
+  isRaceOrderOption,
+  type RaceOrderOption,
+} from './raceOrderOption';
 
 /** Race ids per discipline and round, each list in the order it is run. */
 export type RaceIdsByDiscipline = Partial<

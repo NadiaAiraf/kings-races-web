@@ -4,7 +4,7 @@ const fs = vi.hoisted(() => ({
   snap: { exists: (): boolean => true, data: (): Record<string, unknown> => ({}) },
   batch: { set: vi.fn(), delete: vi.fn(), commit: vi.fn(async () => {}) },
   writeBatch: vi.fn(),
-  updateDoc: vi.fn(async (..._args: unknown[]) => {}),
+  updateDoc: vi.fn<(...args: unknown[]) => Promise<void>>(async () => {}),
 }));
 
 vi.mock('../firebase/app', () => ({ db: {} }));
