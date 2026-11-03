@@ -523,7 +523,7 @@ describe('LeaguePage', () => {
     expect(screen.getByRole('tab', { name: 'Board' }).getAttribute('aria-selected')).toBe('true');
   });
 
-  it('offers only the three disciplines for season standings, not All R1', () => {
+  it('offers only the three disciplines for season standings, not All races', () => {
     renderAt('/seasons/2026-27/southern', SIGNED_OUT);
     act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
 

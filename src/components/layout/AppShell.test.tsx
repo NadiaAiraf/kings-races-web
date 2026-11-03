@@ -202,7 +202,7 @@ describe('AppShell phase transitions', () => {
   });
 });
 
-describe('AppShell All R1 view', () => {
+describe('AppShell All races view', () => {
   beforeEach(() => {
     // jsdom has no scrollIntoView; the race list scrolls to the next card.
     Element.prototype.scrollIntoView = vi.fn();
@@ -214,48 +214,48 @@ describe('AppShell All R1 view', () => {
     vi.restoreAllMocks();
   });
 
-  it('adds All R1 after the three discipline tabs', () => {
+  it('adds All races after the three discipline tabs', () => {
     renderShellRoot({ canEdit: true });
 
     const tabs = within(screen.getByRole('tablist', { name: 'Discipline' })).getAllByRole('tab');
-    expect(tabs.map((t) => t.textContent)).toEqual(['Mixed', 'Board', 'Ladies', 'All R1']);
+    expect(tabs.map((t) => t.textContent)).toEqual(['Mixed', 'Board', 'Ladies', 'All races']);
   });
 
-  it('writes d=all to the URL and selects All R1 when tapped', () => {
+  it('writes d=all to the URL and selects All races when tapped', () => {
     renderShellRoot({ canEdit: true });
 
-    fireEvent.click(screen.getByRole('tab', { name: 'All R1' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
 
     expect(search().get('d')).toBe('all');
-    expect(isSelected('All R1')).toBe(true);
+    expect(isSelected('All races')).toBe(true);
   });
 
-  it('leaves the stored discipline alone when All R1 is tapped', () => {
+  it('leaves the stored discipline alone when All races is tapped', () => {
     useEventStore.setState({ activeDiscipline: 'board' });
     renderShellRoot({ canEdit: true });
 
-    fireEvent.click(screen.getByRole('tab', { name: 'All R1' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
 
     expect(useEventStore.getState().activeDiscipline).toBe('board');
   });
 
-  it('hides the section tabs and the Standings button in the All R1 view', () => {
+  it('hides the section tabs and the Standings button in the All races view', () => {
     renderShellRoot({ canEdit: true });
 
-    fireEvent.click(screen.getByRole('tab', { name: 'All R1' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
 
     expect(screen.queryByRole('tablist', { name: 'Section' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Standings' })).toBeNull();
   });
 
-  it('opens the All R1 view from d=all on a neutral background', () => {
+  it('opens the All races view from d=all on a neutral background', () => {
     const root = renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
 
-    expect(isSelected('All R1')).toBe(true);
+    expect(isSelected('All races')).toBe(true);
     expect(root.className).toContain('bg-slate-50');
   });
 
-  it('shows combined Round 1 progress across disciplines', () => {
+  it('shows combined Round 1 and Round 2 progress across disciplines', () => {
     const mixedRaces = getCheatSheet(8).roundOneRaces;
     const mixed = playedDiscipline(8, { phase: 'group-stage' });
     mixed.scores = mixed.scores.filter((s) =>
@@ -266,7 +266,8 @@ describe('AppShell All R1 view', () => {
 
     renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
 
-    const total = mixedRaces.length + getCheatSheet(6).roundOneRaces.length;
+    const mixedR2 = (getCheatSheet(8).roundTwoGroups ?? []).reduce((n, g) => n + g.races.length, 0);
+    const total = mixedRaces.length + mixedR2 + getCheatSheet(6).roundOneRaces.length;
     expect(screen.getByText(`Race 2 of ${total}`)).toBeTruthy();
   });
 });
