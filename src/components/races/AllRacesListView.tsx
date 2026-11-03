@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import { RoundHeader } from './RoundHeader';
-import { AllRacesDisciplineSection, type ScoreResult } from './AllRacesDisciplineSection';
+import { AllRacesDisciplineSection, AllRacesRaceCard, type ScoreResult } from './AllRacesDisciplineSection';
+import { hasRoundTwoStarted, roundOneCardSpecs, roundTwoCardSpecs, type CardSpec } from './allRacesCards';
+import { RaceOrderPicker } from './RaceOrderPicker';
+import { useRaceOrder } from '../../events/raceOrder';
 import { useR2State } from '../../hooks/useR2State';
 import { useFinalsState } from '../../hooks/useFinalsState';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
@@ -12,8 +15,11 @@ import {
   disciplineOrderFor,
   findNextUnscoredRace,
   orderCombinedRaces,
+  orderRoundRaces,
   r1RacesByDiscipline,
+  raceOrderBlocksFor,
   scoredCombinedKeys,
+  type CombinedRound,
   type RaceIdsByDiscipline,
 } from '../../domain/combinedRaceOrder';
 import type { DisciplineKey } from '../../domain/types';
@@ -26,6 +32,8 @@ interface AllRacesListViewProps {
 /**
  * Every discipline's Round 1, Round 2 and Finals in one list, scored the same
  * way as the Races tab. Finals confirmation and tiebreaks stay on each tab.
+ * Round 1 and Round 2 follow the event's race order; Finals always run
+ * Board, Ladies, Mixed.
  */
 export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
   const disciplines = useEventStore((s) => s.disciplines);
@@ -44,6 +52,8 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
   const finals = { mixed: mixedFinals, ladies: ladiesFinals, board: boardFinals };
 
   const scoredKeys = useMemo(() => scoredCombinedKeys(disciplines), [disciplines]);
+  const { order } = useRaceOrder();
+  const blocks = useMemo(() => raceOrderBlocksFor(disciplines), [disciplines]);
 
   /**
    * Races that can be opened, in list order. A discipline's Round 2 counts
@@ -80,7 +90,8 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
   // Auto-expand first unscored card on mount
   useEffect(() => {
     setExpandedKey(
-      findNextUnscoredRace(orderCombinedRaces(navigableIds(scoredKeys)), scoredKeys, null)?.key ?? null,
+      findNextUnscoredRace(orderCombinedRaces(navigableIds(scoredKeys), order, blocks), scoredKeys, null)?.key ??
+        null,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,7 +100,7 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
     recordResult(discipline, result);
     // Compute next unscored synchronously before React re-renders
     const scored = new Set(scoredKeys).add(key);
-    const next = findNextUnscoredRace(orderCombinedRaces(navigableIds(scored)), scored, key);
+    const next = findNextUnscoredRace(orderCombinedRaces(navigableIds(scored), order, blocks), scored, key);
     setExpandedKey(next?.key ?? null);
     // Scroll to next card after DOM updates
     if (next) {
@@ -100,10 +111,76 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
     }
   }
 
+  const cardHandlers = {
+    expandedKey,
+    onToggle: (key: string) => setExpandedKey((prev) => (prev === key ? null : key)),
+    onScore: handleScore,
+    onClear: clearResult,
+    onNoteChange: setNote,
+    registerCard: (key: string, el: HTMLDivElement) => cardRefs.current.set(key, el),
+  };
+
+  function renderSection(round: CombinedRound, d: DisciplineKey) {
+    return (
+      <AllRacesDisciplineSection
+        key={d}
+        discipline={d}
+        round={round}
+        state={disciplines[d]}
+        r2State={r2[d]}
+        finalsState={finals[d]}
+        onOpenDiscipline={onOpenDiscipline}
+        {...cardHandlers}
+      />
+    );
+  }
+
+  /**
+   * Round 1 or Round 2 under a non-standard order: one card list across
+   * disciplines, then the sections of disciplines with nothing to run in
+   * this round (no teams, results-only, stopped early, Round 2 not started).
+   */
+  function renderInterleaved(round: 'r1' | 'r2', shown: readonly DisciplineKey[]) {
+    const scheduled = r1RacesByDiscipline(disciplines);
+    const ids: RaceIdsByDiscipline = {};
+    const specs = new Map<string, CardSpec>();
+    for (const d of DEFAULT_COMBINED_ORDER) {
+      const state = disciplines[d];
+      if (!shown.includes(d) || !scheduled[d] || isStoppedEarly(state)) continue;
+      const r2State = r2[d];
+      const list =
+        round === 'r1'
+          ? roundOneCardSpecs(state)
+          : hasRoundTwoStarted(state, r2State)
+            ? roundTwoCardSpecs(r2State)
+            : null;
+      if (!list) continue;
+      ids[d] = { [round]: list.map((spec) => spec.raceId) };
+      for (const spec of list) specs.set(`${d}:${spec.raceId}`, spec);
+    }
+    return (
+      <>
+        {orderRoundRaces(round, ids, order, blocks).map((race) => (
+          <AllRacesRaceCard
+            key={race.key}
+            discipline={race.discipline}
+            spec={specs.get(race.key)!}
+            state={disciplines[race.discipline]}
+            {...cardHandlers}
+          />
+        ))}
+        {shown.filter((d) => !ids[d]).map((d) => renderSection(round, d))}
+      </>
+    );
+  }
+
   let firstRound = true;
 
   return (
     <div>
+      <div className="px-4 pt-3">
+        <RaceOrderPicker />
+      </div>
       {DEFAULT_COMBINED_ROUNDS.map((round) => {
         // Round 1 explains a discipline without races, so later rounds skip it.
         const shown = disciplineOrderFor(round).filter((d) => {
@@ -116,23 +193,9 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
         return (
           <div key={round}>
             <RoundHeader label={COMBINED_ROUND_LABELS[round]} isActive isFirst={isFirst} />
-            {shown.map((d) => (
-              <AllRacesDisciplineSection
-                key={d}
-                discipline={d}
-                round={round}
-                state={disciplines[d]}
-                r2State={r2[d]}
-                finalsState={finals[d]}
-                expandedKey={expandedKey}
-                onToggle={(key) => setExpandedKey((prev) => (prev === key ? null : key))}
-                onScore={handleScore}
-                onClear={clearResult}
-                onNoteChange={setNote}
-                registerCard={(key, el) => cardRefs.current.set(key, el)}
-                onOpenDiscipline={onOpenDiscipline}
-              />
-            ))}
+            {round === 'finals' || order === 'standard'
+              ? shown.map((d) => renderSection(round, d))
+              : renderInterleaved(round, shown)}
           </div>
         );
       })}

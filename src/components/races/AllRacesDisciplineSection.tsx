@@ -7,8 +7,9 @@ import { getCheatSheet } from '../../domain/cheatSheets';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 import { COMBINED_ROUND_LABELS, combinedRaceKey, type CombinedRound } from '../../domain/combinedRaceOrder';
 import type { R2State } from '../../hooks/useR2State';
+import { hasRoundTwoStarted, roundOneCardSpecs, roundTwoCardSpecs, type CardSpec } from './allRacesCards';
 import type { useFinalsState } from '../../hooks/useFinalsState';
-import type { DisciplineKey, DisciplineState, RaceOutcome, Score } from '../../domain/types';
+import type { DisciplineKey, DisciplineState, RaceOutcome } from '../../domain/types';
 
 type FinalsState = ReturnType<typeof useFinalsState>;
 
@@ -36,19 +37,56 @@ interface AllRacesDisciplineSectionProps {
   onOpenDiscipline?: (discipline: DisciplineKey) => void;
 }
 
-interface CardSpec {
-  raceId: string;
-  raceNum: number;
-  homeTeamName: string;
-  awayTeamName: string;
-  homeSlot: number;
-  awaySlot: number;
-  score: Score | undefined;
-  groupLabel?: string;
-  matchupLabel?: string;
-  seedingContext?: string;
-  isFinalMatch?: boolean;
-  allowNotRun?: boolean;
+
+interface AllRacesRaceCardProps {
+  discipline: DisciplineKey;
+  spec: CardSpec;
+  state: DisciplineState;
+  expandedKey: string | null;
+  onToggle: (key: string) => void;
+  onScore: (discipline: DisciplineKey, key: string, result: ScoreResult) => void;
+  onClear: (discipline: DisciplineKey, raceId: string) => void;
+  onNoteChange: (discipline: DisciplineKey, raceId: string, note: string) => void;
+  registerCard: (key: string, el: HTMLDivElement) => void;
+}
+
+/** One race card of the All races view, scored into its own discipline. */
+export function AllRacesRaceCard({
+  discipline,
+  spec,
+  state,
+  expandedKey,
+  onToggle,
+  onScore,
+  onClear,
+  onNoteChange,
+  registerCard,
+}: AllRacesRaceCardProps) {
+  const key = combinedRaceKey(discipline, spec.raceId);
+  const stoppedEarly = isStoppedEarly(state);
+  return (
+    <div
+      data-race-key={key}
+      ref={(el) => {
+        if (el) registerCard(key, el);
+      }}
+    >
+      <ExpandableRaceCard
+        {...spec}
+        discipline={discipline}
+        isExpanded={!stoppedEarly && expandedKey === key}
+        note={state.notes[spec.raceId]}
+        onNoteChange={(id, text) => onNoteChange(discipline, id, text)}
+        // The cleared card is already the expanded one, so it stays open for re-scoring.
+        onClear={(id) => onClear(discipline, id)}
+        onExpand={() => {
+          if (stoppedEarly) return;
+          onToggle(key);
+        }}
+        onScore={(result) => onScore(discipline, key, result)}
+      />
+    </div>
+  );
 }
 
 const note = (text: string) => <p className="text-sm text-slate-500 px-4 py-2">{text}</p>;
@@ -73,29 +111,19 @@ export function AllRacesDisciplineSection({
   const stoppedEarly = isStoppedEarly(state);
 
   function renderCard(spec: CardSpec) {
-    const key = combinedRaceKey(discipline, spec.raceId);
     return (
-      <div
-        key={key}
-        ref={(el) => {
-          if (el) registerCard(key, el);
-        }}
-      >
-        <ExpandableRaceCard
-          {...spec}
-          discipline={discipline}
-          isExpanded={!stoppedEarly && expandedKey === key}
-          note={state.notes[spec.raceId]}
-          onNoteChange={(id, text) => onNoteChange(discipline, id, text)}
-          // The cleared card is already the expanded one, so it stays open for re-scoring.
-          onClear={(id) => onClear(discipline, id)}
-          onExpand={() => {
-            if (stoppedEarly) return;
-            onToggle(key);
-          }}
-          onScore={(result) => onScore(discipline, key, result)}
-        />
-      </div>
+      <AllRacesRaceCard
+        key={combinedRaceKey(discipline, spec.raceId)}
+        discipline={discipline}
+        spec={spec}
+        state={state}
+        expandedKey={expandedKey}
+        onToggle={onToggle}
+        onScore={onScore}
+        onClear={onClear}
+        onNoteChange={onNoteChange}
+        registerCard={registerCard}
+      />
     );
   }
 
@@ -119,23 +147,10 @@ export function AllRacesDisciplineSection({
   function roundOne(): ReactNode {
     if (state.teamCount < 4) return note('No teams entered yet.');
     if (isResultsOnly(state)) return note('Results entered after the event. No races recorded.');
-    const names = new Map(state.teams.map((t) => [t.slot, t.name]));
-    const scores = new Map(state.scores.map((s) => [s.raceId, s]));
     return (
       <>
         {stoppedEarly && note('Stopped early: places entered by officials.')}
-        {getCheatSheet(state.teamCount).roundOneRaces.map((race) => {
-          const raceId = `r1-${race.raceNum}`;
-          return renderCard({
-            raceId,
-            raceNum: race.raceNum,
-            homeTeamName: names.get(race.homeSlot) ?? `Team ${race.homeSlot}`,
-            awayTeamName: names.get(race.awaySlot) ?? `Team ${race.awaySlot}`,
-            homeSlot: race.homeSlot,
-            awaySlot: race.awaySlot,
-            score: scores.get(raceId),
-          });
-        })}
+        {roundOneCardSpecs(state).map(renderCard)}
       </>
     );
   }
@@ -143,22 +158,7 @@ export function AllRacesDisciplineSection({
   function roundTwo(): ReactNode {
     const structure = getCheatSheet(state.teamCount);
     if (!structure.roundTwoGroups?.length) return quiet('No Round 2 in this format.');
-    const started = state.phase === 'round-two' || (r2State?.scoredR2Races ?? 0) > 0;
-    if (started && r2State) {
-      return r2State.r2Races.map((race) =>
-        renderCard({
-          raceId: race.raceId,
-          raceNum: race.raceNum,
-          homeTeamName: race.homeTeamName,
-          awayTeamName: race.awayTeamName,
-          homeSlot: race.homeSlot ?? 0,
-          awaySlot: race.awaySlot ?? 0,
-          score: r2State.r2ScoreMap.get(race.raceId),
-          groupLabel: `Group ${race.groupNum}`,
-          allowNotRun: true,
-        }),
-      );
-    }
+    if (hasRoundTwoStarted(state, r2State)) return roundTwoCardSpecs(r2State).map(renderCard);
     const count =
       structure.roundTwoRaceCount ?? structure.roundTwoGroups.reduce((n, g) => n + g.races.length, 0);
     return quiet(`Round 2 - ${count} races, seeded from Round 1 results`);
