@@ -1,7 +1,10 @@
 // Orders the races of every discipline into one list, so officials running
-// all three disciplines on one slope can work down a single list.
+// all three disciplines on one slope can work down a single list. Round 1 and
+// Round 2 follow the event's race order option (Standard, Ladies/Board mixed
+// or Northern); Finals always run Board, Ladies, Mixed.
 import type { DisciplineKey, DisciplineState, RaceMatchup } from './types';
 import { getCheatSheet } from './cheatSheets';
+import { getRaceOrderBlocks } from './cheatSheets/raceOrderBlocks';
 import { isResultsOnly } from './roundPlacings';
 
 export type CombinedRound = 'r1' | 'r2' | 'finals';
@@ -17,25 +20,47 @@ export const COMBINED_ROUND_LABELS: Record<CombinedRound, string> = {
 /** Mixed, then Ladies, then Board. Differs from the tab order on purpose. */
 export const DEFAULT_COMBINED_ORDER: readonly DisciplineKey[] = ['mixed', 'ladies', 'board'];
 
+/** Finals run Board, then Ladies, then Mixed in every race order option (the user's choice). */
+export const FINALS_DISCIPLINE_ORDER: readonly DisciplineKey[] = ['board', 'ladies', 'mixed'];
+
+/** The discipline order a round's sections are shown in. */
+export function disciplineOrderFor(round: CombinedRound): readonly DisciplineKey[] {
+  return round === 'finals' ? FINALS_DISCIPLINE_ORDER : DEFAULT_COMBINED_ORDER;
+}
+
 /**
- * How the combined list is ordered. Future strategies (e.g. interleaved)
- * are added as new members of this union and a new case in orderCombinedRaces.
+ * How Round 1 and Round 2 are run across disciplines:
+ * - standard: each discipline straight through, Mixed, Ladies, Board.
+ * - ladies-board-blocks: Mixed first, then Ladies and Board alternate block
+ *   by block (the cheat sheet's blank-row gaps).
+ * - northern: Mixed and Ladies in thirds, Board in sixths, run
+ *   M1 B1 L1 B2 M2 B3 L2 B4 M3 B5 L3 B6.
+ * Stored on the event doc as raceOrder; must match firestore.rules.
  */
-export type CombinedRaceOrdering = {
-  kind: 'round-sequential';
-  rounds: readonly CombinedRound[];
-  disciplines: readonly DisciplineKey[];
+export type RaceOrderOption = 'standard' | 'ladies-board-blocks' | 'northern';
+
+export const RACE_ORDER_OPTIONS: readonly RaceOrderOption[] = ['standard', 'ladies-board-blocks', 'northern'];
+
+export const DEFAULT_RACE_ORDER: RaceOrderOption = 'standard';
+
+export const RACE_ORDER_LABELS: Record<RaceOrderOption, string> = {
+  standard: 'Standard',
+  'ladies-board-blocks': 'Ladies/Board mixed',
+  northern: 'Northern',
 };
 
-export const DEFAULT_COMBINED_ORDERING: CombinedRaceOrdering = {
-  kind: 'round-sequential',
-  rounds: DEFAULT_COMBINED_ROUNDS,
-  disciplines: DEFAULT_COMBINED_ORDER,
-};
+export function isRaceOrderOption(value: unknown): value is RaceOrderOption {
+  return typeof value === 'string' && (RACE_ORDER_OPTIONS as readonly string[]).includes(value);
+}
 
 /** Race ids per discipline and round, each list in the order it is run. */
 export type RaceIdsByDiscipline = Partial<
   Record<DisciplineKey, Partial<Record<CombinedRound, readonly string[]>>>
+>;
+
+/** Cheat sheet block sizes per discipline for Round 1 and Round 2. */
+export type RaceBlocksByDiscipline = Partial<
+  Record<DisciplineKey, Partial<Record<'r1' | 'r2', readonly number[]>>>
 >;
 
 export interface CombinedRace {
@@ -50,23 +75,89 @@ export function combinedRaceKey(discipline: DisciplineKey, raceId: string): stri
   return `${discipline}:${raceId}`;
 }
 
+/**
+ * Consecutive slices of `ids` by `sizes`, with any remainder as a last block.
+ * Empty blocks are dropped; no sizes means one block.
+ */
+function splitIntoBlocks(ids: readonly string[], sizes: readonly number[] | undefined): string[][] {
+  if (!sizes || sizes.length === 0) return ids.length > 0 ? [[...ids]] : [];
+  const blocks: string[][] = [];
+  let start = 0;
+  for (const size of sizes) {
+    blocks.push(ids.slice(start, start + size));
+    start += size;
+  }
+  blocks.push(ids.slice(start));
+  return blocks.filter((b) => b.length > 0);
+}
+
+/** `parts` chunks in order, the first ones taking the extra ids. Empty chunks are kept. */
+function splitEvenly(ids: readonly string[], parts: number): string[][] {
+  const base = Math.floor(ids.length / parts);
+  const extra = ids.length % parts;
+  const chunks: string[][] = [];
+  let start = 0;
+  for (let i = 0; i < parts; i++) {
+    const size = base + (i < extra ? 1 : 0);
+    chunks.push(ids.slice(start, start + size));
+    start += size;
+  }
+  return chunks;
+}
+
+/** One round's races across disciplines in the order they are run. */
+export function orderRoundRaces(
+  round: CombinedRound,
+  ids: RaceIdsByDiscipline,
+  option: RaceOrderOption = DEFAULT_RACE_ORDER,
+  blocks: RaceBlocksByDiscipline = {},
+): CombinedRace[] {
+  const idsOf = (d: DisciplineKey) => ids[d]?.[round] ?? [];
+  const tag = (d: DisciplineKey, list: readonly string[]): CombinedRace[] =>
+    list.map((raceId) => ({ key: combinedRaceKey(d, raceId), discipline: d, round, raceId }));
+
+  if (round === 'finals') {
+    return FINALS_DISCIPLINE_ORDER.flatMap((d) => tag(d, idsOf(d)));
+  }
+
+  switch (option) {
+    case 'standard':
+      return DEFAULT_COMBINED_ORDER.flatMap((d) => tag(d, idsOf(d)));
+    case 'ladies-board-blocks': {
+      const ladies = splitIntoBlocks(idsOf('ladies'), blocks.ladies?.[round]);
+      const board = splitIntoBlocks(idsOf('board'), blocks.board?.[round]);
+      const result = tag('mixed', idsOf('mixed'));
+      for (let i = 0; i < Math.max(ladies.length, board.length); i++) {
+        if (ladies[i]) result.push(...tag('ladies', ladies[i]));
+        if (board[i]) result.push(...tag('board', board[i]));
+      }
+      return result;
+    }
+    case 'northern': {
+      const m = splitEvenly(idsOf('mixed'), 3);
+      const l = splitEvenly(idsOf('ladies'), 3);
+      const b = splitEvenly(idsOf('board'), 6);
+      const sequence: [DisciplineKey, string[]][] = [
+        ['mixed', m[0]], ['board', b[0]], ['ladies', l[0]], ['board', b[1]],
+        ['mixed', m[1]], ['board', b[2]], ['ladies', l[1]], ['board', b[3]],
+        ['mixed', m[2]], ['board', b[4]], ['ladies', l[2]], ['board', b[5]],
+      ];
+      return sequence.flatMap(([d, chunk]) => tag(d, chunk));
+    }
+    default: {
+      const unknown: never = option;
+      throw new Error(`Unknown race order: ${String(unknown)}`);
+    }
+  }
+}
+
+/** Every Round 1, then every Round 2, then every Finals race, each round ordered by `option`. */
 export function orderCombinedRaces(
   ids: RaceIdsByDiscipline,
-  ordering: CombinedRaceOrdering = DEFAULT_COMBINED_ORDERING,
+  option: RaceOrderOption = DEFAULT_RACE_ORDER,
+  blocks: RaceBlocksByDiscipline = {},
 ): CombinedRace[] {
-  switch (ordering.kind) {
-    case 'round-sequential':
-      return ordering.rounds.flatMap((round) =>
-        ordering.disciplines.flatMap((discipline) =>
-          (ids[discipline]?.[round] ?? []).map((raceId) => ({
-            key: combinedRaceKey(discipline, raceId),
-            discipline,
-            round,
-            raceId,
-          })),
-        ),
-      );
-  }
+  return DEFAULT_COMBINED_ROUNDS.flatMap((round) => orderRoundRaces(round, ids, option, blocks));
 }
 
 /** Disciplines with a race schedule: at least 4 teams and not results-only. */
@@ -76,6 +167,18 @@ function scheduledDisciplines(
   return (Object.entries(disciplines) as [DisciplineKey, DisciplineState][]).filter(
     ([, state]) => state.teamCount >= 4 && !isResultsOnly(state),
   );
+}
+
+/** Cheat sheet block sizes of every discipline that has a race schedule. */
+export function raceOrderBlocksFor(
+  disciplines: Record<DisciplineKey, DisciplineState>,
+): RaceBlocksByDiscipline {
+  const result: RaceBlocksByDiscipline = {};
+  for (const [discipline, state] of scheduledDisciplines(disciplines)) {
+    const blocks = getRaceOrderBlocks(state.teamCount);
+    if (blocks) result[discipline] = { r1: blocks.r1, r2: blocks.r2 };
+  }
+  return result;
 }
 
 /**

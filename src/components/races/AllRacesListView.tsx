@@ -8,7 +8,8 @@ import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 import {
   COMBINED_ROUND_LABELS,
   DEFAULT_COMBINED_ORDER,
-  DEFAULT_COMBINED_ORDERING,
+  DEFAULT_COMBINED_ROUNDS,
+  disciplineOrderFor,
   findNextUnscoredRace,
   orderCombinedRaces,
   r1RacesByDiscipline,
@@ -103,9 +104,9 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
 
   return (
     <div>
-      {DEFAULT_COMBINED_ORDERING.rounds.map((round) => {
+      {DEFAULT_COMBINED_ROUNDS.map((round) => {
         // Round 1 explains a discipline without races, so later rounds skip it.
-        const shown = DEFAULT_COMBINED_ORDERING.disciplines.filter((d) => {
+        const shown = disciplineOrderFor(round).filter((d) => {
           const state = disciplines[d];
           return round === 'r1' || (state.teamCount >= 4 && !isResultsOnly(state));
         });
