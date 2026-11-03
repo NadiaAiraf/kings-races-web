@@ -1,11 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import {
   COMBINED_ROUND_LABELS,
-  DEFAULT_COMBINED_ORDERING,
+  FINALS_DISCIPLINE_ORDER,
+  RACE_ORDER_LABELS,
+  RACE_ORDER_OPTIONS,
   combinedProgress,
   combinedRaceKey,
+  disciplineOrderFor,
   findNextUnscoredRace,
+  isRaceOrderOption,
   orderCombinedRaces,
+  orderRoundRaces,
+  raceOrderBlocksFor,
+  type RaceOrderOption,
   r1RacesByDiscipline,
   scheduledRaceIds,
   scoredCombinedKeys,
@@ -15,7 +22,7 @@ import { playedDiscipline } from './__fixtures__/playedDiscipline';
 import { getCheatSheet } from './cheatSheets';
 
 describe('orderCombinedRaces', () => {
-  it('lists every Round 1, then every Round 2, then every Finals, Mixed, Ladies, Board within each', () => {
+  it('lists every Round 1, then every Round 2, then every Finals, with Finals run Board, Ladies, Mixed', () => {
     const result = orderCombinedRaces({
       mixed: { r1: ['r1-1', 'r1-2'], r2: ['r2-I-1'], finals: ['fin-0'] },
       ladies: { r1: ['r1-1'], r2: [], finals: ['fin-0'] },
@@ -28,8 +35,8 @@ describe('orderCombinedRaces', () => {
       'ladies:r1-1',
       'board:r1-1',
       'mixed:r2-I-1',
-      'mixed:fin-0',
       'ladies:fin-0',
+      'mixed:fin-0',
     ]);
   });
 
@@ -45,19 +52,6 @@ describe('orderCombinedRaces', () => {
     expect(result.map((r) => r.raceId)).toEqual(['r2-II-1', 'r2-I-1', 'r2-I-2']);
   });
 
-  it('follows a custom ordering and omits unlisted rounds and disciplines', () => {
-    const result = orderCombinedRaces(
-      {
-        mixed: { r1: ['r1-1'], r2: ['r2-I-1'], finals: ['fin-0'] },
-        ladies: { r1: ['r1-1'], finals: ['fin-0'] },
-        board: { r1: ['r1-1'], finals: ['fin-0'] },
-      },
-      { kind: 'round-sequential', rounds: ['finals', 'r1'], disciplines: ['board', 'mixed'] },
-    );
-
-    expect(result.map((r) => r.key)).toEqual(['board:fin-0', 'mixed:fin-0', 'board:r1-1', 'mixed:r1-1']);
-  });
-
   it('gives unique keys even when raceIds collide across disciplines', () => {
     const result = orderCombinedRaces({ mixed: { r1: ['r1-1'] }, ladies: { r1: ['r1-1'] } });
 
@@ -68,12 +62,18 @@ describe('orderCombinedRaces', () => {
     expect(orderCombinedRaces({})).toEqual([]);
   });
 
-  it('defaults to rounds in order and Mixed, Ladies, Board within each', () => {
-    expect(DEFAULT_COMBINED_ORDERING).toEqual({
-      kind: 'round-sequential',
-      rounds: ['r1', 'r2', 'finals'],
-      disciplines: ['mixed', 'ladies', 'board'],
-    });
+  it('applies the given option and blocks to Round 1 and Round 2', () => {
+    const result = orderCombinedRaces(
+      {
+        mixed: { r1: ['m1'], r2: ['mr2'] },
+        ladies: { r1: ['l1', 'l2'], r2: ['lr2'] },
+        board: { r1: ['b1', 'b2'], finals: ['bf'] },
+      },
+      'ladies-board-blocks',
+      { ladies: { r1: [1, 1] }, board: { r1: [1, 1] } },
+    );
+
+    expect(result.map((r) => r.raceId)).toEqual(['m1', 'l1', 'b1', 'l2', 'b2', 'mr2', 'lr2', 'bf']);
   });
 });
 
@@ -234,5 +234,205 @@ describe('combinedProgress', () => {
     const scored = new Set(['mixed:r1-1', 'ladies:r1-1', 'board:r1-1', 'mixed:r2-1-1']);
 
     expect(combinedProgress(races, scored)).toEqual({ scored: 2, total: 3 });
+  });
+});
+
+/** Ids per discipline for one round, written as short strings like 'm1'. */
+function roundIds(
+  round: 'r1' | 'r2' | 'finals',
+  ids: Partial<Record<'mixed' | 'ladies' | 'board', string[]>>,
+) {
+  return Object.fromEntries(Object.entries(ids).map(([d, list]) => [d, { [round]: list }]));
+}
+
+const range = (prefix: string, count: number) => Array.from({ length: count }, (_, i) => `${prefix}${i + 1}`);
+
+describe('orderRoundRaces', () => {
+  it('runs Round 1 Mixed, then Ladies, then Board under standard', () => {
+    const ids = roundIds('r1', { board: ['b1'], ladies: ['l1'], mixed: ['m1'] });
+
+    const result = orderRoundRaces('r1', ids, 'standard');
+
+    expect(result.map((r) => r.key)).toEqual(['mixed:m1', 'ladies:l1', 'board:b1']);
+  });
+
+  it.each(['standard', 'ladies-board-blocks', 'northern'] as RaceOrderOption[])(
+    'runs Finals Board, then Ladies, then Mixed under %s',
+    (option) => {
+      const ids = roundIds('finals', { mixed: ['m1', 'm2'], ladies: ['l1'], board: ['b1', 'b2'] });
+
+      const result = orderRoundRaces('finals', ids, option, { board: { r1: [1, 1] } });
+
+      expect(result.map((r) => r.raceId)).toEqual(['b1', 'b2', 'l1', 'm1', 'm2']);
+    },
+  );
+
+  it('tags each entry with its discipline, round and raceId', () => {
+    const [first] = orderRoundRaces('r2', roundIds('r2', { ladies: ['l1'] }), 'northern');
+
+    expect(first).toEqual({ key: 'ladies:l1', discipline: 'ladies', round: 'r2', raceId: 'l1' });
+  });
+
+  describe('ladies-board-blocks', () => {
+    it('runs Mixed first, then alternates Ladies and Board blocks, with the leftover Board blocks last', () => {
+      const ids = roundIds('r1', { mixed: ['m1', 'm2'], ladies: range('l', 4), board: range('b', 6) });
+
+      const result = orderRoundRaces('r1', ids, 'ladies-board-blocks', {
+        ladies: { r1: [2, 2] },
+        board: { r1: [2, 2, 2] },
+      });
+
+      expect(result.map((r) => r.raceId)).toEqual([
+        'm1', 'm2', 'l1', 'l2', 'b1', 'b2', 'l3', 'l4', 'b3', 'b4', 'b5', 'b6',
+      ]);
+    });
+
+    it('runs Mixed then the Ladies blocks in order when there is no Board', () => {
+      const ids = roundIds('r1', { mixed: ['m1'], ladies: range('l', 4) });
+
+      const result = orderRoundRaces('r1', ids, 'ladies-board-blocks', { ladies: { r1: [2, 2] } });
+
+      expect(result.map((r) => r.raceId)).toEqual(['m1', 'l1', 'l2', 'l3', 'l4']);
+    });
+
+    it('treats a discipline with no blocks as one block', () => {
+      const ids = roundIds('r1', { mixed: ['m1'], ladies: range('l', 3), board: range('b', 2) });
+
+      const result = orderRoundRaces('r1', ids, 'ladies-board-blocks', { board: { r1: [1, 1] } });
+
+      expect(result.map((r) => r.raceId)).toEqual(['m1', 'l1', 'l2', 'l3', 'b1', 'b2']);
+    });
+
+    it('uses the Round 2 blocks in Round 2', () => {
+      const ids = roundIds('r2', { ladies: range('l', 4), board: range('b', 4) });
+
+      const result = orderRoundRaces('r2', ids, 'ladies-board-blocks', {
+        ladies: { r1: [4], r2: [1, 3] },
+        board: { r1: [4], r2: [3, 1] },
+      });
+
+      expect(result.map((r) => r.raceId)).toEqual(['l1', 'b1', 'b2', 'b3', 'l2', 'l3', 'l4', 'b4']);
+    });
+
+    it('puts ids beyond the block total in one last block', () => {
+      const ids = roundIds('r1', { ladies: range('l', 5), board: range('b', 3) });
+
+      const result = orderRoundRaces('r1', ids, 'ladies-board-blocks', {
+        ladies: { r1: [2] },
+        board: { r1: [1, 1, 1] },
+      });
+
+      expect(result.map((r) => r.raceId)).toEqual(['l1', 'l2', 'b1', 'l3', 'l4', 'l5', 'b2', 'b3']);
+    });
+
+    it('truncates blocks larger than the ids', () => {
+      const ids = roundIds('r1', { ladies: ['l1'], board: [] });
+
+      const result = orderRoundRaces('r1', ids, 'ladies-board-blocks', {
+        ladies: { r1: [4, 4] },
+        board: { r1: [2, 2] },
+      });
+
+      expect(result.map((r) => r.raceId)).toEqual(['l1']);
+    });
+
+    it('gives nothing for empty lists', () => {
+      expect(orderRoundRaces('r1', {}, 'ladies-board-blocks', { ladies: { r1: [2, 2] } })).toEqual([]);
+    });
+  });
+
+  describe('northern', () => {
+    it('runs Mixed and Ladies in thirds and Board in sixths, earlier chunks taking the extra races', () => {
+      const ids = roundIds('r1', { mixed: range('m', 7), ladies: range('l', 3), board: range('b', 6) });
+
+      const result = orderRoundRaces('r1', ids, 'northern');
+
+      expect(result.map((r) => r.raceId)).toEqual([
+        'm1', 'm2', 'm3', 'b1', 'l1', 'b2', 'm4', 'm5', 'b3', 'l2', 'b4', 'm6', 'm7', 'b5', 'l3', 'b6',
+      ]);
+    });
+
+    it('skips empty Board chunks', () => {
+      const ids = roundIds('r1', { mixed: range('m', 3), ladies: range('l', 3), board: range('b', 4) });
+
+      const result = orderRoundRaces('r1', ids, 'northern');
+
+      expect(result.map((r) => r.raceId)).toEqual(['m1', 'b1', 'l1', 'b2', 'm2', 'b3', 'l2', 'b4', 'm3', 'l3']);
+    });
+
+    it('interleaves Mixed and Ladies thirds when there is no Board', () => {
+      const ids = roundIds('r1', { mixed: range('m', 6), ladies: range('l', 3) });
+
+      const result = orderRoundRaces('r1', ids, 'northern');
+
+      expect(result.map((r) => r.raceId)).toEqual(['m1', 'm2', 'l1', 'm3', 'm4', 'l2', 'm5', 'm6', 'l3']);
+    });
+
+    it('keeps a lone discipline in order', () => {
+      const ids = roundIds('r1', { board: range('b', 8) });
+
+      const result = orderRoundRaces('r1', ids, 'northern');
+
+      expect(result.map((r) => r.raceId)).toEqual(range('b', 8));
+    });
+
+    it('follows the same pattern in Round 2', () => {
+      const ids = roundIds('r2', { mixed: range('m', 3), ladies: range('l', 3), board: range('b', 6) });
+
+      const result = orderRoundRaces('r2', ids, 'northern');
+
+      expect(result.map((r) => r.raceId)).toEqual([
+        'm1', 'b1', 'l1', 'b2', 'm2', 'b3', 'l2', 'b4', 'm3', 'b5', 'l3', 'b6',
+      ]);
+    });
+  });
+});
+
+describe('disciplineOrderFor', () => {
+  it('runs Round 1 and Round 2 Mixed, Ladies, Board and Finals Board, Ladies, Mixed', () => {
+    expect(disciplineOrderFor('r1')).toEqual(['mixed', 'ladies', 'board']);
+    expect(disciplineOrderFor('r2')).toEqual(['mixed', 'ladies', 'board']);
+    expect(disciplineOrderFor('finals')).toEqual(FINALS_DISCIPLINE_ORDER);
+    expect(FINALS_DISCIPLINE_ORDER).toEqual(['board', 'ladies', 'mixed']);
+  });
+});
+
+describe('race order options', () => {
+  it('lists the three options with their labels', () => {
+    expect(RACE_ORDER_OPTIONS).toEqual(['standard', 'ladies-board-blocks', 'northern']);
+    expect(RACE_ORDER_LABELS).toEqual({
+      standard: 'Standard',
+      'ladies-board-blocks': 'Ladies/Board mixed',
+      northern: 'Northern',
+    });
+  });
+
+  it.each(['standard', 'ladies-board-blocks', 'northern'])('accepts %s', (value) => {
+    expect(isRaceOrderOption(value)).toBe(true);
+  });
+
+  it.each(['Standard', '', 1, null, undefined])('rejects %s', (value) => {
+    expect(isRaceOrderOption(value)).toBe(false);
+  });
+});
+
+describe('raceOrderBlocksFor', () => {
+  it('gives the cheat sheet blocks of every scheduled discipline', () => {
+    const disciplines = {
+      ...createInitialDisciplines(),
+      mixed: playedDiscipline(8, { phase: 'group-stage' }),
+      ladies: playedDiscipline(4, { phase: 'group-stage' }),
+    };
+
+    expect(raceOrderBlocksFor(disciplines)).toEqual({
+      mixed: { r1: [4, 4, 4], r2: [4, 4, 4] },
+      ladies: { r1: [2, 2, 2, 2, 2, 2], r2: [] },
+    });
+  });
+
+  it('leaves out results-only disciplines and those with under 4 teams', () => {
+    const disciplines = { ...createInitialDisciplines(), ladies: { ...playedDiscipline(6), scores: [] } };
+
+    expect(raceOrderBlocksFor(disciplines)).toEqual({});
   });
 });

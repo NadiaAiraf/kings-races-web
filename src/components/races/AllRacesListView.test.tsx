@@ -96,7 +96,7 @@ describe('All races list', () => {
     vi.restoreAllMocks();
   });
 
-  it('shows Round 1, Round 2 and Finals, each split Mixed, Ladies, Board', () => {
+  it('shows Round 1 and Round 2 split Mixed, Ladies, Board and Finals split Board, Ladies, Mixed', () => {
     setDisciplines({});
 
     renderList();
@@ -104,7 +104,24 @@ describe('All races list', () => {
     const rounds = screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
     const disciplines = screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
     expect(rounds).toEqual(['Round 1', 'Round 2', 'Finals']);
-    expect(disciplines).toEqual(Array(3).fill(['Mixed', 'Ladies', 'Board']).flat());
+    expect(disciplines).toEqual([
+      ...Array(2).fill(['Mixed', 'Ladies', 'Board']).flat(),
+      'Board',
+      'Ladies',
+      'Mixed',
+    ]);
+  });
+
+  it('lists the Finals sections Board, then Ladies, then Mixed', () => {
+    setDisciplines({});
+
+    renderList();
+
+    const finals = screen
+      .getAllByRole('region')
+      .map((r) => r.getAttribute('aria-label'))
+      .filter((name) => name?.startsWith('Finals '));
+    expect(finals).toEqual(['Finals Board', 'Finals Ladies', 'Finals Mixed']);
   });
 
   it('lists each section in its cheat sheet race order', () => {
