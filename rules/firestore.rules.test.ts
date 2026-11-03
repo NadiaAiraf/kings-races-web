@@ -14,6 +14,10 @@ const APPROVED_UID = 'official-1';
 const UNAPPROVED_UID = 'stranger-1';
 const EVENT_ID = 'event-1';
 
+// firebase emulators:exec sets FIRESTORE_EMULATOR_HOST, so the tests can also
+// run against an emulator on another port.
+const [EMULATOR_HOST, EMULATOR_PORT] = (process.env.FIRESTORE_EMULATOR_HOST ?? '127.0.0.1:8080').split(':');
+
 let testEnv: RulesTestEnvironment;
 
 const serverTimestamp = () => firebase.firestore.FieldValue.serverTimestamp();
@@ -32,7 +36,7 @@ const unapprovedDb = () => testEnv.authenticatedContext(UNAPPROVED_UID).firestor
 beforeAll(async () => {
   testEnv = await initializeTestEnvironment({
     projectId: 'demo-kings-races',
-    firestore: { rules: readFileSync('firestore.rules', 'utf8'), host: '127.0.0.1', port: 8080 },
+    firestore: { rules: readFileSync('firestore.rules', 'utf8'), host: EMULATOR_HOST, port: Number(EMULATOR_PORT) },
   });
 });
 
@@ -433,6 +437,70 @@ describe('events: approved user update validation', () => {
 
   it('can rename an event', async () => {
     await assertSucceeds(eventDoc().update({ name: 'Round 1 - Hemel', updatedAt: serverTimestamp() }));
+  });
+});
+
+describe('events: race order', () => {
+  const FieldValue = firebase.firestore.FieldValue;
+  const eventDoc = () => approvedDb().doc(`events/${EVENT_ID}`);
+  const score = { raceId: 'r1-1', homeSlot: 1, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' };
+
+  const seedRaceOrder = (raceOrder: string) =>
+    testEnv.withSecurityRulesDisabled((ctx) =>
+      ctx.firestore().doc(`events/${EVENT_ID}`).update({ raceOrder })
+    );
+
+  it.each(['standard', 'ladies-board-blocks', 'northern'])(
+    'lets an approved user set the race order to %s',
+    async (raceOrder) => {
+      await assertSucceeds(eventDoc().update({ raceOrder, updatedAt: serverTimestamp() }));
+    }
+  );
+
+  it.each(['Northern', 'random', 3, null])(
+    'rejects an unknown race order %s',
+    async (raceOrder) => {
+      await assertFails(eventDoc().update({ raceOrder, updatedAt: serverTimestamp() }));
+    }
+  );
+
+  it('rejects deleting the race order once it is set', async () => {
+    await seedRaceOrder('northern');
+    await assertFails(eventDoc().update({ raceOrder: FieldValue.delete(), updatedAt: serverTimestamp() }));
+  });
+
+  it('rejects a race order change without bumping updatedAt', async () => {
+    await assertFails(eventDoc().update({ raceOrder: 'northern' }));
+  });
+
+  it('rejects a race order change from a signed-in user who is not approved', async () => {
+    await assertFails(
+      unapprovedDb().doc(`events/${EVENT_ID}`).update({ raceOrder: 'northern', updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('rejects a race order change from an anonymous user', async () => {
+    await assertFails(
+      anonDb().doc(`events/${EVENT_ID}`).update({ raceOrder: 'northern', updatedAt: serverTimestamp() })
+    );
+  });
+
+  it('still lets an approved user record a score on a round with a race order', async () => {
+    await seedRaceOrder('northern');
+    await assertSucceeds(
+      eventDoc().update(
+        new firebase.firestore.FieldPath('disciplines', 'mixed', 'scores', 'r1-1'),
+        score,
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('rejects creating an event that includes a race order', async () => {
+    await assertFails(
+      approvedDb().collection('events').add({ ...newEvent(APPROVED_UID), raceOrder: 'northern' })
+    );
   });
 });
 

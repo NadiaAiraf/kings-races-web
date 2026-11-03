@@ -48,6 +48,8 @@ const repo = vi.hoisted(() => ({
   existingSeasonIds: ['2026-27'] as string[],
   deletedEvents: [] as { id: string; uid: string }[],
   deleteEventError: null as Error | null,
+  raceOrderWrites: [] as { id: string; order: string }[],
+  raceOrderWriteError: null as Error | null,
 }));
 
 vi.mock('../events/eventsRepo', () => ({
@@ -91,6 +93,10 @@ vi.mock('../events/eventsRepo', () => ({
   deleteEvent: async (id: string, uid: string) => {
     repo.deletedEvents.push({ id, uid });
     if (repo.deleteEventError) throw repo.deleteEventError;
+  },
+  writeRaceOrder: async (id: string, order: string) => {
+    repo.raceOrderWrites.push({ id, order });
+    if (repo.raceOrderWriteError) throw repo.raceOrderWriteError;
   },
 }));
 
@@ -250,6 +256,8 @@ beforeEach(() => {
   repo.existingSeasonIds = ['2026-27'];
   repo.deletedEvents = [];
   repo.deleteEventError = null;
+  repo.raceOrderWrites = [];
+  repo.raceOrderWriteError = null;
   auth.signInError = null;
   auth.signIns = [];
   auth.signOuts = 0;
