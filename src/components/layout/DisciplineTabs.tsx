@@ -4,10 +4,10 @@ import { DISCIPLINE_LABELS } from '../../domain/csvExport';
 
 const DISCIPLINES = ['mixed', 'board', 'ladies'] as const;
 
-/** A single discipline, or 'all' for the combined Round 1 race list. */
+/** A single discipline, or 'all' for the combined race list. */
 export type DisciplineView = DisciplineKey | 'all';
 
-const VIEW_LABELS: Record<DisciplineView, string> = { ...DISCIPLINE_LABELS, all: 'All R1' };
+const VIEW_LABELS: Record<DisciplineView, string> = { ...DISCIPLINE_LABELS, all: 'All races' };
 
 interface DisciplineTabsProps<V extends DisciplineView> {
   active: V;

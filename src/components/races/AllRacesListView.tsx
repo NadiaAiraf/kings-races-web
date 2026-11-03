@@ -6,13 +6,14 @@ import { DISCIPLINE_LABELS } from '../../domain/csvExport';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 import {
   DEFAULT_COMBINED_ORDERING,
-  combinedRaceKey,
   findNextUnscoredRace,
   orderCombinedRaces,
   r1RacesByDiscipline,
+  scoredCombinedKeys,
   type CombinedRace,
+  type RaceIdsByDiscipline,
 } from '../../domain/combinedRaceOrder';
-import type { DisciplineKey, RaceOutcome, Score } from '../../domain/types';
+import type { DisciplineKey, RaceMatchup, RaceOutcome, Score } from '../../domain/types';
 
 /** Every discipline's Round 1 races in one list, scored the same way as the Races tab. */
 export function AllRacesListView() {
@@ -21,20 +22,21 @@ export function AllRacesListView() {
   const clearResult = useEventStore((s) => s.clearResult);
   const setNote = useEventStore((s) => s.setNote);
 
-  const races = useMemo(
-    () => orderCombinedRaces(r1RacesByDiscipline(disciplines), DEFAULT_COMBINED_ORDERING),
-    [disciplines],
-  );
-
-  const scoredKeys = useMemo(() => {
-    const keys = new Set<string>();
-    for (const [discipline, state] of Object.entries(disciplines)) {
-      for (const score of state.scores) {
-        keys.add(combinedRaceKey(discipline as DisciplineKey, score.raceId));
-      }
+  const r1Matchups = useMemo(() => {
+    const maps = new Map<DisciplineKey, Map<string, RaceMatchup>>();
+    for (const [discipline, matchups] of Object.entries(r1RacesByDiscipline(disciplines))) {
+      maps.set(discipline as DisciplineKey, new Map(matchups.map((m) => [`r1-${m.raceNum}`, m])));
     }
-    return keys;
+    return maps;
   }, [disciplines]);
+
+  const races = useMemo(() => {
+    const ids: RaceIdsByDiscipline = {};
+    for (const [discipline, matchups] of r1Matchups) ids[discipline] = { r1: [...matchups.keys()] };
+    return orderCombinedRaces(ids, DEFAULT_COMBINED_ORDERING);
+  }, [r1Matchups]);
+
+  const scoredKeys = useMemo(() => scoredCombinedKeys(disciplines), [disciplines]);
 
   const scoreMaps = useMemo(() => {
     const maps = new Map<DisciplineKey, Map<string, Score>>();
@@ -102,7 +104,8 @@ export function AllRacesListView() {
   }
 
   function renderCard(r: CombinedRace) {
-    const { discipline, raceId, race } = r;
+    const { discipline, raceId } = r;
+    const race = r1Matchups.get(discipline)!.get(raceId)!;
     const names = teamNames.get(discipline);
     const isStopped = stoppedEarly.has(discipline);
     return (

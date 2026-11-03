@@ -15,16 +15,15 @@ import { useCurrentRace } from '../../hooks/useCurrentRace';
 import { usePhaseTransitions } from '../../hooks/usePhaseTransitions';
 import { DISCIPLINE_KEYS } from '../../events/eventDoc';
 import {
-  DEFAULT_COMBINED_ORDERING,
-  combinedR1Progress,
-  combinedRaceKey,
+  combinedProgress,
   orderCombinedRaces,
-  r1RacesByDiscipline,
+  scheduledRaceIds,
+  scoredCombinedKeys,
 } from '../../domain/combinedRaceOrder';
 
 const SUB_TAB_KEYS: readonly SubTabKey[] = ['teams', 'races', 'standings'];
 
-/** The three disciplines plus the combined All R1 list. */
+/** The three disciplines plus the combined All races list. */
 const DISCIPLINE_VIEWS: readonly DisciplineView[] = [...DISCIPLINE_KEYS, 'all'];
 
 function parseKey<K extends string>(value: string | null, keys: readonly K[]): K | null {
@@ -43,7 +42,7 @@ export function AppShell({ header }: AppShellProps) {
   // The open discipline and tab live in the URL so a reload or a shared link
   // keeps them. Without ?d the round opens on the last discipline chosen this session.
   const activeDiscipline = parseKey(searchParams.get('d'), DISCIPLINE_KEYS) ?? storedDiscipline;
-  // ?d=all opens every discipline's Round 1 in one list. It never reaches the
+  // ?d=all opens every discipline's races in one list. It never reaches the
   // store, so activeDiscipline stays a real discipline.
   const showAll = searchParams.get('d') === 'all';
   const selectedSubTab = parseKey(searchParams.get('v'), SUB_TAB_KEYS) ?? 'teams';
@@ -82,13 +81,11 @@ export function AppShell({ header }: AppShellProps) {
   usePhaseTransitions('ladies');
 
   const disciplines = useEventStore((s) => s.disciplines);
-  const allProgress = useMemo(() => {
-    const races = orderCombinedRaces(r1RacesByDiscipline(disciplines), DEFAULT_COMBINED_ORDERING);
-    const scoredKeys = new Set(
-      DISCIPLINE_KEYS.flatMap((d) => disciplines[d].scores.map((s) => combinedRaceKey(d, s.raceId))),
-    );
-    return combinedR1Progress(races, scoredKeys);
-  }, [disciplines]);
+  // Round 1 and Round 2 of every discipline, counted like a discipline's own bar.
+  const allProgress = useMemo(
+    () => combinedProgress(orderCombinedRaces(scheduledRaceIds(disciplines)), scoredCombinedKeys(disciplines)),
+    [disciplines],
+  );
 
   // Combined progress for progress bar
   const totalScored = scoredR1 + scoredR2;
