@@ -1,98 +1,94 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { useEventStore } from '../../store/eventStore';
-import { ExpandableRaceCard } from './ExpandableRaceCard';
 import { RoundHeader } from './RoundHeader';
-import { DISCIPLINE_LABELS } from '../../domain/csvExport';
+import { AllRacesDisciplineSection, type ScoreResult } from './AllRacesDisciplineSection';
+import { useR2State } from '../../hooks/useR2State';
+import { useFinalsState } from '../../hooks/useFinalsState';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 import {
+  COMBINED_ROUND_LABELS,
+  DEFAULT_COMBINED_ORDER,
   DEFAULT_COMBINED_ORDERING,
   findNextUnscoredRace,
   orderCombinedRaces,
   r1RacesByDiscipline,
   scoredCombinedKeys,
-  type CombinedRace,
   type RaceIdsByDiscipline,
 } from '../../domain/combinedRaceOrder';
-import type { DisciplineKey, RaceMatchup, RaceOutcome, Score } from '../../domain/types';
+import type { DisciplineKey } from '../../domain/types';
 
-/** Every discipline's Round 1 races in one list, scored the same way as the Races tab. */
-export function AllRacesListView() {
+interface AllRacesListViewProps {
+  /** Opens a discipline's own Races tab, e.g. to confirm its finals. */
+  onOpenDiscipline?: (discipline: DisciplineKey) => void;
+}
+
+/**
+ * Every discipline's Round 1, Round 2 and Finals in one list, scored the same
+ * way as the Races tab. Finals confirmation and tiebreaks stay on each tab.
+ */
+export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
   const disciplines = useEventStore((s) => s.disciplines);
   const recordResult = useEventStore((s) => s.recordResult);
   const clearResult = useEventStore((s) => s.clearResult);
   const setNote = useEventStore((s) => s.setNote);
 
-  const r1Matchups = useMemo(() => {
-    const maps = new Map<DisciplineKey, Map<string, RaceMatchup>>();
-    for (const [discipline, matchups] of Object.entries(r1RacesByDiscipline(disciplines))) {
-      maps.set(discipline as DisciplineKey, new Map(matchups.map((m) => [`r1-${m.raceNum}`, m])));
-    }
-    return maps;
-  }, [disciplines]);
-
-  const races = useMemo(() => {
-    const ids: RaceIdsByDiscipline = {};
-    for (const [discipline, matchups] of r1Matchups) ids[discipline] = { r1: [...matchups.keys()] };
-    return orderCombinedRaces(ids, DEFAULT_COMBINED_ORDERING);
-  }, [r1Matchups]);
+  // Explicit calls with literal keys keep the hook order fixed.
+  const mixedR2 = useR2State('mixed');
+  const ladiesR2 = useR2State('ladies');
+  const boardR2 = useR2State('board');
+  const mixedFinals = useFinalsState('mixed');
+  const ladiesFinals = useFinalsState('ladies');
+  const boardFinals = useFinalsState('board');
+  const r2 = { mixed: mixedR2, ladies: ladiesR2, board: boardR2 };
+  const finals = { mixed: mixedFinals, ladies: ladiesFinals, board: boardFinals };
 
   const scoredKeys = useMemo(() => scoredCombinedKeys(disciplines), [disciplines]);
 
-  const scoreMaps = useMemo(() => {
-    const maps = new Map<DisciplineKey, Map<string, Score>>();
-    for (const [discipline, state] of Object.entries(disciplines)) {
-      maps.set(discipline as DisciplineKey, new Map(state.scores.map((s) => [s.raceId, s])));
+  /**
+   * Races that can be opened, in list order. A discipline's Round 2 counts
+   * once its Round 1 is fully scored in `scored`, so scoring the last Round 1
+   * race moves straight on before the phase has changed.
+   */
+  function navigableIds(scored: ReadonlySet<string>): RaceIdsByDiscipline {
+    const r1 = r1RacesByDiscipline(disciplines);
+    const ids: RaceIdsByDiscipline = {};
+    for (const d of DEFAULT_COMBINED_ORDER) {
+      const matchups = r1[d];
+      // Stopped-early disciplines are read-only, so they are never opened or advanced to.
+      if (!matchups || isStoppedEarly(disciplines[d])) continue;
+      const r1Ids = matchups.map((m) => `r1-${m.raceNum}`);
+      const r1Done = r1Ids.every((id) => scored.has(`${d}:${id}`));
+      const finalsPhase = finals[d]?.finalsPhase;
+      ids[d] = {
+        r1: r1Ids,
+        r2: r1Done && r2[d] ? r2[d].r2Races.map((r) => r.raceId) : [],
+        finals:
+          finalsPhase === 'confirmed' || finalsPhase === 'all-scored'
+            ? finals[d]!.finalsWithNames
+                .filter((m) => m.homeSlot !== null && m.awaySlot !== null)
+                .map((m) => m.raceId)
+            : [],
+      };
     }
-    return maps;
-  }, [disciplines]);
-
-  const teamNames = useMemo(() => {
-    const maps = new Map<DisciplineKey, Map<number, string>>();
-    for (const [discipline, state] of Object.entries(disciplines)) {
-      maps.set(discipline as DisciplineKey, new Map(state.teams.map((t) => [t.slot, t.name])));
-    }
-    return maps;
-  }, [disciplines]);
-
-  // Read-only, as in the Races tab, so they are never opened or advanced to.
-  const stoppedEarly = useMemo(
-    () =>
-      new Set(
-        (Object.entries(disciplines) as [DisciplineKey, (typeof disciplines)[DisciplineKey]][])
-          .filter(([, state]) => isStoppedEarly(state))
-          .map(([discipline]) => discipline),
-      ),
-    [disciplines],
-  );
-
-  const navigable = useMemo(
-    () => races.filter((r) => !stoppedEarly.has(r.discipline)),
-    [races, stoppedEarly],
-  );
+    return ids;
+  }
 
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   // Auto-expand first unscored card on mount
   useEffect(() => {
-    setExpandedKey(findNextUnscoredRace(navigable, scoredKeys, null)?.key ?? null);
+    setExpandedKey(
+      findNextUnscoredRace(orderCombinedRaces(navigableIds(scoredKeys)), scoredKeys, null)?.key ?? null,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleScore(
-    discipline: DisciplineKey,
-    key: string,
-    result: {
-      raceId: string;
-      homeSlot: number;
-      awaySlot: number;
-      homeOutcome: RaceOutcome;
-      awayOutcome: RaceOutcome;
-    },
-  ) {
+  function handleScore(discipline: DisciplineKey, key: string, result: ScoreResult) {
     recordResult(discipline, result);
     // Compute next unscored synchronously before React re-renders
-    const next = findNextUnscoredRace(navigable, new Set(scoredKeys).add(key), key);
+    const scored = new Set(scoredKeys).add(key);
+    const next = findNextUnscoredRace(orderCombinedRaces(navigableIds(scored)), scored, key);
     setExpandedKey(next?.key ?? null);
     // Scroll to next card after DOM updates
     if (next) {
@@ -103,66 +99,40 @@ export function AllRacesListView() {
     }
   }
 
-  function renderCard(r: CombinedRace) {
-    const { discipline, raceId } = r;
-    const race = r1Matchups.get(discipline)!.get(raceId)!;
-    const names = teamNames.get(discipline);
-    const isStopped = stoppedEarly.has(discipline);
-    return (
-      <div
-        key={r.key}
-        ref={(el) => {
-          if (el) cardRefs.current.set(r.key, el);
-        }}
-      >
-        <ExpandableRaceCard
-          raceId={raceId}
-          raceNum={race.raceNum}
-          homeTeamName={names?.get(race.homeSlot) ?? `Team ${race.homeSlot}`}
-          awayTeamName={names?.get(race.awaySlot) ?? `Team ${race.awaySlot}`}
-          homeSlot={race.homeSlot}
-          awaySlot={race.awaySlot}
-          score={scoreMaps.get(discipline)?.get(raceId)}
-          isExpanded={!isStopped && expandedKey === r.key}
-          note={disciplines[discipline].notes[raceId]}
-          onNoteChange={(id, note) => setNote(discipline, id, note)}
-          // The cleared card is already the expanded one, so it stays open for re-scoring.
-          onClear={(id) => clearResult(discipline, id)}
-          onExpand={() => {
-            if (isStopped) return;
-            setExpandedKey((prev) => (prev === r.key ? null : r.key));
-          }}
-          onScore={(result) => handleScore(discipline, r.key, result)}
-        />
-      </div>
-    );
-  }
+  let firstRound = true;
 
   return (
     <div>
-      {DEFAULT_COMBINED_ORDERING.disciplines.map((discipline, index) => {
-        const state = disciplines[discipline];
-        const sectionRaces = races.filter((r) => r.discipline === discipline);
+      {DEFAULT_COMBINED_ORDERING.rounds.map((round) => {
+        // Round 1 explains a discipline without races, so later rounds skip it.
+        const shown = DEFAULT_COMBINED_ORDERING.disciplines.filter((d) => {
+          const state = disciplines[d];
+          return round === 'r1' || (state.teamCount >= 4 && !isResultsOnly(state));
+        });
+        if (shown.length === 0) return null;
+        const isFirst = firstRound;
+        firstRound = false;
         return (
-          <section key={discipline} aria-label={DISCIPLINE_LABELS[discipline]}>
-            <RoundHeader label={DISCIPLINE_LABELS[discipline]} isActive isFirst={index === 0} />
-            {state.teamCount < 4 ? (
-              <p className="text-sm text-slate-500 px-4 py-2">No teams entered yet.</p>
-            ) : isResultsOnly(state) ? (
-              <p className="text-sm text-slate-500 px-4 py-2">
-                Results entered after the event. No races recorded.
-              </p>
-            ) : (
-              <>
-                {stoppedEarly.has(discipline) && (
-                  <p className="text-sm text-slate-500 px-4 py-2">
-                    Stopped early: places entered by officials.
-                  </p>
-                )}
-                {sectionRaces.map(renderCard)}
-              </>
-            )}
-          </section>
+          <div key={round}>
+            <RoundHeader label={COMBINED_ROUND_LABELS[round]} isActive isFirst={isFirst} />
+            {shown.map((d) => (
+              <AllRacesDisciplineSection
+                key={d}
+                discipline={d}
+                round={round}
+                state={disciplines[d]}
+                r2State={r2[d]}
+                finalsState={finals[d]}
+                expandedKey={expandedKey}
+                onToggle={(key) => setExpandedKey((prev) => (prev === key ? null : key))}
+                onScore={handleScore}
+                onClear={clearResult}
+                onNoteChange={setNote}
+                registerCard={(key, el) => cardRefs.current.set(key, el)}
+                onOpenDiscipline={onOpenDiscipline}
+              />
+            ))}
+          </div>
         );
       })}
     </div>

@@ -72,6 +72,21 @@ export function AppShell({ header }: AppShellProps) {
     setParam('d', view);
   }
 
+  // From the All races view: one update for both params, as two setParam
+  // calls in a row would drop the first.
+  function openDisciplineRaces(discipline: DisciplineKey) {
+    setActiveDiscipline(discipline);
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('d', discipline);
+        next.set('v', 'races');
+        return next;
+      },
+      { replace: true },
+    );
+  }
+
   const { currentIndex, totalRaces, scoredR1, scoredR2 } =
     useCurrentRace(activeDiscipline);
   // Every discipline, not just the open one, so a round scored from another
@@ -112,7 +127,7 @@ export function AppShell({ header }: AppShellProps) {
         {header}
         <DisciplineTabs<DisciplineView> active="all" onSelect={selectView} views={DISCIPLINE_VIEWS} />
         <main className="flex-1 overflow-y-auto px-4 py-4">
-          <AllRacesListView />
+          <AllRacesListView onOpenDiscipline={openDisciplineRaces} />
         </main>
         <ProgressBar current={allProgress.scored} total={allProgress.total} />
       </div>
