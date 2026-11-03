@@ -5,9 +5,8 @@ import { EditAccessContext } from '../../auth/editAccess';
 import { useEventStore } from '../../store/eventStore';
 import { AppShell } from './AppShell';
 import { createInitialDisciplines } from '../../store/initialState';
-import { playedDiscipline } from '../../domain/__fixtures__/playedDiscipline';
+import { playedDiscipline, roundOneWonByLowerSlot } from '../../domain/__fixtures__/playedDiscipline';
 import { getCheatSheet } from '../../domain/cheatSheets';
-import type { DisciplineState, Score } from '../../domain/types';
 
 function LocationProbe() {
   const location = useLocation();
@@ -153,24 +152,6 @@ describe('AppShell discipline and tab in the URL', () => {
   });
 });
 
-/**
- * 8 teams with every Round 1 race scored and nothing after. The lower slot
- * always wins, giving a strict order in every group, so there are no ties.
- */
-function r1CompleteNoTies(): DisciplineState {
-  const scores: Score[] = getCheatSheet(8).roundOneRaces.map((r) => {
-    const homeWins = r.homeSlot < r.awaySlot;
-    return {
-      raceId: `r1-${r.raceNum}`,
-      homeSlot: r.homeSlot,
-      awaySlot: r.awaySlot,
-      homeOutcome: homeWins ? 'win' : 'loss',
-      awayOutcome: homeWins ? 'loss' : 'win',
-    };
-  });
-  return { ...playedDiscipline(8, { phase: 'group-stage' }), scores };
-}
-
 describe('AppShell phase transitions', () => {
   beforeEach(() => {
     useEventStore.getState().resetEvent();
@@ -180,7 +161,7 @@ describe('AppShell phase transitions', () => {
 
   it('moves a non-active discipline to round two when its Round 1 is complete', () => {
     useEventStore.setState({
-      disciplines: { ...createInitialDisciplines(), mixed: r1CompleteNoTies() },
+      disciplines: { ...createInitialDisciplines(), mixed: roundOneWonByLowerSlot(8) },
     });
 
     renderShellRoot({ path: '/events/e1?d=board' });
@@ -269,5 +250,19 @@ describe('AppShell All races view', () => {
     const mixedR2 = (getCheatSheet(8).roundTwoGroups ?? []).reduce((n, g) => n + g.races.length, 0);
     const total = mixedRaces.length + mixedR2 + getCheatSheet(6).roundOneRaces.length;
     expect(screen.getByText(`Race 2 of ${total}`)).toBeTruthy();
+  });
+
+  it("opens a discipline's Races tab from its finals pointer", () => {
+    useEventStore.setState({
+      disciplines: { ...createInitialDisciplines(), ladies: roundOneWonByLowerSlot(4) },
+    });
+    renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open Ladies' }));
+
+    expect(search().get('d')).toBe('ladies');
+    expect(search().get('v')).toBe('races');
+    expect(isSelected('Ladies')).toBe(true);
+    expect(useEventStore.getState().activeDiscipline).toBe('ladies');
   });
 });
