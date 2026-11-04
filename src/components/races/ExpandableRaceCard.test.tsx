@@ -218,3 +218,45 @@ describe('ExpandableRaceCard clear result', () => {
     expect(cleared).toEqual(['fin-1']);
   });
 });
+
+describe('ExpandableRaceCard discipline accent', () => {
+  afterEach(() => cleanup());
+
+  const cardEl = () => screen.getByLabelText('Race 2: Kings versus Imperial');
+
+  it('labels a Ladies card and gives it a red stripe', () => {
+    renderCard({ discipline: 'ladies' });
+
+    expect(screen.getByText('Ladies')).toBeTruthy();
+    expect(cardEl().classList.contains('border-l-4')).toBe(true);
+    expect(cardEl().classList.contains('border-l-red-600')).toBe(true);
+  });
+
+  it('labels a Mixed card and gives it a blue stripe', () => {
+    renderCard({ discipline: 'mixed' });
+
+    expect(screen.getByText('Mixed')).toBeTruthy();
+    expect(cardEl().classList.contains('border-l-blue-600')).toBe(true);
+  });
+
+  it('labels a Board card and gives it a green stripe', () => {
+    renderCard({ discipline: 'board' });
+
+    expect(screen.getByText('Board')).toBeTruthy();
+    expect(cardEl().classList.contains('border-l-green-700')).toBe(true);
+  });
+
+  it('shows no label or stripe without a discipline', () => {
+    renderCard({});
+
+    expect(screen.queryByText(/^(Mixed|Ladies|Board)$/)).toBeNull();
+    expect(cardEl().classList.contains('border-l-4')).toBe(false);
+  });
+
+  it('shows the label to viewers and keeps the accessible name', () => {
+    renderCard({ discipline: 'ladies' }, false);
+
+    expect(screen.getByText('Ladies')).toBeTruthy();
+    expect(cardEl().getAttribute('aria-label')).toBe('Race 2: Kings versus Imperial');
+  });
+});

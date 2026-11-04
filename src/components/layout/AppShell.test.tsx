@@ -1,9 +1,12 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter, useLocation, useNavigationType } from 'react-router';
 import { EditAccessContext } from '../../auth/editAccess';
 import { useEventStore } from '../../store/eventStore';
 import { AppShell } from './AppShell';
+import { createInitialDisciplines } from '../../store/initialState';
+import { playedDiscipline, roundOneWonByLowerSlot } from '../../domain/__fixtures__/playedDiscipline';
+import { getCheatSheet } from '../../domain/cheatSheets';
 
 function LocationProbe() {
   const location = useLocation();
@@ -146,5 +149,120 @@ describe('AppShell discipline and tab in the URL', () => {
     expect(isSelected('Races')).toBe(true);
     expect(screen.queryByRole('tab', { name: 'Teams' })).toBeNull();
     expect(search().get('v')).toBe('teams');
+  });
+});
+
+describe('AppShell phase transitions', () => {
+  beforeEach(() => {
+    useEventStore.getState().resetEvent();
+  });
+
+  afterEach(() => cleanup());
+
+  it('moves a non-active discipline to round two when its Round 1 is complete', () => {
+    useEventStore.setState({
+      disciplines: { ...createInitialDisciplines(), mixed: roundOneWonByLowerSlot(8) },
+    });
+
+    renderShellRoot({ path: '/events/e1?d=board' });
+
+    expect(useEventStore.getState().disciplines.mixed.phase).toBe('round-two');
+  });
+
+  it('completes a non-active discipline when every final is scored', () => {
+    useEventStore.setState({
+      disciplines: {
+        ...createInitialDisciplines(),
+        ladies: playedDiscipline(8, { phase: 'finals' }),
+      },
+    });
+
+    renderShellRoot({ path: '/events/e1?d=board' });
+
+    expect(useEventStore.getState().disciplines.ladies.phase).toBe('complete');
+  });
+});
+
+describe('AppShell All races view', () => {
+  beforeEach(() => {
+    // jsdom has no scrollIntoView; the race list scrolls to the next card.
+    Element.prototype.scrollIntoView = vi.fn();
+    useEventStore.getState().resetEvent();
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  it('adds All races after the three discipline tabs', () => {
+    renderShellRoot({ canEdit: true });
+
+    const tabs = within(screen.getByRole('tablist', { name: 'Discipline' })).getAllByRole('tab');
+    expect(tabs.map((t) => t.textContent)).toEqual(['Mixed', 'Board', 'Ladies', 'All races']);
+  });
+
+  it('writes d=all to the URL and selects All races when tapped', () => {
+    renderShellRoot({ canEdit: true });
+
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
+
+    expect(search().get('d')).toBe('all');
+    expect(isSelected('All races')).toBe(true);
+  });
+
+  it('leaves the stored discipline alone when All races is tapped', () => {
+    useEventStore.setState({ activeDiscipline: 'board' });
+    renderShellRoot({ canEdit: true });
+
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
+
+    expect(useEventStore.getState().activeDiscipline).toBe('board');
+  });
+
+  it('hides the section tabs and the Standings button in the All races view', () => {
+    renderShellRoot({ canEdit: true });
+
+    fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
+
+    expect(screen.queryByRole('tablist', { name: 'Section' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Standings' })).toBeNull();
+  });
+
+  it('opens the All races view from d=all on a neutral background', () => {
+    const root = renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
+
+    expect(isSelected('All races')).toBe(true);
+    expect(root.className).toContain('bg-slate-50');
+  });
+
+  it('shows combined Round 1 and Round 2 progress across disciplines', () => {
+    const mixedRaces = getCheatSheet(8).roundOneRaces;
+    const mixed = playedDiscipline(8, { phase: 'group-stage' });
+    mixed.scores = mixed.scores.filter((s) =>
+      [mixedRaces[0], mixedRaces[1]].some((r) => s.raceId === `r1-${r.raceNum}`),
+    );
+    const ladies = { ...playedDiscipline(6, { phase: 'group-stage' }), scores: [] };
+    useEventStore.setState({ disciplines: { ...createInitialDisciplines(), mixed, ladies } });
+
+    renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
+
+    const mixedR2 = (getCheatSheet(8).roundTwoGroups ?? []).reduce((n, g) => n + g.races.length, 0);
+    const total = mixedRaces.length + mixedR2 + getCheatSheet(6).roundOneRaces.length;
+    expect(screen.getByText(`Race 2 of ${total}`)).toBeTruthy();
+  });
+
+  it("opens a discipline's Races tab from its finals pointer", () => {
+    useEventStore.setState({
+      disciplines: { ...createInitialDisciplines(), ladies: roundOneWonByLowerSlot(4) },
+    });
+    renderShellRoot({ path: '/events/e1?d=all', canEdit: true });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open Ladies' }));
+
+    expect(search().get('d')).toBe('ladies');
+    expect(search().get('v')).toBe('races');
+    expect(isSelected('Ladies')).toBe(true);
+    expect(useEventStore.getState().activeDiscipline).toBe('ladies');
   });
 });

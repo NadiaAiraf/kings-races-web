@@ -5,9 +5,11 @@ import { EditAccessContext } from '../auth/editAccess';
 import { AppShell } from '../components/layout/AppShell';
 import { ErrorBoundary } from '../components/shared/ErrorBoundary';
 import { startEventSync } from '../events/eventSync';
-import { subscribeEvent, writeDisciplineChanges } from '../events/eventsRepo';
+import { subscribeEvent, writeDisciplineChanges, writeRaceOrder } from '../events/eventsRepo';
+import { RaceOrderContext } from '../events/raceOrder';
+import type { RaceOrderOption } from '../domain/combinedRaceOrder';
 import { EventInfoContext } from '../events/eventInfo';
-import { DISCIPLINE_KEYS, type EventSummary } from '../events/eventDoc';
+import { DISCIPLINE_KEYS, type EventDetail } from '../events/eventDoc';
 import { useEventStore } from '../store/eventStore';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
@@ -19,7 +21,7 @@ import { isPermissionDenied, withErrorCode } from '../lib/firebaseErrors';
 
 type View =
   | { status: 'loading' }
-  | { status: 'ready'; event: EventSummary }
+  | { status: 'ready'; event: EventDetail }
   | { status: 'not-found' }
   | { status: 'offline-missing' }
   | { status: 'lost' }
@@ -38,6 +40,12 @@ function saveErrorMessage(err: unknown): string {
     return 'A change was rejected: this account is not allowed to score. It has been undone.';
   }
   return withErrorCode('A change could not be saved. It has been undone.', err);
+}
+
+function raceOrderErrorMessage(err: unknown): string {
+  // Also covers deployed rules that do not allow raceOrder yet.
+  if (isPermissionDenied(err)) return 'The race order change was rejected. It has been undone.';
+  return withErrorCode('The race order could not be saved. It has been undone.', err);
 }
 
 export function EventPage() {
@@ -172,6 +180,19 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
   }
 
   const { event } = view;
+  const currentOrder = event.raceOrder ?? 'standard';
+
+  // No local optimistic state: Firestore's latency-compensated snapshot shows
+  // the new order at once, and rolls it back if the server rejects it.
+  function setRaceOrder(order: RaceOrderOption) {
+    // The same gate eventSync uses, so a user who cannot edit never writes.
+    if (!canWriteRef.current || order === currentOrder) return;
+    writeRaceOrder(id, order).catch((err) => {
+      console.error('Failed to save race order', { eventId: id, raceOrder: order }, err);
+      setSaveError(raceOrderErrorMessage(err));
+    });
+  }
+
   const subtitle = [
     event.round && `${leagueName(event.round.league)} ${seasonIdLabel(event.round.seasonId)}`,
     formatEventDate(event.date),
@@ -237,7 +258,11 @@ function EventView({ id, onRetry }: { id: string; onRetry: () => void }) {
               </PageLayout>
             }
           >
-            <AppShell header={header} />
+            <RaceOrderContext.Provider
+              value={{ order: currentOrder, setOrder: isApproved ? setRaceOrder : null }}
+            >
+              <AppShell header={header} />
+            </RaceOrderContext.Provider>
           </ErrorBoundary>
         </EditAccessContext.Provider>
       </LeagueRoundsContext.Provider>

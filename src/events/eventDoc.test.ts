@@ -178,6 +178,18 @@ describe('parseEventDetail', () => {
     const detail = parseEventDetail('e1', { name: 'R', date: '2026-01-01' });
     expect(detail.disciplines.mixed.teams).toEqual([]);
   });
+
+  it('defaults the race order to standard for a round created before race orders', () => {
+    expect(parseEventDetail('e1', { name: 'R' }).raceOrder).toBe('standard');
+  });
+
+  it.each(['northern', 'ladies-board-blocks', 'standard'])('keeps a stored race order of %s', (raceOrder) => {
+    expect(parseEventDetail('e1', { name: 'R', raceOrder }).raceOrder).toBe(raceOrder);
+  });
+
+  it.each(['bogus', 42, null])('falls back to standard for an invalid race order %s', (raceOrder) => {
+    expect(parseEventDetail('e1', { name: 'R', raceOrder }).raceOrder).toBe('standard');
+  });
 });
 
 describe('buildNewEventDoc', () => {
@@ -196,6 +208,11 @@ describe('buildNewEventDoc', () => {
     const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
     const initial = toFirestoreDiscipline(createInitialDisciplines().mixed);
     expect(doc.disciplines).toEqual({ mixed: initial, board: initial, ladies: initial });
+  });
+
+  it('leaves the race order out, so the create payload is unchanged', () => {
+    const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
+    expect(doc).not.toHaveProperty('raceOrder');
   });
 
   it('omits season fields for a round outside any season', () => {

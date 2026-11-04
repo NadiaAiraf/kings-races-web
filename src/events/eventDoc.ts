@@ -11,6 +11,7 @@ import type {
   Team,
 } from '../domain/types';
 import { MAX_ROUNDS, isLeagueKey, type SeasonRound } from '../seasons/seasons';
+import { isRaceOrderOption, type RaceOrderOption } from '../domain/raceOrderOption';
 
 export { createInitialDisciplines, type EventDisciplines };
 
@@ -44,6 +45,11 @@ export interface EventSummary {
 /** A fully loaded event, as held by the sync layer. */
 export interface EventDetail extends EventSummary {
   disciplines: EventDisciplines;
+  /**
+   * Optional event field: rounds created before race orders do not have it,
+   * and undefined means 'standard'. Values must match firestore.rules.
+   */
+  raceOrder?: RaceOrderOption;
 }
 
 export interface NewEventInput {
@@ -219,7 +225,11 @@ export function seasonRoundName(roundNumber: number, venue: string): string {
 
 export function parseEventDetail(id: string, raw: unknown): EventDetail {
   const data = isRecord(raw) ? raw : {};
-  return { ...parseEventSummary(id, data), disciplines: parseDisciplines(data.disciplines) };
+  return {
+    ...parseEventSummary(id, data),
+    disciplines: parseDisciplines(data.disciplines),
+    raceOrder: isRaceOrderOption(data.raceOrder) ? data.raceOrder : 'standard',
+  };
 }
 
 /**

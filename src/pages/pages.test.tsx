@@ -48,6 +48,8 @@ const repo = vi.hoisted(() => ({
   existingSeasonIds: ['2026-27'] as string[],
   deletedEvents: [] as { id: string; uid: string }[],
   deleteEventError: null as Error | null,
+  raceOrderWrites: [] as { id: string; order: string }[],
+  raceOrderWriteError: null as Error | null,
 }));
 
 vi.mock('../events/eventsRepo', () => ({
@@ -91,6 +93,10 @@ vi.mock('../events/eventsRepo', () => ({
   deleteEvent: async (id: string, uid: string) => {
     repo.deletedEvents.push({ id, uid });
     if (repo.deleteEventError) throw repo.deleteEventError;
+  },
+  writeRaceOrder: async (id: string, order: string) => {
+    repo.raceOrderWrites.push({ id, order });
+    if (repo.raceOrderWriteError) throw repo.raceOrderWriteError;
   },
 }));
 
@@ -250,6 +256,8 @@ beforeEach(() => {
   repo.existingSeasonIds = ['2026-27'];
   repo.deletedEvents = [];
   repo.deleteEventError = null;
+  repo.raceOrderWrites = [];
+  repo.raceOrderWriteError = null;
   auth.signInError = null;
   auth.signIns = [];
   auth.signOuts = 0;
@@ -521,6 +529,14 @@ describe('LeaguePage', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Board' }));
 
     expect(screen.getByRole('tab', { name: 'Board' }).getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('offers only the three disciplines for season standings, not All races', () => {
+    renderAt('/seasons/2026-27/southern', SIGNED_OUT);
+    act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
+
+    const tabs = within(screen.getByRole('tablist', { name: 'Discipline' })).getAllByRole('tab');
+    expect(tabs.map((t) => t.textContent)).toEqual(['Mixed', 'Board', 'Ladies']);
   });
 
   it("lists the league's teams for the chosen discipline", () => {
@@ -933,6 +949,41 @@ describe('EventPage save and storage warnings', () => {
     );
 
     expect(repo.eventSubscriptions).toBe(2);
+  });
+});
+
+describe('EventPage race order', () => {
+  it('writes only the race order when an approved user picks one', () => {
+    renderAt('/events/e1?d=all', APPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+    const writesBefore = repo.writes.length;
+
+    fireEvent.click(screen.getByRole('radio', { name: 'Northern' }));
+
+    expect(repo.raceOrderWrites).toEqual([{ id: 'e1', order: 'northern' }]);
+    expect(repo.writes).toHaveLength(writesBefore);
+  });
+
+  it('shows the save error banner when the race order change is rejected', async () => {
+    repo.raceOrderWriteError = new FirebaseError('permission-denied', 'Missing or insufficient permissions.');
+    renderAt('/events/e1?d=all', APPROVED);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('radio', { name: 'Northern' }));
+    });
+
+    expect(screen.getByRole('alert').textContent).toContain(
+      'The race order change was rejected. It has been undone.'
+    );
+  });
+
+  it('shows viewers the race order from the round', () => {
+    renderAt('/events/e1?d=all', SIGNED_OUT);
+    act(() => repo.onEvent!({ ...roundOne, raceOrder: 'northern' }, ONLINE));
+
+    expect(screen.getByText('Race order: Northern')).toBeTruthy();
+    expect(screen.queryAllByRole('radio')).toEqual([]);
   });
 });
 

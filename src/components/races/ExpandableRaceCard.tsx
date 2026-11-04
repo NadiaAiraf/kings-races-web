@@ -1,5 +1,7 @@
 import { clsx } from 'clsx';
-import type { RaceOutcome, Score } from '../../domain/types';
+import type { DisciplineKey, RaceOutcome, Score } from '../../domain/types';
+import { DISCIPLINE_LABELS } from '../../domain/csvExport';
+import { DISCIPLINE_ACCENT } from '../shared/disciplineAccent';
 import { OutcomeButton } from '../scoring/OutcomeButton';
 import { useCanEdit } from '../../auth/editAccess';
 import { MAX_NOTE_LENGTH } from '../../events/eventDoc';
@@ -35,6 +37,11 @@ interface ExpandableRaceCardProps {
   seedingContext?: string;
   isFinalMatch?: boolean;
   /**
+   * All races view: colour stripe and label so officials can tell disciplines
+   * apart. Omitted on a discipline's own Races tab.
+   */
+  discipline?: DisciplineKey;
+  /**
    * Round 2 and finals: offer "Race not run". In Round 2 neither team gets
    * points; in the finals both teams share the higher placing.
    */
@@ -69,6 +76,7 @@ export function ExpandableRaceCard({
   matchupLabel,
   seedingContext,
   isFinalMatch,
+  discipline,
   allowNotRun,
   note,
   onNoteChange,
@@ -117,6 +125,7 @@ export function ExpandableRaceCard({
         'bg-white border border-slate-200 rounded-sm p-4 mb-2',
         'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         disabled && 'opacity-40 pointer-events-none',
+        discipline && ['border-l-4', DISCIPLINE_ACCENT[discipline].stripe],
       )}
       style={{ scrollMarginTop: '92px' }}
       aria-expanded={canEdit ? isExpanded : undefined}
@@ -127,6 +136,11 @@ export function ExpandableRaceCard({
     >
       {/* Header row */}
       <div className="text-sm text-slate-500 mb-1 flex items-center gap-2">
+        {discipline && (
+          <span className={clsx('text-xs font-semibold px-1.5 py-0.5 rounded', DISCIPLINE_ACCENT[discipline].chip)}>
+            {DISCIPLINE_LABELS[discipline]}
+          </span>
+        )}
         <span>Race {raceNum}</span>
         {groupLabel && (
           <span className="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">

@@ -4,6 +4,7 @@ const fs = vi.hoisted(() => ({
   snap: { exists: (): boolean => true, data: (): Record<string, unknown> => ({}) },
   batch: { set: vi.fn(), delete: vi.fn(), commit: vi.fn(async () => {}) },
   writeBatch: vi.fn(),
+  updateDoc: vi.fn<(...args: unknown[]) => Promise<void>>(async () => {}),
 }));
 
 vi.mock('../firebase/app', () => ({ db: {} }));
@@ -23,11 +24,12 @@ vi.mock('firebase/firestore', async (importOriginal) => {
     }),
     getDoc: async () => fs.snap,
     writeBatch: fs.writeBatch,
+    updateDoc: fs.updateDoc,
     serverTimestamp: () => 'SERVER_TIMESTAMP',
   };
 });
 
-import { deleteEvent } from './eventsRepo';
+import { deleteEvent, writeRaceOrder } from './eventsRepo';
 
 describe('deleteEvent', () => {
   beforeEach(() => {
@@ -66,5 +68,34 @@ describe('deleteEvent', () => {
 
     expect(fs.writeBatch).not.toHaveBeenCalled();
     expect(fs.batch.commit).not.toHaveBeenCalled();
+  });
+});
+
+describe('writeRaceOrder', () => {
+  beforeEach(() => {
+    fs.updateDoc.mockReset();
+    fs.updateDoc.mockImplementation(async () => {});
+  });
+
+  it('writes only the race order and updatedAt to the event', async () => {
+    await writeRaceOrder('e1', 'northern');
+
+    expect(fs.updateDoc).toHaveBeenCalledTimes(1);
+    expect(fs.updateDoc).toHaveBeenCalledWith(
+      { path: 'events/e1' },
+      { raceOrder: 'northern', updatedAt: 'SERVER_TIMESTAMP' }
+    );
+  });
+
+  it('turns a synchronous throw into a rejected promise', async () => {
+    fs.updateDoc.mockImplementation(() => {
+      throw new Error('invalid');
+    });
+
+    let result: Promise<void> | undefined;
+    expect(() => {
+      result = writeRaceOrder('e1', 'standard');
+    }).not.toThrow();
+    await expect(result).rejects.toThrow('invalid');
   });
 });

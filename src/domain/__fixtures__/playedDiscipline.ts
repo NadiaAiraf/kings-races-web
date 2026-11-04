@@ -60,6 +60,27 @@ export function playedDiscipline(count: number, overrides: Partial<DisciplineSta
 }
 
 /**
+ * `count` teams with every Round 1 race scored and nothing after. The lower
+ * slot always wins, giving a strict order in every group, so there are no ties.
+ */
+export function roundOneWonByLowerSlot(
+  count: number,
+  overrides: Partial<DisciplineState> = {}
+): DisciplineState {
+  const scores: Score[] = getCheatSheet(count).roundOneRaces.map((r) => {
+    const homeWon = r.homeSlot < r.awaySlot;
+    return {
+      raceId: `r1-${r.raceNum}`,
+      homeSlot: r.homeSlot,
+      awaySlot: r.awaySlot,
+      homeOutcome: homeWon ? 'win' : 'loss',
+      awayOutcome: homeWon ? 'loss' : 'win',
+    };
+  });
+  return { ...playedDiscipline(count, { phase: 'group-stage' }), scores, ...overrides };
+}
+
+/**
  * Give `count` teams slots the cheat sheet does not know, so nothing can
  * place them: stands in for a gap an official has to fill by hand.
  */

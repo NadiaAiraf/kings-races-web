@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase/app';
 import type { DisciplineKey } from '../domain/types';
+import type { RaceOrderOption } from '../domain/raceOrderOption';
 import { MAX_ROUNDS, seasonRoundEventId, type LeagueKey } from '../seasons/seasons';
 import {
   buildNewEventDoc,
@@ -169,6 +170,16 @@ export async function writeDisciplineChanges(
     serverTimestamp(),
     ...fieldsAndValues
   );
+}
+
+/**
+ * Set the order the All races view runs Round 1 and Round 2 in. Writes only
+ * raceOrder and updatedAt, never scores. Works offline like other writes.
+ */
+export async function writeRaceOrder(id: string, raceOrder: RaceOrderOption): Promise<void> {
+  // Must stay async, as in writeDisciplineChanges: updateDoc validates
+  // synchronously, and async turns those throws into rejections.
+  await updateDoc(doc(eventsCollection(), id), { raceOrder, updatedAt: serverTimestamp() });
 }
 
 /**
