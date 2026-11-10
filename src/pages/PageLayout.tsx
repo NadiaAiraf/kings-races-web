@@ -38,12 +38,12 @@ export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to round
   }
 
   return (
-    <header className="flex items-center gap-2 bg-white border-b border-slate-200 px-4 min-h-14">
+    <header className="flex items-center gap-2 bg-surface border-b border-slate-200 px-4 min-h-14">
       {backTo && (
         <Link
           to={backTo}
           aria-label={backLabel}
-          className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-brand-600"
+          className="min-h-11 min-w-11 -ml-3 flex items-center justify-center text-xl text-brand-600 dark:text-brand-400"
         >
           {'‹'}
         </Link>
@@ -63,7 +63,7 @@ export function PageHeader({ title, subtitle, backTo, backLabel = 'Back to round
           Sign out
         </button>
       ) : (
-        <Link to="/login" className="min-h-11 px-2 flex items-center text-sm font-semibold text-brand-600">
+        <Link to="/login" className="min-h-11 px-2 flex items-center text-sm font-semibold text-brand-600 dark:text-brand-400">
           Sign in
         </Link>
       )}

@@ -16,7 +16,7 @@ export function FinalsReadyBanner({ onConfirm }: FinalsReadyBannerProps) {
       className="bg-green-50 border border-green-200 rounded-sm p-4"
     >
       <h2 className="text-lg font-semibold text-green-800">Group stage complete</h2>
-      <p id={descriptionId} className="text-sm text-green-700 mt-1">
+      <p id={descriptionId} className="text-sm text-green-700 dark:text-green-400 mt-1">
         All races scored with no ties. Ready to begin finals.
       </p>
       {canEdit ? (
@@ -29,7 +29,7 @@ export function FinalsReadyBanner({ onConfirm }: FinalsReadyBannerProps) {
           Confirm Finals
         </button>
       ) : (
-        <p className="text-sm text-green-700 mt-2">Waiting for an official to confirm finals.</p>
+        <p className="text-sm text-green-700 dark:text-green-400 mt-2">Waiting for an official to confirm finals.</p>
       )}
     </div>
   );

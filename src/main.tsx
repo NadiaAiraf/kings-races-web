@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="mt-4 min-h-11 px-4 text-sm font-semibold text-brand-600"
+            className="mt-4 min-h-11 px-4 text-sm font-semibold text-brand-600 dark:text-brand-400"
           >
             Reload
           </button>

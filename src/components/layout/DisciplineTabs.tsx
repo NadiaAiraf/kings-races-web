@@ -25,7 +25,7 @@ export function DisciplineTabs<V extends DisciplineView = DisciplineKey>({
     <div
       role="tablist"
       aria-label="Discipline"
-      className="sticky top-0 z-10 flex h-12 bg-white border-b border-slate-200"
+      className="sticky top-0 z-10 flex h-12 bg-surface border-b border-slate-200"
     >
       {views.map((key) => (
         <button
@@ -36,7 +36,7 @@ export function DisciplineTabs<V extends DisciplineView = DisciplineKey>({
           className={clsx(
             'flex-1 text-sm font-semibold transition-colors',
             active === key
-              ? 'border-b-[3px] border-brand-600 text-brand-600'
+              ? 'border-b-[3px] border-brand-600 text-brand-600 dark:text-brand-400'
               : 'text-slate-500'
           )}
         >

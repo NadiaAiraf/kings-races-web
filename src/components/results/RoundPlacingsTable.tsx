@@ -40,14 +40,14 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
           <button
             type="button"
             onClick={() => setCorrecting((on) => !on)}
-            className="min-h-11 px-2 text-sm font-semibold text-brand-600"
+            className="min-h-11 px-2 text-sm font-semibold text-brand-600 dark:text-brand-400"
           >
             {correcting ? 'Done' : 'Correct places'}
           </button>
         )}
       </div>
       {missing > 0 && (
-        <p role="status" className="text-sm text-amber-700 mb-2">
+        <p role="status" className="text-sm text-amber-700 dark:text-amber-400 mb-2">
           {missing === 1 ? '1 team needs' : `${missing} teams need`} a place before league points
           are complete.
         </p>
@@ -68,14 +68,14 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
         </thead>
         <tbody>
           {placings.map((p, index) => (
-            <tr key={p.slot} className={index % 2 === 0 ? 'bg-white' : 'bg-table-stripe'}>
+            <tr key={p.slot} className={index % 2 === 0 ? 'bg-surface' : 'bg-table-stripe'}>
               <td className="px-2 py-2 w-24">
                 {canEdit && (correcting || p.place === null) ? (
                   <select
                     aria-label={`Place for ${p.name}`}
                     value={p.place === null ? '' : String(p.place)}
                     onChange={(e) => choosePlace(p.slot, p.computedPlace, e.target.value)}
-                    className="min-h-11 w-full px-1 border border-slate-200 rounded-sm bg-white text-base"
+                    className="min-h-11 w-full px-1 border border-slate-200 rounded-sm bg-surface text-base"
                   >
                     {p.computedPlace === null && <option value="">?</option>}
                     {places.map((n) => (
@@ -94,7 +94,7 @@ export function RoundPlacingsTable({ discipline }: RoundPlacingsTableProps) {
                   <span className="block text-xs text-slate-500">Corrected</span>
                 )}
                 {p.place === null && (
-                  <span className="block text-xs text-amber-700">Needs a place</span>
+                  <span className="block text-xs text-amber-700 dark:text-amber-400">Needs a place</span>
                 )}
               </td>
               <td className="px-2 py-2 text-right font-mono text-base text-slate-700">

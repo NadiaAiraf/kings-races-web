@@ -66,13 +66,13 @@ export function HomePage() {
 
         {error !== null && (
           <div className="flex items-center gap-2">
-            <p className="flex-1 text-sm text-red-600">
+            <p className="flex-1 text-sm text-red-600 dark:text-red-400">
               {withErrorCode('Could not load seasons. Check your connection.', error)}
             </p>
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600 dark:text-brand-400"
             >
               Retry
             </button>
@@ -99,7 +99,7 @@ export function HomePage() {
                     type="button"
                     onClick={() => toggle(s.id)}
                     aria-expanded={open}
-                    className="flex items-center justify-between bg-white border border-slate-200 rounded-sm px-4 min-h-14 text-base font-semibold text-slate-900"
+                    className="flex items-center justify-between bg-surface border border-slate-200 rounded-sm px-4 min-h-14 text-base font-semibold text-slate-900"
                   >
                     Season {seasonLabel(s.startYear)}
                     <span aria-hidden="true" className="text-slate-400">
@@ -115,7 +115,7 @@ export function HomePage() {
                         <li key={league.key}>
                           <Link
                             to={`/seasons/${s.id}/${league.key}`}
-                            className="flex items-center bg-white border border-slate-200 rounded-sm px-4 min-h-12 text-base text-slate-900"
+                            className="flex items-center bg-surface border border-slate-200 rounded-sm px-4 min-h-12 text-base text-slate-900"
                           >
                             {league.name}
                           </Link>
@@ -132,14 +132,14 @@ export function HomePage() {
         {isApproved && seasons !== null && (
           <Link
             to="/seasons/new"
-            className="flex items-center justify-center min-h-14 rounded-sm border border-brand-600 text-brand-600 font-semibold"
+            className="flex items-center justify-center min-h-14 rounded-sm border border-brand-600 text-brand-600 dark:text-brand-400 font-semibold"
           >
             New season
           </Link>
         )}
         <Link
           to="/rounds"
-          className="self-center min-h-11 flex items-center text-sm font-semibold text-brand-600"
+          className="self-center min-h-11 flex items-center text-sm font-semibold text-brand-600 dark:text-brand-400"
         >
           All rounds by date
         </Link>

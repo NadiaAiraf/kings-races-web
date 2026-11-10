@@ -134,7 +134,7 @@ export function AllRacesDisciplineSection({
         {onOpenDiscipline && (
           <button
             type="button"
-            className="min-h-[44px] px-4 text-sm font-semibold text-brand-600 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
+            className="min-h-[44px] px-4 text-sm font-semibold text-brand-600 dark:text-brand-400 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
             onClick={() => onOpenDiscipline(discipline)}
           >
             Open {label}

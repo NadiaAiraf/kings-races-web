@@ -22,7 +22,7 @@ export function SubTabs({ showTeams = true, active, onSelect }: SubTabsProps) {
     <div
       role="tablist"
       aria-label="Section"
-      className="sticky top-12 z-10 flex h-11 bg-white border-b border-slate-200 overflow-x-auto"
+      className="sticky top-12 z-10 flex h-11 bg-surface border-b border-slate-200 overflow-x-auto"
     >
       {tabs.map((key) => (
         <button
@@ -33,7 +33,7 @@ export function SubTabs({ showTeams = true, active, onSelect }: SubTabsProps) {
           className={clsx(
             'flex-1 min-w-[64px] whitespace-nowrap text-sm font-semibold transition-colors',
             active === key
-              ? 'border-b-[3px] border-brand-600 text-brand-600'
+              ? 'border-b-[3px] border-brand-600 text-brand-600 dark:text-brand-400'
               : 'text-slate-500'
           )}
         >

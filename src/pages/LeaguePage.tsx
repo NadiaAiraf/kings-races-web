@@ -145,13 +145,13 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
       <main className="flex-1 px-4 py-4 flex flex-col gap-3">
         {error !== null && (
           <div className="flex items-center gap-2">
-            <p className="flex-1 text-sm text-red-600">
+            <p className="flex-1 text-sm text-red-600 dark:text-red-400">
               {withErrorCode('Could not load rounds. Check your connection.', error)}
             </p>
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600 dark:text-brand-400"
             >
               Retry
             </button>
@@ -163,7 +163,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
         )}
 
         {deleteError && (
-          <p role="alert" className="text-sm text-red-600">
+          <p role="alert" className="text-sm text-red-600 dark:text-red-400">
             {deleteError}
           </p>
         )}
@@ -176,7 +176,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                   <li key={n} className="flex items-stretch gap-2">
                     <Link
                       to={`/events/${round.id}`}
-                      className="flex-1 min-w-0 block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
+                      className="flex-1 min-w-0 block bg-surface border border-slate-200 rounded-sm px-4 py-3 min-h-14"
                     >
                       <span className="block text-base font-semibold text-slate-900">{round.name}</span>
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
@@ -203,7 +203,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                   {isApproved && seasonExists && (
                     <Link
                       to={`${basePath}/new?round=${n}`}
-                      className="min-h-11 flex items-center px-2 text-sm font-semibold text-brand-600"
+                      className="min-h-11 flex items-center px-2 text-sm font-semibold text-brand-600 dark:text-brand-400"
                     >
                       Set up R{n}
                     </Link>
@@ -220,7 +220,7 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
             <DisciplineTabs active={discipline} onSelect={setDiscipline} />
             <SeasonStandingsTable rows={standings} />
             {teamsError && (
-              <p role="alert" className="text-sm text-red-600">
+              <p role="alert" className="text-sm text-red-600 dark:text-red-400">
                 {teamsError}
               </p>
             )}

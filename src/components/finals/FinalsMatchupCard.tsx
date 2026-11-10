@@ -88,7 +88,7 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
       <div
         ref={ref}
         className={clsx(
-          'border border-slate-200 rounded-sm p-4 bg-white',
+          'border border-slate-200 rounded-sm p-4 bg-surface',
           isScored && winnerSide === 'home' && 'border-l-4 border-l-green-600',
           isScored && winnerSide === 'away' && 'border-l-4 border-l-green-600'
         )}
@@ -98,7 +98,7 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold text-slate-900">{matchup.label}</span>
           {isFinalMatch && (
-            <span className="text-xs font-semibold text-brand-600">FINAL</span>
+            <span className="text-xs font-semibold text-brand-600 dark:text-brand-400">FINAL</span>
           )}
         </div>
 
@@ -178,16 +178,16 @@ export const FinalsMatchupCard = forwardRef<HTMLDivElement, FinalsMatchupCardPro
             <div className="text-sm text-slate-600">
               <span className={clsx(
                 'font-semibold',
-                matchup.score.homeOutcome === 'win' && 'text-green-700',
-                matchup.score.homeOutcome === 'dsq' && 'text-red-600'
+                matchup.score.homeOutcome === 'win' && 'text-green-700 dark:text-green-400',
+                matchup.score.homeOutcome === 'dsq' && 'text-red-600 dark:text-red-400'
               )}>
                 {matchup.score.homeOutcome.toUpperCase()}
               </span>
               {' / '}
               <span className={clsx(
                 'font-semibold',
-                matchup.score.awayOutcome === 'win' && 'text-green-700',
-                matchup.score.awayOutcome === 'dsq' && 'text-red-600'
+                matchup.score.awayOutcome === 'win' && 'text-green-700 dark:text-green-400',
+                matchup.score.awayOutcome === 'dsq' && 'text-red-600 dark:text-red-400'
               )}>
                 {matchup.score.awayOutcome.toUpperCase()}
               </span>

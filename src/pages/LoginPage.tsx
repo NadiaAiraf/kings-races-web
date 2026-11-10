@@ -73,7 +73,7 @@ export function LoginPage() {
                 className="h-12 text-base font-normal px-4 border border-slate-200 rounded-sm"
               />
             </label>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
             <button
               type="submit"
               disabled={submitting}

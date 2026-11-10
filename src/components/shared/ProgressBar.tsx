@@ -7,7 +7,7 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
   const percent = total > 0 ? (current / total) * 100 : 0;
 
   return (
-    <div className="bg-white border-t border-slate-200 px-4 py-2">
+    <div className="bg-surface border-t border-slate-200 px-4 py-2">
       <div className="flex items-center justify-between mb-1">
         <span className="text-sm text-slate-500">
           {total > 0 ? `Race ${current} of ${total}` : 'No races yet'}

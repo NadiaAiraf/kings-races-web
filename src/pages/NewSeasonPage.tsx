@@ -58,7 +58,7 @@ export function NewSeasonPage() {
       <p className="text-sm text-slate-600">
         Only approved officials can create seasons.{' '}
         {!user && (
-          <Link to="/login" className="font-semibold text-brand-600">
+          <Link to="/login" className="font-semibold text-brand-600 dark:text-brand-400">
             Sign in
           </Link>
         )}
@@ -66,7 +66,7 @@ export function NewSeasonPage() {
     );
   } else if (loadError !== null) {
     body = (
-      <p className="text-sm text-red-600">
+      <p className="text-sm text-red-600 dark:text-red-400">
         {withErrorCode('Could not load seasons. Check your connection.', loadError)}
       </p>
     );
@@ -91,7 +91,7 @@ export function NewSeasonPage() {
           />
         </label>
         {preview && <p className="text-sm text-slate-600">Creates season {preview}</p>}
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
         <button type="submit" className="min-h-14 rounded-sm bg-brand-600 text-white font-semibold">
           Create season
         </button>

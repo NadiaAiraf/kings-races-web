@@ -3,10 +3,103 @@
 /* Kings Ski Club brand, from kingsski.club. */
 @theme {
   --color-brand-50: #fbeae9; /* table row tint */
+  --color-brand-400: #ef6b66; /* brand text on dark surfaces */
   --color-brand-600: #d72d28; /* club red */
   --color-brand-700: #ac2420; /* dark red */
   --color-ink: #272727;
-  /* Results tables. Default to club red; AppShell overrides per discipline. */
+  --color-canvas: #ffffff; /* page background */
+  --color-surface: #ffffff; /* cards, bars and tabs */
+  --color-inverse: #0f172a; /* toast */
+  --color-solid-neutral: #334155; /* dark neutral fills with white text */
+  --color-scrim: #0f172a; /* modal overlay */
+  /* Results tables. Default to club red; data-discipline rules below override. */
   --color-table-head: #d72d28;
   --color-table-stripe: #fbeae9;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+  }
+
+  /* Tailwind registers this with inherits: false and a white initial value,
+     so focus rings would show a white gap on dark surfaces without it. */
+  *,
+  ::before,
+  ::after {
+    --tw-ring-offset-color: var(--color-surface);
+  }
+
+  /* Results tables follow the discipline colour. Ladies keeps the club red default. */
+  [data-discipline='mixed'] {
+    --color-table-head: #1d4ed8;
+    --color-table-stripe: #dbeafe;
+  }
+
+  [data-discipline='board'] {
+    --color-table-head: #15803d;
+    --color-table-stripe: #dcfce7;
+  }
+
+  /* Soft dark mode. Slate, hue tints and dark text steps are remapped; white
+     and the 400/600/700 fill steps are not, so coloured buttons keep white text. */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-canvas: #1b1d22;
+      --color-surface: #25282e;
+      --color-inverse: #3a3e46;
+      --color-solid-neutral: #4b5059;
+      --color-scrim: #000000;
+      --color-ink: #e4e4e7;
+      --color-brand-50: #3a2224;
+      --color-table-stripe: #2f2426;
+
+      --color-slate-50: #1b1d22;
+      --color-slate-100: #2e3138;
+      --color-slate-200: #3a3e46;
+      --color-slate-300: #4b5059;
+      --color-slate-400: #8e939c;
+      --color-slate-500: #a1a5ad;
+      --color-slate-600: #b6b9c0;
+      --color-slate-700: #cbced3;
+      --color-slate-800: #d9dbdf;
+      --color-slate-900: #e4e4e7;
+
+      --color-blue-50: #1c2230;
+
+      --color-green-50: #1b2620;
+      --color-green-100: #1f3528;
+      --color-green-200: #274732;
+      --color-green-300: #356245;
+      --color-green-800: #86efac;
+
+      --color-red-50: #2a1d1f;
+      --color-red-100: #3d2326;
+      --color-red-300: #7a3a40;
+      --color-red-800: #fca5a5;
+
+      --color-amber-50: #2a2418;
+      --color-amber-100: #3b301b;
+      --color-amber-200: #523f20;
+      --color-amber-300: #75592a;
+      --color-amber-800: #fcd34d;
+      --color-amber-900: #fde68a;
+    }
+
+    body {
+      color: var(--color-ink);
+    }
+
+    [data-discipline='mixed'] {
+      --color-table-stripe: #222a38;
+    }
+
+    [data-discipline='board'] {
+      --color-table-stripe: #212d26;
+    }
+  }
 }

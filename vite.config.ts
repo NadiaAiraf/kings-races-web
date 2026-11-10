@@ -21,6 +21,7 @@ export default defineConfig({
         short_name: 'Kings Races',
         description:
           'Race management for Kings Ski Club parallel slalom events',
+        // The manifest has no per-scheme field; index.html carries the scheme-specific theme-color.
         theme_color: '#d72d28',
         background_color: '#ffffff',
         display: 'standalone',

@@ -60,8 +60,8 @@ export function TeamInput({
           {buttonLabel}
         </button>
       </div>
-      {isDuplicate && <p className="text-sm text-amber-600">Team already added</p>}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {isDuplicate && <p className="text-sm text-amber-600 dark:text-amber-400">Team already added</p>}
+      {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }
