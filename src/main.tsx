@@ -3,6 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { ErrorBoundary } from './components/shared/ErrorBoundary'
+import { applyThemeChoice, readThemeChoice } from './lib/theme'
+
+// Runs before React renders so the saved theme applies without a flash. Not an
+// inline script in index.html, because the CSP standard forbids inline scripts.
+applyThemeChoice(readThemeChoice())
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
