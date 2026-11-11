@@ -4,6 +4,7 @@ import { useAuth } from '../auth/authContext';
 import { subscribeSeasons } from '../seasons/seasonsRepo';
 import { LEAGUES, seasonLabel, type Season } from '../seasons/seasons';
 import { PageHeader, PageLayout } from './PageLayout';
+import { DisclosureTriangle } from '../components/shared/DisclosureTriangle';
 import logoUrl from '../assets/kings-ski-club-logo.png';
 import { withErrorCode } from '../lib/firebaseErrors';
 
@@ -102,9 +103,7 @@ export function HomePage() {
                     className="flex items-center justify-between bg-surface border border-slate-200 rounded-sm px-4 min-h-14 text-base font-semibold text-slate-900"
                   >
                     Season {seasonLabel(s.startYear)}
-                    <span aria-hidden="true" className="text-slate-400">
-                      {open ? '▾' : '▸'}
-                    </span>
+                    <DisclosureTriangle open={open} className="text-slate-500" />
                   </button>
                   {open && (
                     <ul
