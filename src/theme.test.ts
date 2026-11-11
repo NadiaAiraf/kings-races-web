@@ -13,6 +13,8 @@ const sources = import.meta.glob(['./**/*.{ts,tsx}', '!./**/*.test.{ts,tsx}'], {
 }) as Record<string, string>;
 
 const DARK_MEDIA = '@media (prefers-color-scheme: dark) {';
+const SYSTEM_DARK = ":root:not([data-theme='light']):not([data-theme='pink'])";
+const EXPLICIT_DARK = ":root[data-theme='dark']";
 
 /** Body of the block opened by the `{` that ends `opener`, found by brace depth. */
 function blockAfter(text: string, opener: string, from = 0): string {
@@ -29,8 +31,11 @@ function blockAfter(text: string, opener: string, from = 0): string {
   return '';
 }
 
-const darkBlock = blockAfter(css, DARK_MEDIA);
-const darkRoot = blockAfter(darkBlock, ':root {');
+const baseLayer = blockAfter(css, '@layer base {');
+const darkBlock = blockAfter(baseLayer, DARK_MEDIA);
+const darkRoot = blockAfter(darkBlock, `${SYSTEM_DARK} {`);
+const explicitDark = blockAfter(baseLayer, `${EXPLICIT_DARK} {`);
+const pinkBlock = blockAfter(baseLayer, ":root[data-theme='pink'] {");
 const themeBlock = blockAfter(css, '@theme {');
 
 /** `--color-x: #hex` declarations in a rule body, keyed by x. */
@@ -44,6 +49,17 @@ function colourDecls(body: string): Record<string, string> {
 
 const darkColours = colourDecls(darkRoot);
 const themeColours = colourDecls(themeBlock);
+const pinkColours = colourDecls(pinkBlock);
+
+/** Declarations of a rule body, comments dropped, sorted for comparison. */
+function declarations(body: string): string[] {
+  return body
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .split(';')
+    .map((d) => d.trim())
+    .filter((d) => d !== '')
+    .sort();
+}
 
 function usedSteps(pattern: RegExp): string[] {
   const found = new Set<string>();
@@ -73,8 +89,9 @@ function filesMatching(pattern: RegExp): string[] {
 }
 
 describe('dark palette in index.css', () => {
-  it('has exactly one prefers-color-scheme dark block', () => {
-    expect(css.split('prefers-color-scheme: dark').length - 1).toBe(1);
+  it('has one prefers-color-scheme dark block in the base layer plus the custom variant', () => {
+    expect(baseLayer.split('prefers-color-scheme: dark').length - 1).toBe(1);
+    expect(css.split('prefers-color-scheme: dark').length - 1).toBe(2);
     expect(darkRoot).not.toBe('');
   });
 
@@ -109,10 +126,93 @@ describe('dark palette in index.css', () => {
   it('moves discipline table colours into data-discipline rules with dark stripes', () => {
     expect(css).toContain("[data-discipline='mixed']");
     expect(css).toContain("[data-discipline='board']");
-    const mixedDark = blockAfter(darkBlock, "[data-discipline='mixed'] {");
-    const boardDark = blockAfter(darkBlock, "[data-discipline='board'] {");
+    const mixedDark = blockAfter(darkBlock, `${SYSTEM_DARK} [data-discipline='mixed'] {`);
+    const boardDark = blockAfter(darkBlock, `${SYSTEM_DARK} [data-discipline='board'] {`);
     expect(mixedDark).toContain('--color-table-stripe');
     expect(boardDark).toContain('--color-table-stripe');
+  });
+});
+
+describe('theme choice in index.css', () => {
+  it('defines a dark custom variant that follows the chosen theme', () => {
+    const variant = blockAfter(css, '@custom-variant dark {');
+    for (const part of [
+      "[data-theme='dark']",
+      'prefers-color-scheme: dark',
+      ":not([data-theme='light'])",
+      ":not([data-theme='pink'])",
+      '@slot',
+    ]) {
+      expect(variant).toContain(part);
+    }
+  });
+
+  it('has an explicit dark block identical to the system dark block', () => {
+    expect(explicitDark).not.toBe('');
+    expect(declarations(explicitDark)).toEqual(declarations(darkRoot));
+  });
+
+  it('sets color-scheme dark in both dark blocks', () => {
+    expect(explicitDark).toContain('color-scheme: dark');
+    expect(darkRoot).toContain('color-scheme: dark');
+  });
+
+  it.each(['mixed', 'board'])('gives the %s discipline the same dark stripe on both paths', (discipline) => {
+    const explicit = colourDecls(blockAfter(baseLayer, `${EXPLICIT_DARK} [data-discipline='${discipline}'] {`));
+    const system = colourDecls(blockAfter(darkBlock, `${SYSTEM_DARK} [data-discipline='${discipline}'] {`));
+    expect(explicit['table-stripe']).toBeDefined();
+    expect(explicit['table-stripe']).toBe(system['table-stripe']);
+  });
+
+  it('sets dark body text on both paths', () => {
+    expect(blockAfter(baseLayer, `${EXPLICIT_DARK} body {`)).toContain('color: var(--color-ink)');
+    expect(blockAfter(darkBlock, `${SYSTEM_DARK} body {`)).toContain('color: var(--color-ink)');
+  });
+
+  it('forces color-scheme light for the light choice', () => {
+    expect(blockAfter(baseLayer, ":root[data-theme='light'] {")).toContain('color-scheme: light');
+  });
+});
+
+describe('hot pink palette', () => {
+  const ink = () => pinkColours.ink ?? themeColours.ink;
+
+  it('is a light theme', () => {
+    expect(pinkBlock).toContain('color-scheme: light');
+  });
+
+  it('defines the brand, table and background tokens', () => {
+    const tokens = [
+      'brand-50',
+      'brand-400',
+      'brand-600',
+      'brand-700',
+      'table-head',
+      'table-stripe',
+      'canvas',
+      'surface',
+      'slate-50',
+    ];
+    expect(tokens.filter((t) => !(t in pinkColours))).toEqual([]);
+  });
+
+  it.each(['brand-600', 'brand-700', 'table-head'])('keeps white text at WCAG AA on %s', (token) => {
+    expect(pinkColours[token]).toBeDefined();
+    expect(contrast('#ffffff', pinkColours[token])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['canvas', 'surface', 'slate-50'])('keeps brand-600 text at WCAG AA on %s', (bg) => {
+    expect(pinkColours[bg]).toBeDefined();
+    expect(contrast(pinkColours['brand-600'], pinkColours[bg])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['canvas', 'surface'])('keeps ink at WCAG AA on %s', (bg) => {
+    expect(contrast(ink(), pinkColours[bg])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('leaves the hue fill steps alone', () => {
+    const fills = Object.keys(pinkColours).filter((t) => /^(white|(amber|green|red|blue)-(400|600|700))$/.test(t));
+    expect(fills).toEqual([]);
   });
 });
 

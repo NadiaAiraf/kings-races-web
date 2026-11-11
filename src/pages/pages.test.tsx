@@ -20,6 +20,7 @@ import { LoginPage } from './LoginPage';
 import { HomePage } from './HomePage';
 import { LeaguePage } from './LeaguePage';
 import { NewSeasonPage } from './NewSeasonPage';
+import { OptionsPage } from './OptionsPage';
 import type { Season } from '../seasons/seasons';
 import { emptyLeagueTeams, type LeagueTeams } from '../seasons/leagueTeams';
 import { playedDiscipline } from '../domain/__fixtures__/playedDiscipline';
@@ -183,6 +184,7 @@ function renderAt(path: string, status: AuthStatus) {
           <Route path="/seasons/:seasonId/:league/new" element={<NewEventPage />} />
           <Route path="/events/:id" element={<EventPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/options" element={<OptionsPage />} />
         </Routes>
       </MemoryRouter>
     </AuthContext.Provider>
@@ -269,6 +271,8 @@ afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
   vi.useRealTimers();
+  localStorage.clear();
+  document.documentElement.removeAttribute('data-theme');
 });
 
 describe('HomePage', () => {
@@ -1026,5 +1030,100 @@ describe('LoginPage', () => {
     await submitLogin('a@b.com', 'x');
 
     expect(screen.getByText('No connection. Sign in needs to be online.')).toBeTruthy();
+  });
+});
+
+describe('Options link', () => {
+  it('shows next to Sign in for signed-out users', () => {
+    renderAt('/', SIGNED_OUT);
+
+    expect(screen.getByRole('link', { name: 'Options' })).toBeTruthy();
+    expect(screen.getByText('Sign in')).toBeTruthy();
+  });
+
+  it('shows next to Sign out for signed-in users', () => {
+    renderAt('/', APPROVED);
+
+    expect(screen.getByRole('link', { name: 'Options' })).toBeTruthy();
+    expect(screen.getByText('Sign out')).toBeTruthy();
+  });
+
+  it('shows in the round page header', () => {
+    renderAt('/events/e1', SIGNED_OUT);
+    act(() => repo.onEvent!(roundOne, ONLINE));
+
+    expect(screen.getByRole('link', { name: 'Options' })).toBeTruthy();
+  });
+
+  it('opens the options page and goes back to the page it came from', () => {
+    renderAt('/rounds', SIGNED_OUT);
+
+    fireEvent.click(screen.getByRole('link', { name: 'Options' }));
+    expect(screen.getByRole('group', { name: 'Appearance' })).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('link', { name: 'Back' }));
+    expect(screen.getByText('All rounds')).toBeTruthy();
+  });
+});
+
+describe('OptionsPage', () => {
+  function radio(name: RegExp): HTMLInputElement {
+    return screen.getByRole('radio', { name }) as HTMLInputElement;
+  }
+
+  it('offers System, Light, Dark and Hot pink with System checked by default', () => {
+    renderAt('/options', SIGNED_OUT);
+
+    const group = screen.getByRole('group', { name: 'Appearance' });
+    const names = within(group)
+      .getAllByRole('radio')
+      .map((r) => r.getAttribute('value'));
+    expect(names).toEqual(['system', 'light', 'dark', 'pink']);
+    expect(radio(/System/).checked).toBe(true);
+    expect(radio(/Light/).checked).toBe(false);
+    expect(radio(/Dark/).checked).toBe(false);
+    expect(radio(/Hot pink/).checked).toBe(false);
+  });
+
+  it('checks the stored choice', () => {
+    localStorage.setItem('kings-races:theme', 'dark');
+
+    renderAt('/options', SIGNED_OUT);
+
+    expect(radio(/Dark/).checked).toBe(true);
+  });
+
+  it('applies and stores Dark when chosen', () => {
+    renderAt('/options', SIGNED_OUT);
+
+    fireEvent.click(radio(/Dark/));
+
+    expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
+    expect(localStorage.getItem('kings-races:theme')).toBe('dark');
+    expect(radio(/Dark/).checked).toBe(true);
+  });
+
+  it('applies Hot pink, then clears the choice for System', () => {
+    renderAt('/options', SIGNED_OUT);
+
+    fireEvent.click(radio(/Hot pink/));
+    expect(document.documentElement.getAttribute('data-theme')).toBe('pink');
+
+    fireEvent.click(radio(/System/));
+    expect(document.documentElement.hasAttribute('data-theme')).toBe(false);
+    expect(localStorage.getItem('kings-races:theme')).toBeNull();
+  });
+
+  it('is open to signed-out users', () => {
+    renderAt('/options', SIGNED_OUT);
+
+    expect(screen.getByRole('heading', { name: 'Options' })).toBeTruthy();
+    expect(screen.queryByText('Official sign in')).toBeNull();
+  });
+
+  it('hides the Options link on the options page itself', () => {
+    renderAt('/options', SIGNED_OUT);
+
+    expect(screen.queryByRole('link', { name: 'Options' })).toBeNull();
   });
 });
