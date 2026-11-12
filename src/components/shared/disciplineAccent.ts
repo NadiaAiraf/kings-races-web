@@ -1,7 +1,7 @@
 import type { DisciplineKey } from '../../domain/types';
 
 /**
- * Discipline colours for the All races view: card stripe, label chip and
+ * Discipline colours for race cards: card stripe, label chip and
  * sub-heading. Full literal class names so Tailwind finds them in source.
  */
 export const DISCIPLINE_ACCENT: Record<DisciplineKey, { stripe: string; chip: string; heading: string }> = {

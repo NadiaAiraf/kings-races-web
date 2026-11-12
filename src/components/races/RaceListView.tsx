@@ -9,6 +9,7 @@ import { useRoundFold } from '../../hooks/useRoundFold';
 import { useEventInfo } from '../../events/eventInfo';
 import { ExpandableRaceCard } from './ExpandableRaceCard';
 import { RoundHeader } from './RoundHeader';
+import { roundOneGroupLabel } from './allRacesCards';
 import { FinalsBlockedBanner } from '../finals/FinalsBlockedBanner';
 import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
@@ -195,6 +196,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
             }}
           >
             <ExpandableRaceCard
+              discipline={discipline}
               raceId={raceId}
               raceNum={race.raceNum}
               homeTeamName={teamMap.get(race.homeSlot) ?? `Team ${race.homeSlot}`}
@@ -202,6 +204,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
               homeSlot={race.homeSlot}
               awaySlot={race.awaySlot}
               score={scoreMap.get(raceId)}
+              groupLabel={roundOneGroupLabel(structure, race.homeSlot)}
               isExpanded={!stoppedEarly && expandedRaceId === raceId}
               note={notes[raceId]}
               onNoteChange={handleNoteChange}
@@ -248,6 +251,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                 }}
               >
                 <ExpandableRaceCard
+                  discipline={discipline}
                   raceId={race.raceId}
                   raceNum={race.raceNum}
                   homeTeamName={race.homeTeamName}
@@ -325,6 +329,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
                     >
                       {isResolved ? (
                         <ExpandableRaceCard
+                          discipline={discipline}
                           raceId={matchup.raceId}
                           raceNum={matchup.index + 1}
                           homeTeamName={matchup.homeTeamName}
