@@ -1071,7 +1071,7 @@ describe('OptionsPage', () => {
     return screen.getByRole('radio', { name }) as HTMLInputElement;
   }
 
-  it('offers System, Light, Dark, Hot pink and Barnesly and Moriartys theme with System checked by default', () => {
+  it("offers System, Light, Dark, Hot pink and Barnesly and Moriarty's theme with System checked by default", () => {
     renderAt('/options', SIGNED_OUT);
 
     const group = screen.getByRole('group', { name: 'Appearance' });
@@ -1083,7 +1083,7 @@ describe('OptionsPage', () => {
     expect(radio(/Light/).checked).toBe(false);
     expect(radio(/Dark/).checked).toBe(false);
     expect(radio(/Hot pink/).checked).toBe(false);
-    expect(radio(/Barnesly and Moriartys theme/).checked).toBe(false);
+    expect(radio(/Barnesly and Moriarty's theme/).checked).toBe(false);
   });
 
   it('checks the stored choice', () => {
@@ -1104,14 +1104,22 @@ describe('OptionsPage', () => {
     expect(radio(/Dark/).checked).toBe(true);
   });
 
-  it('applies and stores Barnesly and Moriartys theme when chosen', () => {
+  it("shows Barnesly and Moriarty's theme by its title alone, with no description", () => {
     renderAt('/options', SIGNED_OUT);
 
-    fireEvent.click(radio(/Barnesly and Moriartys theme/));
+    const option = screen.getByRole('radio', { name: "Barnesly and Moriarty's theme" });
+
+    expect(option.closest('label')?.textContent).toBe("Barnesly and Moriarty's theme");
+  });
+
+  it("applies and stores Barnesly and Moriarty's theme when chosen", () => {
+    renderAt('/options', SIGNED_OUT);
+
+    fireEvent.click(radio(/Barnesly and Moriarty's theme/));
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('oldfashioned');
     expect(localStorage.getItem('kings-races:theme')).toBe('oldfashioned');
-    expect(radio(/Barnesly and Moriartys theme/).checked).toBe(true);
+    expect(radio(/Barnesly and Moriarty's theme/).checked).toBe(true);
   });
 
   it('applies Hot pink, then clears the choice for System', () => {
