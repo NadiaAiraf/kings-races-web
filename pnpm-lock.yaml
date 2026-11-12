@@ -178,6 +178,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/old-standard-tt':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/rye':
+        specifier: ^5.3.0
+        version: 5.3.0
       firebase:
         specifier: ^12.19.0
         version: 12.19.0
@@ -1292,6 +1298,12 @@ packages:
 
   '@firebase/webchannel-wrapper@1.0.7':
     resolution: {integrity: sha512-phBFwieDLvkZGYN9CE9ZFNEIoBVksprzsnCzQejCmCHtgwCXReeuRpoEGN9C4EbhONztv8NRV1tau6Rb9pONwQ==}
+
+  '@fontsource/old-standard-tt@5.3.0':
+    resolution: {integrity: sha512-9cXU8XWqw4Pz9/9Lf6Otf1GPc0y17d96/nP9tzs4PLlq1IFMIxXszL3OLldaoyAn5YGr1r+tIXr0rlbgIeCYrg==}
+
+  '@fontsource/rye@5.3.0':
+    resolution: {integrity: sha512-nKMwMa2/y8LMfhxs7Wm6FnbwXLKsBrJKs6dygYOPrmbpRIvBlf7Kt1mDNm0lzDIuuU+ghluQsisqpQ7peDm7gA==}
 
   '@google-cloud/cloud-sql-connector@1.12.0':
     resolution: {integrity: sha512-cUrI+6StY8F/dQB5Lujrl9TFYibDZGGWvPp1aHhvLn4btOlbflxdHoZ6NDWeWySCNtnOYhoiZNQfK4qPC5moBw==}
@@ -6777,6 +6789,10 @@ snapshots:
 
   '@firebase/webchannel-wrapper@1.0.7': {}
 
+  '@fontsource/old-standard-tt@5.3.0': {}
+
+  '@fontsource/rye@5.3.0': {}
+
   '@google-cloud/cloud-sql-connector@1.12.0(supports-color@7.2.0)':
     dependencies:
       '@google-cloud/sql': 0.25.0(supports-color@7.2.0)
@@ -7290,7 +7306,7 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.8
       estree-walker: 2.0.2
-      picomatch: 4.0.4
+      picomatch: 4.0.7
     optionalDependencies:
       rollup: 2.80.0
 

@@ -430,6 +430,29 @@ describe('All races list', () => {
       expect(radios.map((r) => r.getAttribute('aria-checked'))).toEqual(['false', 'true', 'false']);
     });
 
+    it('labels the race order buttons with a visible heading', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'standard', setOrder: vi.fn() });
+
+      const group = screen.getByRole('radiogroup', { name: 'Race order' });
+      const labelId = group.getAttribute('aria-labelledby');
+      expect(labelId).toBeTruthy();
+      expect(document.getElementById(labelId!)?.textContent).toBe('Race order');
+    });
+
+    it('explains that the race order changes the running order, not the scores', () => {
+      setDisciplines({});
+
+      renderWithOrder({ order: 'standard', setOrder: vi.fn() });
+
+      const group = screen.getByRole('radiogroup', { name: 'Race order' });
+      const hintId = group.getAttribute('aria-describedby');
+      expect(document.getElementById(hintId!)?.textContent).toBe(
+        'The order Round 1 and Round 2 races run in. Scores are not affected.'
+      );
+    });
+
     it('sets the race order when an approved user taps another option', () => {
       const setOrder = vi.fn();
       setDisciplines({});

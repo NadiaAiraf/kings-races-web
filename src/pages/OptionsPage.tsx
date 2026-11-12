@@ -9,11 +9,12 @@ import {
 } from '../lib/theme';
 import { PageHeader, PageLayout } from './PageLayout';
 
-const THEME_TEXT: Record<ThemeChoice, { name: string; description: string }> = {
+const THEME_TEXT: Record<ThemeChoice, { name: string; description?: string }> = {
   system: { name: 'System', description: "Match this phone's light or dark setting." },
   light: { name: 'Light', description: 'Always light, best in bright sun.' },
   dark: { name: 'Dark', description: 'Always the soft dark theme.' },
   pink: { name: 'Hot pink', description: 'Just for fun.' },
+  oldfashioned: { name: "Barnesly and Moriarty's theme" },
 };
 
 function backPath(state: unknown): string {
@@ -54,7 +55,9 @@ export function OptionsPage() {
                 />
                 <span>
                   <span className="block text-base font-semibold text-slate-900">{THEME_TEXT[choice].name}</span>
-                  <span className="block text-sm text-slate-600">{THEME_TEXT[choice].description}</span>
+                  {THEME_TEXT[choice].description && (
+                    <span className="block text-sm text-slate-600">{THEME_TEXT[choice].description}</span>
+                  )}
                 </span>
               </label>
             ))}

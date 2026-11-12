@@ -1,13 +1,19 @@
 @import "tailwindcss";
+/* Display (Rye) and text (Old Standard TT) faces for the old fashioned theme;
+   browsers only download them when the theme uses them. */
+@import "@fontsource/rye/latin-400.css";
+@import "@fontsource/old-standard-tt/latin-400.css";
+@import "@fontsource/old-standard-tt/latin-700.css";
+@import "@fontsource/old-standard-tt/latin-400-italic.css";
 
 /* dark: utilities follow the chosen theme, not just the OS: an explicit Dark
-   choice, or System (no light/pink override) on a dark OS. */
+   choice, or System (no light, pink or old fashioned override) on a dark OS. */
 @custom-variant dark {
   &:where([data-theme='dark'], [data-theme='dark'] *) {
     @slot;
   }
   @media (prefers-color-scheme: dark) {
-    &:where(:root:not([data-theme='light']):not([data-theme='pink']), :root:not([data-theme='light']):not([data-theme='pink']) *) {
+    &:where(:root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']), :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) *) {
       @slot;
     }
   }
@@ -56,6 +62,60 @@
     --color-slate-200: #f9cfe2;
   }
 
+  /* Old fashioned: a Victorian letterpress broadsheet. A light theme with ink
+     on parchment, square corners and muted discipline colours (mixed and board
+     table heads are set below). The text slates are remapped to sepia because
+     stock slate-500 falls below AA on parchment. font-size on :root scales
+     every rem-based size. Typography that must beat the utilities sits
+     unlayered at the end of the file. */
+  :root[data-theme='oldfashioned'] {
+    color-scheme: light;
+    font-family: 'Old Standard TT', 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-size: 112.5%;
+    font-variant-numeric: oldstyle-nums;
+    --color-brand-50: #e9dfc4;
+    --color-brand-400: #8a6f52;
+    --color-brand-600: #2b241c;
+    --color-brand-700: #15110c;
+    --color-table-head: #2b241c;
+    --color-table-stripe: #ece3ca;
+    --color-canvas: #f3ead3;
+    --color-surface: #f8f1de;
+    --color-ink: #1f1a14;
+    --color-slate-50: #f3ead3;
+    --color-slate-100: #ebe1c8;
+    --color-slate-200: #dccfb1;
+    --color-slate-300: #c9b994;
+    --color-slate-500: #5c4a36;
+    --color-slate-600: #4b3b2a;
+    --color-slate-700: #3c2f21;
+    --color-slate-800: #2e2419;
+    --color-slate-900: #1f1a14;
+    /* Discipline backgrounds become parchment. */
+    --color-blue-50: #efe7d2;
+    --color-green-50: #ece6cd;
+    --color-red-50: #f1e4cf;
+    /* Muted discipline accents and win badges; white text stays above AA. */
+    --color-blue-600: #2f5d62;
+    --color-blue-700: #24494d;
+    --color-green-100: #dde0c4;
+    --color-green-600: #3d5230;
+    --color-green-700: #314226;
+    --color-green-800: #263a1e;
+    --color-solid-neutral: #3c2f21;
+    --color-inverse: #2b241c;
+    --radius-xs: 0;
+    --radius-sm: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
+    --radius-2xl: 0;
+  }
+
+  :root[data-theme='oldfashioned'] body {
+    color: var(--color-ink);
+  }
+
   body {
     background-color: var(--color-canvas);
   }
@@ -77,6 +137,16 @@
   [data-discipline='board'] {
     --color-table-head: #15803d;
     --color-table-stripe: #dcfce7;
+  }
+
+  :root[data-theme='oldfashioned'] [data-discipline='mixed'] {
+    --color-table-head: #2f5d62;
+    --color-table-stripe: #e2e2cc;
+  }
+
+  :root[data-theme='oldfashioned'] [data-discipline='board'] {
+    --color-table-head: #3d5230;
+    --color-table-stripe: #e4e2c6;
   }
 
   /* Soft dark mode. Slate, hue tints and dark text steps are remapped; white
@@ -140,7 +210,7 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']):not([data-theme='pink']) {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) {
       color-scheme: dark;
       --color-canvas: #1b1d22;
       --color-surface: #25282e;
@@ -183,16 +253,52 @@
       --color-amber-900: #fde68a;
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) body {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) body {
       color: var(--color-ink);
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) [data-discipline='mixed'] {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) [data-discipline='mixed'] {
       --color-table-stripe: #222a38;
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) [data-discipline='board'] {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) [data-discipline='board'] {
       --color-table-stripe: #212d26;
     }
   }
+}
+
+/* Old fashioned typography and print details. Unlayered so they beat the
+   utility classes; everything is scoped to the theme. */
+:root[data-theme='oldfashioned'] h1 {
+  font-family: 'Rye', 'Iowan Old Style', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+:root[data-theme='oldfashioned'] :is(h2, h3, legend, th, [role='tab']) {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.06em;
+}
+
+:root[data-theme='oldfashioned'] td {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Double printer's rules under the masthead and the tab bars. */
+:root[data-theme='oldfashioned'] :is(header, [role='tablist']) {
+  border-bottom: 3px double var(--color-slate-700);
+}
+
+:root[data-theme='oldfashioned'] .rounded {
+  border-radius: 0;
+}
+
+/* Faint paper grain. background-image only, so the colour utilities still apply. */
+:root[data-theme='oldfashioned'] :is(body, .bg-surface, .bg-slate-50, .bg-blue-50, .bg-green-50, .bg-red-50) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .27 0 0 0 0 .14 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* An engraving, not a photo. */
+:root[data-theme='oldfashioned'] :is(img[src*='kings-ski-club-logo'], img[src*='kings-ski-club-crown']) {
+  filter: grayscale(1) sepia(0.45) contrast(1.15);
 }

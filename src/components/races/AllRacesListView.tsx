@@ -178,7 +178,7 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
 
   return (
     <div>
-      <div className="px-4 pt-3">
+      <div className="mb-6">
         <RaceOrderPicker />
       </div>
       {DEFAULT_COMBINED_ROUNDS.map((round) => {

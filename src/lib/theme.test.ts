@@ -28,8 +28,8 @@ afterEach(() => {
 });
 
 describe('THEME_CHOICES', () => {
-  it('lists system first, then light, dark and pink', () => {
-    expect(THEME_CHOICES).toEqual(['system', 'light', 'dark', 'pink']);
+  it('lists system first, then light, dark, pink and oldfashioned', () => {
+    expect(THEME_CHOICES).toEqual(['system', 'light', 'dark', 'pink', 'oldfashioned']);
   });
 });
 
@@ -42,6 +42,12 @@ describe('readThemeChoice', () => {
     localStorage.setItem(THEME_STORAGE_KEY, 'dark');
 
     expect(readThemeChoice()).toBe('dark');
+  });
+
+  it('returns oldfashioned when it is stored', () => {
+    localStorage.setItem(THEME_STORAGE_KEY, 'oldfashioned');
+
+    expect(readThemeChoice()).toBe('oldfashioned');
   });
 
   it('returns system for an unknown stored value', () => {
@@ -93,7 +99,7 @@ describe('writeThemeChoice', () => {
 });
 
 describe('applyThemeChoice', () => {
-  it.each(['light', 'dark', 'pink'] as const)('sets data-theme to %s on the html element', (choice) => {
+  it.each(['light', 'dark', 'pink', 'oldfashioned'] as const)('sets data-theme to %s on the html element', (choice) => {
     applyThemeChoice(choice);
 
     expect(document.documentElement.getAttribute('data-theme')).toBe(choice);
@@ -113,6 +119,14 @@ describe('applyThemeChoice', () => {
     applyThemeChoice('pink');
 
     expect([light.content, dark.content]).toEqual(['#d6006f', '#d6006f']);
+  });
+
+  it('sets both theme-color metas to ink for oldfashioned', () => {
+    const { light, dark } = addThemeColorMetas();
+
+    applyThemeChoice('oldfashioned');
+
+    expect([light.content, dark.content]).toEqual(['#2b241c', '#2b241c']);
   });
 
   it('sets both theme-color metas to the dark canvas for dark', () => {
