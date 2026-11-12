@@ -268,15 +268,75 @@ describe('old fashioned palette', () => {
     expect(failing).toEqual([]);
   });
 
-  it('leaves white and the hue fill steps alone', () => {
-    const fills = Object.keys(oldColours).filter((t) => /^(white|(amber|green|red|blue)-(400|600|700))$/.test(t));
-    expect(fills).toEqual([]);
+  it('leaves white alone', () => {
+    expect(oldColours.white).toBeUndefined();
   });
 
-  it('uses a serif stack at a larger base size', () => {
+  it('keeps white text at WCAG AA on any hue fill step it mutes', () => {
+    const fills = Object.keys(oldColours).filter((t) => /^(amber|green|red|blue)-(600|700)$/.test(t));
+    const failing = fills.filter((t) => contrast('#ffffff', oldColours[t]) < 4.5);
+    expect(failing).toEqual([]);
+  });
+
+  it.each([
+    ['blue-600', '#2f5d62'],
+    ['green-600', '#3d5230'],
+  ])('mutes the %s discipline accent to a vintage shade', (token, shade) => {
+    expect(oldColours[token]).toBe(shade);
+  });
+
+  it('keeps green-800 win text at WCAG AA on its green-100 badge', () => {
+    expect(contrast(oldColours['green-800'], oldColours['green-100'])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['solid-neutral', 'inverse'])('prints the %s fill in ink with white text at AA', (token) => {
+    expect(oldColours[token]).toBeDefined();
+    expect(contrast('#ffffff', oldColours[token])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('uses an old-style serif stack at a larger base size', () => {
+    expect(oldBlock).toContain("'Iowan Old Style'");
+    expect(oldBlock).toContain('Palatino');
     expect(oldBlock).toContain('Georgia');
     expect(oldBlock).toContain('serif');
     expect(oldBlock).toContain('font-size: 112.5%');
+  });
+
+  it('prints in ink rather than club red', () => {
+    expect(oldColours['brand-600']).toBe('#2b241c');
+    expect(oldColours['table-head']).toBe('#2b241c');
+  });
+
+  it('squares off every rounded corner token', () => {
+    for (const size of ['xs', 'sm', 'md', 'lg', 'xl', '2xl']) {
+      expect(oldBlock).toContain(`--radius-${size}: 0;`);
+    }
+  });
+
+  it.each(['blue-50', 'green-50', 'red-50'])('turns the %s discipline background into parchment', (token) => {
+    expect(oldColours[token]).toBeDefined();
+    expect(contrast(oldColours.ink, oldColours[token])).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(oldColours['slate-500'], oldColours[token])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each([
+    ['mixed', '#2f5d62'],
+    ['board', '#3d5230'],
+  ])('gives %s results tables a muted vintage head', (discipline, head) => {
+    const block = blockAfter(baseLayer, `:root[data-theme='oldfashioned'] [data-discipline='${discipline}'] {`);
+    const colours = colourDecls(block);
+    expect(colours['table-head']).toBe(head);
+    expect(contrast('#ffffff', colours['table-head'])).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(oldColours.ink, colours['table-stripe'])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('loads only the latin subset of the Rye display face', () => {
+    expect(css).toContain('@import "@fontsource/rye/latin-400.css";');
+  });
+
+  it('sets page titles in Rye, scoped to the theme', () => {
+    const titles = blockAfter(css, ":root[data-theme='oldfashioned'] h1 {");
+    expect(titles).toContain("'Rye'");
   });
 });
 

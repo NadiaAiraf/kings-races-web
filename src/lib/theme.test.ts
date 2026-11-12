@@ -121,12 +121,12 @@ describe('applyThemeChoice', () => {
     expect([light.content, dark.content]).toEqual(['#d6006f', '#d6006f']);
   });
 
-  it('sets both theme-color metas to oxblood for oldfashioned', () => {
+  it('sets both theme-color metas to ink for oldfashioned', () => {
     const { light, dark } = addThemeColorMetas();
 
     applyThemeChoice('oldfashioned');
 
-    expect([light.content, dark.content]).toEqual(['#7b2323', '#7b2323']);
+    expect([light.content, dark.content]).toEqual(['#2b241c', '#2b241c']);
   });
 
   it('sets both theme-color metas to the dark canvas for dark', () => {
