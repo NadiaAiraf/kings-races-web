@@ -1,6 +1,10 @@
 @import "tailwindcss";
-/* Display face for the old fashioned theme; only downloaded when used. */
+/* Display (Rye) and text (Old Standard TT) faces for the old fashioned theme;
+   browsers only download them when the theme uses them. */
 @import "@fontsource/rye/latin-400.css";
+@import "@fontsource/old-standard-tt/latin-400.css";
+@import "@fontsource/old-standard-tt/latin-700.css";
+@import "@fontsource/old-standard-tt/latin-400-italic.css";
 
 /* dark: utilities follow the chosen theme, not just the OS: an explicit Dark
    choice, or System (no light, pink or old fashioned override) on a dark OS. */
@@ -66,7 +70,7 @@
      unlayered at the end of the file. */
   :root[data-theme='oldfashioned'] {
     color-scheme: light;
-    font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    font-family: 'Old Standard TT', 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
     font-size: 112.5%;
     font-variant-numeric: oldstyle-nums;
     --color-brand-50: #e9dfc4;
@@ -270,7 +274,7 @@
   letter-spacing: 0.02em;
 }
 
-:root[data-theme='oldfashioned'] :is(h2, h3, th, [role='tab']) {
+:root[data-theme='oldfashioned'] :is(h2, h3, legend, th, [role='tab']) {
   font-variant-caps: small-caps;
   letter-spacing: 0.06em;
 }

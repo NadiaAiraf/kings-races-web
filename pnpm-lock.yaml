@@ -178,6 +178,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/old-standard-tt':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/rye':
         specifier: ^5.3.0
         version: 5.3.0
@@ -1295,6 +1298,9 @@ packages:
 
   '@firebase/webchannel-wrapper@1.0.7':
     resolution: {integrity: sha512-phBFwieDLvkZGYN9CE9ZFNEIoBVksprzsnCzQejCmCHtgwCXReeuRpoEGN9C4EbhONztv8NRV1tau6Rb9pONwQ==}
+
+  '@fontsource/old-standard-tt@5.3.0':
+    resolution: {integrity: sha512-9cXU8XWqw4Pz9/9Lf6Otf1GPc0y17d96/nP9tzs4PLlq1IFMIxXszL3OLldaoyAn5YGr1r+tIXr0rlbgIeCYrg==}
 
   '@fontsource/rye@5.3.0':
     resolution: {integrity: sha512-nKMwMa2/y8LMfhxs7Wm6FnbwXLKsBrJKs6dygYOPrmbpRIvBlf7Kt1mDNm0lzDIuuU+ghluQsisqpQ7peDm7gA==}
@@ -6782,6 +6788,8 @@ snapshots:
       tslib: 2.8.1
 
   '@firebase/webchannel-wrapper@1.0.7': {}
+
+  '@fontsource/old-standard-tt@5.3.0': {}
 
   '@fontsource/rye@5.3.0': {}
 
