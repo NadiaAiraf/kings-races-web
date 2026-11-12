@@ -9,6 +9,7 @@ import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
 import { GroupTiebreaks } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
+import { headToHeadDefault } from '../../domain/headToHead';
 import type { DisciplineKey } from '../../domain/types';
 
 interface FinalsViewProps {
@@ -20,7 +21,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
   const standingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
-  const { teams, manualTiebreaks } = useDisciplineState(discipline);
+  const { teams, scores, manualTiebreaks } = useDisciplineState(discipline);
 
   // Create refs for each matchup card for scroll-to-next
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -79,15 +80,27 @@ export function FinalsView({ discipline }: FinalsViewProps) {
           discipline={discipline}
           groups={
             finalsState.hasR2
-              ? (r2State?.r2Groups ?? []).map((g) => ({
-                  key: r2TiebreakKey(g.groupNum),
-                  label: `Round 2 Group ${g.groupNum}`,
-                  standings: r2State?.r2RawStandings[g.groupNum] ?? [],
-                }))
+              ? (r2State?.r2Groups ?? []).map((g) => {
+                  const standings = r2State?.r2RawStandings[g.groupNum] ?? [];
+                  return {
+                    key: r2TiebreakKey(g.groupNum),
+                    label: `Round 2 Group ${g.groupNum}`,
+                    standings,
+                    headToHead: headToHeadDefault(
+                      standings,
+                      scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
+                      (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
+                    ),
+                  };
+                })
               : Object.entries(standingsResult?.rawStandings ?? {}).map(([letter, standings]) => ({
                   key: letter,
                   label: `Group ${letter}`,
                   standings,
+                  headToHead: headToHeadDefault(
+                    standings,
+                    scores.filter((s) => s.raceId.startsWith('r1-'))
+                  ),
                 }))
           }
           manualTiebreaks={manualTiebreaks}

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
 import { useCanEdit } from '../../auth/editAccess';
 import { isValidManualOrder, orderStandings } from '../../hooks/groupOrder';
+import type { HeadToHeadDefault } from '../../domain/headToHead';
 
 interface TiebreakResolverProps {
   discipline: DisciplineKey;
@@ -15,6 +16,8 @@ interface TiebreakResolverProps {
   teamNames: Map<number, string>;
   /** False once the next stage has started, so seeding can no longer move. */
   canChange: boolean;
+  /** Suggested order for two-team ties, used when no valid order is saved. */
+  headToHead?: HeadToHeadDefault;
 }
 
 /**
@@ -30,11 +33,16 @@ export function TiebreakResolver({
   savedOrder,
   teamNames,
   canChange,
+  headToHead,
 }: TiebreakResolverProps) {
   const canEdit = useCanEdit();
   const isResolved = isValidManualOrder(standings, savedOrder);
   const [editing, setEditing] = useState(false);
-  const [order, setOrder] = useState<TeamStanding[]>(() => orderStandings(standings, savedOrder));
+  const [order, setOrder] = useState<TeamStanding[]>(() =>
+    isValidManualOrder(standings, savedOrder)
+      ? orderStandings(standings, savedOrder)
+      : (headToHead?.order ?? standings)
+  );
 
   const name = (slot: number) => teamNames.get(slot) ?? `Team ${slot}`;
 
@@ -76,6 +84,19 @@ export function TiebreakResolver({
   const tiedWithNext = (i: number) =>
     i < order.length - 1 && order[i].points === order[i + 1].points;
 
+  // Each note sits under whichever team of its pair is currently lower.
+  const notesAfter = new Map<number, string>();
+  for (const note of headToHead?.notes ?? []) {
+    const winnerIdx = order.findIndex((t) => t.slot === note.winnerSlot);
+    const loserIdx = order.findIndex((t) => t.slot === note.loserSlot);
+    if (winnerIdx < 0 || loserIdx < 0) continue;
+    const lowerSlot = order[Math.max(winnerIdx, loserIdx)].slot;
+    notesAfter.set(
+      lowerSlot,
+      `${name(note.winnerSlot)} placed above ${name(note.loserSlot)}: won their head-to-head race (Race ${note.raceNum})`
+    );
+  }
+
   function swap(i: number) {
     const next = [...order];
     [next[i], next[i + 1]] = [next[i + 1], next[i]];
@@ -100,40 +121,46 @@ export function TiebreakResolver({
       </p>
       <div className="flex flex-col gap-2">
         {order.map((team, idx) => (
-          <div
-            key={team.slot}
-            className="flex items-center gap-2 bg-surface border border-amber-100 rounded-md px-3 min-h-[56px]"
-          >
-            <span className="text-sm font-bold text-amber-800 w-6">{idx + 1}.</span>
-            <span className="flex-1 text-sm font-medium text-slate-800 truncate">
-              {name(team.slot)}
-            </span>
-            <span className="text-xs text-slate-500 mr-1">{team.points} pts</span>
-            {idx > 0 && tiedWithNext(idx - 1) ? (
-              <button
-                type="button"
-                onClick={() => swap(idx - 1)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
-                aria-label={`Move ${name(team.slot)} up`}
-              >
-                {'▲'}
-              </button>
-            ) : (
-              <span className="min-w-[44px]" aria-hidden="true" />
+          <Fragment key={team.slot}>
+            <div
+              className="flex items-center gap-2 bg-surface border border-amber-100 rounded-md px-3 min-h-[56px]"
+            >
+              <span className="text-sm font-bold text-amber-800 w-6">{idx + 1}.</span>
+              <span className="flex-1 text-sm font-medium text-slate-800 truncate">
+                {name(team.slot)}
+              </span>
+              <span className="text-xs text-slate-500 mr-1">{team.points} pts</span>
+              {idx > 0 && tiedWithNext(idx - 1) ? (
+                <button
+                  type="button"
+                  onClick={() => swap(idx - 1)}
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
+                  aria-label={`Move ${name(team.slot)} up`}
+                >
+                  {'▲'}
+                </button>
+              ) : (
+                <span className="min-w-[44px]" aria-hidden="true" />
+              )}
+              {tiedWithNext(idx) ? (
+                <button
+                  type="button"
+                  onClick={() => swap(idx)}
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
+                  aria-label={`Move ${name(team.slot)} down`}
+                >
+                  {'▼'}
+                </button>
+              ) : (
+                <span className="min-w-[44px]" aria-hidden="true" />
+              )}
+            </div>
+            {notesAfter.has(team.slot) && (
+              <p className="text-xs text-amber-800 dark:text-amber-300 px-3">
+                {notesAfter.get(team.slot)}
+              </p>
             )}
-            {tiedWithNext(idx) ? (
-              <button
-                type="button"
-                onClick={() => swap(idx)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
-                aria-label={`Move ${name(team.slot)} down`}
-              >
-                {'▼'}
-              </button>
-            ) : (
-              <span className="min-w-[44px]" aria-hidden="true" />
-            )}
-          </div>
+          </Fragment>
         ))}
       </div>
       <button

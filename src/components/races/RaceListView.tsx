@@ -14,6 +14,7 @@ import { FinalsBlockedBanner } from '../finals/FinalsBlockedBanner';
 import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
+import { headToHeadDefault } from '../../domain/headToHead';
 import type { DisciplineKey, Score, RaceOutcome } from '../../domain/types';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 
@@ -155,16 +156,29 @@ export function RaceListView({ discipline }: RaceListViewProps) {
 
   // Groups an official may need to complete by hand when teams tie.
   const hasR2 = finalsState?.hasR2 ?? false;
-  const r1TiebreakGroups: TiebreakGroup[] = structure.groups.map((g) => ({
-    key: g.letter,
-    label: `Group ${g.letter}`,
-    standings: standingsResult?.rawStandings[g.letter] ?? [],
-  }));
-  const r2TiebreakGroups: TiebreakGroup[] = (r2State?.r2Groups ?? []).map((g) => ({
-    key: r2TiebreakKey(g.groupNum),
-    label: `Round 2 Group ${g.groupNum}`,
-    standings: r2State?.r2RawStandings[g.groupNum] ?? [],
-  }));
+  const r1Scores = scores.filter((s) => s.raceId.startsWith('r1-'));
+  const r1TiebreakGroups: TiebreakGroup[] = structure.groups.map((g) => {
+    const standings = standingsResult?.rawStandings[g.letter] ?? [];
+    return {
+      key: g.letter,
+      label: `Group ${g.letter}`,
+      standings,
+      headToHead: headToHeadDefault(standings, r1Scores),
+    };
+  });
+  const r2TiebreakGroups: TiebreakGroup[] = (r2State?.r2Groups ?? []).map((g) => {
+    const standings = r2State?.r2RawStandings[g.groupNum] ?? [];
+    return {
+      key: r2TiebreakKey(g.groupNum),
+      label: `Round 2 Group ${g.groupNum}`,
+      standings,
+      headToHead: headToHeadDefault(
+        standings,
+        scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
+        (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
+      ),
+    };
+  });
   // Groups whose order feeds the finals: Round 2 if the format has it.
   const finalsTiebreakGroups = hasR2 ? r2TiebreakGroups : r1TiebreakGroups;
   const anyR2Scored = scores.some((s) => s.raceId.startsWith('r2-'));

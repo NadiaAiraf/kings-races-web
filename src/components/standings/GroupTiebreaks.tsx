@@ -1,5 +1,6 @@
 import { hasTies } from '../../domain/scoring';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
+import type { HeadToHeadDefault } from '../../domain/headToHead';
 import { TiebreakResolver } from './TiebreakResolver';
 
 export interface TiebreakGroup {
@@ -8,6 +9,8 @@ export interface TiebreakGroup {
   label: string;
   /** Standings by points alone, before any manual order. */
   standings: TeamStanding[];
+  /** Suggested order for two-team ties from their head-to-head race. */
+  headToHead?: HeadToHeadDefault;
 }
 
 interface GroupTiebreaksProps {
@@ -36,7 +39,7 @@ export function GroupTiebreaks({
             // resolver never shows a stale draft order.
             key={`${group.key}:${group.standings.map((s) => `${s.slot}=${s.points}`).join(',')}:${
               manualTiebreaks[group.key]?.join(',') ?? ''
-            }`}
+            }:${group.headToHead?.order.map((s) => s.slot).join(',') ?? ''}`}
             discipline={discipline}
             groupKey={group.key}
             label={group.label}
@@ -44,6 +47,7 @@ export function GroupTiebreaks({
             savedOrder={manualTiebreaks[group.key]}
             teamNames={teamNames}
             canChange={canChange}
+            headToHead={group.headToHead}
           />
         ))}
     </>
