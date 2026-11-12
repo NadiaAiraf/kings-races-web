@@ -1,11 +1,11 @@
-export type ThemeChoice = 'system' | 'light' | 'dark' | 'pink';
+export type ThemeChoice = 'system' | 'light' | 'dark' | 'pink' | 'oldfashioned';
 
-export const THEME_CHOICES: readonly ThemeChoice[] = ['system', 'light', 'dark', 'pink'];
+export const THEME_CHOICES: readonly ThemeChoice[] = ['system', 'light', 'dark', 'pink', 'oldfashioned'];
 
 export const THEME_STORAGE_KEY = 'kings-races:theme';
 
 // Mirrors the theme-color metas in index.html and the palettes in index.css.
-const THEME_COLOURS = { light: '#d72d28', dark: '#1b1d22', pink: '#d6006f' } as const;
+const THEME_COLOURS = { light: '#d72d28', dark: '#1b1d22', pink: '#d6006f', oldfashioned: '#7b2323' } as const;
 
 function isThemeChoice(value: unknown): value is ThemeChoice {
   return typeof value === 'string' && (THEME_CHOICES as readonly string[]).includes(value);

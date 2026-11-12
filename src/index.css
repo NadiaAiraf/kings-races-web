@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 /* dark: utilities follow the chosen theme, not just the OS: an explicit Dark
-   choice, or System (no light/pink override) on a dark OS. */
+   choice, or System (no light, pink or old fashioned override) on a dark OS. */
 @custom-variant dark {
   &:where([data-theme='dark'], [data-theme='dark'] *) {
     @slot;
   }
   @media (prefers-color-scheme: dark) {
-    &:where(:root:not([data-theme='light']):not([data-theme='pink']), :root:not([data-theme='light']):not([data-theme='pink']) *) {
+    &:where(:root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']), :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) *) {
       @slot;
     }
   }
@@ -54,6 +54,38 @@
     --color-slate-50: #fff0f7;
     --color-slate-100: #fde4ef;
     --color-slate-200: #f9cfe2;
+  }
+
+  /* Old fashioned: parchment, sepia ink and serif type, like the old printed
+     results sheets. A light theme; mixed and board tables keep their blue and
+     green, ladies follows the oxblood table head. The text slates are remapped
+     to sepia because stock slate-500 falls below AA on parchment. font-size on
+     :root scales every rem-based size. */
+  :root[data-theme='oldfashioned'] {
+    color-scheme: light;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 112.5%;
+    --color-brand-50: #efe1c6;
+    --color-brand-400: #b5483f;
+    --color-brand-600: #7b2323;
+    --color-brand-700: #5c1818;
+    --color-table-head: #7b2323;
+    --color-table-stripe: #efe1c6;
+    --color-canvas: #f4ecd8;
+    --color-surface: #fbf6ea;
+    --color-ink: #2a1f14;
+    --color-slate-50: #f4ecd8;
+    --color-slate-100: #ece2cc;
+    --color-slate-200: #ddd0b4;
+    --color-slate-500: #5f4d39;
+    --color-slate-600: #4e3d2b;
+    --color-slate-700: #3f3020;
+    --color-slate-800: #33261a;
+    --color-slate-900: #2a1f14;
+  }
+
+  :root[data-theme='oldfashioned'] body {
+    color: var(--color-ink);
   }
 
   body {
@@ -140,7 +172,7 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']):not([data-theme='pink']) {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) {
       color-scheme: dark;
       --color-canvas: #1b1d22;
       --color-surface: #25282e;
@@ -183,15 +215,15 @@
       --color-amber-900: #fde68a;
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) body {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) body {
       color: var(--color-ink);
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) [data-discipline='mixed'] {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) [data-discipline='mixed'] {
       --color-table-stripe: #222a38;
     }
 
-    :root:not([data-theme='light']):not([data-theme='pink']) [data-discipline='board'] {
+    :root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned']) [data-discipline='board'] {
       --color-table-stripe: #212d26;
     }
   }
