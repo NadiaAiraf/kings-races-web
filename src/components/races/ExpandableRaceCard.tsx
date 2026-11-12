@@ -36,10 +36,7 @@ interface ExpandableRaceCardProps {
   matchupLabel?: string;
   seedingContext?: string;
   isFinalMatch?: boolean;
-  /**
-   * All races view: colour stripe and label so officials can tell disciplines
-   * apart. Omitted on a discipline's own Races tab.
-   */
+  /** Colour stripe and label so officials can tell disciplines apart. */
   discipline?: DisciplineKey;
   /**
    * Round 2 and finals: offer "Race not run". In Round 2 neither team gets

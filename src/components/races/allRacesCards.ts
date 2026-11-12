@@ -2,7 +2,7 @@
 // the interleaved list of a non-standard race order.
 import { getCheatSheet } from '../../domain/cheatSheets';
 import type { R2State } from '../../hooks/useR2State';
-import type { DisciplineState, Score } from '../../domain/types';
+import type { DisciplineState, Score, TournamentStructure } from '../../domain/types';
 
 export interface CardSpec {
   raceId: string;
@@ -19,11 +19,18 @@ export interface CardSpec {
   allowNotRun?: boolean;
 }
 
+/** The Round 1 group of a race, e.g. "Group A". Both teams share a group. */
+export function roundOneGroupLabel(structure: TournamentStructure, homeSlot: number): string | undefined {
+  const group = structure.groups.find((g) => g.teamSlots.includes(homeSlot));
+  return group && `Group ${group.letter}`;
+}
+
 /** Round 1 cards of a discipline with a race schedule, in cheat sheet order. */
 export function roundOneCardSpecs(state: DisciplineState): CardSpec[] {
   const names = new Map(state.teams.map((t) => [t.slot, t.name]));
   const scores = new Map(state.scores.map((s) => [s.raceId, s]));
-  return getCheatSheet(state.teamCount).roundOneRaces.map((race) => {
+  const structure = getCheatSheet(state.teamCount);
+  return structure.roundOneRaces.map((race) => {
     const raceId = `r1-${race.raceNum}`;
     return {
       raceId,
@@ -33,6 +40,7 @@ export function roundOneCardSpecs(state: DisciplineState): CardSpec[] {
       homeSlot: race.homeSlot,
       awaySlot: race.awaySlot,
       score: scores.get(raceId),
+      groupLabel: roundOneGroupLabel(structure, race.homeSlot),
     };
   });
 }
