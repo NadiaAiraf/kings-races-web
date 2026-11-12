@@ -13,7 +13,7 @@ const sources = import.meta.glob(['./**/*.{ts,tsx}', '!./**/*.test.{ts,tsx}'], {
 }) as Record<string, string>;
 
 const DARK_MEDIA = '@media (prefers-color-scheme: dark) {';
-const SYSTEM_DARK = ":root:not([data-theme='light']):not([data-theme='pink'])";
+const SYSTEM_DARK = ":root:not([data-theme='light']):not([data-theme='pink']):not([data-theme='oldfashioned'])";
 const EXPLICIT_DARK = ":root[data-theme='dark']";
 
 /** Body of the block opened by the `{` that ends `opener`, found by brace depth. */
@@ -36,6 +36,7 @@ const darkBlock = blockAfter(baseLayer, DARK_MEDIA);
 const darkRoot = blockAfter(darkBlock, `${SYSTEM_DARK} {`);
 const explicitDark = blockAfter(baseLayer, `${EXPLICIT_DARK} {`);
 const pinkBlock = blockAfter(baseLayer, ":root[data-theme='pink'] {");
+const oldBlock = blockAfter(baseLayer, ":root[data-theme='oldfashioned'] {");
 const themeBlock = blockAfter(css, '@theme {');
 
 /** `--color-x: #hex` declarations in a rule body, keyed by x. */
@@ -50,6 +51,7 @@ function colourDecls(body: string): Record<string, string> {
 const darkColours = colourDecls(darkRoot);
 const themeColours = colourDecls(themeBlock);
 const pinkColours = colourDecls(pinkBlock);
+const oldColours = colourDecls(oldBlock);
 
 /** Declarations of a rule body, comments dropped, sorted for comparison. */
 function declarations(body: string): string[] {
@@ -141,6 +143,7 @@ describe('theme choice in index.css', () => {
       'prefers-color-scheme: dark',
       ":not([data-theme='light'])",
       ":not([data-theme='pink'])",
+      ":not([data-theme='oldfashioned'])",
       '@slot',
     ]) {
       expect(variant).toContain(part);
@@ -167,6 +170,13 @@ describe('theme choice in index.css', () => {
   it('sets dark body text on both paths', () => {
     expect(blockAfter(baseLayer, `${EXPLICIT_DARK} body {`)).toContain('color: var(--color-ink)');
     expect(blockAfter(darkBlock, `${SYSTEM_DARK} body {`)).toContain('color: var(--color-ink)');
+  });
+
+  it('excludes old fashioned wherever pink is excluded from system dark', () => {
+    const pinkExclusions = css.split(":not([data-theme='pink'])").length - 1;
+    const combined = css.split(":not([data-theme='pink']):not([data-theme='oldfashioned'])").length - 1;
+    expect(pinkExclusions).toBeGreaterThan(0);
+    expect(combined).toBe(pinkExclusions);
   });
 
   it('forces color-scheme light for the light choice', () => {
@@ -213,6 +223,60 @@ describe('hot pink palette', () => {
   it('leaves the hue fill steps alone', () => {
     const fills = Object.keys(pinkColours).filter((t) => /^(white|(amber|green|red|blue)-(400|600|700))$/.test(t));
     expect(fills).toEqual([]);
+  });
+});
+
+describe('old fashioned palette', () => {
+  const backgrounds = ['canvas', 'surface', 'slate-50', 'slate-100', 'slate-200'];
+  const textSteps = ['ink', 'slate-500', 'slate-600', 'slate-700', 'slate-800', 'slate-900'];
+
+  it('is a light theme', () => {
+    expect(oldBlock).toContain('color-scheme: light');
+  });
+
+  it('defines the brand, table, background and text tokens', () => {
+    const tokens = [
+      'brand-50',
+      'brand-400',
+      'brand-600',
+      'brand-700',
+      'table-head',
+      'table-stripe',
+      'canvas',
+      'surface',
+      'slate-50',
+      'slate-100',
+      'slate-200',
+      ...textSteps,
+    ];
+    expect(tokens.filter((t) => !(t in oldColours))).toEqual([]);
+  });
+
+  it.each(['brand-600', 'brand-700', 'table-head'])('keeps white text at WCAG AA on %s', (token) => {
+    expect(oldColours[token]).toBeDefined();
+    expect(contrast('#ffffff', oldColours[token])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(['canvas', 'surface', 'slate-50', 'slate-100'])('keeps brand-600 text at WCAG AA on %s', (bg) => {
+    expect(oldColours[bg]).toBeDefined();
+    expect(contrast(oldColours['brand-600'], oldColours[bg])).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it.each(textSteps)('keeps %s text at WCAG AA on every background', (token) => {
+    expect(oldColours[token]).toBeDefined();
+    const failing = backgrounds.filter((bg) => !oldColours[bg] || contrast(oldColours[token], oldColours[bg]) < 4.5);
+    expect(failing).toEqual([]);
+  });
+
+  it('leaves white and the hue fill steps alone', () => {
+    const fills = Object.keys(oldColours).filter((t) => /^(white|(amber|green|red|blue)-(400|600|700))$/.test(t));
+    expect(fills).toEqual([]);
+  });
+
+  it('uses a serif stack at a larger base size', () => {
+    expect(oldBlock).toContain('Georgia');
+    expect(oldBlock).toContain('serif');
+    expect(oldBlock).toContain('font-size: 112.5%');
   });
 });
 
