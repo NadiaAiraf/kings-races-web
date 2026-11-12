@@ -268,6 +268,10 @@ describe('old fashioned palette', () => {
     expect(failing).toEqual([]);
   });
 
+  it('warms the slate-300 border step to a parchment shade', () => {
+    expect(oldColours['slate-300']).toBe('#c9b994');
+  });
+
   it('leaves white alone', () => {
     expect(oldColours.white).toBeUndefined();
   });
