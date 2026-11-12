@@ -52,8 +52,8 @@ describe('AppShell table colours', () => {
 
     const root = renderShellRoot();
 
-    expect(root.style.getPropertyValue('--color-table-head')).toBe('#1d4ed8');
-    expect(root.style.getPropertyValue('--color-table-stripe')).toBe('#dbeafe');
+    expect(root.dataset.discipline).toBe('mixed');
+    expect(root.style.getPropertyValue('--color-table-head')).toBe('');
   });
 
   it('gives Board tables a green header and stripes', () => {
@@ -61,8 +61,8 @@ describe('AppShell table colours', () => {
 
     const root = renderShellRoot();
 
-    expect(root.style.getPropertyValue('--color-table-head')).toBe('#15803d');
-    expect(root.style.getPropertyValue('--color-table-stripe')).toBe('#dcfce7');
+    expect(root.dataset.discipline).toBe('board');
+    expect(root.style.getPropertyValue('--color-table-head')).toBe('');
   });
 
   it('leaves Ladies tables on the club red default', () => {
@@ -70,8 +70,8 @@ describe('AppShell table colours', () => {
 
     const root = renderShellRoot();
 
+    expect(root.dataset.discipline).toBe('ladies');
     expect(root.style.getPropertyValue('--color-table-head')).toBe('');
-    expect(root.style.getPropertyValue('--color-table-stripe')).toBe('');
   });
 });
 

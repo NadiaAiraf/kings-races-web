@@ -43,14 +43,14 @@ export function TiebreakResolver({
     return (
       <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-2">
         <h3 className="text-base font-semibold text-amber-900 mb-1">Tie: {label}</h3>
-        <p className="text-sm text-amber-700">Waiting for an official to set the finishing order.</p>
+        <p className="text-sm text-amber-700 dark:text-amber-400">Waiting for an official to set the finishing order.</p>
       </div>
     );
   }
 
   if (isResolved && !editing) {
     return (
-      <div className="bg-white border border-slate-200 rounded-sm p-4 mb-2">
+      <div className="bg-surface border border-slate-200 rounded-sm p-4 mb-2">
         <div className="flex items-center justify-between gap-2">
           <h3 className="text-sm font-semibold text-slate-900">{label}: order set manually</h3>
           {canChange && (
@@ -60,7 +60,7 @@ export function TiebreakResolver({
                 setOrder(orderStandings(standings, savedOrder));
                 setEditing(true);
               }}
-              className="min-h-11 px-2 text-sm font-semibold text-brand-600"
+              className="min-h-11 px-2 text-sm font-semibold text-brand-600 dark:text-brand-400"
             >
               Change
             </button>
@@ -94,7 +94,7 @@ export function TiebreakResolver({
   return (
     <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-2">
       <h3 className="text-base font-semibold text-amber-900 mb-1">Resolve tie: {label}</h3>
-      <p className="text-sm text-amber-700 mb-3">
+      <p className="text-sm text-amber-700 dark:text-amber-400 mb-3">
         Teams level on points can be moved. Set the finishing order, then confirm to complete the
         group.
       </p>
@@ -102,7 +102,7 @@ export function TiebreakResolver({
         {order.map((team, idx) => (
           <div
             key={team.slot}
-            className="flex items-center gap-2 bg-white border border-amber-100 rounded-md px-3 min-h-[56px]"
+            className="flex items-center gap-2 bg-surface border border-amber-100 rounded-md px-3 min-h-[56px]"
           >
             <span className="text-sm font-bold text-amber-800 w-6">{idx + 1}.</span>
             <span className="flex-1 text-sm font-medium text-slate-800 truncate">
@@ -113,7 +113,7 @@ export function TiebreakResolver({
               <button
                 type="button"
                 onClick={() => swap(idx - 1)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 active:bg-amber-100"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
                 aria-label={`Move ${name(team.slot)} up`}
               >
                 {'▲'}
@@ -125,7 +125,7 @@ export function TiebreakResolver({
               <button
                 type="button"
                 onClick={() => swap(idx)}
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 active:bg-amber-100"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded text-lg font-bold text-amber-700 dark:text-amber-400 active:bg-amber-100"
                 aria-label={`Move ${name(team.slot)} down`}
               >
                 {'▼'}

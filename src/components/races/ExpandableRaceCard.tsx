@@ -122,7 +122,7 @@ export function ExpandableRaceCard({
   return (
     <div
       className={clsx(
-        'bg-white border border-slate-200 rounded-sm p-4 mb-2',
+        'bg-surface border border-slate-200 rounded-sm p-4 mb-2',
         'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         disabled && 'opacity-40 pointer-events-none',
         discipline && ['border-l-4', DISCIPLINE_ACCENT[discipline].stripe],
@@ -151,12 +151,12 @@ export function ExpandableRaceCard({
           <span className="text-xs text-slate-600 font-medium">{matchupLabel}</span>
         )}
         {isFinalMatch && (
-          <span className="text-xs font-semibold text-brand-600">FINAL</span>
+          <span className="text-xs font-semibold text-brand-600 dark:text-brand-400">FINAL</span>
         )}
         {canClear && (
           <button
             type="button"
-            className="ml-auto -my-3 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
+            className="ml-auto -my-3 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 dark:text-red-400 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
             onClick={(e) => {
               e.stopPropagation();
               onClear(raceId);

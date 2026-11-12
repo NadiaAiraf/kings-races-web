@@ -74,10 +74,10 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
   return (
     <div className="flex flex-col h-full">
       {!asTab && onClose && (
-        <div className="flex items-center px-4 py-2 border-b border-slate-200 bg-white sticky top-0 z-10">
+        <div className="flex items-center px-4 py-2 border-b border-slate-200 bg-surface sticky top-0 z-10">
           <button
             onClick={onClose}
-            className="min-h-14 flex items-center gap-1 text-sm font-semibold text-brand-600"
+            className="min-h-14 flex items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400"
           >
             <span>&larr;</span> Back to Scoring
           </button>

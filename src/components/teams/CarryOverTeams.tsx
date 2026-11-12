@@ -79,7 +79,7 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
           </span>
         </label>
         {isNew && (
-          <span className="text-xs font-semibold uppercase rounded-sm bg-brand-50 text-brand-700 px-1.5 py-0.5">
+          <span className="text-xs font-semibold uppercase rounded-sm bg-brand-50 text-brand-700 dark:text-brand-400 px-1.5 py-0.5">
             New
           </span>
         )}
@@ -90,7 +90,7 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
   return (
     <section
       aria-label="League teams"
-      className="flex flex-col gap-2 bg-white border border-slate-200 rounded-sm p-3"
+      className="flex flex-col gap-2 bg-surface border border-slate-200 rounded-sm p-3"
     >
       <h3 className="text-base font-semibold text-slate-900">League teams</h3>
       <p className="text-sm text-slate-500">
@@ -105,7 +105,7 @@ export function CarryOverTeams({ names, max, onConfirm }: CarryOverTeamsProps) {
         <p className="text-sm font-semibold text-slate-900">Add a team not on the list</p>
         <TeamInput onAdd={handleAdd} existingNames={newTeams} buttonLabel="Add" />
       </div>
-      {overLimit && <p className="text-sm text-red-600">Maximum {max} teams. Untick some teams.</p>}
+      {overLimit && <p className="text-sm text-red-600 dark:text-red-400">Maximum {max} teams. Untick some teams.</p>}
       <button
         type="button"
         onClick={() => onConfirm(present)}

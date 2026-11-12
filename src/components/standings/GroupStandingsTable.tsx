@@ -89,7 +89,7 @@ export function GroupStandingsTable({
           {standings.map((standing, index) => (
             <tr
               key={standing.slot}
-              className={index % 2 === 0 ? 'bg-white' : 'bg-table-stripe'}
+              className={index % 2 === 0 ? 'bg-surface' : 'bg-table-stripe'}
             >
               <td className="px-2 py-2 text-sm text-slate-500">
                 {index + 1}

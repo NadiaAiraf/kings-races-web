@@ -8,6 +8,7 @@ import { NewSeasonPage } from './pages/NewSeasonPage';
 import { NewEventPage } from './pages/NewEventPage';
 import { EventPage } from './pages/EventPage';
 import { LoginPage } from './pages/LoginPage';
+import { OptionsPage } from './pages/OptionsPage';
 
 // HashRouter because GitHub Pages cannot serve deep links.
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/seasons/:seasonId/:league/new" element={<NewEventPage />} />
           <Route path="/events/:id" element={<EventPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/options" element={<OptionsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </HashRouter>

@@ -39,7 +39,7 @@ export function SeasonStandingsTable({ rows }: SeasonStandingsTableProps) {
       </thead>
       <tbody>
         {rows.map((row, index) => (
-          <tr key={row.key} className={index % 2 === 0 ? 'bg-white' : 'bg-table-stripe'}>
+          <tr key={row.key} className={index % 2 === 0 ? 'bg-surface' : 'bg-table-stripe'}>
             <td className="pl-2 pr-1 py-1.5 font-mono text-slate-700">{index + 1}</td>
             <td className="px-1 py-1.5 text-slate-900 truncate">{row.name}</td>
             {ROUND_NUMBERS.map((n) => {

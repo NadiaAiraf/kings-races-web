@@ -1,4 +1,4 @@
-import { useState, useMemo, type CSSProperties, type ReactNode } from 'react';
+import { useState, useMemo, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs, type DisciplineView } from './DisciplineTabs';
@@ -114,13 +114,6 @@ export function AppShell({ header }: AppShellProps) {
     ladies: 'bg-red-50',
   };
 
-  // Results tables follow the discipline colour. Ladies keeps the club red default.
-  const disciplineTableColours: Record<DisciplineKey, CSSProperties> = {
-    mixed: { '--color-table-head': '#1d4ed8', '--color-table-stripe': '#dbeafe' } as CSSProperties,
-    board: { '--color-table-head': '#15803d', '--color-table-stripe': '#dcfce7' } as CSSProperties,
-    ladies: {},
-  };
-
   if (showAll) {
     return (
       <div className="flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto bg-slate-50">
@@ -137,7 +130,8 @@ export function AppShell({ header }: AppShellProps) {
   return (
     <div
       className={`flex flex-col min-h-screen min-h-dvh max-w-[430px] md:max-w-3xl mx-auto ${disciplineBg[activeDiscipline]}`}
-      style={disciplineTableColours[activeDiscipline]}
+      // Results tables follow the discipline colour via [data-discipline] rules in index.css.
+      data-discipline={activeDiscipline}
     >
       {header}
       <DisciplineTabs<DisciplineView>

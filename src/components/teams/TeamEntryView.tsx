@@ -112,7 +112,7 @@ export function TeamEntryView({ discipline }: TeamEntryViewProps) {
       )}
       <p className="text-sm text-slate-500">{teamCount} teams entered</p>
       {teamCount < 4 && teamCount > 0 && (
-        <p className="text-sm text-amber-600">Minimum 4 teams required</p>
+        <p className="text-sm text-amber-600 dark:text-amber-400">Minimum 4 teams required</p>
       )}
       <TeamList
         teams={teams}

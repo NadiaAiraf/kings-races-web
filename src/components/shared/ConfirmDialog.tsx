@@ -64,7 +64,7 @@ export function ConfirmDialog({
       </button>
       {open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-scrim/50 p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setOpen(false);
           }}
@@ -74,7 +74,7 @@ export function ConfirmDialog({
             aria-modal="true"
             aria-labelledby={titleId}
             aria-describedby={descId}
-            className="w-full max-w-sm bg-white rounded-sm p-4 shadow-lg flex flex-col gap-3"
+            className="w-full max-w-sm bg-surface rounded-sm p-4 shadow-lg flex flex-col gap-3"
           >
             <h2 id={titleId} className="text-base font-semibold text-slate-900">
               {title}

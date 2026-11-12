@@ -36,7 +36,7 @@ export function LeagueTeamsEditor({ names, canEdit, onAdd, onRemove }: LeagueTea
           No teams listed yet.{canEdit && ' Add the league’s teams to pick from when entering a round.'}
         </p>
       ) : (
-        <ul className="bg-white border border-slate-200 rounded-sm">
+        <ul className="bg-surface border border-slate-200 rounded-sm">
           {names.map((name) => (
             <li key={name} className="flex items-center min-h-12 px-3 border-b border-slate-100 last:border-b-0">
               <span className="flex-1 text-base text-slate-900">{name}</span>
@@ -45,7 +45,7 @@ export function LeagueTeamsEditor({ names, canEdit, onAdd, onRemove }: LeagueTea
                   type="button"
                   onClick={() => onRemove(name)}
                   aria-label={`Remove ${name}`}
-                  className="min-h-11 min-w-11 flex items-center justify-center text-slate-400 hover:text-red-600"
+                  className="min-h-11 min-w-11 flex items-center justify-center text-slate-400 hover:text-red-600 dark:hover:text-red-400"
                 >
                   {'×'}
                 </button>
@@ -66,7 +66,7 @@ export function LeagueTeamsEditor({ names, canEdit, onAdd, onRemove }: LeagueTea
               className="text-base font-normal px-3 py-2 border border-slate-200 rounded-sm"
             />
           </label>
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
           <button
             type="button"
             onClick={handleAdd}

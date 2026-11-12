@@ -46,7 +46,7 @@ export function TeamRow({ team, index, onDelete, onMoveUp, onMoveDown }: TeamRow
           type="button"
           onClick={() => onDelete(team.slot)}
           aria-label={`Remove ${team.name}`}
-          className="min-h-11 min-w-11 flex items-center justify-center text-slate-400 hover:text-red-600"
+          className="min-h-11 min-w-11 flex items-center justify-center text-slate-400 hover:text-red-600 dark:hover:text-red-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

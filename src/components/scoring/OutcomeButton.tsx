@@ -6,7 +6,7 @@ const OUTCOME_STYLES: Record<RaceOutcome, { active: string; inactive: string }> 
   win:  { active: 'bg-green-600 text-white ring-2 ring-green-300', inactive: 'bg-slate-100 text-slate-600' },
   loss: { active: 'bg-amber-600 text-white ring-2 ring-amber-300', inactive: 'bg-slate-100 text-slate-600' },
   dsq:  { active: 'bg-red-600 text-white ring-2 ring-red-300',     inactive: 'bg-slate-100 text-slate-600' },
-  'not-run': { active: 'bg-slate-700 text-white ring-2 ring-slate-300', inactive: 'bg-slate-100 text-slate-600' },
+  'not-run': { active: 'bg-solid-neutral text-white ring-2 ring-slate-300', inactive: 'bg-slate-100 text-slate-600' },
 };
 
 const LABELS: Record<RaceOutcome, string> = {

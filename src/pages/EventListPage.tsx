@@ -36,13 +36,13 @@ export function EventListPage() {
       <main className="flex-1 px-4 py-4 flex flex-col gap-3">
         {error !== null && (
           <div className="flex items-center gap-2">
-            <p className="flex-1 text-sm text-red-600">
+            <p className="flex-1 text-sm text-red-600 dark:text-red-400">
               {withErrorCode('Could not load rounds. Check your connection.', error)}
             </p>
             <button
               type="button"
               onClick={() => setAttempt((n) => n + 1)}
-              className="min-h-11 px-3 text-sm font-semibold text-brand-600"
+              className="min-h-11 px-3 text-sm font-semibold text-brand-600 dark:text-brand-400"
             >
               Retry
             </button>
@@ -60,7 +60,7 @@ export function EventListPage() {
             <li key={event.id}>
               <Link
                 to={`/events/${event.id}`}
-                className="block bg-white border border-slate-200 rounded-sm px-4 py-3 min-h-14"
+                className="block bg-surface border border-slate-200 rounded-sm px-4 py-3 min-h-14"
               >
                 <span className="block text-base font-semibold text-slate-900">{event.name}</span>
                 <span className="block text-sm text-slate-500">
