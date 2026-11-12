@@ -14,7 +14,7 @@ const THEME_TEXT: Record<ThemeChoice, { name: string; description: string }> = {
   light: { name: 'Light', description: 'Always light, best in bright sun.' },
   dark: { name: 'Dark', description: 'Always the soft dark theme.' },
   pink: { name: 'Hot pink', description: 'Just for fun.' },
-  oldfashioned: { name: 'Old fashioned', description: 'Parchment and serif type, like the old printed results sheets.' },
+  oldfashioned: { name: 'Barnesly and Moriartys theme', description: 'Parchment and serif type, like the old printed results sheets.' },
 };
 
 function backPath(state: unknown): string {
