@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { headToHeadDefault, headToHeadWinner } from './headToHead';
+import { headToHeadDefault, headToHeadReason, headToHeadWinner } from './headToHead';
 import type { RaceOutcome, Score, TeamStanding } from './types';
 
 const score = (
@@ -23,13 +23,13 @@ describe('headToHeadWinner', () => {
   it('returns the away team when it won the race between the pair', () => {
     const scores = [score('r1-7', 1, 2, 'loss', 'win')];
 
-    expect(headToHeadWinner(scores, 1, 2)).toEqual({ winnerSlot: 2, loserSlot: 1, raceId: 'r1-7' });
+    expect(headToHeadWinner(scores, 1, 2)).toEqual({ winnerSlot: 2, loserSlot: 1, raceIds: ['r1-7'], wins: 1, losses: 0 });
   });
 
   it('returns the home team when the away team was disqualified', () => {
     const scores = [score('r1-3', 1, 2, 'win', 'dsq')];
 
-    expect(headToHeadWinner(scores, 1, 2)).toEqual({ winnerSlot: 1, loserSlot: 2, raceId: 'r1-3' });
+    expect(headToHeadWinner(scores, 1, 2)).toEqual({ winnerSlot: 1, loserSlot: 2, raceIds: ['r1-3'], wins: 1, losses: 0 });
   });
 
   it('gives the same winner whichever order the slots are passed in', () => {
@@ -61,6 +61,36 @@ describe('headToHeadWinner', () => {
 
     expect(headToHeadWinner(scores, 1, 2)).toBeNull();
   });
+
+  it('returns null when the pair split their two races', () => {
+    const scores = [score('r1-1', 1, 2, 'win', 'loss'), score('r1-7', 2, 1, 'win', 'loss')];
+
+    expect(headToHeadWinner(scores, 1, 2)).toBeNull();
+  });
+
+  it('returns the team that won both races between the pair', () => {
+    const scores = [score('r1-1', 1, 2, 'loss', 'win'), score('r1-7', 2, 1, 'win', 'loss')];
+
+    expect(headToHeadWinner(scores, 1, 2)).toEqual({
+      winnerSlot: 2,
+      loserSlot: 1,
+      raceIds: ['r1-1', 'r1-7'],
+      wins: 2,
+      losses: 0,
+    });
+  });
+
+  it('counts only the decisive race when the other meeting was not run', () => {
+    const scores = [score('r1-1', 1, 2, 'not-run', 'not-run'), score('r1-7', 2, 1, 'loss', 'win')];
+
+    expect(headToHeadWinner(scores, 1, 2)).toEqual({
+      winnerSlot: 1,
+      loserSlot: 2,
+      raceIds: ['r1-7'],
+      wins: 1,
+      losses: 0,
+    });
+  });
 });
 
 describe('headToHeadDefault', () => {
@@ -79,7 +109,7 @@ describe('headToHeadDefault', () => {
 
     const result = headToHeadDefault(standings, scores);
 
-    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNum: 7 }]);
+    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNums: [7], wins: 1, losses: 0 }]);
   });
 
   it('keeps the order and still returns the note when the winner is already first', () => {
@@ -89,7 +119,7 @@ describe('headToHeadDefault', () => {
     const result = headToHeadDefault(standings, scores);
 
     expect(result.order.map((s) => s.slot)).toEqual([1, 2]);
-    expect(result.notes).toEqual([{ winnerSlot: 1, loserSlot: 2, raceNum: 4 }]);
+    expect(result.notes).toEqual([{ winnerSlot: 1, loserSlot: 2, raceNums: [4], wins: 1, losses: 0 }]);
   });
 
   it('leaves a three-team points level unchanged with no note', () => {
@@ -114,8 +144,8 @@ describe('headToHeadDefault', () => {
 
     expect(result.order.map((s) => s.slot)).toEqual([2, 1, 4, 3]);
     expect(result.notes).toEqual([
-      { winnerSlot: 2, loserSlot: 1, raceNum: 2 },
-      { winnerSlot: 4, loserSlot: 3, raceNum: 5 },
+      { winnerSlot: 2, loserSlot: 1, raceNums: [2], wins: 1, losses: 0 },
+      { winnerSlot: 4, loserSlot: 3, raceNums: [5], wins: 1, losses: 0 },
     ]);
   });
 
@@ -145,7 +175,7 @@ describe('headToHeadDefault', () => {
 
     const result = headToHeadDefault(standings, scores, (id) => (id === 'r2-I-2' ? 5 : undefined));
 
-    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNum: 5 }]);
+    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNums: [5], wins: 1, losses: 0 }]);
   });
 
   it('falls back to the last segment of the race id when the caller has no number', () => {
@@ -154,6 +184,48 @@ describe('headToHeadDefault', () => {
 
     const result = headToHeadDefault(standings, scores, () => undefined);
 
-    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNum: 2 }]);
+    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNums: [2], wins: 1, losses: 0 }]);
+  });
+});
+
+describe('headToHeadDefault with repeat meetings', () => {
+  it('keeps the order with no note when the pair split their races', () => {
+    const standings = [standing(1, 4), standing(2, 4)];
+    const scores = [score('r1-1', 2, 1, 'win', 'loss'), score('r1-7', 1, 2, 'win', 'loss')];
+
+    const result = headToHeadDefault(standings, scores);
+
+    expect(result.order.map((s) => s.slot)).toEqual([1, 2]);
+    expect(result.notes).toEqual([]);
+  });
+
+  it('lists every race the winner took when they won both meetings', () => {
+    const standings = [standing(1, 4), standing(2, 4)];
+    const scores = [score('r1-1', 1, 2, 'loss', 'win'), score('r1-7', 2, 1, 'win', 'loss')];
+
+    const result = headToHeadDefault(standings, scores);
+
+    expect(result.order.map((s) => s.slot)).toEqual([2, 1]);
+    expect(result.notes).toEqual([{ winnerSlot: 2, loserSlot: 1, raceNums: [1, 7], wins: 2, losses: 0 }]);
+  });
+});
+
+describe('headToHeadReason', () => {
+  it('names the single race the winner took', () => {
+    const note = { winnerSlot: 2, loserSlot: 1, raceNums: [7], wins: 1, losses: 0 };
+
+    expect(headToHeadReason(note)).toBe('won their head-to-head race (Race 7)');
+  });
+
+  it('says both races when the winner took both meetings', () => {
+    const note = { winnerSlot: 2, loserSlot: 1, raceNums: [1, 7], wins: 2, losses: 0 };
+
+    expect(headToHeadReason(note)).toBe('won both head-to-head races (Races 1 and 7)');
+  });
+
+  it('gives the record when the winner took more races but not all', () => {
+    const note = { winnerSlot: 2, loserSlot: 1, raceNums: [1, 5, 9], wins: 2, losses: 1 };
+
+    expect(headToHeadReason(note)).toBe('won their head-to-head races 2-1 (Races 1, 5 and 9)');
   });
 });
