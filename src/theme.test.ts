@@ -334,6 +334,21 @@ describe('old fashioned palette', () => {
     expect(css).toContain('@import "@fontsource/rye/latin-400.css";');
   });
 
+  it.each(['latin-400.css', 'latin-700.css', 'latin-400-italic.css'])(
+    'loads the Old Standard TT %s text face',
+    (file) => {
+      expect(css).toContain(`@import "@fontsource/old-standard-tt/${file}";`);
+    }
+  );
+
+  it('sets body text in Old Standard TT, a Victorian newspaper face', () => {
+    expect(oldBlock).toMatch(/font-family: 'Old Standard TT', 'Iowan Old Style'/);
+  });
+
+  it('puts form legends in small caps with the other headings', () => {
+    expect(css).toContain(":root[data-theme='oldfashioned'] :is(h2, h3, legend, th, [role='tab']) {");
+  });
+
   it('sets page titles in Rye, scoped to the theme', () => {
     const titles = blockAfter(css, ":root[data-theme='oldfashioned'] h1 {");
     expect(titles).toContain("'Rye'");
