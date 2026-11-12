@@ -4,8 +4,11 @@ import type { Score, TeamStanding } from './types';
 export interface HeadToHeadNote {
   winnerSlot: number;
   loserSlot: number;
-  /** The race number officials see on the race list. */
-  raceNum: number;
+  /** Race numbers officials see, for every meeting between the pair that had a winner. */
+  raceNums: number[];
+  /** The winner's record against the loser across those races. */
+  wins: number;
+  losses: number;
 }
 
 export interface HeadToHeadDefault {
@@ -13,15 +16,24 @@ export interface HeadToHeadDefault {
   notes: HeadToHeadNote[];
 }
 
+export interface HeadToHeadResult {
+  winnerSlot: number;
+  loserSlot: number;
+  /** Every race between the pair with exactly one winner, in score order. */
+  raceIds: string[];
+  wins: number;
+  losses: number;
+}
+
 /**
- * The winner of the race between slots a and b, or null when no race between
- * them has exactly one winner (unscored, not run, both disqualified).
+ * The team that won more of the races between slots a and b. Pairs meet more
+ * than once in some formats, so a split counts as no winner. Races without
+ * exactly one winner (unscored, not run, both disqualified) are ignored.
  */
-export function headToHeadWinner(
-  scores: Score[],
-  a: number,
-  b: number
-): { winnerSlot: number; loserSlot: number; raceId: string } | null {
+export function headToHeadWinner(scores: Score[], a: number, b: number): HeadToHeadResult | null {
+  let aWins = 0;
+  let bWins = 0;
+  const raceIds: string[] = [];
   for (const s of scores) {
     const isPair =
       (s.homeSlot === a && s.awaySlot === b) || (s.homeSlot === b && s.awaySlot === a);
@@ -29,11 +41,32 @@ export function headToHeadWinner(
     const homeWon = s.homeOutcome === 'win';
     const awayWon = s.awayOutcome === 'win';
     if (homeWon === awayWon) continue;
-    return homeWon
-      ? { winnerSlot: s.homeSlot, loserSlot: s.awaySlot, raceId: s.raceId }
-      : { winnerSlot: s.awaySlot, loserSlot: s.homeSlot, raceId: s.raceId };
+    const winner = homeWon ? s.homeSlot : s.awaySlot;
+    if (winner === a) aWins++;
+    else bWins++;
+    raceIds.push(s.raceId);
   }
-  return null;
+  if (aWins === bWins) return null;
+  return aWins > bWins
+    ? { winnerSlot: a, loserSlot: b, raceIds, wins: aWins, losses: bWins }
+    : { winnerSlot: b, loserSlot: a, raceIds, wins: bWins, losses: aWins };
+}
+
+/** "Race 7", "Races 1 and 7", "Races 1, 5 and 9". */
+function raceList(raceNums: number[]): string {
+  if (raceNums.length === 1) return `Race ${raceNums[0]}`;
+  return `Races ${raceNums.slice(0, -1).join(', ')} and ${raceNums[raceNums.length - 1]}`;
+}
+
+/** Why the winner of a head-to-head note was placed first, for display. */
+export function headToHeadReason(note: HeadToHeadNote): string {
+  const races = raceList(note.raceNums);
+  if (note.raceNums.length === 1) return `won their head-to-head race (${races})`;
+  if (note.losses === 0) {
+    const all = note.wins === 2 ? 'both' : `all ${note.wins}`;
+    return `won ${all} head-to-head races (${races})`;
+  }
+  return `won their head-to-head races ${note.wins}-${note.losses} (${races})`;
 }
 
 /** Fallback race number: the last `-` segment of the race id. */
@@ -68,7 +101,9 @@ export function headToHeadDefault(
         notes.push({
           winnerSlot: result.winnerSlot,
           loserSlot: result.loserSlot,
-          raceNum: raceNumOf?.(result.raceId) ?? raceNumFromId(result.raceId),
+          raceNums: result.raceIds.map((id) => raceNumOf?.(id) ?? raceNumFromId(id)),
+          wins: result.wins,
+          losses: result.losses,
         });
       }
     }

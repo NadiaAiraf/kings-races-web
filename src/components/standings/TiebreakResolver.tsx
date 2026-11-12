@@ -3,7 +3,7 @@ import { useEventStore } from '../../store/eventStore';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
 import { useCanEdit } from '../../auth/editAccess';
 import { isValidManualOrder, orderStandings } from '../../hooks/groupOrder';
-import type { HeadToHeadDefault } from '../../domain/headToHead';
+import { headToHeadReason, type HeadToHeadDefault } from '../../domain/headToHead';
 
 interface TiebreakResolverProps {
   discipline: DisciplineKey;
@@ -93,7 +93,7 @@ export function TiebreakResolver({
     const lowerSlot = order[Math.max(winnerIdx, loserIdx)].slot;
     notesAfter.set(
       lowerSlot,
-      `${name(note.winnerSlot)} placed above ${name(note.loserSlot)}: won their head-to-head race (Race ${note.raceNum})`
+      `${name(note.winnerSlot)} placed above ${name(note.loserSlot)}: ${headToHeadReason(note)}`
     );
   }
 
