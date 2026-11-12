@@ -1071,7 +1071,7 @@ describe('OptionsPage', () => {
     return screen.getByRole('radio', { name }) as HTMLInputElement;
   }
 
-  it('offers System, Light, Dark, Hot pink and Old fashioned with System checked by default', () => {
+  it('offers System, Light, Dark, Hot pink and Barnesly and Moriartys theme with System checked by default', () => {
     renderAt('/options', SIGNED_OUT);
 
     const group = screen.getByRole('group', { name: 'Appearance' });
@@ -1083,7 +1083,7 @@ describe('OptionsPage', () => {
     expect(radio(/Light/).checked).toBe(false);
     expect(radio(/Dark/).checked).toBe(false);
     expect(radio(/Hot pink/).checked).toBe(false);
-    expect(radio(/Old fashioned/).checked).toBe(false);
+    expect(radio(/Barnesly and Moriartys theme/).checked).toBe(false);
   });
 
   it('checks the stored choice', () => {
@@ -1104,14 +1104,14 @@ describe('OptionsPage', () => {
     expect(radio(/Dark/).checked).toBe(true);
   });
 
-  it('applies and stores Old fashioned when chosen', () => {
+  it('applies and stores Barnesly and Moriartys theme when chosen', () => {
     renderAt('/options', SIGNED_OUT);
 
-    fireEvent.click(radio(/Old fashioned/));
+    fireEvent.click(radio(/Barnesly and Moriartys theme/));
 
     expect(document.documentElement.getAttribute('data-theme')).toBe('oldfashioned');
     expect(localStorage.getItem('kings-races:theme')).toBe('oldfashioned');
-    expect(radio(/Old fashioned/).checked).toBe(true);
+    expect(radio(/Barnesly and Moriartys theme/).checked).toBe(true);
   });
 
   it('applies Hot pink, then clears the choice for System', () => {
