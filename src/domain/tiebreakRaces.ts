@@ -1,4 +1,4 @@
-import type { Score, TeamStanding } from './types';
+import type { Score, TeamStanding, TournamentStructure } from './types';
 
 /**
  * Tie-break races are optional extra races between teams level on points in
@@ -31,6 +31,28 @@ export interface TiebreakRaceOutcome {
   order: TeamStanding[];
   /** Runs of 2+ teams still level on tie-break wins, in order; empty until complete. */
   stillLevel: number[][];
+}
+
+/**
+ * Every Round 1 race as a meeting; buildTiebreakRaces keeps only those
+ * between tied teams, so other groups' races drop out.
+ */
+export function r1Meetings(structure: TournamentStructure): Meeting[] {
+  return structure.roundOneRaces.map((r) => ({
+    raceId: `r1-${r.raceNum}`,
+    homeSlot: r.homeSlot,
+    awaySlot: r.awaySlot,
+  }));
+}
+
+/** One Round 2 group's races whose teams are known, as meetings. */
+export function r2Meetings(
+  races: Array<{ raceId: string; groupNum: string; homeSlot: number | null; awaySlot: number | null }>,
+  groupNum: string
+): Meeting[] {
+  return races
+    .filter((r) => r.groupNum === groupNum && r.homeSlot !== null && r.awaySlot !== null)
+    .map((r) => ({ raceId: r.raceId, homeSlot: r.homeSlot!, awaySlot: r.awaySlot! }));
 }
 
 /** Score id of the tie-break rerun of `originalRaceId` in a group. */

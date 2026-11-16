@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, type ReactNode } from 'react';
 import { useEventStore } from '../../store/eventStore';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
 import { useCanEdit } from '../../auth/editAccess';
@@ -18,6 +18,10 @@ interface TiebreakResolverProps {
   canChange: boolean;
   /** Suggested order for two-team ties, used when no valid order is saved. */
   headToHead?: HeadToHeadDefault;
+  /** Order suggested by completed tie-break races; wins over headToHead. */
+  tiebreakOrder?: TeamStanding[];
+  /** Extra content inside the box, e.g. the tie-break races panel. */
+  children?: ReactNode;
 }
 
 /**
@@ -34,6 +38,8 @@ export function TiebreakResolver({
   teamNames,
   canChange,
   headToHead,
+  tiebreakOrder,
+  children,
 }: TiebreakResolverProps) {
   const canEdit = useCanEdit();
   const isResolved = isValidManualOrder(standings, savedOrder);
@@ -41,17 +47,26 @@ export function TiebreakResolver({
   const [order, setOrder] = useState<TeamStanding[]>(() =>
     isValidManualOrder(standings, savedOrder)
       ? orderStandings(standings, savedOrder)
-      : (headToHead?.order ?? standings)
+      : (tiebreakOrder ?? headToHead?.order ?? standings)
   );
 
   const name = (slot: number) => teamNames.get(slot) ?? `Team ${slot}`;
 
   if (!canEdit) {
-    if (isResolved) return null;
+    if (isResolved) {
+      if (!children) return null;
+      return (
+        <div className="bg-surface border border-slate-200 rounded-sm p-4 mb-2">
+          <h3 className="text-sm font-semibold text-slate-900 mb-2">{label}: order set</h3>
+          {children}
+        </div>
+      );
+    }
     return (
       <div className="bg-amber-50 border border-amber-200 rounded-sm p-4 mb-2">
         <h3 className="text-base font-semibold text-amber-900 mb-1">Tie: {label}</h3>
-        <p className="text-sm text-amber-700 dark:text-amber-400">Waiting for an official to set the finishing order.</p>
+        <p className="text-sm text-amber-700 dark:text-amber-400 mb-2">Waiting for an official to set the finishing order.</p>
+        {children}
       </div>
     );
   }
@@ -77,6 +92,7 @@ export function TiebreakResolver({
         <p className="text-sm text-slate-600">
           {savedOrder.map((slot, i) => `${i + 1}. ${name(slot)}`).join('  ')}
         </p>
+        {children && <div className="mt-3">{children}</div>}
       </div>
     );
   }
@@ -119,6 +135,7 @@ export function TiebreakResolver({
         Teams level on points can be moved. Set the finishing order, then confirm to complete the
         group.
       </p>
+      {children}
       <div className="flex flex-col gap-2">
         {order.map((team, idx) => (
           <Fragment key={team.slot}>

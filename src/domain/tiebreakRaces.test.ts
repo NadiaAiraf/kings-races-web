@@ -4,6 +4,8 @@ import {
   buildTiebreakRaces,
   isTiebreakRaceId,
   multiTeamTiedSlots,
+  r1Meetings,
+  r2Meetings,
   sameSlotSet,
   tiebreakRaceId,
   tiebreakRaceOutcome,
@@ -125,6 +127,31 @@ describe('sameSlotSet', () => {
 
   it('does not match undefined', () => {
     expect(sameSlotSet(undefined, [1, 2, 3])).toBe(false);
+  });
+});
+
+describe('r1Meetings', () => {
+  it('lists every Round 1 race with its r1- id', () => {
+    const structure = getCheatSheet(4);
+    const first = structure.roundOneRaces[0];
+
+    expect(r1Meetings(structure)[0]).toEqual({
+      raceId: `r1-${first.raceNum}`,
+      homeSlot: first.homeSlot,
+      awaySlot: first.awaySlot,
+    });
+  });
+});
+
+describe('r2Meetings', () => {
+  it('keeps only the group\'s races whose teams are known', () => {
+    const races = [
+      { raceId: 'r2-I-1', groupNum: 'I', homeSlot: 1, awaySlot: 2 },
+      { raceId: 'r2-I-2', groupNum: 'I', homeSlot: 3, awaySlot: null },
+      { raceId: 'r2-II-1', groupNum: 'II', homeSlot: 4, awaySlot: 5 },
+    ];
+
+    expect(r2Meetings(races, 'I')).toEqual([{ raceId: 'r2-I-1', homeSlot: 1, awaySlot: 2 }]);
   });
 });
 
