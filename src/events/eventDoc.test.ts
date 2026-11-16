@@ -32,6 +32,7 @@ const discipline = (overrides: Partial<DisciplineState> = {}): DisciplineState =
   manualTiebreaks: {},
   placings: {},
   notes: {},
+  tiebreakRaces: {},
   ...overrides,
 });
 
@@ -61,6 +62,7 @@ describe('parseDiscipline', () => {
       manualTiebreaks: {},
       placings: {},
       notes: {},
+      tiebreakRaces: {},
     });
   });
 
@@ -312,6 +314,69 @@ describe('notes', () => {
     const changes = diffDiscipline(prev, reset);
     expect(changes).toEqual([{ path: [], value: toFirestoreDiscipline(reset) }]);
     expect(changes[0].value).not.toHaveProperty('notes');
+  });
+});
+
+describe('tiebreakRaces', () => {
+  it('omits the tiebreakRaces key when no group has tie-break races', () => {
+    expect(toFirestoreDiscipline(discipline())).not.toHaveProperty('tiebreakRaces');
+  });
+
+  it('writes tiebreakRaces when a group has them', () => {
+    const state = discipline({ tiebreakRaces: { A: [2, 3, 4] } });
+    expect(toFirestoreDiscipline(state).tiebreakRaces).toEqual({ A: [2, 3, 4] });
+  });
+
+  it('round-trips tiebreakRaces through the Firestore shape', () => {
+    const state = discipline({ tiebreakRaces: { A: [2, 3, 4], 'r2-I': [1, 5, 9] } });
+    expect(parseDiscipline(toFirestoreDiscipline(state)).tiebreakRaces).toEqual(state.tiebreakRaces);
+  });
+
+  it('writes no tiebreakRaces key in any discipline of a new event', () => {
+    const doc = buildNewEventDoc({ name: 'R', date: '2026-11-14' }, 'uid-1', () => 'TS');
+    for (const d of Object.values(doc.disciplines)) expect(d).not.toHaveProperty('tiebreakRaces');
+  });
+
+  it('defaults tiebreakRaces for a discipline stored without them', () => {
+    expect(parseDiscipline({ phase: 'complete' }).tiebreakRaces).toEqual({});
+  });
+
+  it('defaults tiebreakRaces when stored as something other than a map', () => {
+    expect(parseDiscipline({ tiebreakRaces: [[1, 2, 3]] }).tiebreakRaces).toEqual({});
+  });
+
+  it('drops entries that are not lists of slot numbers', () => {
+    expect(
+      parseDiscipline({ tiebreakRaces: { A: true, B: [1, 'x'], C: [1, 2, 3] } }).tiebreakRaces
+    ).toEqual({ C: [1, 2, 3] });
+  });
+
+  it('writes a new or changed group as its own field', () => {
+    const prev = discipline({ tiebreakRaces: { A: [1, 2, 3] } });
+    const next = discipline({ tiebreakRaces: { A: [1, 2, 4], B: [5, 6, 7] } });
+    expect(diffDiscipline(prev, next)).toEqual([
+      { path: ['tiebreakRaces', 'A'], value: [1, 2, 4] },
+      { path: ['tiebreakRaces', 'B'], value: [5, 6, 7] },
+    ]);
+  });
+
+  it('deletes a removed group and its tie-break results', () => {
+    const prev = discipline({
+      tiebreakRaces: { A: [1, 2, 3] },
+      scores: [score('r1-1'), score('tb-A-r1-1')],
+    });
+    const next = discipline({ scores: [prev.scores[0]] });
+    expect(diffDiscipline(prev, next)).toEqual([
+      { path: ['scores', 'tb-A-r1-1'], value: undefined },
+      { path: ['tiebreakRaces', 'A'], value: undefined },
+    ]);
+  });
+
+  it('replaces the whole discipline when one with only tie-break races is reset', () => {
+    const prev = { ...createInitialDisciplines().mixed, tiebreakRaces: { A: [1, 2, 3] } };
+    const reset = createInitialDisciplines().mixed;
+    const changes = diffDiscipline(prev, reset);
+    expect(changes).toEqual([{ path: [], value: toFirestoreDiscipline(reset) }]);
   });
 });
 

@@ -330,6 +330,65 @@ describe('events: field-level write shapes the app sends', () => {
     );
   });
 
+  it('can write a single tie-break races field', async () => {
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'tiebreakRaces', 'A'),
+        [2, 3, 4],
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('can delete a tie-break races field', async () => {
+    await testEnv.withSecurityRulesDisabled((ctx) =>
+      ctx.firestore().doc(`events/${EVENT_ID}`).update({ 'disciplines.mixed.tiebreakRaces': { A: [2, 3, 4] } })
+    );
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'tiebreakRaces', 'A'),
+        FieldValue.delete(),
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('can write a tie-break race score', async () => {
+    await assertSucceeds(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'scores', 'tb-A-r1-3'),
+        { raceId: 'tb-A-r1-3', homeSlot: 3, awaySlot: 2, homeOutcome: 'win', awayOutcome: 'loss' },
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store tie-break races as a list', async () => {
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'tiebreakRaces'),
+        [[2, 3, 4]],
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
+  it('cannot store more than 32 tie-break race groups', async () => {
+    const tiebreakRaces = Object.fromEntries(Array.from({ length: 33 }, (_, i) => [`g${i}`, [1, 2, 3]]));
+    await assertFails(
+      eventDoc().update(
+        new FieldPath('disciplines', 'mixed', 'tiebreakRaces'),
+        tiebreakRaces,
+        'updatedAt',
+        serverTimestamp()
+      )
+    );
+  });
+
   it('accepts a round stored before placings existed', async () => {
     await assertSucceeds(
       eventDoc().update({
