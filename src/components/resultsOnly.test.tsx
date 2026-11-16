@@ -21,6 +21,7 @@ function enterResults() {
         manualTiebreaks: {},
         placings: Object.fromEntries(teams.map((t, i) => [String(t.slot), i + 1])),
         notes: {},
+        tiebreakRaces: {},
       },
     },
   });

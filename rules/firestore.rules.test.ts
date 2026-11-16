@@ -370,7 +370,7 @@ describe('events: field-level write shapes the app sends', () => {
     await assertFails(
       eventDoc().update(
         new FieldPath('disciplines', 'mixed', 'tiebreakRaces'),
-        [[2, 3, 4]],
+        [2, 3, 4],
         'updatedAt',
         serverTimestamp()
       )

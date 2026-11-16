@@ -25,6 +25,7 @@ function ladiesEntered(): DisciplineState {
     manualTiebreaks: {},
     placings: Object.fromEntries(teams.map((t, i) => [String(t.slot), places[i][1]])),
     notes: {},
+    tiebreakRaces: {},
   };
 }
 

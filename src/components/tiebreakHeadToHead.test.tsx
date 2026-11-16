@@ -56,6 +56,7 @@ function fourTeamRound(winners: Record<number, string>): DisciplineState {
     manualTiebreaks: {},
     placings: {},
     notes: {},
+    tiebreakRaces: {},
   };
 }
 

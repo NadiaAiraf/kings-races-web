@@ -73,6 +73,8 @@ export interface FirestoreDiscipline {
   placings: Record<string, number>;
   /** Optional: only written when a race has a note, so event create and reset stay valid under rules without notes. */
   notes?: Record<string, string>;
+  /** Optional: only written when a group has tie-break races, so event create and reset stay valid under rules without it. */
+  tiebreakRaces?: Record<string, number[]>;
 }
 
 /**
@@ -132,6 +134,7 @@ export function toFirestoreDiscipline(state: DisciplineState): FirestoreDiscipli
     manualTiebreaks: state.manualTiebreaks,
     placings: state.placings,
     ...(Object.keys(state.notes).length > 0 && { notes: state.notes }),
+    ...(Object.keys(state.tiebreakRaces).length > 0 && { tiebreakRaces: state.tiebreakRaces }),
   };
 }
 
@@ -174,6 +177,12 @@ export function parseDiscipline(raw: unknown): DisciplineState {
       )
     : {};
 
+  const tiebreakRaces = isRecord(raw.tiebreakRaces)
+    ? Object.fromEntries(
+        Object.entries(raw.tiebreakRaces).filter(([, slots]) => isSlotList(slots))
+      )
+    : {};
+
   return {
     teams,
     teamCount: teams.length,
@@ -182,6 +191,7 @@ export function parseDiscipline(raw: unknown): DisciplineState {
     manualTiebreaks: manualTiebreaks as Record<string, number[]>,
     placings: placings as Record<string, number>,
     notes,
+    tiebreakRaces: tiebreakRaces as Record<string, number[]>,
   };
 }
 
@@ -268,6 +278,7 @@ const isInitialDiscipline = (state: DisciplineState) =>
   Object.keys(state.manualTiebreaks).length === 0 &&
   Object.keys(state.placings).length === 0 &&
   Object.keys(state.notes).length === 0 &&
+  Object.keys(state.tiebreakRaces).length === 0 &&
   state.phase === 'setup';
 
 /**
@@ -329,6 +340,17 @@ export function diffDiscipline(prev: DisciplineState, next: DisciplineState): Di
   }
   for (const raceId of Object.keys(prev.notes)) {
     if (!(raceId in next.notes)) changes.push({ path: ['notes', raceId], value: undefined });
+  }
+
+  for (const [groupKey, slots] of Object.entries(next.tiebreakRaces)) {
+    if (!sameJson(prev.tiebreakRaces[groupKey], slots)) {
+      changes.push({ path: ['tiebreakRaces', groupKey], value: slots });
+    }
+  }
+  for (const groupKey of Object.keys(prev.tiebreakRaces)) {
+    if (!(groupKey in next.tiebreakRaces)) {
+      changes.push({ path: ['tiebreakRaces', groupKey], value: undefined });
+    }
   }
 
   return changes;

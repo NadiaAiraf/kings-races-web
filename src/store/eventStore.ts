@@ -3,6 +3,7 @@ import type { DisciplineKey, DisciplineState, Team, Score } from '../domain/type
 import type { EventStoreState, EventStoreActions } from './types';
 import { createInitialDisciplineState, createInitialDisciplines } from './initialState';
 import { MAX_NOTE_LENGTH } from '../events/eventDoc';
+import { tiebreakRacePrefix } from '../domain/tiebreakRaces';
 
 // The store holds the currently open event. It is hydrated from Firestore by
 // startEventSync (src/events/eventSync.ts) and is deliberately not persisted
@@ -126,6 +127,24 @@ export const useEventStore = create<EventStoreState & EventStoreActions>()(
           disciplines: {
             ...state.disciplines,
             [discipline]: { ...state.disciplines[discipline], notes },
+          },
+        };
+      }),
+
+    setTiebreakRaces: (discipline: DisciplineKey, groupKey: string, slots: number[] | null) =>
+      set((state) => {
+        const current = state.disciplines[discipline];
+        const tiebreakRaces = { ...current.tiebreakRaces };
+        if (slots === null) delete tiebreakRaces[groupKey];
+        else tiebreakRaces[groupKey] = slots;
+        // One update so switching on (over stale results) or off clears the
+        // group's tie-break results in the same sync diff.
+        const prefix = tiebreakRacePrefix(groupKey);
+        const scores = current.scores.filter((s) => !s.raceId.startsWith(prefix));
+        return {
+          disciplines: {
+            ...state.disciplines,
+            [discipline]: { ...current, tiebreakRaces, scores },
           },
         };
       }),

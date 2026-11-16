@@ -50,16 +50,20 @@ service cloud.firestore {
     // keyed by raceId and bounded in count; each note's 200 character cap is
     // enforced by the app, as rules cannot iterate map values. A discipline
     // has well under 200 races (at most about 45 R1 + 46 R2 + finals).
+    // tiebreakRaces is optional like notes, keyed by tiebreak group key: at
+    // most about 8 Round 1 plus 8 Round 2 groups. Tie-break results live in
+    // scores under tb- ids, which need no rule of their own.
     function isValidDiscipline(d) {
       return d is map
-        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings', 'notes'])
+        && d.keys().hasOnly(['teams', 'phase', 'scores', 'manualTiebreaks', 'placings', 'notes', 'tiebreakRaces'])
         && d.teams is list
         && d.teams.size() <= 31
         && d.phase in ['setup', 'group-stage', 'round-two', 'finals', 'complete']
         && d.scores is map
         && d.manualTiebreaks is map
         && (!('placings' in d) || d.placings is map)
-        && (!('notes' in d) || (d.notes is map && d.notes.size() <= 200));
+        && (!('notes' in d) || (d.notes is map && d.notes.size() <= 200))
+        && (!('tiebreakRaces' in d) || (d.tiebreakRaces is map && d.tiebreakRaces.size() <= 32));
     }
 
     function hasValidFields(data) {
