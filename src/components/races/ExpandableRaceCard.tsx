@@ -16,7 +16,7 @@ function OutcomeBadge({ outcome }: { outcome: string }) {
   const badge = OUTCOME_BADGE[outcome];
   if (!badge) return null;
   return (
-    <span className={clsx('text-xs px-2 py-0.5 rounded font-medium', badge.className)}>
+    <span className={clsx('shrink-0 text-xs px-2 py-0.5 rounded font-medium', badge.className)}>
       {badge.label}
     </span>
   );
@@ -122,10 +122,10 @@ export function ExpandableRaceCard({
   return (
     <div
       className={clsx(
-        'bg-surface border border-slate-200 rounded-sm p-4 mb-2',
+        'bg-surface border border-slate-200 rounded-sm px-3 py-2.5 mb-1.5',
         'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         disabled && 'opacity-40 pointer-events-none',
-        discipline && ['border-l-4', DISCIPLINE_ACCENT[discipline].stripe],
+        discipline && ['border-l-[3px]', DISCIPLINE_ACCENT[discipline].stripe],
       )}
       style={{ scrollMarginTop: '92px' }}
       aria-expanded={canEdit ? isExpanded : undefined}
@@ -156,7 +156,7 @@ export function ExpandableRaceCard({
         {canClear && (
           <button
             type="button"
-            className="ml-auto -my-3 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 dark:text-red-400 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
+            className="ml-auto -my-2.5 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 dark:text-red-400 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
             onClick={(e) => {
               e.stopPropagation();
               onClear(raceId);
@@ -174,9 +174,9 @@ export function ExpandableRaceCard({
 
       {/* Team row - collapsed state */}
       {!isExpanded && (
-        <div className="flex items-center gap-2">
-          <div className="flex-1 text-base font-semibold text-slate-900 flex items-center gap-2">
-            <span>{homeTeamName}</span>
+        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+          <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900">
+            <span className="min-w-0 break-words">{homeTeamName}</span>
             {score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
           </div>
           {wasNotRun ? (
@@ -186,9 +186,9 @@ export function ExpandableRaceCard({
           ) : (
             <span className="text-slate-500">vs</span>
           )}
-          <div className="flex-1 text-base font-semibold text-slate-900 text-right flex items-center justify-end gap-2">
+          <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900 text-right">
             {score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
-            <span>{awayTeamName}</span>
+            <span className="min-w-0 break-words ml-auto">{awayTeamName}</span>
           </div>
         </div>
       )}
