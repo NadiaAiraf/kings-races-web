@@ -264,7 +264,9 @@ export function ExpandableRaceCard({
       )}
       {/* While an official edits, the textarea already shows the note. */}
       {note && !isEditingNote && (
-        <p className="text-xs text-slate-500 mt-2 break-words whitespace-pre-wrap">{note}</p>
+        <p className="text-xs text-slate-600 text-center bg-slate-100 rounded px-3 py-1.5 mt-2 break-words whitespace-pre-wrap">
+          {note}
+        </p>
       )}
     </div>
   );
