@@ -219,6 +219,64 @@ describe('ExpandableRaceCard clear result', () => {
   });
 });
 
+describe('ExpandableRaceCard collapsed team row', () => {
+  afterEach(() => cleanup());
+
+  const homeWin: Score = {
+    raceId: 'fin-1',
+    homeSlot: 1,
+    awaySlot: 2,
+    homeOutcome: 'win',
+    awayOutcome: 'loss',
+  };
+
+  it("lays the row out as a three-column grid with 'vs' in the middle column", () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    const row = screen.getByText('vs').parentElement!;
+    expect(row.classList.contains('grid')).toBe(true);
+    expect(row.classList.contains('grid-cols-[1fr_auto_1fr]')).toBe(true);
+    expect(row.children.length).toBe(3);
+    expect(row.children[1].textContent).toBe('vs');
+  });
+
+  it("puts the home name on the outer edge and its badge next to 'vs'", () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    const homeSide = screen.getByText('vs').parentElement!.children[0];
+    expect(homeSide.firstElementChild!.textContent).toBe('Kings');
+    expect(homeSide.lastElementChild!.textContent).toBe('W');
+    expect(homeSide.classList.contains('justify-between')).toBe(true);
+  });
+
+  it("mirrors the away side with its badge next to 'vs' and the name on the outer edge", () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    const awaySide = screen.getByText('vs').parentElement!.children[2];
+    expect(awaySide.firstElementChild!.textContent).toBe('L');
+    expect(awaySide.lastElementChild!.textContent).toBe('Imperial');
+  });
+
+  it('wraps a long team name inside its own column', () => {
+    renderCard({ isExpanded: false, score: homeWin, homeTeamName: 'Southampton 1' }, false);
+
+    const name = screen.getByText('Southampton 1');
+    expect(name.classList.contains('min-w-0')).toBe(true);
+    expect(name.classList.contains('break-words')).toBe(true);
+    expect(screen.getByText('W').classList.contains('shrink-0')).toBe(true);
+  });
+
+  it("keeps the 'Not run' chip in the middle column", () => {
+    renderCard({ isExpanded: false, score: notRun }, false);
+
+    const row = screen.getByText('Not run').parentElement!;
+    expect(row.classList.contains('grid')).toBe(true);
+    expect(row.children[1].textContent).toBe('Not run');
+    expect(screen.queryByText('W')).toBeNull();
+    expect(screen.queryByText('L')).toBeNull();
+  });
+});
+
 describe('ExpandableRaceCard discipline accent', () => {
   afterEach(() => cleanup());
 
