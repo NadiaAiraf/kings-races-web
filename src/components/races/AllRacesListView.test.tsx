@@ -592,3 +592,99 @@ describe('All races list', () => {
     });
   });
 });
+
+describe('print race list', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+    localStorage.clear();
+    useEventStore.getState().resetEvent();
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  const printSheet = () => document.querySelector<HTMLElement>('[data-testid="print-race-sheet"]');
+
+  const printKeys = () =>
+    Array.from(printSheet()!.querySelectorAll('[data-print-key]')).map((el) => el.getAttribute('data-print-key'));
+
+  const stubPrint = () => vi.spyOn(window, 'print').mockImplementation(() => {});
+
+  it('offers viewers a Round 1 print button', () => {
+    setDisciplines({});
+
+    renderList(false);
+
+    expect(screen.getByRole('button', { name: 'Print Round 1 race list' })).toBeTruthy();
+  });
+
+  it('has no Round 2 print button while every discipline is in Round 1', () => {
+    setDisciplines({});
+
+    renderList();
+
+    expect(screen.queryByRole('button', { name: 'Print Round 2 race list' })).toBeNull();
+  });
+
+  it('offers a Round 2 print button once a discipline has Round 2 races', () => {
+    setDisciplines({ mixed: roundOneWonByLowerSlot(8, { phase: 'round-two' }) });
+
+    renderList();
+
+    expect(screen.getByRole('button', { name: 'Print Round 2 race list' })).toBeTruthy();
+  });
+
+  it('opens the print dialog with a Round 1 sheet titled with the event name', () => {
+    const print = stubPrint();
+    setDisciplines({});
+    renderList();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(print).toHaveBeenCalledTimes(1);
+    const heading = within(printSheet()!).getByRole('heading', { level: 1 });
+    expect(heading.textContent).toBe('Test - Round 1');
+  });
+
+  it('prints Round 1 in the on-screen Northern order', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r1-'));
+  });
+
+  it('prints Round 1 in the on-screen Standard order', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r1-'));
+  });
+
+  it('prints Round 2 races only', () => {
+    stubPrint();
+    setDisciplines({ mixed: roundOneWonByLowerSlot(8, { phase: 'round-two' }) });
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 2 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r2-'));
+  });
+
+  it('puts a blank row only where the discipline changes', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printSheet()!.querySelectorAll('[data-print-gap]')).toHaveLength(2);
+  });
+});
