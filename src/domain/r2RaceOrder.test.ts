@@ -43,3 +43,18 @@ describe('r2RunningOrder', () => {
     expect(runs.map((r) => r.raceNum)).toEqual(twoTeamGroup.races.map((r) => r.raceNum));
   });
 });
+
+describe('R2_RACE_ORDER group integrity', () => {
+  for (const [n, order] of Object.entries(R2_RACE_ORDER)) {
+    it(`${n} teams: every pair falls within one Round 2 group`, () => {
+      const groups = getCheatSheet(Number(n)).roundTwoGroups ?? [];
+      for (const [home, away] of order) {
+        const inOneGroup = groups.some((g) => {
+          const letters = g.seedingEntries.map((e) => e.letter);
+          return letters.includes(home) && letters.includes(away);
+        });
+        expect(inOneGroup, `${home} v ${away}`).toBe(true);
+      }
+    });
+  }
+});

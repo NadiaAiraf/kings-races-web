@@ -84,3 +84,32 @@ describe('cheat sheet structural integrity', () => {
     });
   }
 });
+
+describe('round 2 group integrity', () => {
+  for (let n = 4; n <= 31; n++) {
+    const groups = getCheatSheet(n).roundTwoGroups ?? [];
+    for (const group of groups) {
+      const letters = new Set(group.seedingEntries.map((e) => e.letter));
+
+      it(`${n} teams group ${group.groupNum}: races only use the group's own letters`, () => {
+        for (const race of group.races) {
+          expect(letters.has(race.homeLetter), `${race.homeLetter} v ${race.awayLetter}`).toBe(true);
+          expect(letters.has(race.awayLetter), `${race.homeLetter} v ${race.awayLetter}`).toBe(true);
+        }
+      });
+
+      if (letters.size >= 3) {
+        it(`${n} teams group ${group.groupNum}: plays every pair exactly once`, () => {
+          const pairKey = (a: string, b: string) => [a, b].sort().join('|');
+          const played = group.races.map((r) => pairKey(r.homeLetter, r.awayLetter)).sort();
+          const sorted = [...letters];
+          const expected: string[] = [];
+          for (let i = 0; i < sorted.length; i++) {
+            for (let j = i + 1; j < sorted.length; j++) expected.push(pairKey(sorted[i], sorted[j]));
+          }
+          expect(played).toEqual(expected.sort());
+        });
+      }
+    }
+  }
+});
