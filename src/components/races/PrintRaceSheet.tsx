@@ -55,25 +55,51 @@ export function PrintRaceSheet({ roundLabel, rows }: PrintRaceSheetProps) {
             <td colSpan={5} className="print-page-foot" />
           </tr>
         </tfoot>
-        <tbody>
-          {rows.map(({ key, row }) =>
-            row.kind === 'gap' ? (
-              <tr key={key} data-print-gap aria-hidden="true">
-                <td colSpan={5}>&nbsp;</td>
-              </tr>
-            ) : (
-              <tr key={key} data-print-key={key}>
-                <td className="print-box print-order">{row.order}</td>
-                <td className="print-box">{printDisciplineLetter(row.discipline)}</td>
-                <td className="print-team">{row.homeTeamName}</td>
-                <td className="print-box">V</td>
-                <td className="print-team print-team-away">{row.awayTeamName}</td>
-              </tr>
-            ),
-          )}
-        </tbody>
+        {sections(rows).map((section) => (
+          <tbody key={section.rows[0].key} className={section.keepTogether ? 'print-keep-together' : undefined}>
+            {section.rows.map(renderRow)}
+          </tbody>
+        ))}
       </table>
     </div>,
     document.body,
   );
+}
+
+function renderRow({ key, row }: PrintSheetRow) {
+  return row.kind === 'gap' ? (
+    <tr key={key} data-print-gap aria-hidden="true">
+      <td colSpan={5}>&nbsp;</td>
+    </tr>
+  ) : (
+    <tr key={key} data-print-key={key}>
+      <td className="print-box print-order">{row.order}</td>
+      <td className="print-box">{printDisciplineLetter(row.discipline)}</td>
+      <td className="print-team">{row.homeTeamName}</td>
+      <td className="print-box">V</td>
+      <td className="print-team print-team-away">{row.awayTeamName}</td>
+    </tr>
+  );
+}
+
+/**
+ * Table sections for the rows. Each blank row shares a section with the race
+ * before it, and that section never splits across pages, so a page cannot
+ * start with a blank row (which also printed a stray border under the title).
+ */
+function sections(rows: readonly PrintSheetRow[]): { rows: PrintSheetRow[]; keepTogether: boolean }[] {
+  const result: { rows: PrintSheetRow[]; keepTogether: boolean }[] = [];
+  let current: PrintSheetRow[] = [];
+  for (const row of rows) {
+    if (row.row.kind === 'gap') {
+      const before = current.pop();
+      if (current.length > 0) result.push({ rows: current, keepTogether: false });
+      result.push({ rows: before ? [before, row] : [row], keepTogether: true });
+      current = [];
+    } else {
+      current.push(row);
+    }
+  }
+  if (current.length > 0) result.push({ rows: current, keepTogether: false });
+  return result;
 }

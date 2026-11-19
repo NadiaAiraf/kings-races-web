@@ -366,7 +366,8 @@
     overflow-wrap: anywhere;
   }
 
-  .print-race-sheet tr {
+  .print-race-sheet tr,
+  .print-race-sheet .print-keep-together {
     break-inside: avoid;
   }
 
