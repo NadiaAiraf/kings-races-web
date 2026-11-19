@@ -358,7 +358,8 @@
   }
 
   .print-race-sheet tbody td {
-    height: 18.75pt;
+    height: 15pt; /* 80% of the cheat sheet row */
+    font-size: 9.6pt;
     padding: 0 4pt;
     text-align: center;
     vertical-align: middle;
@@ -375,7 +376,7 @@
 
   .print-race-sheet .print-order {
     font-family: Inconsolata, Menlo, Consolas, monospace;
-    font-size: 11pt;
+    font-size: 8.8pt;
   }
 
   .print-race-sheet .print-team {
