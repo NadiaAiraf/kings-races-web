@@ -69,15 +69,15 @@ describe('a round stopped early', () => {
     });
   });
 
-  describe('Stds tab', () => {
+  describe('Standings tab', () => {
     it('shows the final places with a stopped-early note', () => {
-      asOfficial(<StandingsView discipline="mixed" asTab />);
+      asOfficial(<StandingsView discipline="mixed" />);
       expect(screen.getByText('Final Results: Mixed')).toBeTruthy();
       expect(screen.getByText('Stopped early: places entered by officials.')).toBeTruthy();
     });
 
     it('still shows the group standings that were raced', () => {
-      asOfficial(<StandingsView discipline="mixed" asTab />);
+      asOfficial(<StandingsView discipline="mixed" />);
       expect(screen.getByText('Round 1 Standings')).toBeTruthy();
     });
 
@@ -87,14 +87,14 @@ describe('a round stopped early', () => {
       delete mixed.placings[missing.slot];
       useMixed(mixed);
 
-      asOfficial(<StandingsView discipline="mixed" asTab />);
+      asOfficial(<StandingsView discipline="mixed" />);
 
       expect(screen.getByLabelText(`Place for ${missing.name}`)).toBeTruthy();
     });
 
     it('does not show Round 2 groups for a round stopped during Round 1', () => {
       useMixed(stoppedEarlyDiscipline(19, 5));
-      asOfficial(<StandingsView discipline="mixed" asTab />);
+      asOfficial(<StandingsView discipline="mixed" />);
       expect(screen.queryByText('Round 2 Standings')).toBeNull();
     });
   });

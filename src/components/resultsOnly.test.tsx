@@ -35,13 +35,13 @@ describe('a round entered without races', () => {
   afterEach(() => cleanup());
 
   it('shows the final places and points on the standings tab', () => {
-    asOfficial(<StandingsView discipline="mixed" asTab />);
+    asOfficial(<StandingsView discipline="mixed" />);
     expect(screen.getByText('Final Results: Mixed')).toBeTruthy();
     expect(screen.getByText(/no races were recorded/)).toBeTruthy();
   });
 
   it('does not show empty group tables', () => {
-    asOfficial(<StandingsView discipline="mixed" asTab />);
+    asOfficial(<StandingsView discipline="mixed" />);
     expect(screen.queryByText('Round 1 Standings')).toBeNull();
   });
 

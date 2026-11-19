@@ -28,6 +28,7 @@ import { emptyLeagueTeams, type LeagueTeams } from '../seasons/leagueTeams';
 import { PageHeader, PageLayout } from './PageLayout';
 import { formatEventDate } from '../lib/dates';
 import { withErrorCode } from '../lib/firebaseErrors';
+import { isRoundComplete } from '../domain/roundPlacings';
 
 const ROUND_NUMBERS = Array.from({ length: MAX_ROUNDS }, (_, i) => i + 1);
 
@@ -181,7 +182,8 @@ function LeagueView({ seasonId, league }: { seasonId: string; league: LeagueKey 
                       <span className="block text-base font-semibold text-slate-900">{round.name}</span>
                       <span className="block text-sm text-slate-500">{formatEventDate(round.date)}</span>
                     </Link>
-                    {isApproved && (
+                    {/* Completed rounds are kept safe from a stray tap; the rules still allow delete. */}
+                    {isApproved && !isRoundComplete(round.disciplines) && (
                       <ConfirmDialog
                         triggerLabel={`Delete R${n}`}
                         title={`Delete ${round.name}?`}

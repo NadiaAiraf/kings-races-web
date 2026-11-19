@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   computeRoundPlacings,
   isResultsOnly,
+  isRoundComplete,
   isStoppedEarly,
   leaguePoints,
   roundResults,
@@ -12,6 +13,7 @@ import {
   stoppedEarlyDiscipline,
   withUnplaceableTeams,
 } from './__fixtures__/playedDiscipline';
+import { createInitialDisciplines } from '../store/initialState';
 
 describe('computeRoundPlacings', () => {
   it('is null until the discipline is complete', () => {
@@ -201,5 +203,25 @@ describe('a round stopped early', () => {
 
   it('is not a results-only discipline', () => {
     expect(isResultsOnly(mixedStoppedEarly())).toBe(false);
+  });
+});
+
+describe('isRoundComplete', () => {
+  it('is false for a round with no teams entered', () => {
+    expect(isRoundComplete(createInitialDisciplines())).toBe(false);
+  });
+
+  it('is true when every discipline with teams is complete', () => {
+    const disciplines = { ...createInitialDisciplines(), mixed: playedDiscipline(4) };
+    expect(isRoundComplete(disciplines)).toBe(true);
+  });
+
+  it('is false while any discipline with teams is still racing', () => {
+    const disciplines = {
+      ...createInitialDisciplines(),
+      mixed: playedDiscipline(4),
+      board: playedDiscipline(4, { phase: 'finals' }),
+    };
+    expect(isRoundComplete(disciplines)).toBe(false);
   });
 });

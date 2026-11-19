@@ -193,7 +193,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
     <div>
       {stoppedEarly && (
         <p className="text-sm text-slate-500 px-4 py-2">
-          Stopped early: places entered by officials. See Stds for the final places.
+          Stopped early: places entered by officials. See Standings for the final places.
         </p>
       )}
       {/* Round 1 */}

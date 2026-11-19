@@ -23,11 +23,9 @@ import { ExportButton } from '../results/ExportButton';
 
 interface StandingsViewProps {
   discipline: DisciplineKey;
-  onClose?: () => void;
-  asTab?: boolean;
 }
 
-export function StandingsView({ discipline, onClose, asTab = false }: StandingsViewProps) {
+export function StandingsView({ discipline }: StandingsViewProps) {
   const result = useStandings(discipline);
   const { scores, structure, phase } = useDisciplineState(discipline);
   const r2State = useR2State(discipline);
@@ -73,21 +71,6 @@ export function StandingsView({ discipline, onClose, asTab = false }: StandingsV
 
   return (
     <div className="flex flex-col h-full">
-      {!asTab && onClose && (
-        <div className="flex items-center px-4 py-2 border-b border-slate-200 bg-surface sticky top-0 z-10">
-          <button
-            onClick={onClose}
-            className="min-h-14 flex items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400"
-          >
-            <span>&larr;</span> Back to Scoring
-          </button>
-          <h1 className="flex-1 text-center text-xl font-semibold text-slate-900">
-            Standings
-          </h1>
-          <div className="w-14" />
-        </div>
-      )}
-
       <div className="flex-1 overflow-y-auto px-4 py-4">
         {phase === 'complete' && (finalResults || usesEnteredPlacings(disciplineState)) && (
           <div className="mb-6">
