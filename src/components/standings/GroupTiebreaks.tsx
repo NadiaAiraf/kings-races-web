@@ -19,7 +19,7 @@ export interface TiebreakGroup {
   label: string;
   /** Standings by points alone, before any manual order. */
   standings: TeamStanding[];
-  /** Suggested order for two-team ties from their head-to-head race. */
+  /** Suggested order for tied teams: head-to-head for two, the seeded rule for three or four. */
   headToHead?: HeadToHeadDefault;
   /** The group's races in race order, for tie-break races between tied teams. */
   meetings?: Meeting[];

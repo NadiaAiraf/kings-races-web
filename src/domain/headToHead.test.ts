@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { headToHeadDefault, headToHeadReason, headToHeadWinner } from './headToHead';
+import {
+  headToHeadDefault,
+  headToHeadReason,
+  headToHeadWinner,
+  seedOfSlot,
+  seededTieLines,
+} from './headToHead';
 import type { RaceOutcome, Score, TeamStanding } from './types';
 
 const score = (
@@ -227,5 +233,146 @@ describe('headToHeadReason', () => {
     const note = { winnerSlot: 2, loserSlot: 1, raceNums: [1, 5, 9], wins: 2, losses: 1 };
 
     expect(headToHeadReason(note)).toBe('won their head-to-head races 2-1 (Races 1, 5 and 9)');
+  });
+});
+
+// Seeds equal slots in these tests: slot 1 is the top seed.
+const bySlot = (slot: number) => slot;
+
+describe('headToHeadDefault with the seeded rule for three or four tied teams', () => {
+  it('puts the lowest seed 3rd in a three-way tie and the top two seeds by their race', () => {
+    const standings = [standing(3, 3), standing(1, 3), standing(2, 3)];
+    const scores = [score('r1-5', 1, 2, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.order.map((s) => s.slot)).toEqual([2, 1, 3]);
+  });
+
+  it('describes a three-way suggestion with the deciding race and the lowest seed', () => {
+    const standings = [standing(3, 3), standing(1, 3), standing(2, 3)];
+    const scores = [score('r1-5', 1, 2, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.seeded).toEqual([
+      {
+        slots: [2, 1, 3],
+        firstPlace: 1,
+        top: { winnerSlot: 2, loserSlot: 1, raceNums: [5], wins: 1, losses: 0 },
+        lowestSeedSlot: 3,
+      },
+    ]);
+  });
+
+  it('settles a four-way tie with the top two seeds racing for the higher places and the bottom two for the lower', () => {
+    const standings = [standing(1, 3), standing(2, 3), standing(3, 3), standing(4, 3)];
+    const scores = [score('r1-1', 1, 2, 'loss', 'win'), score('r1-2', 3, 4, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.order.map((s) => s.slot)).toEqual([2, 1, 4, 3]);
+    expect(result.seeded?.[0].bottom).toEqual({
+      winnerSlot: 4,
+      loserSlot: 3,
+      raceNums: [2],
+      wins: 1,
+      losses: 0,
+    });
+  });
+
+  it('orders by seed, not by slot number, when the caller maps slots to seeds', () => {
+    const standings = [standing(1, 3), standing(2, 3), standing(3, 3)];
+    // Slot 3 is the top seed, slot 1 second, slot 2 the lowest.
+    const seeds = new Map([[3, 1], [1, 2], [2, 3]]);
+    const scores = [score('r1-1', 3, 1, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, (slot) => seeds.get(slot));
+
+    expect(result.order.map((s) => s.slot)).toEqual([1, 3, 2]);
+  });
+
+  it('gives the places the tie covers when it is not at the top of the group', () => {
+    const standings = [standing(5, 9), standing(1, 3), standing(2, 3), standing(3, 3)];
+    const scores = [score('r1-5', 1, 2, 'win', 'loss')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.order.map((s) => s.slot)).toEqual([5, 1, 2, 3]);
+    expect(result.seeded?.[0].firstPlace).toBe(2);
+  });
+
+  it('makes no suggestion when a deciding pair has no winner', () => {
+    const standings = [standing(1, 3), standing(2, 3), standing(3, 3), standing(4, 3)];
+    const scores = [score('r1-1', 1, 2, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.order.map((s) => s.slot)).toEqual([1, 2, 3, 4]);
+    expect(result.seeded).toEqual([]);
+  });
+
+  it('makes no suggestion for five or more tied teams', () => {
+    const standings = [1, 2, 3, 4, 5].map((slot) => standing(slot, 3));
+    const scores = [score('r1-1', 1, 2, 'loss', 'win'), score('r1-2', 4, 5, 'loss', 'win')];
+
+    const result = headToHeadDefault(standings, scores, undefined, bySlot);
+
+    expect(result.order.map((s) => s.slot)).toEqual([1, 2, 3, 4, 5]);
+    expect(result.seeded).toEqual([]);
+  });
+});
+
+describe('seedOfSlot', () => {
+  it('gives the seed whose slot it is, from the cheat sheet seed map', () => {
+    const seedOf = seedOfSlot([1, 4, 3, 2]);
+
+    expect([1, 4, 3, 2].map(seedOf)).toEqual([1, 2, 3, 4]);
+  });
+
+  it('returns undefined for a slot not in the seed map', () => {
+    expect(seedOfSlot([1, 4, 3, 2])(9)).toBeUndefined();
+  });
+});
+
+describe('seededTieLines', () => {
+  const names = new Map([[1, 'Kings'], [2, 'Imperial'], [3, 'Bristol'], [4, 'Bath']]);
+  const name = (slot: number) => names.get(slot)!;
+
+  it('explains a three-way suggestion and says it is optional', () => {
+    const lines = seededTieLines(
+      {
+        slots: [1, 2, 3],
+        firstPlace: 1,
+        top: { winnerSlot: 1, loserSlot: 2, raceNums: [5], wins: 1, losses: 0 },
+        lowestSeedSlot: 3,
+      },
+      name
+    );
+
+    expect(lines).toEqual([
+      'Suggested by seeding for this 3-way tie:',
+      'Kings v Imperial decides 1st and 2nd: Kings won their head-to-head race (Race 5).',
+      'Bristol is the lowest seed, so 3rd.',
+      'This is only a suggestion. You can run tie-break races instead, or move teams yourself.',
+    ]);
+  });
+
+  it('explains both deciding races of a four-way tie lower down the group', () => {
+    const lines = seededTieLines(
+      {
+        slots: [2, 1, 4, 3],
+        firstPlace: 2,
+        top: { winnerSlot: 2, loserSlot: 1, raceNums: [1], wins: 1, losses: 0 },
+        bottom: { winnerSlot: 4, loserSlot: 3, raceNums: [2], wins: 1, losses: 0 },
+      },
+      name
+    );
+
+    expect(lines.slice(0, 3)).toEqual([
+      'Suggested by seeding for this 4-way tie:',
+      'Imperial v Kings decides 2nd and 3rd: Imperial won their head-to-head race (Race 1).',
+      'Bath v Bristol decides 4th and 5th: Bath won their head-to-head race (Race 2).',
+    ]);
   });
 });

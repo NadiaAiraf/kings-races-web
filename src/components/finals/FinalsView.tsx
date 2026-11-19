@@ -9,7 +9,7 @@ import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
 import { GroupTiebreaks } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
-import { headToHeadDefault } from '../../domain/headToHead';
+import { headToHeadDefault, seedOfSlot } from '../../domain/headToHead';
 import { r1Meetings, r2Meetings } from '../../domain/tiebreakRaces';
 import type { DisciplineKey } from '../../domain/types';
 
@@ -23,6 +23,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
   const standingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
   const { teams, scores, manualTiebreaks, structure } = useDisciplineState(discipline);
+  const seedOf = structure ? seedOfSlot(structure.seedMap) : undefined;
 
   // Create refs for each matchup card for scroll-to-next
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -90,7 +91,8 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                     headToHead: headToHeadDefault(
                       standings,
                       scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
-                      (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
+                      (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum,
+                      seedOf
                     ),
                     meetings: r2Meetings(r2State?.r2Races ?? [], g.groupNum),
                   };
@@ -101,7 +103,9 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                   standings,
                   headToHead: headToHeadDefault(
                     standings,
-                    scores.filter((s) => s.raceId.startsWith('r1-'))
+                    scores.filter((s) => s.raceId.startsWith('r1-')),
+                    undefined,
+                    seedOf
                   ),
                   meetings: structure ? r1Meetings(structure) : [],
                 }))

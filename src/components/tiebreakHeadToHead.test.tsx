@@ -353,3 +353,53 @@ describe('head-to-head tiebreak default in Round 2', () => {
     ).toBeTruthy();
   });
 });
+
+// Kings (seed 1), Imperial (2) and Bristol (3) beat each other in a cycle,
+// each winning both meetings with one rival, and all beat Bath twice: a
+// three-way tie on 4 wins.
+const THREE_WAY_CYCLE = winnersFor([
+  ['Kings', 'Imperial', 1],
+  ['Kings', 'Imperial', 2],
+  ['Imperial', 'Bristol', 1],
+  ['Imperial', 'Bristol', 2],
+  ['Bristol', 'Kings', 1],
+  ['Bristol', 'Kings', 2],
+  ['Kings', 'Bath', 1],
+  ['Kings', 'Bath', 2],
+  ['Imperial', 'Bath', 1],
+  ['Imperial', 'Bath', 2],
+  ['Bristol', 'Bath', 1],
+  ['Bristol', 'Bath', 2],
+]);
+
+describe('seeded suggestion for a three-way tie in the race list', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+    store().resetEvent();
+  });
+
+  afterEach(() => cleanup());
+
+  it('puts the lowest seed 3rd and the top two seeds in the order of their races', () => {
+    load(fourTeamRound(THREE_WAY_CYCLE));
+    renderRaceList();
+
+    expect(resolverOrder()).toEqual(['Kings', 'Imperial', 'Bristol', 'Bath']);
+  });
+
+  it('explains the suggestion and offers tie-break races instead', () => {
+    load(fourTeamRound(THREE_WAY_CYCLE));
+    renderRaceList();
+
+    const panel = screen.getByRole('heading', { name: /Resolve tie: Group A/ }).parentElement!;
+    expect(within(panel).getByText('Suggested by seeding for this 3-way tie:')).toBeTruthy();
+    expect(within(panel).getByText(/^Kings v Imperial decides 1st and 2nd: Kings won both/)).toBeTruthy();
+    expect(within(panel).getByText('Bristol is the lowest seed, so 3rd.')).toBeTruthy();
+    expect(
+      within(panel).getByText(
+        'This is only a suggestion. You can run tie-break races instead, or move teams yourself.'
+      )
+    ).toBeTruthy();
+    expect(within(panel).getByRole('button', { name: 'Run tie-break races' })).toBeTruthy();
+  });
+});
