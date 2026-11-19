@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { EditAccessContext } from '../../auth/editAccess';
 import type { Score } from '../../domain/types';
 import { ExpandableRaceCard } from './ExpandableRaceCard';
@@ -240,30 +240,102 @@ describe('ExpandableRaceCard collapsed team row', () => {
     expect(row.children[1].textContent).toBe('vs');
   });
 
-  it("puts the home name on the outer edge and its badge next to 'vs'", () => {
+  it('gives the home name its whole column', () => {
     renderCard({ isExpanded: false, score: homeWin }, false);
 
-    const homeSide = screen.getByText('vs').parentElement!.children[0];
-    expect(homeSide.firstElementChild!.textContent).toBe('Kings');
-    expect(homeSide.lastElementChild!.textContent).toBe('W');
-    expect(homeSide.classList.contains('justify-between')).toBe(true);
+    const homeSide = screen.getByText('vs').parentElement!.children[0] as HTMLElement;
+    expect(homeSide.textContent).toBe('Kings');
+    expect(within(homeSide).queryByText('W')).toBeNull();
   });
 
-  it("mirrors the away side with its badge next to 'vs' and the name on the outer edge", () => {
+  it('gives the away name its whole column', () => {
     renderCard({ isExpanded: false, score: homeWin }, false);
 
-    const awaySide = screen.getByText('vs').parentElement!.children[2];
-    expect(awaySide.firstElementChild!.textContent).toBe('L');
-    expect(awaySide.lastElementChild!.textContent).toBe('Imperial');
+    const awaySide = screen.getByText('vs').parentElement!.children[2] as HTMLElement;
+    expect(awaySide.textContent).toBe('Imperial');
+    expect(within(awaySide).queryByText('L')).toBeNull();
   });
 
-  it('wraps a long team name inside its own column', () => {
+  it('shows the result badges on their own line under the team row', () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    const row = screen.getByText('vs').parentElement!;
+    const badges = row.nextElementSibling!;
+    expect(badges.contains(screen.getByText('W'))).toBe(true);
+    expect(badges.contains(screen.getByText('L'))).toBe(true);
+    expect(row.contains(screen.getByText('W'))).toBe(false);
+  });
+
+  it('left-aligns the home badge and right-aligns the away badge', () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    expect(screen.getByText('W').classList.contains('justify-self-start')).toBe(true);
+    expect(screen.getByText('L').classList.contains('justify-self-end')).toBe(true);
+  });
+
+  it('shows no badge line on an unscored collapsed card', () => {
+    renderCard({ isExpanded: false, score: undefined }, false);
+
+    expect(screen.getByText('vs').parentElement!.nextElementSibling).toBeNull();
+  });
+
+  it('wraps a long home name at spaces and hyphenates rather than splitting a word', () => {
     renderCard({ isExpanded: false, score: homeWin, homeTeamName: 'Southampton 1' }, false);
 
     const name = screen.getByText('Southampton 1');
     expect(name.classList.contains('min-w-0')).toBe(true);
-    expect(name.classList.contains('break-words')).toBe(true);
-    expect(screen.getByText('W').classList.contains('shrink-0')).toBe(true);
+    expect(name.classList.contains('hyphens-auto')).toBe(true);
+    expect(name.classList.contains('break-words')).toBe(false);
+    expect(name.getAttribute('lang')).toBe('en');
+  });
+
+  it('wraps a long away name at spaces and hyphenates rather than splitting a word', () => {
+    renderCard({ isExpanded: false, score: homeWin, awayTeamName: 'Loughborough 2' }, false);
+
+    const name = screen.getByText('Loughborough 2');
+    expect(name.classList.contains('min-w-0')).toBe(true);
+    expect(name.classList.contains('hyphens-auto')).toBe(true);
+    expect(name.classList.contains('break-words')).toBe(false);
+    expect(name.getAttribute('lang')).toBe('en');
+  });
+
+  it('breaks a single over-long word only as a last resort on both names', () => {
+    renderCard(
+      { isExpanded: false, score: homeWin, homeTeamName: 'Southampton 1', awayTeamName: 'Loughborough 2' },
+      false,
+    );
+
+    expect(screen.getByText('Southampton 1').classList.contains('wrap-break-word')).toBe(true);
+    expect(screen.getByText('Loughborough 2').classList.contains('wrap-break-word')).toBe(true);
+  });
+
+  it('renders names longer than 11 characters at text-sm', () => {
+    renderCard({ isExpanded: false, score: homeWin, homeTeamName: 'Southampton 1' }, false);
+
+    const name = screen.getByText('Southampton 1');
+    expect(name.classList.contains('text-sm')).toBe(true);
+    expect(name.classList.contains('text-base')).toBe(false);
+  });
+
+  it('keeps names of 11 characters or fewer at text-base', () => {
+    renderCard({ isExpanded: false, score: homeWin, homeTeamName: 'Southampton' }, false);
+
+    const name = screen.getByText('Southampton');
+    expect(name.classList.contains('text-base')).toBe(true);
+    expect(name.classList.contains('text-sm')).toBe(false);
+  });
+
+  it('keeps a short name like Kings at text-base', () => {
+    renderCard({ isExpanded: false, score: homeWin }, false);
+
+    expect(screen.getByText('Kings').classList.contains('text-base')).toBe(true);
+  });
+
+  it('sizes the away name independently of the home name', () => {
+    renderCard({ isExpanded: false, score: homeWin, awayTeamName: 'Loughborough 2' }, false);
+
+    expect(screen.getByText('Kings').classList.contains('text-base')).toBe(true);
+    expect(screen.getByText('Loughborough 2').classList.contains('text-sm')).toBe(true);
   });
 
   it("keeps the 'Not run' chip in the middle column", () => {
@@ -274,6 +346,7 @@ describe('ExpandableRaceCard collapsed team row', () => {
     expect(row.children[1].textContent).toBe('Not run');
     expect(screen.queryByText('W')).toBeNull();
     expect(screen.queryByText('L')).toBeNull();
+    expect(row.nextElementSibling).toBeNull();
   });
 });
 
@@ -287,6 +360,21 @@ describe('ExpandableRaceCard expanded team row', () => {
     expect(row.classList.contains('grid-cols-[1fr_auto_1fr]')).toBe(true);
     expect(row.children[0].textContent).toBe('Kings');
     expect(row.children[2].textContent).toBe('Imperial');
+  });
+
+  it('shows no badge line when an official expands a scored card', () => {
+    const homeWin: Score = {
+      raceId: 'fin-1',
+      homeSlot: 1,
+      awaySlot: 2,
+      homeOutcome: 'win',
+      awayOutcome: 'loss',
+    };
+    renderCard({ isExpanded: true, score: homeWin }, true);
+
+    expect(screen.queryByText('W')).toBeNull();
+    expect(screen.queryByText('L')).toBeNull();
+    expect(screen.getByText('vs').parentElement!.children[0].textContent).toBe('Kings');
   });
 
   it('mirrors the scoring buttons: Win, DSQ for home, then DSQ, Win for away', () => {
