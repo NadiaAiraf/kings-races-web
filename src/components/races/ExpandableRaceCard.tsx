@@ -211,17 +211,17 @@ export function ExpandableRaceCard({
             />
           </div>
 
-          {/* Away team buttons */}
+          {/* Away team buttons, mirrored so each Win sits on the outer edge */}
           <div className="flex-1 flex gap-2">
-            <OutcomeButton
-              outcome="win"
-              selected={score?.awayOutcome === 'win'}
-              onSelect={() => handleScore('away', 'win')}
-            />
             <OutcomeButton
               outcome="dsq"
               selected={score?.awayOutcome === 'dsq'}
               onSelect={() => handleScore('away', 'dsq')}
+            />
+            <OutcomeButton
+              outcome="win"
+              selected={score?.awayOutcome === 'win'}
+              onSelect={() => handleScore('away', 'win')}
             />
           </div>
         </div>
