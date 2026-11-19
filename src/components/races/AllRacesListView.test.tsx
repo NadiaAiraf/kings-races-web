@@ -660,6 +660,16 @@ describe('print race list', () => {
     expect(heading.textContent).toBe('Test - Round 1');
   });
 
+  it('heads the printed sheet with the Kings Ski Club logo, like the cheat sheet', () => {
+    stubPrint();
+    setDisciplines({});
+    renderList();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(within(printSheet()!).getByRole('img', { name: 'Kings Ski Club' })).toBeTruthy();
+  });
+
   it('prints Round 1 in the on-screen Northern order', () => {
     stubPrint();
     setDisciplines({});
