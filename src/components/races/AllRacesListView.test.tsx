@@ -690,6 +690,20 @@ describe('print race list', () => {
     expect(printKeys()).toEqual(raceKeys('r2-'));
   });
 
+  it('lays out each printed race like the cheat sheet: running number, discipline letter, home, V, away', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    const first = printSheet()!.querySelector('[data-print-key]')!;
+    const cells = Array.from(first.querySelectorAll('td')).map((td) => td.textContent);
+    expect(cells).toHaveLength(5);
+    expect(cells.slice(0, 2)).toEqual(['1', 'M']);
+    expect(cells[3]).toBe('V');
+  });
+
   it('puts a blank row only where the discipline changes', () => {
     stubPrint();
     setDisciplines({});

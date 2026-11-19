@@ -1,12 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { buildPrintRows, printGroupLabel, type PrintRace } from './printRaceList';
+import { buildPrintRows, printDisciplineLetter, type PrintRace } from './printRaceList';
 import type { DisciplineKey } from './types';
 
-function race(discipline: DisciplineKey, raceNum: number): PrintRace {
-  return { discipline, raceNum, group: 'A', homeTeamName: `Home ${raceNum}`, awayTeamName: `Away ${raceNum}` };
+function race(discipline: DisciplineKey, n: number): PrintRace {
+  return { discipline, homeTeamName: `Home ${n}`, awayTeamName: `Away ${n}` };
 }
 
 const kinds = (races: PrintRace[]) => buildPrintRows(races).map((row) => row.kind);
+
+const orders = (races: PrintRace[]) =>
+  buildPrintRows(races).map((row) => (row.kind === 'race' ? row.order : null));
 
 describe('buildPrintRows', () => {
   it('returns no rows for no races', () => {
@@ -44,33 +47,29 @@ describe('buildPrintRows', () => {
     expect(rows[rows.length - 1].kind).toBe('race');
   });
 
-  it('carries each race through unchanged', () => {
-    const input: PrintRace = {
-      discipline: 'ladies',
-      raceNum: 7,
-      group: '2',
-      homeTeamName: 'Kings 1',
-      awayTeamName: 'Imperial 2',
-    };
+  it('numbers races in running order across disciplines, skipping blank rows, like the cheat sheet', () => {
+    const races = [race('mixed', 1), race('mixed', 2), race('ladies', 1), race('board', 1)];
 
-    expect(buildPrintRows([input])).toEqual([{ kind: 'race', ...input }]);
+    expect(orders(races)).toEqual([1, 2, null, 3, null, 4]);
+  });
+
+  it('carries each race through with its running number', () => {
+    const input: PrintRace = { discipline: 'ladies', homeTeamName: 'Kings 1', awayTeamName: 'Imperial 2' };
+
+    expect(buildPrintRows([input])).toEqual([{ kind: 'race', order: 1, ...input }]);
   });
 });
 
-describe('printGroupLabel', () => {
-  it('drops the Group prefix from a letter group', () => {
-    expect(printGroupLabel('Group A')).toBe('A');
+describe('printDisciplineLetter', () => {
+  it('marks mixed races M', () => {
+    expect(printDisciplineLetter('mixed')).toBe('M');
   });
 
-  it('drops the Group prefix from a numbered group', () => {
-    expect(printGroupLabel('Group 1')).toBe('1');
+  it('marks board races B', () => {
+    expect(printDisciplineLetter('board')).toBe('B');
   });
 
-  it('is blank when there is no group', () => {
-    expect(printGroupLabel(undefined)).toBe('');
-  });
-
-  it('returns a label without the Group prefix unchanged', () => {
-    expect(printGroupLabel('Seeded')).toBe('Seeded');
+  it('marks ladies races L', () => {
+    expect(printDisciplineLetter('ladies')).toBe('L');
   });
 });
