@@ -289,6 +289,15 @@ describe('ExpandableRaceCard expanded team row', () => {
     expect(row.children[2].textContent).toBe('Imperial');
   });
 
+  it('mirrors the scoring buttons: Win, DSQ for home, then DSQ, Win for away', () => {
+    renderCard({ isExpanded: true });
+
+    const labels = screen
+      .getAllByRole('button', { name: /^(win|dsq)$/i })
+      .map((b) => b.textContent);
+    expect(labels).toEqual(['Win', 'DSQ', 'DSQ', 'Win']);
+  });
+
   it('shows each team name once, above the scoring buttons', () => {
     renderCard({ isExpanded: true });
 
