@@ -7,7 +7,7 @@ import { AllRacesDisciplineSection, AllRacesRaceCard, type ScoreResult } from '.
 import { hasRoundTwoStarted, roundOneCardSpecs, roundTwoCardSpecs, type CardSpec } from './allRacesCards';
 import { RaceOrderPicker } from './RaceOrderPicker';
 import { PrintRaceSheet, type PrintSheetRow } from './PrintRaceSheet';
-import { buildPrintRows, printGroupLabel } from '../../domain/printRaceList';
+import { buildPrintRows } from '../../domain/printRaceList';
 import { useRaceOrder } from '../../events/raceOrder';
 import { useR2State } from '../../hooks/useR2State';
 import { useFinalsState } from '../../hooks/useFinalsState';
@@ -208,8 +208,6 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
     const rows = buildPrintRows(
       cards.map(({ race, spec }) => ({
         discipline: race.discipline,
-        raceNum: spec.raceNum,
-        group: printGroupLabel(spec.groupLabel),
         homeTeamName: spec.homeTeamName,
         awayTeamName: spec.awayTeamName,
       })),
