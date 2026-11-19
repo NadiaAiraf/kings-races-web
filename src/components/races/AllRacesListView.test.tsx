@@ -620,6 +620,18 @@ describe('print race list', () => {
     expect(screen.getByRole('button', { name: 'Print Round 1 race list' })).toBeTruthy();
   });
 
+  it('keeps a gap between the Round 1 header row and the first race card', () => {
+    setDisciplines({});
+
+    renderList();
+
+    // The Print button is taller than the heading, so the row owns the gap
+    // below it and the heading adds none of its own.
+    const row = screen.getByRole('button', { name: 'Print Round 1 race list' }).parentElement!;
+    expect(row.className).toContain('mb-3');
+    expect(row.className).toContain('[&>h2]:mb-0');
+  });
+
   it('has no Round 2 print button while every discipline is in Round 1', () => {
     setDisciplines({});
 
