@@ -33,8 +33,8 @@ export interface SeededTieNote {
 export interface HeadToHeadDefault {
   order: TeamStanding[];
   notes: HeadToHeadNote[];
-  /** Present when the caller passed seeds. */
-  seeded?: SeededTieNote[];
+  /** Seeded suggestions; empty unless the caller passed seeds. */
+  seeded: SeededTieNote[];
 }
 
 export interface HeadToHeadResult {
@@ -151,7 +151,7 @@ export function headToHeadDefault(
     start = end;
   }
 
-  return seedOf ? { order, notes, seeded } : { order, notes };
+  return { order, notes, seeded };
 }
 
 /** The seeded rule for one level of three or four teams, or null if a deciding race has no winner. */

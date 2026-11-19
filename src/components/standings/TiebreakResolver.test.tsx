@@ -15,6 +15,7 @@ const imperial = { slot: 2, points: 3, wins: 1, losses: 0, dsqs: 0, played: 1 };
 const imperialWon: HeadToHeadDefault = {
   order: [imperial, kings],
   notes: [{ winnerSlot: 2, loserSlot: 1, raceNums: [7], wins: 1, losses: 0 }],
+  seeded: [],
 };
 
 const resolverProps = {
