@@ -255,7 +255,6 @@ describe('ExpandableRaceCard collapsed team row', () => {
     const awaySide = screen.getByText('vs').parentElement!.children[2];
     expect(awaySide.firstElementChild!.textContent).toBe('L');
     expect(awaySide.lastElementChild!.textContent).toBe('Imperial');
-    expect(awaySide.classList.contains('justify-between')).toBe(true);
   });
 
   it('wraps a long team name inside its own column', () => {
@@ -287,7 +286,7 @@ describe('ExpandableRaceCard discipline accent', () => {
     renderCard({ discipline: 'ladies' });
 
     expect(screen.getByText('Ladies')).toBeTruthy();
-    expect(cardEl().classList.contains('border-l-[3px]')).toBe(true);
+    expect(cardEl().classList.contains('border-l-4')).toBe(true);
     expect(cardEl().classList.contains('border-l-red-600')).toBe(true);
   });
 
@@ -309,7 +308,7 @@ describe('ExpandableRaceCard discipline accent', () => {
     renderCard({});
 
     expect(screen.queryByText(/^(Mixed|Ladies|Board)$/)).toBeNull();
-    expect(cardEl().classList.contains('border-l-[3px]')).toBe(false);
+    expect(cardEl().classList.contains('border-l-4')).toBe(false);
   });
 
   it('shows the label to viewers and keeps the accessible name', () => {

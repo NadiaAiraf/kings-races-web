@@ -125,7 +125,7 @@ export function ExpandableRaceCard({
         'bg-surface border border-slate-200 rounded-sm px-3 py-2.5 mb-1.5',
         'focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2',
         disabled && 'opacity-40 pointer-events-none',
-        discipline && ['border-l-[3px]', DISCIPLINE_ACCENT[discipline].stripe],
+        discipline && ['border-l-4', DISCIPLINE_ACCENT[discipline].stripe],
       )}
       style={{ scrollMarginTop: '92px' }}
       aria-expanded={canEdit ? isExpanded : undefined}
@@ -156,7 +156,7 @@ export function ExpandableRaceCard({
         {canClear && (
           <button
             type="button"
-            className="ml-auto -my-2.5 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 dark:text-red-400 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
+            className="ml-auto -my-3 min-h-[44px] min-w-[44px] px-2 text-sm font-medium text-red-700 dark:text-red-400 hover:text-red-800 rounded-sm focus-visible:ring-2 focus-visible:ring-brand-600"
             onClick={(e) => {
               e.stopPropagation();
               onClear(raceId);
@@ -186,7 +186,7 @@ export function ExpandableRaceCard({
           ) : (
             <span className="text-slate-500">vs</span>
           )}
-          <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900 text-right">
+          <div className="min-w-0 flex items-center gap-2 text-base font-semibold text-slate-900 text-right">
             {score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
             <span className="min-w-0 break-words ml-auto">{awayTeamName}</span>
           </div>
