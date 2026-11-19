@@ -15,6 +15,7 @@ import { FinalsReadyBanner } from '../finals/FinalsReadyBanner';
 import { GroupTiebreaks, type TiebreakGroup } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
 import { headToHeadDefault } from '../../domain/headToHead';
+import { r1Meetings, r2Meetings } from '../../domain/tiebreakRaces';
 import type { DisciplineKey, Score, RaceOutcome } from '../../domain/types';
 import { isResultsOnly, isStoppedEarly } from '../../domain/roundPlacings';
 
@@ -164,6 +165,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
       label: `Group ${g.letter}`,
       standings,
       headToHead: headToHeadDefault(standings, r1Scores),
+      meetings: r1Meetings(structure),
     };
   });
   const r2TiebreakGroups: TiebreakGroup[] = (r2State?.r2Groups ?? []).map((g) => {
@@ -177,6 +179,7 @@ export function RaceListView({ discipline }: RaceListViewProps) {
         scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
         (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
       ),
+      meetings: r2Meetings(r2State?.r2Races ?? [], g.groupNum),
     };
   });
   // Groups whose order feeds the finals: Round 2 if the format has it.

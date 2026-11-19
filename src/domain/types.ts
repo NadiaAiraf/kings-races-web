@@ -82,6 +82,8 @@ export interface DisciplineState {
   placings: Record<string, number>;
   /** Officials' free-text note per race, keyed by raceId. */
   notes: Record<string, string>;
+  /** Tie-break races switched on by an official, keyed by tiebreak group key; the value is the tied slots when switched on, so a changed tie is detected. */
+  tiebreakRaces: Record<string, number[]>;
 }
 
 export interface EventState {

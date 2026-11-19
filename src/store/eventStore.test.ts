@@ -178,15 +178,82 @@ describe('eventStore', () => {
     });
   });
 
+  describe('setTiebreakRaces', () => {
+    const tb = (raceId: string): Score => ({
+      raceId,
+      homeSlot: 3,
+      awaySlot: 2,
+      homeOutcome: 'win',
+      awayOutcome: 'loss',
+    });
+
+    it('stores the tied slots for the group', () => {
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      expect(store().disciplines.mixed.tiebreakRaces).toEqual({ A: [2, 3, 4] });
+    });
+
+    it('removes stale tie-break results for the group when switched on', () => {
+      store().recordResult('mixed', tb('tb-A-r1-1'));
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      expect(store().disciplines.mixed.scores).toEqual([]);
+    });
+
+    it('keeps round, finals and other groups\' tie-break results', () => {
+      const kept = [tb('r1-1'), tb('r2-I-1'), tb('fin-0'), tb('tb-B-r1-2'), tb('tb-r2-I-r2-I-1')];
+      for (const s of kept) store().recordResult('mixed', s);
+      store().recordResult('mixed', tb('tb-A-r1-1'));
+      store().setTiebreakRaces('mixed', 'A', null);
+      expect(store().disciplines.mixed.scores).toEqual(kept);
+    });
+
+    it('removes the flag and the group\'s tie-break results when switched off', () => {
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      store().recordResult('mixed', tb('tb-A-r1-1'));
+      store().setTiebreakRaces('mixed', 'A', null);
+      expect(store().disciplines.mixed).toMatchObject({ tiebreakRaces: {}, scores: [] });
+    });
+
+    it('leaves other groups\' flags when one is switched off', () => {
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      store().setTiebreakRaces('mixed', 'B', [5, 6, 7]);
+      store().setTiebreakRaces('mixed', 'A', null);
+      expect(store().disciplines.mixed.tiebreakRaces).toEqual({ B: [5, 6, 7] });
+    });
+
+    it('does not let Round 2 group I clear group II results', () => {
+      store().recordResult('mixed', tb('tb-r2-II-r2-II-1'));
+      store().setTiebreakRaces('mixed', 'r2-I', null);
+      expect(store().disciplines.mixed.scores).toHaveLength(1);
+    });
+
+    it('leaves other disciplines as the same object', () => {
+      const board = store().disciplines.board;
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      expect(store().disciplines.board).toBe(board);
+    });
+  });
+
   describe('resetDiscipline', () => {
     it('clears race notes', () => {
       store().setNote('mixed', 'r1-1', 'late start');
       store().resetDiscipline('mixed');
       expect(store().disciplines.mixed.notes).toEqual({});
     });
+
+    it('clears tie-break races', () => {
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      store().resetDiscipline('mixed');
+      expect(store().disciplines.mixed.tiebreakRaces).toEqual({});
+    });
   });
 
   describe('resetEvent', () => {
+    it('clears tie-break races', () => {
+      store().setTiebreakRaces('mixed', 'A', [2, 3, 4]);
+      store().resetEvent();
+      expect(store().disciplines.mixed.tiebreakRaces).toEqual({});
+    });
+
     it('returns all state to initial values', () => {
       store().setTeams('mixed', [{ slot: 1, name: 'Alpha' }]);
       store().setActiveDiscipline('board');

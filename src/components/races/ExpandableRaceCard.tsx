@@ -25,6 +25,8 @@ function OutcomeBadge({ outcome }: { outcome: string }) {
 interface ExpandableRaceCardProps {
   raceId: string;
   raceNum: number;
+  /** Header and accessible name of the race; defaults to `Race {raceNum}`. */
+  raceLabel?: string;
   homeTeamName: string;
   awayTeamName: string;
   homeSlot: number;
@@ -62,6 +64,7 @@ interface ExpandableRaceCardProps {
 export function ExpandableRaceCard({
   raceId,
   raceNum,
+  raceLabel = `Race ${raceNum}`,
   homeTeamName,
   awayTeamName,
   homeSlot,
@@ -126,7 +129,7 @@ export function ExpandableRaceCard({
       )}
       style={{ scrollMarginTop: '92px' }}
       aria-expanded={canEdit ? isExpanded : undefined}
-      aria-label={`Race ${raceNum}: ${homeTeamName} versus ${awayTeamName}`}
+      aria-label={`${raceLabel}: ${homeTeamName} versus ${awayTeamName}`}
       onClick={() => interactive && onExpand(raceId)}
       role={canEdit ? 'button' : undefined}
       tabIndex={interactive ? 0 : -1}
@@ -138,7 +141,7 @@ export function ExpandableRaceCard({
             {DISCIPLINE_LABELS[discipline]}
           </span>
         )}
-        <span>Race {raceNum}</span>
+        <span>{raceLabel}</span>
         {groupLabel && (
           <span className="text-xs bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">
             {groupLabel}

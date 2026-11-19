@@ -10,6 +10,7 @@ import { FinalsMatchupCard } from './FinalsMatchupCard';
 import { GroupTiebreaks } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
 import { headToHeadDefault } from '../../domain/headToHead';
+import { r1Meetings, r2Meetings } from '../../domain/tiebreakRaces';
 import type { DisciplineKey } from '../../domain/types';
 
 interface FinalsViewProps {
@@ -21,7 +22,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
   const setDisciplinePhase = useEventStore((s) => s.setDisciplinePhase);
   const standingsResult = useStandings(discipline);
   const r2State = useR2State(discipline);
-  const { teams, scores, manualTiebreaks } = useDisciplineState(discipline);
+  const { teams, scores, manualTiebreaks, structure } = useDisciplineState(discipline);
 
   // Create refs for each matchup card for scroll-to-next
   const cardRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -91,6 +92,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                       scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
                       (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
                     ),
+                    meetings: r2Meetings(r2State?.r2Races ?? [], g.groupNum),
                   };
                 })
               : Object.entries(standingsResult?.rawStandings ?? {}).map(([letter, standings]) => ({
@@ -101,6 +103,7 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                     standings,
                     scores.filter((s) => s.raceId.startsWith('r1-'))
                   ),
+                  meetings: structure ? r1Meetings(structure) : [],
                 }))
           }
           manualTiebreaks={manualTiebreaks}
