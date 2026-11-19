@@ -277,6 +277,36 @@ describe('ExpandableRaceCard collapsed team row', () => {
   });
 });
 
+describe('ExpandableRaceCard expanded team row', () => {
+  afterEach(() => cleanup());
+
+  it("keeps the collapsed three-column row with 'vs' when expanded", () => {
+    renderCard({ isExpanded: true });
+
+    const row = screen.getByText('vs').parentElement!;
+    expect(row.classList.contains('grid-cols-[1fr_auto_1fr]')).toBe(true);
+    expect(row.children[0].textContent).toBe('Kings');
+    expect(row.children[2].textContent).toBe('Imperial');
+  });
+
+  it('mirrors the scoring buttons: Win, DSQ for home, then DSQ, Win for away', () => {
+    renderCard({ isExpanded: true });
+
+    const labels = screen
+      .getAllByRole('button', { name: /^(win|dsq)$/i })
+      .map((b) => b.textContent);
+    expect(labels).toEqual(['Win', 'DSQ', 'DSQ', 'Win']);
+  });
+
+  it('shows each team name once, above the scoring buttons', () => {
+    renderCard({ isExpanded: true });
+
+    expect(screen.getAllByText('Kings')).toHaveLength(1);
+    expect(screen.getAllByText('Imperial')).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: /win/i })).toHaveLength(2);
+  });
+});
+
 describe('ExpandableRaceCard discipline accent', () => {
   afterEach(() => cleanup());
 
