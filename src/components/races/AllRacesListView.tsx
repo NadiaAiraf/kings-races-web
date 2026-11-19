@@ -241,7 +241,7 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
         return (
           <div key={round}>
             {round !== 'finals' && orderedRoundCards(round, shown).cards.length > 0 ? (
-              <div className={clsx('flex items-baseline justify-between gap-3', !isFirst && 'mt-6')}>
+              <div className={clsx('flex items-center justify-between gap-3 mb-3 [&>h2]:mb-0', !isFirst && 'mt-6')}>
                 <RoundHeader label={COMBINED_ROUND_LABELS[round]} isActive isFirst />
                 <button
                   type="button"
