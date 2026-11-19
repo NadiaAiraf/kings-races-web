@@ -3,7 +3,7 @@ import { useEventStore } from '../../store/eventStore';
 import type { DisciplineKey, TeamStanding } from '../../domain/types';
 import { useCanEdit } from '../../auth/editAccess';
 import { isValidManualOrder, orderStandings } from '../../hooks/groupOrder';
-import { headToHeadReason, type HeadToHeadDefault } from '../../domain/headToHead';
+import { headToHeadReason, seededTieLines, type HeadToHeadDefault } from '../../domain/headToHead';
 
 interface TiebreakResolverProps {
   discipline: DisciplineKey;
@@ -16,7 +16,7 @@ interface TiebreakResolverProps {
   teamNames: Map<number, string>;
   /** False once the next stage has started, so seeding can no longer move. */
   canChange: boolean;
-  /** Suggested order for two-team ties, used when no valid order is saved. */
+  /** Suggested order for tied teams, used when no valid order is saved. */
   headToHead?: HeadToHeadDefault;
   /** Order suggested by completed tie-break races; wins over headToHead. */
   tiebreakOrder?: TeamStanding[];
@@ -100,17 +100,22 @@ export function TiebreakResolver({
   const tiedWithNext = (i: number) =>
     i < order.length - 1 && order[i].points === order[i + 1].points;
 
-  // Each note sits under whichever team of its pair is currently lower.
-  const notesAfter = new Map<number, string>();
+  // Each note sits under whichever of its teams is currently lowest.
+  const notesAfter = new Map<number, string[]>();
+  const addNote = (slots: number[], lines: string[]) => {
+    const idxs = slots.map((slot) => order.findIndex((t) => t.slot === slot));
+    if (idxs.some((i) => i < 0)) return;
+    notesAfter.set(order[Math.max(...idxs)].slot, lines);
+  };
   for (const note of headToHead?.notes ?? []) {
-    const winnerIdx = order.findIndex((t) => t.slot === note.winnerSlot);
-    const loserIdx = order.findIndex((t) => t.slot === note.loserSlot);
-    if (winnerIdx < 0 || loserIdx < 0) continue;
-    const lowerSlot = order[Math.max(winnerIdx, loserIdx)].slot;
-    notesAfter.set(
-      lowerSlot,
-      `${name(note.winnerSlot)} placed above ${name(note.loserSlot)}: ${headToHeadReason(note)}`
+    addNote(
+      [note.winnerSlot, note.loserSlot],
+      [`${name(note.winnerSlot)} placed above ${name(note.loserSlot)}: ${headToHeadReason(note)}`]
     );
+  }
+  // Completed tie-break races replace the seeded suggestion.
+  for (const note of tiebreakOrder ? [] : (headToHead?.seeded ?? [])) {
+    addNote(note.slots, seededTieLines(note, name));
   }
 
   function swap(i: number) {
@@ -172,11 +177,11 @@ export function TiebreakResolver({
                 <span className="min-w-[44px]" aria-hidden="true" />
               )}
             </div>
-            {notesAfter.has(team.slot) && (
-              <p className="text-xs text-amber-800 dark:text-amber-300 px-3">
-                {notesAfter.get(team.slot)}
+            {notesAfter.get(team.slot)?.map((line) => (
+              <p key={line} className="text-xs text-amber-800 dark:text-amber-300 px-3">
+                {line}
               </p>
-            )}
+            ))}
           </Fragment>
         ))}
       </div>

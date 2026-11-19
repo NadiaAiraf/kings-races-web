@@ -9,7 +9,7 @@ import { FinalsReadyBanner } from './FinalsReadyBanner';
 import { FinalsMatchupCard } from './FinalsMatchupCard';
 import { GroupTiebreaks } from '../standings/GroupTiebreaks';
 import { r2TiebreakKey } from '../../hooks/groupOrder';
-import { headToHeadDefault } from '../../domain/headToHead';
+import { headToHeadDefault, seedOfSlot } from '../../domain/headToHead';
 import { r1Meetings, r2Meetings } from '../../domain/tiebreakRaces';
 import type { DisciplineKey } from '../../domain/types';
 
@@ -90,7 +90,8 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                     headToHead: headToHeadDefault(
                       standings,
                       scores.filter((s) => s.raceId.startsWith(`r2-${g.groupNum}-`)),
-                      (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum
+                      (id) => r2State?.r2Races.find((r) => r.raceId === id)?.raceNum,
+                      structure ? seedOfSlot(structure.seedMap) : undefined
                     ),
                     meetings: r2Meetings(r2State?.r2Races ?? [], g.groupNum),
                   };
@@ -101,7 +102,9 @@ export function FinalsView({ discipline }: FinalsViewProps) {
                   standings,
                   headToHead: headToHeadDefault(
                     standings,
-                    scores.filter((s) => s.raceId.startsWith('r1-'))
+                    scores.filter((s) => s.raceId.startsWith('r1-')),
+                    undefined,
+                    structure ? seedOfSlot(structure.seedMap) : undefined
                   ),
                   meetings: structure ? r1Meetings(structure) : [],
                 }))
