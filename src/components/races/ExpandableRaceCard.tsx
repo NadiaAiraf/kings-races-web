@@ -172,69 +172,57 @@ export function ExpandableRaceCard({
         <div className="text-sm text-slate-500 mt-1">{seedingContext}</div>
       )}
 
-      {/* Team row - collapsed state */}
-      {!isExpanded && (
-        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-          <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900">
-            <span className="min-w-0 break-words">{homeTeamName}</span>
-            {score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
-          </div>
-          {wasNotRun ? (
-            <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700">
-              Not run
-            </span>
-          ) : (
-            <span className="text-slate-500">vs</span>
-          )}
-          <div className="min-w-0 flex items-center gap-2 text-base font-semibold text-slate-900 text-right">
-            {score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
-            <span className="min-w-0 break-words ml-auto">{awayTeamName}</span>
-          </div>
+      {/* Team row - the same in both states, so names do not move on expand */}
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+        <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900">
+          <span className="min-w-0 break-words">{homeTeamName}</span>
+          {!isExpanded && score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
         </div>
-      )}
+        {wasNotRun ? (
+          <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700">
+            Not run
+          </span>
+        ) : (
+          <span className="text-slate-500">vs</span>
+        )}
+        <div className="min-w-0 flex items-center gap-2 text-base font-semibold text-slate-900 text-right">
+          {!isExpanded && score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
+          <span className="min-w-0 break-words ml-auto">{awayTeamName}</span>
+        </div>
+      </div>
 
       {/* Expanded state with scoring buttons */}
       {isExpanded && (
         <div
-          className="flex gap-4 mt-3"
+          className="flex gap-4 mt-2"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Home team column */}
-          <div className="flex-1">
-            <div className="text-base font-semibold text-slate-900 mb-2">
-              {homeTeamName}
-            </div>
-            <div className="flex gap-2">
-              <OutcomeButton
-                outcome="win"
-                selected={score?.homeOutcome === 'win'}
-                onSelect={() => handleScore('home', 'win')}
-              />
-              <OutcomeButton
-                outcome="dsq"
-                selected={score?.homeOutcome === 'dsq'}
-                onSelect={() => handleScore('home', 'dsq')}
-              />
-            </div>
+          {/* Home team buttons */}
+          <div className="flex-1 flex gap-2">
+            <OutcomeButton
+              outcome="win"
+              selected={score?.homeOutcome === 'win'}
+              onSelect={() => handleScore('home', 'win')}
+            />
+            <OutcomeButton
+              outcome="dsq"
+              selected={score?.homeOutcome === 'dsq'}
+              onSelect={() => handleScore('home', 'dsq')}
+            />
           </div>
 
-          {/* Away team column */}
-          <div className="flex-1">
-            <div className="text-base font-semibold text-slate-900 mb-2">
-              {awayTeamName}
-            </div>
-            <div className="flex gap-2">
-              <OutcomeButton
-                outcome="win"
-                selected={score?.awayOutcome === 'win'}
-                onSelect={() => handleScore('away', 'win')}
-              />
-              <OutcomeButton
-                outcome="dsq"
-                selected={score?.awayOutcome === 'dsq'}
-                onSelect={() => handleScore('away', 'dsq')}
-              />
-            </div>
+          {/* Away team buttons */}
+          <div className="flex-1 flex gap-2">
+            <OutcomeButton
+              outcome="win"
+              selected={score?.awayOutcome === 'win'}
+              onSelect={() => handleScore('away', 'win')}
+            />
+            <OutcomeButton
+              outcome="dsq"
+              selected={score?.awayOutcome === 'dsq'}
+              onSelect={() => handleScore('away', 'dsq')}
+            />
           </div>
         </div>
       )}
