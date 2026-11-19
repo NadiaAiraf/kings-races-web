@@ -143,7 +143,7 @@ export function AppShell({ header }: AppShellProps) {
         {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
         {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
         {activeSubTab === 'standings' && (
-          <StandingsView discipline={activeDiscipline} asTab={true} />
+          <StandingsView discipline={activeDiscipline} />
         )}
       </main>
       <ProgressBar current={raceProgress} total={totalRaces} />
