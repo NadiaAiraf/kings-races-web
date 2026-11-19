@@ -105,3 +105,50 @@ describe('TiebreakResolver head-to-head default', () => {
     expect(screen.queryByText(noteText)).toBeNull();
   });
 });
+
+describe('TiebreakResolver seeded suggestion', () => {
+  const bristol = { slot: 3, points: 3, wins: 1, losses: 0, dsqs: 0, played: 1 };
+  const seededProps = {
+    ...resolverProps,
+    standings: [kings, imperial, bristol],
+    teamNames: new Map([
+      [1, 'Kings'],
+      [2, 'Imperial'],
+      [3, 'Bristol'],
+    ]),
+  };
+  const seededDefault: HeadToHeadDefault = {
+    order: [kings, imperial, bristol],
+    notes: [],
+    seeded: [
+      {
+        slots: [1, 2, 3],
+        firstPlace: 1,
+        top: { winnerSlot: 1, loserSlot: 2, raceNums: [4], wins: 1, losses: 0 },
+        lowestSeedSlot: 3,
+      },
+    ],
+  };
+
+  beforeEach(() => useEventStore.getState().resetEvent());
+  afterEach(() => cleanup());
+
+  it('shows the seeded explanation when there is no tie-break race result', () => {
+    renderWithAccess(<TiebreakResolver {...seededProps} headToHead={seededDefault} />, true);
+
+    expect(screen.getByText('Bristol is the lowest seed, so 3rd.')).toBeTruthy();
+  });
+
+  it('drops the seeded explanation once tie-break races give the order', () => {
+    renderWithAccess(
+      <TiebreakResolver
+        {...seededProps}
+        headToHead={seededDefault}
+        tiebreakOrder={[bristol, imperial, kings]}
+      />,
+      true
+    );
+
+    expect(screen.queryByText('Bristol is the lowest seed, so 3rd.')).toBeNull();
+  });
+});
