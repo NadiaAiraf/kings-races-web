@@ -12,14 +12,20 @@ const OUTCOME_BADGE: Record<string, { className: string; label: string }> = {
   dsq: { className: 'bg-red-100 text-red-800', label: 'DSQ' },
 };
 
-function OutcomeBadge({ outcome }: { outcome: string }) {
+function OutcomeBadge({ outcome, className }: { outcome: string; className?: string }) {
   const badge = OUTCOME_BADGE[outcome];
   if (!badge) return null;
   return (
-    <span className={clsx('shrink-0 text-xs px-2 py-0.5 rounded font-medium', badge.className)}>
+    <span className={clsx('shrink-0 text-xs px-2 py-0.5 rounded font-medium', badge.className, className)}>
       {badge.label}
     </span>
   );
+}
+
+/** Long names drop a size so they wrap less on a phone. */
+const LONG_TEAM_NAME = 11;
+function teamNameSize(name: string) {
+  return name.length > LONG_TEAM_NAME ? 'text-sm' : 'text-base';
 }
 
 interface ExpandableRaceCardProps {
@@ -174,9 +180,13 @@ export function ExpandableRaceCard({
 
       {/* Team row - the same in both states, so names do not move on expand */}
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-        <div className="min-w-0 flex items-center justify-between gap-2 text-base font-semibold text-slate-900">
-          <span className="min-w-0 break-words">{homeTeamName}</span>
-          {!isExpanded && score && !wasNotRun && <OutcomeBadge outcome={score.homeOutcome} />}
+        <div className="min-w-0 font-semibold text-slate-900">
+          <span
+            lang="en"
+            className={clsx('min-w-0 hyphens-auto wrap-break-word', teamNameSize(homeTeamName))}
+          >
+            {homeTeamName}
+          </span>
         </div>
         {wasNotRun ? (
           <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700">
@@ -185,11 +195,23 @@ export function ExpandableRaceCard({
         ) : (
           <span className="text-slate-500">vs</span>
         )}
-        <div className="min-w-0 flex items-center gap-2 text-base font-semibold text-slate-900 text-right">
-          {!isExpanded && score && !wasNotRun && <OutcomeBadge outcome={score.awayOutcome} />}
-          <span className="min-w-0 break-words ml-auto">{awayTeamName}</span>
+        <div className="min-w-0 font-semibold text-slate-900 text-right">
+          <span
+            lang="en"
+            className={clsx('min-w-0 hyphens-auto wrap-break-word', teamNameSize(awayTeamName))}
+          >
+            {awayTeamName}
+          </span>
         </div>
       </div>
+
+      {/* Badges get their own line so names keep the full column */}
+      {!isExpanded && score && !wasNotRun && (
+        <div className="grid grid-cols-2 mt-1">
+          <OutcomeBadge outcome={score.homeOutcome} className="justify-self-start" />
+          <OutcomeBadge outcome={score.awayOutcome} className="justify-self-end" />
+        </div>
+      )}
 
       {/* Expanded state with scoring buttons */}
       {isExpanded && (
