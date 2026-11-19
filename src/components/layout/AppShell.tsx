@@ -1,4 +1,4 @@
-import { useState, useMemo, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router';
 import { useEventStore } from '../../store/eventStore';
 import { DisciplineTabs, type DisciplineView } from './DisciplineTabs';
@@ -50,7 +50,6 @@ export function AppShell({ header }: AppShellProps) {
   // Derived rather than stored so signing in or out switches tabs at once.
   const canEdit = useCanEdit();
   const activeSubTab = !canEdit && selectedSubTab === 'teams' ? 'races' : selectedSubTab;
-  const [showStandings, setShowStandings] = useState(false);
 
   function setParam(key: 'd' | 'v', value: string) {
     setSearchParams(
@@ -139,32 +138,15 @@ export function AppShell({ header }: AppShellProps) {
         onSelect={selectView}
         views={DISCIPLINE_VIEWS}
       />
-      {showStandings ? (
-        <StandingsView
-          discipline={activeDiscipline}
-          onClose={() => setShowStandings(false)}
-        />
-      ) : (
-        <>
-          <SubTabs showTeams={canEdit} active={activeSubTab} onSelect={(v) => setParam('v', v)} />
-          <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
-            {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
-            {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
-            {activeSubTab === 'standings' && (
-              <StandingsView discipline={activeDiscipline} asTab={true} />
-            )}
-          </main>
-          {activeSubTab !== 'teams' && activeSubTab !== 'standings' && (
-            <button
-              onClick={() => setShowStandings(true)}
-              className="fixed bottom-16 right-[max(1rem,calc((100vw-430px)/2+1rem))] md:right-[max(1rem,calc((100vw-48rem)/2+1rem))] bg-brand-600 text-white px-4 min-h-14 rounded-sm shadow-lg text-sm font-semibold z-20"
-            >
-              Standings
-            </button>
-          )}
-          <ProgressBar current={raceProgress} total={totalRaces} />
-        </>
-      )}
+      <SubTabs showTeams={canEdit} active={activeSubTab} onSelect={(v) => setParam('v', v)} />
+      <main className="flex-1 overflow-y-auto px-4 py-4" role="tabpanel">
+        {activeSubTab === 'teams' && <TeamEntryView discipline={activeDiscipline} />}
+        {activeSubTab === 'races' && <RaceListView discipline={activeDiscipline} />}
+        {activeSubTab === 'standings' && (
+          <StandingsView discipline={activeDiscipline} asTab={true} />
+        )}
+      </main>
+      <ProgressBar current={raceProgress} total={totalRaces} />
     </div>
   );
 }

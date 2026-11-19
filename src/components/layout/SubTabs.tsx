@@ -6,7 +6,7 @@ const SUB_TABS = ['teams', 'races', 'standings'] as const;
 const LABELS: Record<SubTabKey, string> = {
   teams: 'Teams',
   races: 'Races',
-  standings: 'Stds',
+  standings: 'Standings',
 };
 
 interface SubTabsProps {

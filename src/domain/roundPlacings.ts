@@ -38,6 +38,15 @@ export function isStoppedEarly(state: DisciplineState): boolean {
   );
 }
 
+/**
+ * A round is complete once every discipline with teams entered has finished,
+ * and at least one discipline has teams.
+ */
+export function isRoundComplete(disciplines: Record<DisciplineKey, DisciplineState>): boolean {
+  const entered = Object.values(disciplines).filter((state) => state.teams.length > 0);
+  return entered.length > 0 && entered.every((state) => state.phase === 'complete');
+}
+
 /** Whether a discipline's places are the officials' entered places. */
 export function usesEnteredPlacings(state: DisciplineState): boolean {
   return isResultsOnly(state) || isStoppedEarly(state);
