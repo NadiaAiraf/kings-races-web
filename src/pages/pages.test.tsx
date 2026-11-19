@@ -453,6 +453,14 @@ describe('LeaguePage', () => {
     expect(screen.queryByText('Delete R1')).toBeNull();
   });
 
+  it('hides "Delete" on a round where every discipline is complete', () => {
+    const finished = { ...southernR1, disciplines: { ...createInitialDisciplines(), mixed: playedDiscipline(4) } };
+    renderAt('/seasons/2026-27/southern', APPROVED);
+    act(() => repo.onLeagueRounds['2026-27']([finished], ONLINE));
+
+    expect(screen.queryByText('Delete R1')).toBeNull();
+  });
+
   it('does not delete a round on the first tap', () => {
     renderAt('/seasons/2026-27/southern', APPROVED);
     act(() => repo.onLeagueRounds['2026-27']([southernR1], ONLINE));
@@ -818,12 +826,12 @@ describe('EventPage', () => {
     expect(screen.queryByPlaceholderText('Team name')).toBeNull();
   });
 
-  it('shows viewers only the Races and Stds tabs, opening on Races', () => {
+  it('shows viewers only the Races and Standings tabs, opening on Races', () => {
     renderAt('/events/e1', SIGNED_OUT);
     act(() => repo.onEvent!(withMixedTeams(['Kings', 'Imperial', 'UCL', 'LSE']), ONLINE));
 
     const section = within(screen.getByRole('tablist', { name: 'Section' }));
-    expect(section.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Races', 'Stds']);
+    expect(section.getAllByRole('tab').map((t) => t.textContent)).toEqual(['Races', 'Standings']);
     expect(section.getByRole('tab', { name: 'Races' }).getAttribute('aria-selected')).toBe('true');
   });
 

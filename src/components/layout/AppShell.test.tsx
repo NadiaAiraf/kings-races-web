@@ -86,7 +86,7 @@ describe('AppShell discipline and tab in the URL', () => {
     renderShellRoot({ path: '/events/e1?d=ladies&v=standings', canEdit: true });
 
     expect(isSelected('Ladies')).toBe(true);
-    expect(isSelected('Stds')).toBe(true);
+    expect(isSelected('Standings')).toBe(true);
   });
 
   it('writes the tapped discipline to the URL, keeping other params', () => {
@@ -218,6 +218,12 @@ describe('AppShell All races view', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'All races' }));
 
     expect(useEventStore.getState().activeDiscipline).toBe('board');
+  });
+
+  it('has no floating Standings button on the Races tab', () => {
+    renderShellRoot({ path: '/events/e1?v=races', canEdit: true });
+
+    expect(screen.queryByRole('button', { name: 'Standings' })).toBeNull();
   });
 
   it('hides the section tabs and the Standings button in the All races view', () => {

@@ -69,7 +69,7 @@ describe('a round stopped early', () => {
     });
   });
 
-  describe('Stds tab', () => {
+  describe('Standings tab', () => {
     it('shows the final places with a stopped-early note', () => {
       asOfficial(<StandingsView discipline="mixed" asTab />);
       expect(screen.getByText('Final Results: Mixed')).toBeTruthy();
