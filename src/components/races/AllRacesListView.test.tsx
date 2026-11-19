@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { EditAccessContext } from '../../auth/editAccess';
 import { EventInfoContext } from '../../events/eventInfo';
 import { RaceOrderContext, type RaceOrderControl } from '../../events/raceOrder';
@@ -668,6 +668,19 @@ describe('print race list', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
 
     expect(within(printSheet()!).getByRole('img', { name: 'Kings Ski Club' })).toBeTruthy();
+  });
+
+  it('removes the print sheet once the print dialog closes, so a later browser print shows the page', () => {
+    stubPrint();
+    setDisciplines({});
+    renderList();
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    act(() => {
+      window.dispatchEvent(new Event('afterprint'));
+    });
+
+    expect(printSheet()).toBeNull();
   });
 
   it('prints Round 1 in the on-screen Northern order', () => {
