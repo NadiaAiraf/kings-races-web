@@ -7,7 +7,8 @@ import type { TournamentStructure } from './types';
  * group after another. Each pair names R2 letters (home, away); letters are
  * normalised to upper case, with the sheet's "N0" typo read as "NO" and its
  * "*" markers dropped. A pair that repeats (a two-team group racing three
- * times) maps to that group's races in turn.
+ * times) maps to that group's races in turn. The 21-team sheet's "L v H"
+ * (cell T23) is a typo for "K v H" and is corrected here.
  */
 export const R2_RACE_ORDER: Record<number, ReadonlyArray<readonly [string, string]>> = {
   7: [
@@ -286,7 +287,7 @@ export const R2_RACE_ORDER: Record<number, ReadonlyArray<readonly [string, strin
     ['D', 'A'],
     ['F', 'G'],
     ['I', 'J'],
-    ['L', 'H'],
+    ['K', 'H'],
     ['M', 'N'],
     ['P', 'Q'],
     ['R', 'O'],

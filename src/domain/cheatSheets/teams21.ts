@@ -82,6 +82,7 @@ export const TEAMS_21: TournamentStructure = {
         { raceNum: 3, homeLetter: 'I', awayLetter: 'J' },
         { raceNum: 4, homeLetter: 'H', awayLetter: 'J' },
         { raceNum: 5, homeLetter: 'I', awayLetter: 'K' },
+        { raceNum: 6, homeLetter: 'K', awayLetter: 'H' },
 
       ],
     },
@@ -94,9 +95,8 @@ export const TEAMS_21: TournamentStructure = {
       ],
       races: [
         { raceNum: 1, homeLetter: 'L', awayLetter: 'M' },
-        { raceNum: 2, homeLetter: 'L', awayLetter: 'H' },
-        { raceNum: 3, homeLetter: 'M', awayLetter: 'N' },
-        { raceNum: 4, homeLetter: 'N', awayLetter: 'L' },
+        { raceNum: 2, homeLetter: 'M', awayLetter: 'N' },
+        { raceNum: 3, homeLetter: 'N', awayLetter: 'L' },
 
       ],
     },
