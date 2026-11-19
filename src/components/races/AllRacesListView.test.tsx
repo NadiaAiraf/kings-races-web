@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { EditAccessContext } from '../../auth/editAccess';
 import { EventInfoContext } from '../../events/eventInfo';
 import { RaceOrderContext, type RaceOrderControl } from '../../events/raceOrder';
@@ -590,5 +590,166 @@ describe('All races list', () => {
 
       expect(expandedCards()).toEqual([raceCard('board:r1-1')]);
     });
+  });
+});
+
+describe('print race list', () => {
+  beforeEach(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+    localStorage.clear();
+    useEventStore.getState().resetEvent();
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  const printSheet = () => document.querySelector<HTMLElement>('[data-testid="print-race-sheet"]');
+
+  const printKeys = () =>
+    Array.from(printSheet()!.querySelectorAll('[data-print-key]')).map((el) => el.getAttribute('data-print-key'));
+
+  const stubPrint = () => vi.spyOn(window, 'print').mockImplementation(() => {});
+
+  it('offers viewers a Round 1 print button', () => {
+    setDisciplines({});
+
+    renderList(false);
+
+    expect(screen.getByRole('button', { name: 'Print Round 1 race list' })).toBeTruthy();
+  });
+
+  it('keeps a gap between the Round 1 header row and the first race card', () => {
+    setDisciplines({});
+
+    renderList();
+
+    // The Print button is taller than the heading, so the row owns the gap
+    // below it and the heading adds none of its own.
+    const row = screen.getByRole('button', { name: 'Print Round 1 race list' }).parentElement!;
+    expect(row.className).toContain('mb-3');
+    expect(row.className).toContain('[&>h2]:mb-0');
+  });
+
+  it('has no Round 2 print button while every discipline is in Round 1', () => {
+    setDisciplines({});
+
+    renderList();
+
+    expect(screen.queryByRole('button', { name: 'Print Round 2 race list' })).toBeNull();
+  });
+
+  it('offers a Round 2 print button once a discipline has Round 2 races', () => {
+    setDisciplines({ mixed: roundOneWonByLowerSlot(8, { phase: 'round-two' }) });
+
+    renderList();
+
+    expect(screen.getByRole('button', { name: 'Print Round 2 race list' })).toBeTruthy();
+  });
+
+  it('opens the print dialog with a Round 1 sheet titled with the event name', () => {
+    const print = stubPrint();
+    setDisciplines({});
+    renderList();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(print).toHaveBeenCalledTimes(1);
+    const heading = within(printSheet()!).getByRole('heading', { level: 1 });
+    expect(heading.textContent).toBe('Test - Round 1');
+  });
+
+  it('heads the printed sheet with the Kings Ski Club logo, like the cheat sheet', () => {
+    stubPrint();
+    setDisciplines({});
+    renderList();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(within(printSheet()!).getByRole('img', { name: 'Kings Ski Club' })).toBeTruthy();
+  });
+
+  it('removes the print sheet once the print dialog closes, so a later browser print shows the page', () => {
+    stubPrint();
+    setDisciplines({});
+    renderList();
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    act(() => {
+      window.dispatchEvent(new Event('afterprint'));
+    });
+
+    expect(printSheet()).toBeNull();
+  });
+
+  it('prints Round 1 in the on-screen Northern order', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r1-'));
+  });
+
+  it('prints Round 1 in the on-screen Standard order', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r1-'));
+  });
+
+  it('prints Round 2 races only', () => {
+    stubPrint();
+    setDisciplines({ mixed: roundOneWonByLowerSlot(8, { phase: 'round-two' }) });
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 2 race list' }));
+
+    expect(printKeys()).toEqual(raceKeys('r2-'));
+  });
+
+  it('lays out each printed race like the cheat sheet: running number, discipline letter, home, V, away', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    const first = printSheet()!.querySelector('[data-print-key]')!;
+    const cells = Array.from(first.querySelectorAll('td')).map((td) => td.textContent);
+    expect(cells).toHaveLength(5);
+    expect(cells.slice(0, 2)).toEqual(['1', 'M']);
+    expect(cells[3]).toBe('V');
+  });
+
+  it('keeps each blank row on the same printed page as the race before it, so no page starts with one', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    const gaps = Array.from(printSheet()!.querySelectorAll('[data-print-gap]'));
+    expect(gaps.length).toBeGreaterThan(0);
+    for (const gap of gaps) {
+      const section = gap.parentElement!;
+      expect(section.classList.contains('print-keep-together')).toBe(true);
+      expect(gap.previousElementSibling?.hasAttribute('data-print-key')).toBe(true);
+    }
+  });
+
+  it('puts a blank row only where the discipline changes', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'standard', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    expect(printSheet()!.querySelectorAll('[data-print-gap]')).toHaveLength(2);
   });
 });

@@ -302,3 +302,104 @@
 :root[data-theme='oldfashioned'] :is(img[src*='kings-ski-club-logo'], img[src*='kings-ski-club-crown']) {
   filter: grayscale(1) sepia(0.45) contrast(1.15);
 }
+
+/*
+ * Printable race list (PrintRaceSheet). Hidden on screen; when printed it
+ * replaces everything else on the page (the app and any toast or prompt).
+ * The :has guard leaves a normal print of the page alone.
+ * Plain colours, not theme tokens, so no theme leaks into the printout.
+ * Styled after the "1st RO" cheat sheet tabs: club logo over the title, Arial 12pt, centred team names
+ * underlined thinly, and the number, discipline letter and V each boxed.
+ */
+.print-race-sheet {
+  display: none;
+}
+
+@media print {
+  body:has(> .print-race-sheet) > :not(.print-race-sheet) {
+    display: none !important;
+  }
+
+  .print-race-sheet {
+    display: block;
+    padding: 0 18mm;
+    color: #000;
+    background: #fff;
+    font: 12pt/1.2 Arial, Helvetica, sans-serif;
+  }
+
+  .print-race-sheet table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  .print-race-sheet .print-title {
+    padding: 19mm 0 10pt;
+    font-weight: normal;
+  }
+
+  .print-race-sheet .print-logo {
+    display: block;
+    width: 61mm;
+    height: auto;
+    margin: 0 auto 8pt;
+  }
+
+  .print-race-sheet h1 {
+    margin: 0;
+    font-size: 12pt;
+    font-weight: normal;
+    text-align: center;
+  }
+
+  .print-race-sheet .print-page-foot {
+    height: 19mm;
+    padding: 0;
+  }
+
+  .print-race-sheet tbody td {
+    height: 15pt; /* 80% of the cheat sheet row */
+    font-size: 9.6pt;
+    padding: 0 4pt;
+    text-align: center;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+  }
+
+  .print-race-sheet tr,
+  .print-race-sheet .print-keep-together {
+    break-inside: avoid;
+  }
+
+  .print-race-sheet .print-box {
+    border: 2px solid #000;
+  }
+
+  .print-race-sheet .print-order {
+    font-family: Inconsolata, Menlo, Consolas, monospace;
+    font-size: 8.8pt;
+  }
+
+  .print-race-sheet .print-team {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+
+  .print-race-sheet .print-team-away {
+    border-right: 2px solid #000;
+  }
+
+  .print-race-sheet .print-col-box {
+    width: 6%;
+  }
+
+  .print-race-sheet .print-col-team {
+    width: 41%;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
