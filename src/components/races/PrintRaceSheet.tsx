@@ -1,6 +1,11 @@
 import { createPortal } from 'react-dom';
+import logoUrl from '../../assets/print-header-logo.png';
 import { useEventInfo } from '../../events/eventInfo';
 import { printDisciplineLetter, type PrintRow } from '../../domain/printRaceList';
+
+// The sheet mounts just before the print dialog opens, so fetch the logo now
+// or the first printout can go out without it.
+if (typeof Image !== 'undefined') new Image().src = logoUrl;
 
 export interface PrintSheetRow {
   /** Combined race key ("discipline:raceId"), or a unique key for a gap row. */
@@ -35,10 +40,12 @@ export function PrintRaceSheet({ roundLabel, rows }: PrintRaceSheetProps) {
           <col className="print-col-team" />
         </colgroup>
         {/* The page has no margin, so the browser prints no URL or date; the
-            header and footer repeat on every page and stand in for the margin. */}
+            header (logo and title) and footer repeat on every page and stand in
+            for the margin. */}
         <thead>
           <tr>
             <th colSpan={5} className="print-title">
+              <img src={logoUrl} alt="Kings Ski Club" className="print-logo" />
               <h1>{title}</h1>
             </th>
           </tr>
