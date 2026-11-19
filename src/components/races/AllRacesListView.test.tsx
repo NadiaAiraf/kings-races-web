@@ -714,6 +714,22 @@ describe('print race list', () => {
     expect(cells[3]).toBe('V');
   });
 
+  it('keeps each blank row on the same printed page as the race before it, so no page starts with one', () => {
+    stubPrint();
+    setDisciplines({});
+    renderWithOrder({ order: 'northern', setOrder: null });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Print Round 1 race list' }));
+
+    const gaps = Array.from(printSheet()!.querySelectorAll('[data-print-gap]'));
+    expect(gaps.length).toBeGreaterThan(0);
+    for (const gap of gaps) {
+      const section = gap.parentElement!;
+      expect(section.classList.contains('print-keep-together')).toBe(true);
+      expect(gap.previousElementSibling?.hasAttribute('data-print-key')).toBe(true);
+    }
+  });
+
   it('puts a blank row only where the discipline changes', () => {
     stubPrint();
     setDisciplines({});
