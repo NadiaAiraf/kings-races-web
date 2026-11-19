@@ -305,7 +305,8 @@
 
 /*
  * Printable race list (PrintRaceSheet). Hidden on screen; when printed it
- * replaces the app. The :has guard leaves a normal print of the page alone.
+ * replaces everything else on the page (the app and any toast or prompt).
+ * The :has guard leaves a normal print of the page alone.
  * Plain colours, not theme tokens, so no theme leaks into the printout.
  * Styled after the "1st RO" cheat sheet tabs: club logo over the title, Arial 12pt, centred team names
  * underlined thinly, and the number, discipline letter and V each boxed.
@@ -315,7 +316,7 @@
 }
 
 @media print {
-  body:has(> .print-race-sheet) > #root {
+  body:has(> .print-race-sheet) > :not(.print-race-sheet) {
     display: none !important;
   }
 

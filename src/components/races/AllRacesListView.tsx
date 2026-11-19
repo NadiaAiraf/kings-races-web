@@ -175,8 +175,11 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
    * disciplines, then the sections of disciplines with nothing to run in
    * this round (no teams, results-only, stopped early, Round 2 not started).
    */
-  function renderInterleaved(round: 'r1' | 'r2', shown: readonly DisciplineKey[]) {
-    const { cards, ids } = orderedRoundCards(round, shown);
+  function renderInterleaved(
+    round: 'r1' | 'r2',
+    shown: readonly DisciplineKey[],
+    { cards, ids }: ReturnType<typeof orderedRoundCards>,
+  ) {
     return (
       <>
         {cards.map(({ race, spec }) => (
@@ -219,10 +222,19 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
 
   function handlePrint(round: 'r1' | 'r2') {
     // Render the sheet before the dialog opens. window.print does not block on
-    // iOS, so the sheet stays mounted; it is hidden on screen anyway.
+    // iOS, so the sheet is removed on afterprint (below), not straight after.
     flushSync(() => setPrintRound(round));
     window.print();
   }
+
+  // Remove the sheet once the dialog closes, or a later browser print of any
+  // page would print the race list instead.
+  useEffect(() => {
+    if (!printRound) return;
+    const clear = () => setPrintRound(null);
+    window.addEventListener('afterprint', clear);
+    return () => window.removeEventListener('afterprint', clear);
+  }, [printRound]);
 
   let firstRound = true;
 
@@ -236,9 +248,10 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
         if (shown.length === 0) return null;
         const isFirst = firstRound;
         firstRound = false;
+        const roundCards = round === 'finals' ? null : orderedRoundCards(round, shown);
         return (
           <div key={round}>
-            {round !== 'finals' && orderedRoundCards(round, shown).cards.length > 0 ? (
+            {round !== 'finals' && roundCards && roundCards.cards.length > 0 ? (
               <div className={clsx('flex items-center justify-between gap-3 mb-3 [&>h2]:mb-0', !isFirst && 'mt-6')}>
                 <RoundHeader label={COMBINED_ROUND_LABELS[round]} isActive isFirst />
                 <button
@@ -253,9 +266,9 @@ export function AllRacesListView({ onOpenDiscipline }: AllRacesListViewProps) {
             ) : (
               <RoundHeader label={COMBINED_ROUND_LABELS[round]} isActive isFirst={isFirst} />
             )}
-            {round === 'finals' || order === 'standard'
+            {round === 'finals' || !roundCards || order === 'standard'
               ? shown.map((d) => renderSection(round, d))
-              : renderInterleaved(round, shown)}
+              : renderInterleaved(round, shown, roundCards)}
           </div>
         );
       })}
